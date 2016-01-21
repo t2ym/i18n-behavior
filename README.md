@@ -60,6 +60,9 @@ I18N-ready Run-Time DOM at element registration:
     }
 ```
 
+While default text strings are extracted from the hard-coded strings in HTML template,
+localized test strings are asynchronously fetched from JSON files under `locales` directory at the server.
+
 #### Build-time Automatic I18N (for production)
 
 `gulp-externalize` task performs build-time automatic I18N and embeds UI texts as JSON.
@@ -80,7 +83,8 @@ I18N-ready Source Code preprocessed by `gulp-externalize`:
 ```
 
 `text` property represents an object with UI text strings for the current locale.
-Default text values are extracted from the embedded JSON.
+Default text values are immediately extracted from the embedded JSON 
+without run-time traversing of the whole template.
 
 ```
     this.text = {
