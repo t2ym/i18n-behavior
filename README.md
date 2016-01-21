@@ -33,14 +33,14 @@ Source Code:
       <template>
         <span id="label">UI text label</span>
       </template>
-      <﻿﻿script﻿﻿>
+      <script>
         Polymer({
           is: 'custom-element',
           behaviors: [
             BehaviorsStore.I18nBehavior
           ]
         });
-      <﻿﻿/script﻿﻿>
+      </script>
     </dom-module>
 ```
 
