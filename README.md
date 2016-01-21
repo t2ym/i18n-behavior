@@ -4,9 +4,9 @@
 
 Text formatter with [Unicode CLDR plural rules](http://cldr.unicode.org/index/cldr-spec/plural-rules) and choices (like gender) support.
 
-[Demo](https://t2ym.github.io/i18n-format/components/i18n-format/demo) and [API Docs](https://t2ym.github.io/i18n-format/components/i18n-format/)
+[Demo](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/demo) and [API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/)
 
-<img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-format/i18n-format.gif" width="600px">
+<img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/i18n-behavior.gif" width="600px">
 
 ### Install
 
@@ -90,4 +90,4 @@ Default text values are extracted from the embedded JSON.
 
 ### License
 
-[BSD-2-Clause](https://github.com/t2ym/i18n-format/blob/master/LICENSE.md)
+[BSD-2-Clause](https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md)
