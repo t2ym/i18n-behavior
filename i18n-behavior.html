@@ -1,0 +1,1834 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../../bower_components/i18n-format/i18n-format.html">
+<link rel="import" href="localizable-attributes-repository.html">
+<!-- TODO: convert to HTML import to avoid multiple deepcopy registration -->
+<script src="../../bower_components/deepcopy/deepcopy.min.js"></script>
+
+<script>
+/* jshint -W100 */
+(function(document) {
+  'use strict';
+
+  var html = document.querySelector('html');
+  // app global bundle storage
+  var bundles = { '': {} }; // with an empty default bundle
+  // app global default language
+  var defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
+  // shared fetching instances for bundles
+  var bundleFetchingInstances = {};
+
+  // path for locales from <html locales-path="locales">
+  var localesPath = html.hasAttribute('locales-path') ? 
+                      html.getAttribute('locales-path') : 'locales';
+
+  var userPreference = document.querySelector('iron-localstorage[name=i18n-behavior-preference]');
+
+  var attributesRepository = document.createElement('localizable-attributes-repository');
+
+  // set up userPreference with two-way binding to html.lang
+  if (!userPreference) {
+    userPreference = document.createElement('iron-localstorage');
+    userPreference.name = 'i18n-behavior-preference';
+    userPreference.addEventListener('iron-localstorage-load-empty',
+      function () {
+        // preferred attribute in html to put higher priority
+        // in the default html language than navigator.language
+        userPreference.value = html.hasAttribute('preferred') ? defaultLang : navigator.language;
+      });
+
+    // append to body
+    document.querySelector('body').appendChild(userPreference);
+
+    // set html lang as userPreference
+    userPreference.addEventListener('value-changed',
+      function () {
+        if (html.getAttribute('lang') !== userPreference.value) {
+          html.setAttribute('lang', userPreference.value);
+        }
+      });
+
+    // observe html lang mutations
+    var htmlLangMutationObserver =
+          new MutationObserver(function (mutations) {
+            mutations.forEach(function(mutation) {
+              switch (mutation.type) {
+              case 'attributes':
+                if (mutation.attributeName === 'lang') {
+                  if (userPreference.value !== html.getAttribute('lang')) {
+                    userPreference.value = html.getAttribute('lang');
+                  }
+                }
+                break;
+              default:
+                break;
+              }
+            });
+          });
+    htmlLangMutationObserver.observe(html, { attributes: true });
+  }
+
+  window.BehaviorsStore = window.BehaviorsStore || {};
+  /**
+   * Use `BehaviorsStore.I18nBehavior` to implement localizable elements.
+   *
+   *     <dom-module id="custom-element">
+   *       <template>
+   *         <span>Hard-coded UI text</span>
+   *       </template>
+   *       <﻿﻿script﻿﻿>
+   *         Polymer({
+   *           is: 'custom-element',
+   *           behaviors: [ BehaviorsStore.I18nBehavior ]
+   *         });
+   *       <﻿﻿/script﻿﻿>
+   *     </dom-module>
+   *
+   * `I18nBehavior` automatically externalizes UI texts from `template` and 
+   * binds them to localizable variables in `this.text` object.
+   *
+   * Following the `lang` attribute value, `this.text`, and thus the bound UI texts,
+   * dynamically mutates by loading localized values from a JSON file in the `locales` directory.
+   *
+   * The UI text externalization can be processed at build time as well so that 
+   * `I18nBehavior` can detect the externalized texts in JSON and 
+   * skip runtime externalization.
+   *
+   * Runtime externalization is suitable for development and debugging 
+   * since it requires no build processes.
+   * In contrast, build time externalization is suitable for production builds 
+   * since it eliminates runtime externalization overheads.
+   * 
+   * ### Steps to localize a custom element
+   *
+   * 1. [JavaScript] Add `BehaviorsStore.I18nBehavior` to `behaviors`
+   * 1. [gulp] Add `externalize` gulp task for `custom-element.html` and generate `custom-element.json`
+   * 1. [locales] Put `custom-element.lang.json` in `locales` directory
+   * 1. [translation] Translate `locales/custom-element.lang.json`
+   *
+   * - - -
+   *
+   * ### Directory structure of bundle files
+   *
+   * Normal bundles (`/element-root/locales/element-name.*.json`) are stored 
+   * the root directories of the elements.
+   *
+   * Shared bundles (`/locales/bundle.*.json`) are generated at build time 
+   * by merging all the targeted bundles of the localizable elements. 
+   *
+   * Once the shared bundles are loaded, there should be no need to search for 
+   * normal bundles per element unless the element is intentionally excluded 
+   * from the shared bundles.
+   *
+   * ```
+   *      /bundle.json
+   *      /locales/bundle.ja.json
+   *              /bundle.fr.json
+   *              /bundle.zh-Hans.json
+   *
+   *      /elements/my-list/my-list.json
+   *                       /locales/my-list.ja.json
+   *                               /my-list.zh-Hans.json
+   *
+   *               /google-chart-demo/google-chart-demo.json
+   *                                 /locales/google-chart-demo.ja.json
+   *                                         /google-chart-demo.fr.json
+   * ```
+   *
+   * - - -
+   *
+   * ### Localizable `<template is="dom-bind-localizable" id="app">` element
+   *
+   * `<template is="dom-bind-localizable">` template element extends 
+   * `<template is="dom-bind">` template element with all the capabilities of 
+   * `I18nBehavior`.  
+   *
+   * The `id` attribute value is used for naming bundle files instead of the element name.
+   * 
+   * The bundle files are stored at the locales directory under the application root. 
+   *
+   * ```
+   *      /app.json
+   *      /locales/app.ja.json
+   *              /app.fr.json
+   *              /app.zh-Hans.json
+   * ```
+   *
+   * - - -
+   *
+   * ### TODOs
+   *
+   * - Support compound bindings of Polymer 1.2
+   * - Normalize locale strings and eliminate case sensitivity
+   * - Support user locale preference per user
+   *
+   * @polymerBehavior BehaviorsStore.I18nBehavior
+   * @group Localiable Behavior
+   * @hero hero.svg
+   * @demo demo/index.html
+   */
+  BehaviorsStore.I18nBehavior = {
+
+    /**
+     * Fired when the text message bundle object (`this.text`) is updated after `this.lang` is changed.
+     *
+     * @event lang-updated
+     */
+
+    /**
+     * Fired when a shared bundle is fetched.
+     *
+     * @event bundle-fetched
+     */
+
+    properties: {
+      /**
+       * The locale of the element.
+       * The default value is copied from `<html lang>` attribute of the current page.
+       * If `<html lang>` is not specified, `''` is set to use the template default language.
+       *
+       * The value is synchronized with `<html lang>` attribute of the current page by default.
+       *
+       * Note: The value may not reflect the current UI locale 
+       * until the localized texts are loaded.
+       */
+      lang: {
+        type: String,
+        value: function () { return defaultLang; },
+        reflectToAttribute: true,
+        observer: '_langChanged'
+      },
+
+      /**
+       * Text message bundle object for the current locale.
+       * The object is shared among all the instances of the same element.
+       * The value is updated when `lang-updated` event is fired.
+       */
+      text: {
+        type: Object,
+        computed: '_getBundle(lang)'
+      },
+
+      /**
+       * Data model bundle object for the current locale.
+       * The data are bound to localizable attribute values in the element template.
+       * The object is cloned from `this.text.model` per instance.
+       * The value is NOT automatically updated in sync with `this.text`.
+       * 
+       * How to manually update the model object when `lang-updated` event is fired:
+       * ```
+       *     this.model = deepcopy(this.text.model);
+       * ```
+       */
+      model: {
+        type: Object,
+        notify: true
+      },
+
+      /**
+       * The locale of the hard-coded texts in the element's template.
+       * The read-only value can be specified by the `lang` attribute of the element's `template`.
+       * The default value is 'en' if not specified in the `template` element.
+       *
+       * ```
+       *  <dom-module id="custom-element">
+       *    <template lang="en">
+       *      <span>Hard-coded text in English</span>
+       *    </template>
+       *  <dom-module>
+       * ```
+       */
+      templateDefaultLang: {
+        type: String,
+        readOnly: true,
+        value: function () {
+          if (!this._templateDefaultLang) {
+            var template = Polymer.DomModule.import(this.is, 'template');
+            if (template) {
+              this._templateDefaultLang = template.hasAttribute('lang') ? template.lang : 'en';
+            }
+            else {
+              this._templateDefaultLang = 'en';
+            }
+          }
+          var templateDefaultLang = this._templateDefaultLang;
+          return templateDefaultLang;
+        }
+      },
+
+      /**
+       * The effective locale of the element.
+       * The value is updated when the localized texts are loaded and `lang-updated` event is fired.
+       */
+      effectiveLang: {
+        type: String
+      },
+
+      /**
+       * Boolean flag to synchronize with the value of  `<html lang>` attribute.
+       */
+      observeHtmlLang: {
+        type: Boolean,
+        value: true,
+        observer: '_observeHtmlLangChanged'
+      }
+    },
+
+    listeners: {
+      'lang-updated': '_updateEffectiveLang'
+    },
+
+    /* 
+       bundles = 
+       {
+        "": {},
+        "en": {
+          "my-list": {
+            "p_2": "You now have:",
+            "model": {
+              "list": {
+                "items": [
+                  "item 1", "item 2"
+                ]
+              }
+            }
+          },
+          "google-chart-demo": {
+            "simple-chart-desc": [
+              "template $1$ string", "param 1"
+            ]
+            "model": {
+              "simple-chart": {
+                "options": { "title": "Simple Chart" },
+                "rows": []
+              }
+            }
+          }
+        },
+        "ja": {
+          "my-list": {},
+          "google-chart-demo": {}
+        }
+      }
+
+      bundles[lang]
+      /bundle.json - fallback
+      /locales/bundle.en.json
+              /bundle.ja.json
+              /bundle.fr.json
+              /bundle.zh-Hans.json
+
+      bundles[lang][is]
+      /elements/my-list/my-list.json - fallback
+                       /locales/my-list.en.json
+                               /my-list.ja.json
+                               /my-list.zh-Hans.json
+
+               /google-chart-demo/google-chart-demo.json - fallback
+                                 /locales/google-chart-demo.en.json
+                                         /google-chart-demo.ja.json
+                                         /google-chart-demo.zh-Hans.json
+
+      app/elements/my-list/my-list.json
+                          /locales/my-list.fr.json
+                                  /my-list.ja.json
+                                  /my-list.zh-Hans.json
+
+      dist/elements/my-list/my-list.json
+                           /locales/my-list.fr.json
+                                   /my-list.ja.json
+                                   /my-list.zh-Hans.json
+
+    */
+
+
+    /**
+     * The backend logic for `this.text` object.
+     *
+     * @param {string} lang Locale for the text message bundle.
+     * @return {Object} Text message bundle for the locale.
+     */
+    _getBundle: function (lang) {
+      //console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
+
+      var resolved;
+      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+
+      if (lang && lang.length > 0) {
+        var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
+        var tryLang;
+        while ((tryLang = fallbackLanguageList.shift())) {
+          if (!bundles[tryLang]) {
+            // set up an empty bundle for the language if missing
+            bundles[tryLang] = {};
+          }
+          if (bundles[tryLang][id]) {
+            // bundle found
+            resolved = bundles[tryLang][id];
+            break;
+          }
+        }
+      }
+      else {
+        // lang is not specified
+        lang = '';
+        resolved = bundles[lang][id];
+      }
+
+      // Fallback priorities: last > app default > element default > fallback > {}
+      // TODO: need more research on fallback priorities
+      if (!resolved) { 
+        if (bundles[this._fetchStatus.lastLang] && bundles[this._fetchStatus.lastLang][id]) {
+          // old bundle for now (no changes should be shown)
+          resolved = bundles[this._fetchStatus.lastLang][id]; 
+        }
+        else if (defaultLang && defaultLang.length > 0 &&
+                 bundles[defaultLang] && bundles[defaultLang][id]) {
+          // app default language for now
+          resolved = bundles[defaultLang][id]; 
+        }
+        else if (this.templateDefaultLang && this.templateDefaultLang.length > 0 &&
+                 bundles[this.templateDefaultLang] && bundles[this.templateDefaultLang][id]) {
+          // element default language for now
+          resolved = bundles[this.templateDefaultLang][id]; 
+        }
+        else if (bundles[''][id]) {
+          // fallback language for now (this should be the same as element default)
+          resolved = bundles[''][id];
+        }
+        else {
+          // give up providing a bundle (this should not happen)
+          resolved = {};
+        }
+      }
+
+      return resolved;
+    },
+
+    /**
+     * Enumerate fallback locales for the target locale.
+     * 
+     * Casual subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
+     *
+     * #### Examples:
+     *
+     *| Target Locale | Fallback 1 | Fallback 2 |
+     *|:--------------|:-----------|:-----------|
+     *| ru            | N/A        | N/A        |
+     *| en-GB         | en         | N/A        |
+     *| fr-CA         | fr         | N/A        |
+     *| zh-Hans-CN    | zh-Hans    | zh         |
+     *
+     * #### TODOs:
+     *
+     * - Support aliases.
+     * - Normalize cases.
+     * 
+     * @param {string} lang Target locale.
+     * @return {Array} List of fallback locales including the target locale at the index 0.
+     */
+    _enumerateFallbackLanguages: function (lang) {
+      var result = [];
+      var parts;
+      if (!lang || lang.length === 0) {
+        result.push('');
+      }
+      else {
+        parts = lang.split(/[-_]/);
+        while (parts.length > 0) {
+          result.push(parts.join('-'));
+          parts.pop();
+        }
+      }
+      return result;
+    },
+
+    /**
+     * Get the next fallback locale for the target locale.
+     * 
+     * Casual subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
+     *
+     * #### Examples:
+     *
+     *| Target Locale | Next Fallback |
+     *|:--------------|:--------------|
+     *| ru            | null          |
+     *| en-GB         | en            |
+     *| fr-CA         | fr            |
+     *| zh-Hans-CN    | zh-Hans       |
+     *
+     * #### TODOs:
+     *
+     * - Support aliases.
+     * - Normalize cases.
+     * 
+     * @param {string} lang Target locale.
+     * @return {string} Next fallback locale. `null` if there are no fallback languages.
+     */
+    _getNextFallbackLanguage: function (lang) {
+      var nextFallbackLanguage = null;
+      if (lang && lang.length > 0) {
+        var parts = lang.split(/[-_]/);
+        if (parts.length >= 2) {
+          parts.pop();
+          nextFallbackLanguage = parts.join('-');
+        }
+      }
+      return nextFallbackLanguage;
+    },
+
+    /**
+     * Observer of `this.lang` changes.
+     *
+     * Update `this.text` object if the text message bundle of the new `lang` is locally available.
+     *
+     * Trigger fetching of the text message bundle of the new `lang` if the bundle is not locally available.
+     *
+     * @param {string} lang New value of `lang`.
+     * @param {string} oldLang Old value of `lang`.
+     */
+    _langChanged: function (lang, oldLang) {
+      //console.log(this.id + ':_langChanged lang = ' + lang + ' oldLang = ' + oldLang);
+      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+      lang = lang || ''; // undefined and null are treated as default ''
+      oldLang = oldLang || '';
+      if (lang !== oldLang &&
+          bundles[oldLang] && bundles[oldLang][id]) {
+        this._fetchStatus.lastLang = oldLang;
+      }
+      if (bundles[lang] && bundles[lang][id]) {
+        // bundle available for the new language
+        if (lang !== this._fetchStatus.ajaxLang) {
+          // reset error status
+          this._fetchStatus.error = null;
+        }
+        this.notifyPath('text', this._getBundle(this.lang));
+        this.fire('lang-updated', { 
+          lang: this.lang, 
+          oldLang: oldLang, 
+          lastLang: this._fetchStatus.lastLang 
+        });
+      }
+      else {
+        // fetch the missing bundle
+        this._fetchLanguage(lang);
+      }
+    },
+
+    /**
+     * Called on `lang-updated` events and update `this.effectiveLang` with the value of `this.lang`.
+     */
+    _updateEffectiveLang: function () {
+      //console.log('_updateEffectiveLang: lang = ' + this.lang);
+      this.effectiveLang = this.lang;
+    },
+
+    /**
+     * Trigger fetching of the appropriate text message bundle of the target locale.
+     *
+     * #### Two Layers of Fallbacks:
+     *
+     * 1. Missing bundles fall back to those of their fallback locales.
+     * 1. Missing texts in the non-default bundles fall back to those in the default bundle. 
+     *
+     * #### Fallback Examples:
+     *
+     *| Locale      | Bundle Status                    |
+     *|:------------|:---------------------------------|
+     *| fr-CA       | existent with sparse texts       |
+     *| fr          | existent with full texts         |
+     *| ja          | existent with some missing texts |
+     *| zh-Hans-CN  | missing                          |
+     *| zh-Hans     | existent with some missing texts |
+     *| zh          | missing                          |
+     *| en          | existent with full texts         |
+     *| ''(default) | existent with full texts         |
+     *
+     *| Target      | Fallback bundle       | Resolved locale |
+     *|:------------|:----------------------|:----------------|
+     *| en          | en                    | en              |
+     *| ja          | ja + ''(default)      | ja              |
+     *| fr-CA       | fr-CA + fr            | fr-CA           |
+     *| zh-Hans-CN  | zh-Hans + ''(default) | zh-Hans         |
+     *
+     * @param {string} lang Target locale.
+     */
+    _fetchLanguage: function (lang) {
+      this._fetchStatus.fallbackLanguageList = this._enumerateFallbackLanguages(lang);
+      this._fetchStatus.fallbackLanguageList.push('');
+      this._fetchStatus.targetLang = this._fetchStatus.fallbackLanguageList.shift();
+      this._fetchBundle(this._fetchStatus.targetLang);
+    },
+
+    /**
+     * Fetch the text message bundle of the target locale 
+     * cooperatively with other instances.
+     *
+     * @param {string} lang Target locale.
+     */
+    _fetchBundle: function (lang) {
+      //console.log('_fetchBundle lang = ' + lang);
+      if (!lang || lang.length === 0) {
+        // handle empty cases
+        if (defaultLang && defaultLang.length > 0) {
+          lang = defaultLang; // app default language
+        }
+        else if (this.templateDefaultLang && this.templateDefaultLang.length > 0) {
+          lang = this.templateDefaultLang; // element default language
+        }
+        else {
+          lang = ''; // fallback default language
+        }
+      }
+
+      // set up an empty bundle if inexistent
+      bundles[lang] = bundles[lang] || {};
+      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+
+      if (bundles[lang][id]) {
+        // bundle is available; no need to fetch
+        if (this._fetchStatus.targetLang === lang) {
+          // reset error status
+          this._fetchStatus.error = null;
+          if (this.lang === lang) {
+            this.notifyPath('text', this._getBundle(this.lang));
+            this.fire('lang-updated', { 
+              lang: this.lang, 
+              lastLang: this._fetchStatus.lastLang
+            });
+          }
+          else {
+            this.lang = lang; // trigger lang-updated event
+          }
+        }
+        else {
+          var nextFallbackLanguage = this._fetchStatus.fallbackLanguageList.shift();
+          // bundle is available; no need to fetch
+          this._fetchStatus.fetchingInstance = null;
+          if (nextFallbackLanguage) {
+            this._fetchBundle(nextFallbackLanguage);
+          }
+          else {
+            this._constructBundle(this._fetchStatus.targetLang);
+            // reset error status
+            this._fetchStatus.error = null;
+            if (this.lang === this._fetchStatus.targetLang) {
+              this.notifyPath('text', this._getBundle(this.lang));
+              this.fire('lang-updated', { 
+                lang: this.lang,
+                lastLang: this._fetchStatus.lastLang
+              });
+            }
+            else {
+              this.lang = this._fetchStatus.targetLang; // trigger lang-updated event
+            }
+          }
+        }
+      }
+      else if (this._fetchStatus.fetchingInstance) {
+        if (this._fetchStatus.fetchingInstance !== this) {
+          // fetching in progress by another instance
+          // TODO: redundant addEventListener multiple times
+          this._forwardLangEventBindThis = this._forwardLangEventBindThis ||
+                                            this._forwardLangEvent.bind(this);
+          this._fetchStatus.fetchingInstance
+              .addEventListener('lang-updated', this._forwardLangEventBindThis);
+        }
+      }
+      else if (bundleFetchingInstances[lang]) {
+        // fetching bundle.lang.json in progress by an instance of another element
+        this._fetchStatus.fetchingInstance = this;
+        this._fetchStatus.ajaxLang = lang;
+        this._handleBundleFetchedBindThis = this._handleBundleFetchedBindThis ||
+                                            this._handleBundleFetched.bind(this);
+        bundleFetchingInstances[lang]
+          .addEventListener('bundle-fetched', this._handleBundleFetchedBindThis);
+        //console.log(this.is + ' addEventListener bundle-fetched');
+      }
+      else {
+        // proceed to fetch
+        this._fetchStatus.fetchingInstance = this;
+        if (!this._fetchStatus.ajax) {
+          // set up ajax client
+          this._fetchStatus.ajax = Polymer.Base.create('iron-ajax');
+          this._fetchStatus.ajax.handleAs = 'json';
+          this._fetchStatus.ajax.addEventListener('response', this._handleResponse.bind(this));
+          this._fetchStatus.ajax.addEventListener('error', this._handleError.bind(this));
+        }
+        // TODO: app global bundles have to be handled
+        var url;
+
+        if (lang === '') {
+          url = this.resolveUrl(id + '.json');
+        }
+        else {
+          if (bundles[lang] && bundles[lang].bundle) {
+            // missing in the bundle
+            url = this.resolveUrl(localesPath + '/' + id + '.' + lang + '.json');
+          }
+          else {
+            // fetch the bundle
+            bundleFetchingInstances[lang] = this;
+            url = this.resolveUrl(window.location.pathname.replace(/\/[^\/]*$/,'/') + localesPath + '/bundle.' + lang + '.json');
+          }
+        }
+        this._fetchStatus.ajax.url = url;
+        this._fetchStatus.ajaxLang = lang;
+        try {
+          this._fetchStatus.error = null;
+          this._fetchStatus.ajax.generateRequest();
+        }
+        catch (e) {
+          // TODO: extract error message from the exception e
+          this._handleError({ detail: { error: 'ajax request failed: ' + e }});
+        }
+      }
+    },
+
+    /**
+     * Handle Ajax success response for a bundle.
+     *
+     * @param {Object} event `iron-ajax` success event.
+     */
+    _handleResponse: function (event) {
+      //console.log('_handleResponse ajaxLang = ' + this._fetchStatus.ajaxLang);
+      if (this._fetchStatus.ajax.url.indexOf('/' + localesPath + '/bundle.') >= 0) {
+        bundles[this._fetchStatus.ajaxLang] = bundles[this._fetchStatus.ajaxLang] || {};
+        this._deepMap(bundles[this._fetchStatus.ajaxLang],
+                      event.detail.response,
+                      function (text) { return text; });
+        bundles[this._fetchStatus.ajaxLang].bundle = true;
+        bundleFetchingInstances[this._fetchStatus.ajaxLang] = null;
+        //console.log('bundle-fetched ' + this.is + ' ' + this._fetchStatus.ajaxLang);
+        this.fire('bundle-fetched', { success: true, lang: this._fetchStatus.ajaxLang });
+        var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+        if (bundles[this._fetchStatus.ajaxLang][id]) {
+          this._fetchStatus.lastResponse = bundles[this._fetchStatus.ajaxLang][id];
+        }
+        else {
+          // bundle does not contain text for this.is
+          this._fetchStatus.fetchingInstance = null;
+          this._fetchBundle(this._fetchStatus.ajaxLang);
+          return;
+        }
+      }
+      else {
+        this._fetchStatus.lastResponse = event.detail.response;
+      }
+      if (this._fetchStatus.lastResponse) {
+        var nextFallbackLanguage = this._fetchStatus.fallbackLanguageList.shift();
+        // store the raw response
+        this._fetchStatus.rawResponses[this._fetchStatus.ajaxLang] = 
+          this._fetchStatus.lastResponse;
+
+        this._fetchStatus.fetchingInstance = null;
+        if (nextFallbackLanguage) {
+          this._fetchBundle(nextFallbackLanguage);        
+        }
+        else {
+          this._fetchBundle('');
+        }
+      }
+      else {
+        event.detail.error = 'empty response for ' + this._fetchStatus.ajax.url;
+        this._handleError(event);
+      }
+    },
+
+    /**
+     * Handle Ajax error response for a bundle.
+     *
+     * @param {Object} event `iron-ajax` error event.
+     */
+    _handleError: function (event) {
+      var nextFallbackLanguage = this._fetchStatus.fallbackLanguageList.shift();
+      this._fetchStatus.fetchingInstance = null;
+      if (this._fetchStatus.ajax.url.indexOf('/' + localesPath + '/bundle.') >= 0) {
+        bundles[this._fetchStatus.ajaxLang] = bundles[this._fetchStatus.ajaxLang] || {};
+        bundles[this._fetchStatus.ajaxLang].bundle = true;
+        bundleFetchingInstances[this._fetchStatus.ajaxLang] = null;
+        //console.log('bundle-fetched ' + this.is + ' ' + this._fetchStatus.ajaxLang);
+        this.fire('bundle-fetched', { success: false, lang: this._fetchStatus.ajaxLang });
+      }
+      if (this._fetchStatus.ajaxLang === this._fetchStatus.targetLang) {
+        if (nextFallbackLanguage) {
+          //console.log(this.is + ': ' + this._fetchStatus.ajaxLang +
+          //            ' falls back to ' + nextFallbackLanguage);
+          this._fetchStatus.targetLang = nextFallbackLanguage;
+          this._fetchBundle(nextFallbackLanguage);
+        }
+        else {
+          this._fetchStatus.error = event.detail.error;
+          console.error(this._fetchStatus.error);
+          // falls back to default
+          this.lang = '';
+        }
+      }
+      else {
+        // fetching dependent fallback languages
+        if (nextFallbackLanguage) {
+          //console.log(this.is + ': ' + this._fetchStatus.ajaxLang +
+          //            ' is missing and skipped');
+          //console.log(this.is + ': step to the next dependent fallback ' +
+          //            nextFallbackLanguage);
+          this._fetchBundle(nextFallbackLanguage);
+        }
+        else {
+          this._fetchBundle('');
+        }
+      }
+    },
+
+    /**
+     * Forward `lang-updated` event to other instances of the same element.
+     *
+     * @param {Object} event `lang-updated` event object.
+     */
+    _forwardLangEvent: function (event) {
+      //console.log('_forwardLangEvent ' + this.is + ' ' + event.detail.lang);
+      event.target.removeEventListener(event.type, this._forwardLangEventBindThis);
+      if (this.lang === event.detail.lang) {
+        this.notifyPath('text', this._getBundle(this.lang));
+        this.fire(event.type, event.detail);
+      }
+      else {
+        this.lang = event.detail.lang;
+        this.notifyPath('text', this._getBundle(this.lang));
+      }
+    },
+
+    /**
+     * Handle `bundle-fetched` event.
+     *
+     * @param {Object} event `bundle-fetched` event object.
+     */
+    _handleBundleFetched: function (event) {
+      var detail = event.detail;
+      //console.log('_handleBundleFetched ' + this.is + ' ' + detail.lang);
+      event.target.removeEventListener(event.type, this._handleBundleFetchedBindThis);
+      if (this._fetchStatus.ajaxLang === detail.lang) {
+        this._fetchStatus.fetchingInstance = null;
+        this._fetchBundle(this._fetchStatus.ajaxLang);
+      }
+    },
+
+    /**
+     * Handle changes of `observeHtmlLang` property.
+     *
+     * @param {Boolean} value Value of `observeHtmlLang`
+     */
+    _observeHtmlLangChanged: function (value) {
+      if (value) {
+        this._htmlLangObserver = this._htmlLangObserver || 
+          new MutationObserver(this._handleHtmlLangChange.bind(this));
+        this._htmlLangObserver.observe(html, { attributes: true });
+      }
+      else {
+        if (this._htmlLangObserver) {
+          this._htmlLangObserver.disconnect();
+        }
+      }
+    },
+
+    /**
+     * MutationObserver callback of `<html lang>` attribute.
+     *
+     * @param {Array} mutations Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
+     */
+    _handleHtmlLangChange: function (mutations) {
+      mutations.forEach(function(mutation) {
+        switch (mutation.type) {
+        case 'attributes':
+          if (mutation.attributeName === 'lang') {
+            this.lang = html.lang;
+          }
+          break;
+        default:
+          break;
+        }
+      }, this);
+    },
+
+    /**
+     * Construct the text message bundle of the target locale with fallback of missing texts.
+     *
+     * @param {strings} lang Target locale.
+     */
+    _constructBundle: function (lang) {
+      var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
+      var bundle = {};
+      var raw;
+      var baseLang;
+      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+      var i;
+      fallbackLanguageList.push('');
+      for (i = 0; i < fallbackLanguageList.length; i++) {
+        if (bundles[fallbackLanguageList[i]] &&
+            bundles[fallbackLanguageList[i]][id]) {
+          break;
+        }
+      }
+      fallbackLanguageList.splice(i + 1, fallbackLanguageList.length);
+      while ((baseLang = fallbackLanguageList.pop()) !== undefined) {
+        if (bundles[baseLang][id]) {
+          bundle = deepcopy(bundles[baseLang][id]);
+        }
+        else {
+          raw = this._fetchStatus.rawResponses[baseLang];
+          if (raw) {
+            this._deepMap(bundle, raw, function (text) { return text; });
+          }
+        }
+      }
+      // store the constructed bundle
+      if (!bundles[lang]) {
+        bundles[lang] = {};
+      }
+      bundles[lang][id] = bundle;
+    },
+
+    /**
+     * Construct a pseudo-bundle for the target locale. (Not used for now)
+     *
+     * @param {string} lang Target locale.
+     */
+    _constructPseudoBundle: function (lang) {
+      var bundle = {};
+      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+      this._deepMap(bundle, bundles[''][id], function (value) {
+        return typeof value === 'string' ? lang + ' ' + value : value;
+      });
+      bundles[lang] = bundles[lang] || {};
+      bundles[lang][id] = bundle;
+      return bundle;
+    },
+
+    /**
+     * Recursively map the source object onto the target object with the specified map function.
+     * 
+     * The method is used to merge a bundle into its fallback bundle.
+     *
+     * @param {Object} target Target object.
+     * @param {Object} source Source object.
+     * @param {Function} map Mapping function.
+     */
+    _deepMap: function (target, source, map) {
+      var value;
+      for (var prop in source) {
+        value = source[prop];
+        switch (typeof value) {
+        case 'string':
+        case 'number':
+        case 'boolean':
+          target[prop] = map(value, prop);
+          break;
+        case 'object':
+          if (Array.isArray(value)) {
+            // TODO: cannot handle deep objects properly
+            target[prop] = target[prop] || [];
+            this._deepMap(target[prop], value, map);
+          }
+          else {
+            target[prop] = target[prop] || {};
+            this._deepMap(target[prop], value, map);
+          }
+          break;
+        case 'function':
+        case 'symbol':
+        case 'undefined':
+          target[prop] = value;
+          break;
+        default:
+          target[prop] = value;
+          break;
+        }
+      }
+    },
+
+    /**
+     * Construct the default bundle from the element's template.
+     *
+     * Extract the default bundle from the template if it is embedded as JSON at build time.
+     *
+     * #### Hard-coded UI text example:
+     * ```
+     *   <dom-module id="custom-element">
+     *     <template>
+     *       <span id="input-label">UI Text Label:</span>
+     *       <input id="input-element"
+     *              value="{{keyword}}"
+     *              placeholder="Keyword">
+     *     </template>
+     *   </dom-module>
+     * ```
+     *
+     * #### Constructed default bundle for the above example:
+     * ```
+     *   {
+     *     "model" : {
+     *       "input-element": {
+     *         "placeholder": "Keyword"
+     *       }
+     *     },
+     *     "input-label": "UI Text Label:"
+     *   }
+     * ```
+     *
+     * #### Processed template with bound annotations for the above example:
+     * ```
+     *   <dom-module id="custom-element">
+     *     <template localizable-text="embedded">
+     *       <span id="input-label">{{text.input-label}}</span>
+     *       <input id="input-element"
+     *              value="{{keyword}}"
+     *              placeholder="{{model.input-element.placeholder}}">
+     *     </template>
+     *   </dom-module>
+     * ```
+     *
+     * #### Embedded JSON bundle format for the above example:
+     * ```
+     *   <dom-module id="custom-element">
+     *     <template localizable-text="embedded">
+     *       <span id="input-label">{{text.input-label}}</span>
+     *       <input id="input-element"
+     *              value="{{keyword}}"
+     *              placeholder="{{model.input-element.placeholder}}">
+     *       <template id="localizable-text">
+     *         <json-data>{
+     *           "model" : {
+     *             "input-element": {
+     *               "placeholder": "Keyword"
+     *             }
+     *           },
+     *           "input-label": "UI Text Label:"
+     *         }</json-data>
+     *       </template>
+     *     </template>
+     *   </dom-module>
+     * ```
+     */
+    _constructDefaultBundle: function () {
+      var template;
+      var id = this.is;
+      if (this.is === 'dom-bind-localizable') {
+        template = this;
+        id = this.id;
+      }
+      else {
+        template = Polymer.DomModule.import(id, 'template');
+      }
+      if (!template) {
+        return false;
+      }
+      var bundle = {};
+      var path = [];
+      var templateDefaultLang = this.getPropertyInfo('templateDefaultLang').value();
+      var localizableText, jsonData;
+
+      // register localizable attributes of the element itself
+      attributesRepository.registerLocalizableAttributes(id, template);
+
+      if (template.getAttribute('localizable-text') === 'embedded') {
+        // pick up embedded JSON from the template
+        localizableText = template.content.querySelector('#localizable-text');
+        if (localizableText) {
+          jsonData = localizableText.content.querySelector('json-data');
+          if (jsonData) {
+            bundle = JSON.parse(jsonData.textContent);
+          }
+          else {
+            console.error('<json-data> not found in <template id=\"localizable-text\">');
+          }
+        }
+        else {
+          console.error('<template id=\"localizable-text\"> not found');
+        }
+      }
+      else {
+        // traverse template to generate bundle
+        this._traverseTemplateTree(template.content, path, bundle, 0);
+      }
+      //console.log('template = ');
+      //console.log(template);
+
+      if (bundle.model) {
+        bundles[''][id] = bundle;
+        bundles[templateDefaultLang] = bundles[templateDefaultLang] || {};
+        bundles[templateDefaultLang][id] = bundle;
+      }
+      else {
+        // TODO: handle default language fetching
+        this._fetchLanguage('');
+      }
+
+      // merge default text into bundle
+      this._mergeDefaultText(bundle);
+      //console.log('text = ');
+      //console.log(bundle);
+
+      return true;
+    },
+
+    /**
+     * Traverse localizable attributes of the target element node and 
+     * add them to the target bundle under the `model` object.
+     * 
+     * The `<localizable-attributes-repository>` object is used 
+     * to judge if the target attributes are localizable.
+     *
+     * @param {Object} node Target element node.
+     * @param {string} path Path to the target node.
+     * @param {Object} bundle Default bundle.
+     */
+    _traverseAttributes: function (node, path, bundle) {
+      var name = node.nodeName.toLowerCase();
+      var id = node.getAttribute ?
+                 (node.getAttribute('text-id') ||
+                  node.getAttribute('id')) : null;
+      var text;
+      var messageId;
+      var attrId;
+      // pick up element attributes
+      Array.prototype.forEach.call(node.attributes, function (attribute) {
+        text = attribute.value;
+        switch (attribute.name) {
+        // TODO: need more research on the list of excluded attributes
+        case 'id':
+        case 'text-id':
+        case 'is':
+        case 'lang':
+        case 'class':
+        case 'href':
+        case 'src':
+        case 'style':
+        case 'url':
+        case 'value':
+        case 'selected':
+          break;
+        default:
+          if (!attributesRepository.isLocalizableAttribute(name, attribute.name)) {
+            break;
+          }
+          if (text.length === 0) {
+            // skip empty value attribute
+          }
+          else if (text.match(/^{{.*}}$/) || text.match(/^\[\[.*\]\]$/)) {
+            // skip annotation attribute
+          }
+          else if (text.replace(/\n/g, ' ').match(/^{.*}$/g) || text.replace(/\n/g, ' ').match(/^\[.*\]$/g)) {
+            // generate message id
+            messageId = this._generateMessageId(path, id);
+            try {
+              //console.log(messageId + ' parsing attribute ' + attribute.name + ' = ' + text);
+              var value = JSON.parse(text.replace(/\n/g, ' '));
+              //console.log('parsed JSON object = ');
+              //console.log(value);
+              switch (typeof value) {
+              case 'string':
+              case 'number':
+              case 'object':
+                // put into model
+                attrId = ['model', messageId, attribute.name].join('.');
+                this._setBundleValue(bundle, attrId, value);
+                attribute.value = '{{' + attrId + '}}';
+                break;
+              default: // skip other types
+                break;
+              }
+            }
+            catch (e) {
+              // invalid JSON
+              console.warn(e, 'Invalid JSON at <' + name + ' ' + attribute.name + '> with value = ' + text);
+            }
+          }
+          else {
+            // string attribute
+            messageId = this._generateMessageId(path, id);
+            attrId = ['model', messageId, attribute.name].join('.');
+            this._setBundleValue(bundle, attrId, text);
+            attribute.value = '{{' + attrId + '}}';
+          }
+          break;
+        }
+      }, this);
+    },
+
+    /**
+     * Recursively traverse text contents of the target element node
+     * and add them to the target bundle object.
+     *
+     * Traversed text contents are replaced with annotations 
+     * for the corresponding text in the bundle.
+     *
+     * - - -
+     *
+     * There are some special treatments in the following cases.
+     *
+     * ### Sentence with parameterized child parameter-like elements:
+     *
+     * As the order of the parameters can change in different languages,
+     * `<i18n-format>` element is used to make the sentence localizable.
+     *
+     * #### Before processing
+     *
+     * ```
+     *   <p id="p">The <code>i18n-format</code> element is used for a sentence with 
+     *     <a href="https://www.google.com">parameters</a> like this.</p>
+     * ```
+     *
+     * #### After processing
+     *
+     * ```
+     *   <p id="p">
+     *     <i18n-format lang="{{effectiveLang}}">
+     *       <span>{{text.p.0}}</span>
+     *       <code>{{text.p.1}}</code>
+     *       <a href="https://www.google.com">{{text.p.2}}</a>
+     *     </i18n-format>
+     *   </p>
+     * ```
+     *
+     * #### Constructed bundle data: Texts are stored in an Array of strings.
+     *
+     * ```
+     *   {
+     *     "p" : [
+     *       "The $1$ element is used for a sentence with $2$ like this.",
+     *       "i18n-format",
+     *       "parameters"
+     *     ]
+     *   }
+     * ```
+     *
+     * - - -
+     *
+     * ### `<i18n-format>` element with compound templates:
+     *
+     * Texts with compound templates for `<i18n-format>` element are
+     * processed as below.
+     *
+     * `lang="{{effectiveLang}}"` attribute is added to `<i18n-format>` node
+     * as well as `<i18n-number>` node.
+     *
+     * #### Before processing
+     *
+     * ```
+     *    <i18n-format id="sentence-with-plurals">
+     *      <json-data>{
+     *        "0": "You ($3$) gave no gifts.",
+     *        "1": {
+     *          "male": "You ($3$) gave him ($4$) $5$.",
+     *          "female": "You ($3$) gave her ($4$) $5$.",
+     *          "other": "You ($3$) gave them ($4$) $5$."
+     *        },
+     *        "one": {
+     *          "male": "You ($3$) gave him ($4$) and one other $5$.",
+     *          "female": "You ($3$) gave her ($4$) and one other $5$.",
+     *          "other": "You ($3$) gave them ($4$) and one other $5$."
+     *        },
+     *        "other": "You ($3$) gave them ($4$) and $1$ others gifts."
+     *      }</json-data>
+     *      <i18n-number 
+     *        offset="1"
+     *        >{{recipients.length}}</i18n-number>
+     *      <span>{{recipients.0.gender}}</span>
+     *      <span>{{sender.name}}</span>
+     *      <span>{{recipients.0.name}}</span>
+     *      <span>a gift</span>
+     *    </i18n-format>
+     * ```
+     *
+     * #### After processing
+     *
+     * ```
+     *    <i18n-format id="sentence-with-plurals" 
+     *                   lang="{{effectiveLang}}">
+     *      <json-data>{{text.sentence-with-plurals.0}}</json-data>
+     *      <i18n-number 
+     *        offset="1"
+     *        lang="{{effectiveLang}}"
+     *        >{{recipients.length}}</i18n-number>
+     *      <span>{{recipients.0.gender}}</span>
+     *      <span>{{sender.name}}</span>
+     *      <span>{{recipients.0.name}}</span>
+     *      <span>{{text.sentence-with-plurals.4}}</span>
+     *    </i18n-format>
+     * ```
+     *
+     * #### Constructed bundle data:
+     *
+     * ```
+     *   {
+     *     "sentence-with-plurals" : [
+     *       {
+     *         "0": "You ($3$) gave no gifts.",
+     *         "1": {
+     *           "male": "You ($3$) gave him ($4$) $5$.",
+     *           "female": "You ($3$) gave her ($4$) $5$.",
+     *           "other": "You ($3$) gave them ($4$) $5$."
+     *         },
+     *         "one": {
+     *           "male": "You ($3$) gave him ($4$) and one other $5$.",
+     *           "female": "You ($3$) gave her ($4$) and one other $5$.",
+     *           "other": "You ($3$) gave them ($4$) and one other $5$."
+     *         },
+     *         "other": "You ($3$) gave them ($4$) and $1$ others gifts."
+     *       },
+     *       "{{recipients.length - 1}}",
+     *       "{{recipients.0.gender}}",
+     *       "{{recipients.0.name}}",
+     *       "a gift"
+     *     ]
+     *   }
+     * ```
+     *
+     * @param {Object} node Target element node.
+     * @param {string} path Path to the target node.
+     * @param {Object} bundle Default bundle.
+     * @param {Number} index Index in the siblings of the target node excluding whitespace nodes.
+     */
+    _traverseTemplateTree: function (node, path, bundle, index) {
+      var i;
+      var whiteSpaceElements = 0;
+      var isWhiteSpace = false;
+      var text;
+      var span;
+      var name = node.nodeName.toLowerCase();
+      var id = node.getAttribute ? 
+                 (node.getAttribute('text-id') || 
+                  node.getAttribute('id')) : null;
+      var messageId;
+      path.push(id ? '#' + id : name + (index > 0 ? '_' + index : ''));
+      //console.log(path.join(':'));
+      switch (node.nodeType) {
+      case node.ELEMENT_NODE:
+        switch (name) {
+        case 'style':
+        case 'script':
+        case 'meta':
+          // skip
+          break;
+        case 'i18n-format':
+          // pick up element attributes
+          this._traverseAttributes(node, path, bundle);
+          // generate message id
+          messageId = this._generateMessageId(path, id);
+          if (!node.hasAttribute('lang')) {
+            node.setAttribute('lang', '{{effectiveLang}}');
+          }
+          text = Array.prototype.filter.call(node.childNodes, function (child) {
+            return child.nodeType === child.ELEMENT_NODE;
+          }).map(function (param, n) {
+            var value = param.textContent;
+            var parsedValue = value.match(/^({{)(.*)(}})$/) || 
+                              value.match(/^(\[\[)(.*)(\]\])$/);
+            if (n === 0) {
+              // template element
+              if (param.tagName.toLowerCase() === 'json-data') {
+                if (parsedValue) {
+                  var parsedValue2 = value.match(/^({{)(serialize\(.*\))(}})$/) || 
+                                     value.match(/^(\[\[)(serialize\(.*\))(\]\])$/);
+                  if (!parsedValue2) {
+                    // convert to {{serialize(id)}}
+                    parsedValue.shift();
+                    parsedValue.splice(1, 0, 'serialize(');
+                    parsedValue.splice(3, 0, ')');
+                    param.textContent = parsedValue.join('');
+                  }
+                }
+                else {
+                  value = JSON.parse(value);
+                  param.textContent = '{{serialize(text.' + messageId + '.' + n + ')}}';
+                }
+              }
+              else {
+                param.textContent = '{{text.' + messageId + '.' + n + '}}';
+              }
+            }
+            else {
+              // param element
+              // TODO: handle localization of param nodes and attributes
+              if (!param.hasAttribute('param')) {
+                param.setAttribute('param', n);
+              }
+              if (param.tagName.toLowerCase() === 'i18n-number') {
+                if (!param.hasAttribute('lang')) {
+                  param.setAttribute('lang', '{{effectiveLang}}');
+                }
+                var offset = param.getAttribute('offset');
+                if (offset) {
+                  offset = ' - ' + offset;
+                }
+                else {
+                  offset = '';
+                }
+                if (parsedValue) {
+                  // convert to {{path - offset}}
+                  parsedValue.shift();
+                  parsedValue.splice(2, 0, offset);
+                  value = parsedValue.join('');
+                }
+                else {
+                  param.textContent = '{{text.' + messageId + '.' + n + '}}';
+                }
+              }
+              else {
+                if (!parsedValue) {
+                  param.textContent = '{{text.' + messageId + '.' + n + '}}';
+                }
+              }
+            }
+            return value;
+          }, this);
+          console.log(messageId + ' = ' + text);
+          this._setBundleValue(bundle, messageId, text);
+          break;
+        case 'template':
+          // traverse into its content
+          //console.log(path.join(':') + ':' + node.content.nodeName + ':' + 0);
+          this._traverseTemplateTree(node.content, path, bundle, 0);
+          break;
+        default:
+          // element node
+          if (name === 'i18n-number' ||
+              name === 'i18n-datetime') {
+            if (!node.hasAttribute('lang')) {
+              node.setAttribute('lang', '{{effectiveLang}}');
+            }
+          }
+          // pick up element attributes
+          this._traverseAttributes(node, path, bundle);
+          if (node.childElementCount === 0) {
+            if (node.textContent) { // use textContent for Firefox compatibility
+              text = node.textContent;
+              if (text.length === 0 || text.match(/^\s*$/g)) {
+                // skip empty or whitespace node
+              }
+              else if (text.match(/^{{.*}}$/) || text.match(/^\[\[.*\]\]$/)) {
+                // skip annotation node
+                // TODO: compound bindings support
+              }
+              else {
+                // a text message found
+                // generate message id
+                messageId = this._generateMessageId(path, id);
+                // store the text message
+                text = text.trim();
+                if (name === 'json-data') {
+                  this._setBundleValue(bundle, messageId, JSON.parse(text));
+                }
+                else {
+                  this._setBundleValue(bundle, messageId, text);
+                }
+                // replace textContent with annotation
+                node.textContent = '{{text.' + messageId + '}}';
+                if (!id) {
+                  //node.id = messageId;
+                  //console.warn('add missing node id as ' + messageId + ' for ' + text);
+                }
+                console.log(messageId + ' = ' + text);
+              }
+            }
+            else {
+              // skip
+            }
+          } 
+          else {
+            // has children
+            // check if i18n-format is applicable
+            var childStatus = Array.prototype.map.call(
+              node.childNodes, function (child) {
+                return {
+                  hasText: child.nodeType === child.TEXT_NODE && 
+                           child.textContent.length > 0 && 
+                           !child.textContent.match(/^\s*$/g), 
+                  hasTextChild: child.nodeType === child.ELEMENT_NODE &&
+                                child.childElementCount === 0, // including <br>
+                  hasGrandChildren: child.nodeType === child.ELEMENT_NODE &&
+                                    Array.prototype.map.call(
+                                      child.childNodes, 
+                                      function (grandChild) {
+                                        return grandChild.nodeType !== grandChild.TEXT_NODE;
+                                      }
+                                    ).reduce(function (prev, current) {
+                                      return prev || current;
+                                    }, false)
+                };
+              }).reduce(function (prev, current) { 
+                return {
+                  hasText: prev.hasText || current.hasText,
+                  hasTextChild: prev.hasTextChild || current.hasTextChild,
+                  hasGrandChildren: prev.hasGrandChildren || current.hasGrandChildren
+                };
+              }, { 
+                hasText: false, 
+                hasTextChild: false,
+                hasGrandChildren: false
+              });
+            if ((childStatus.hasText || node.hasAttribute('text-id')) && 
+                childStatus.hasTextChild && 
+                !childStatus.hasGrandChildren) {
+              // apply i18n-format
+              /*
+                    <i18n-format>
+                      <span>{{text.simpleChartDesc.0}}</span>
+                      <code param="1">{{text.simpleChartDesc.1}}</code>
+                      <a param="2" href="link">{{text.simpleChartDesc.2}}</a>
+                      <a param="3" href="link2">{{text.simpleChartDesc.3}}</a>
+                    </i18n-format>
+              */
+              var n = 0;
+              messageId = this._generateMessageId(path, id);
+              var templateTextParams = Array.prototype.map.call(
+                node.childNodes, function (child) {
+                  return {
+                    node: child,
+                    type: child.nodeType,
+                    text: child.nodeType === child.TEXT_NODE ? 
+                            child.textContent : null,
+                    childTextNode: child.nodeType === child.ELEMENT_NODE &&
+                                   child.childNodes.length > 0 ? child.childNodes[0] : null
+                  };
+                }).reduce(function (prev, current) {
+                  if (current.text) {
+                    prev.text[0] += current.text;
+                  }
+                  if (current.type === current.node.ELEMENT_NODE) {
+                    n++;
+                    prev.text[0] += '{' + n + '}';
+                    path.push(n);
+                    this._traverseAttributes(current.node, path, bundle);
+                    path.pop();
+                    if (current.childTextNode) {
+                      var textContent = current.childTextNode.textContent;
+                      if (textContent.length === 0) {
+                        // tag without textContent
+                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
+                        current.childTextNode.textContent = '';
+                      }
+                      else if (textContent.match(/^\s*$/g)) {
+                        // tag with whitespace textContent
+                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
+                        current.childTextNode.textContent = ' ';
+                      }
+                      else if (textContent.match(/^{{.*}}$/) || textContent.match(/^\[\[.*\]\]$/)) {
+                        // tag with annotation
+                        prev.text.push(textContent);
+                        // textContent is untouched
+                      }
+                      else {
+                        prev.text.push(current.childTextNode.textContent.trim());
+                        current.childTextNode.textContent = '{{text.' + messageId + '.' + n + '}}';
+                      }
+                    }
+                    else {
+                      prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
+                    }
+                    current.node.setAttribute('param', n.toString());
+                    prev.params.push(current.node);
+                  }
+                  return prev;
+                }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
+              var templateText = document.createElement('i18n-format');
+              templateText.setAttribute('lang', '{{effectiveLang}}');
+              span = document.createElement('span');
+              // span.innerText does not set an effective value in Firefox
+              span.textContent = templateTextParams.params.shift();
+              templateText.appendChild(span);
+              Array.prototype.forEach.call(templateTextParams.params,
+                function (param) {
+                  templateText.appendChild(param);
+                }
+              );
+              // store the text message
+              templateTextParams.text[0] = templateTextParams.text[0].trim();
+              this._setBundleValue(bundle, messageId, templateTextParams.text);
+              // insert i18n-format
+              node.innerHTML = '';
+              Polymer.dom(node).appendChild(templateText);
+              if (!id) {
+                //node.id = messageId;
+                //console.warn('add missing node id as ' + messageId + ' for ' + templateTextParams.text[0]);
+              }
+              console.log(messageId + ' = ' + templateTextParams.text);
+            }
+            else {
+              // traverse childNodes
+              for (i = 0; i < node.childNodes.length; i++) {
+                //console.log(path.join(':') + ':' + node.childNodes[i].nodeName + ':' + (i - whiteSpaceElements) + ' i = ' + i + ' whiteSpaceElements = ' + whiteSpaceElements);
+                if (this._traverseTemplateTree(node.childNodes[i], path, bundle, i - whiteSpaceElements)) {
+                  whiteSpaceElements++;
+                }
+              }
+            }
+          }
+          break;
+        }
+        break;
+      case node.TEXT_NODE:
+        // text node
+        text = node.textContent;
+        if (text.length === 0 || text.match(/^\s*$/g)) {
+          // skip empty or whitespace node
+          isWhiteSpace = true;
+        }
+        else if (text.match(/^{{.*}}$/) || text.match(/^\[\[.*\]\]$/)) {
+          // skip annotation node
+        }
+        else {
+          var parent = node.parentNode;
+          span = document.createElement('span');
+
+          // replace text node with span
+          Polymer.dom(parent).insertBefore(span, node);
+          Polymer.dom(parent).removeChild(node);
+
+          // update path
+          path[path.length - 1] = path[path.length - 1].replace('#text', 'span');
+
+          // generate message id
+          messageId = this._generateMessageId(path, id);
+          // store the text message
+          text = text.trim();
+          this._setBundleValue(bundle, messageId, text);
+          // replace textContent with annotation
+          span.textContent = '{{text.' + messageId + '}}';
+          if (!id) {
+            //span.id = messageId;
+            //console.warn('add missing span with id as ' + messageId + ' for ' + text);
+          }
+          console.log(messageId + ' = ' + text);
+        }
+        break;
+      case node.DOCUMENT_NODE:
+      case node.DOCUMENT_FRAGMENT_NODE:
+        // traverse childNodes
+        for (i = 0; i < node.childNodes.length; i++) {
+          //console.log(path.join(':') + ':' + node.childNodes[i].nodeName + ':' + (i - whiteSpaceElements) + ' i = ' + i + ' whiteSpaceElements = ' + whiteSpaceElements);
+          if (this._traverseTemplateTree(node.childNodes[i], path, bundle, i - whiteSpaceElements)) {
+            whiteSpaceElements++;
+          }
+        }
+        break;
+      default:
+        isWhiteSpace = true;
+        // comment node, etc.
+        break;
+      }
+      path.pop();
+      return isWhiteSpace;
+    },
+
+    /**
+     * Add the value to the target default bundle with the specified message Id 
+     * 
+     * @param {Object} bundle Default bundle.
+     * @param {string} messageId ID string of the value.
+     * @param {Object} value Value of the text message. Normally a string.
+     */
+    _setBundleValue: function (bundle, messageId, value) {
+      var messageIdPath = messageId.split('.');
+      bundle.model = bundle.model || {};
+      if (messageIdPath.length === 1) {
+        bundle[messageId] = value;
+      }
+      else {
+        var cursor = bundle;
+        for (var i = 0; i < messageIdPath.length; i++) {
+          if (i < messageIdPath.length - 1) {
+            cursor[messageIdPath[i]] = cursor[messageIdPath[i]] || {};
+            cursor = cursor[messageIdPath[i]];
+          }
+          else {
+            cursor[messageIdPath[i]] = value;
+          }
+        }
+      }
+    },
+
+    /**
+     * Generate a message ID from the specified path and id.
+     * 
+     * TODO: shorten or optimize ids
+     *
+     * @param {Array} path List of ascestor elements of the current node in traversal.
+     * @param {id} id Value of `id` or `text-id` attribute of the current node.
+     */
+    _generateMessageId: function (path, id) {
+      var messageId;
+      if (!id || id.length === 0) {
+        for (var i = 1; i < path.length; i++) {
+          if (path[i][0] === '#') {
+            if (path[i] !== '#document-fragment') {
+              messageId = path[i].substr(1);
+            }
+          }
+          else {
+            if (messageId) {
+              messageId += ':' + path[i];
+            }
+            else {
+              messageId = path[i];
+            }
+          }
+        }
+      }
+      else {
+        messageId = id;
+      }
+      return messageId;
+    },
+
+    /**
+     * Merge `this.defaultText` into the target default bundle.
+     * 
+     * TODO: Need more research on the effective usage of this feature.
+     *
+     * @param {Object} bundle Default bundle.
+     */
+    _mergeDefaultText: function (bundle) {
+      if (this.defaultText) {
+        this._deepMap(bundle, this.defaultText, function (text) { return text; });
+      }
+    },
+
+    /**
+     * Return the first non-null argument.
+     *
+     * Utility method for use in annotations.
+     *
+     * Example Usage:
+     * ```
+     *   <input is="iron-input" class="flex"
+     *     type="search" id="query" bind-value="{{query}}"
+     *     autocomplete="off"
+     *     placeholder="{{or(placeholder,text.search)}}">
+     * ```
+     *
+     * @param {*} arguments List of arguments.
+     */
+    or: function () {
+      var result = arguments[0];
+      var i = 1;
+      while (!result && i < arguments.length) {
+        result = arguments[i++];
+      }
+      return result;
+    },
+
+    // Lifecycle callbacks
+
+    /**
+     * Lifecycle callback before registration of the custom element.
+     *
+     * The default bundle is constructed via traversal of the element's template at this timing per registration.
+     *
+     * Notes: 
+     *
+     * - For `dom-bind-localizable` elements, bundle construction is put off until `ready` lifecycle callback.
+     * - As called twice per custom element registration, the method skips bundle construction at the second call.
+     */
+    beforeRegister: function () {
+      if (this.is !== 'dom-bind-localizable') {
+        if (!this._templateLocalizable) {
+          this._templateLocalizable = this._constructDefaultBundle();
+        }
+      }
+    },
+
+
+    /**
+     * Lifecycle callback at registration of the custom element.
+     *
+     * this._fetchStatus is initialized per registration.
+     */
+    registered: function () {
+      this._fetchStatus = deepcopy({ // per custom element
+        fetchingInstance: null,
+        ajax: null,
+        ajaxLang: null,
+        lastLang: null,
+        fallbackLanguageList: null,
+        targetLang: null, 
+        lastResponse: {},
+        rawResponses: {}
+      });
+    },
+
+    /**
+     * Lifecycle callback when the template children are ready.
+     */
+    ready: function () {
+      if (this.is === 'dom-bind-localizable') {
+        if (!this._templateLocalizable) {
+          this._templateLocalizable = this._constructDefaultBundle();
+        }
+        if (!this._fetchStatus) {
+          this._fetchStatus = deepcopy({ // per custom element
+            fetchingInstance: null,
+            ajax: null,
+            ajaxLang: null,
+            lastLang: null,
+            fallbackLanguageList: null,
+            targetLang: null, 
+            lastResponse: {},
+            rawResponses: {}
+          });
+        }
+        this._onDomChangeBindThis = this._onDomChange.bind(this);
+        this.addEventListener('dom-change', this._onDomChangeBindThis);
+      }
+      else {
+        // model per instance
+        this.model = deepcopy(this.text.model);
+      }
+    },
+
+    /**
+     * attached lifecycle callback.
+     */
+    attached: function () {
+      if (this.observeHtmlLang) {
+        this.lang = html.lang;
+        // TODO: this call is redundant
+        this._observeHtmlLangChanged(true);
+      }
+    },
+
+    /**
+     * Handle `dom-change` event for `dom-bind-localizable`
+     */
+    _onDomChange: function () {
+      this.removeEventListener('dom-change', this._onDomChangeBindThis);
+      this.model = deepcopy(this.text.model);
+      if (this.observeHtmlLang) {
+        this.lang = html.lang;
+        this._observeHtmlLangChanged(true);
+      }
+    },
+
+    /**
+     * detached lifecycle callback
+     */
+    detached: function () {
+      if (this.observeHtmlLang) {
+        this._observeHtmlLangChanged(false);
+      }
+    }
+  };
+
+  /**
+   * `<template is="dom-bind-localizable">` element extends `dom-bind` template element with `I18nBehavior`
+   *
+   * @group Localiable Behavior
+   * @element dom-bind-localizable
+   */
+  var domBindLocalizable = deepcopy(Object.getPrototypeOf(document.createElement('template', 'dom-bind')));
+  domBindLocalizable.is = 'dom-bind-localizable';
+  domBindLocalizable.behaviors = [ BehaviorsStore.I18nBehavior ];
+  var _Polymer = Polymer;
+  _Polymer(domBindLocalizable);
+})(document);
+</script>

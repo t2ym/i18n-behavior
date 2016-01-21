@@ -1,0 +1,266 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!--
+`<localizable-attributes-repository>` maintains a list of attributes 
+targeted for UI localization.  It judges if a specific attribute of an element requires
+localization or not. 
+
+    var attrRepository = 
+      document.createElement('localizable-attributes-repository');
+
+    attrRepository.registerLocalizableAttributes(
+      'custom-element',
+      Polymer.DomModule.import('custom-element', 'template')
+    );
+    attrRepository.isLocalizableAttribute('input', 'placeholder');
+
+### Interactions with `BehaviorsStore.I18nBehavior`
+
+The element is not meant for DOM attachment. The object is
+a singleton object dedicated for `BehaviorsStore.I18nBehavior`.
+`I18nBehavior` interacts with the localizable attributes repository in these 3 ways.
+
+### 1) Construct the repository for the standard elements from its own static template at the object creation.
+
+```
+    // i18n-behavior.html
+    var attrRepository = 
+      document.createElement('localizable-attributes-repository');
+```
+
+### 2) Register localizable attributes of the newly registered elements from the `text-attr` attribute of the element's template.
+
+```
+    // i18n-behavior.html, scanning custom-element template
+    var id = 'custom-element';
+    attrRepository.registerLocalizableAttributes(
+      id, 
+      Polymer.DomModule.import(id, 'template')
+    );
+```
+```
+    // custom-element.html
+    <dom-module id="custom-element">
+      <template text-attr="localizable-attr1 localizable-attr2">
+        <span>{{localizableAttr1}}</span>
+        <span>{{localizableAttr2}}</span>
+      </template>
+      <script>
+        Polymer({
+          is: 'custom-element',
+          behaviors: [ BehaviorsStore.I18nBehavior ],
+          properties: {
+            localizableAttr1: {
+              type: String
+            },
+            localizableAttr2: {
+              type: String
+            }
+          }
+        });
+      </script>
+    </dom-module>
+```
+
+### 3) Judge localizability of attributes for the local DOM elements of the newly registered element.
+
+```
+    // i18n-behavior.html, scanning custom-element-user template
+    var name = 'custom-element';
+    var attr;
+    if (attrRepository.isLocalizableAttribute(name, attr.name)) {
+      // make localizalbe-attr1 localizable
+    }
+```
+```
+    // custom-element-user.html
+    <dom-module id="custom-element-user">
+      <template>
+        <custom-element id="custom"
+                        localizable-attr1="UI Text Label 1"
+                        localizable-attr2="UI Text Label 2">
+        </custom-element>
+      </template>
+      <script>
+        Polymer({
+          is: 'custom-element-user',
+          behaviors: [ BehaviorsStore.I18nBehavior ]
+        });
+      </script>
+    </dom-module>
+```
+```
+    // template for custom-element-user after localization binding
+    <template>
+      <custom-element id="custom"
+                      localizable-attr1="{{model.custom.localizable-attr1}}"
+                      localizable-attr2="{{model.custom.localizable-attr2}}">
+      </custom-element>
+    </template>
+```
+```
+    // extracted localizable texts in custom-element-user element
+    this.model = {
+      "custom": {
+        "localizable-attr1": "UI Text Label 1",
+        "localizable-attr2": "UI Text Label 2"
+      }
+    }
+```
+
+Since dependent elements should be registered prior to a custom element being registered,
+the repository can maintain the complete list of localizable attributes for the custom element.
+
+- - -
+
+### Note
+
+The described processes above are for debug builds with runtime localization traversal of templates
+by `I18nBehavior`.
+
+For production builds, the build system can perform the same processes at build time so that 
+`I18nBehavior` at clients can skip runtime traversal of templates.
+
+- - -
+
+### TODO
+
+Handle and judge JSON object attributes.
+
+@group Localiable Behavior
+@element localizable-attributes-repository
+@hero hero.svg
+@demo demo/index.html
+-->
+<dom-module id="localizable-attributes-repository">
+  <template>
+    <template id="standard">
+      <!-- Standard HTML5 -->
+      <input placeholder>
+
+      <!-- Standard Polymer Elements -->
+      <paper-input label error-message placeholder></paper-input>
+      <paper-textarea label error-message placeholder></paper-textarea>
+      <paper-toast text></paper-toast>
+      <google-chart options cols rows data></google-chart>
+      <platinum-push-messaging title message></platinum-push-messaging>
+
+      <!-- Specific to i18n-behavior -->
+      <json-data any-attributes></json-data>
+    </template>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'localizable-attributes-repository',
+
+    ready: function () {
+      this.data = {};
+      this._traverseTemplateTree(this.$.standard._content || this.$.standard.content);
+    },
+
+    /**
+     * Judge if a specific attribute of an element requires localization.
+     *
+     * @param {string} element Target element name.
+     * @param {string} attr Target attribute name.
+     * @return {boolean} true if the target attribute of the element requires localization.
+     */
+    isLocalizableAttribute: function (element, attr) {
+      if (this.data[element]) {
+        return  !!this.data[element]['any-attributes'] ||
+                !!this.data[element][attr];
+      }
+      else {
+        return false;
+      }
+    },
+
+    /**
+     * Add a new localizable attribute of an element to the repository.
+     *
+     * @param {string} element Target element name.
+     * @param {string} attr Target attribute name.
+     * @param {?*} value Optional value for JSON attributes (not used yet)
+     */
+    setLocalizableAttribute: function (element, attr, value) {
+      this.data[element] = this.data[element] || {};
+      this.data[element][attr] = value ? value : true;
+    },
+
+    /**
+     * Pick up localizable attributes description for a custom element 
+     * from `text-attr` attribute and register them to the repository.
+     * The `text-attr` attribute is used in the template of a custom
+     * element to declare localizable attributes of its own element.
+     *
+     * Format:
+     *
+     *  Type 1: `<template text-attr="localizable-attr1 attr2">`
+     *
+     *  Type 2: `<template text-attr localizable-attr1 attr2="value2">`
+     *
+     * @param {string} element Target element name.
+     * @param {HTMLTemplateElement} template Template of the element.
+     */
+    registerLocalizableAttributes: function (element, template) {
+      if (!element) {
+        element = template.getAttribute('id');
+      }
+      if (element) {
+        var attrs = (template.getAttribute('text-attr') || '').split(' ');
+        var textAttr = false;
+        attrs.forEach(function (attr) {
+          if (attr) {
+            this.setLocalizableAttribute(element, attr, true);
+          }
+        }, this);
+        Array.prototype.forEach.call(template.attributes, function (attr) {
+          switch (attr.name) {
+          case 'id':
+          case 'lang':
+          case 'localizable-text':
+          case 'assetpath':
+            break;
+          case 'text-attr':
+            textAttr = true;
+            break;
+          default:
+            if (textAttr) {
+              this.setLocalizableAttribute(element, attr.name, attr.value);
+            }
+            break;
+          }
+        }.bind(this));
+      }
+    },
+
+    /**
+     * Traverse the template of `localizable-attributes-repository` in the ready() callback
+     * and construct the localizable attributes repository object. The method calls itself
+     * recursively for traversal.
+     *
+     * @param {HTMLElement} node The target HTML node for traversing.
+     */    
+    _traverseTemplateTree: function (node) {
+      var name;
+      if (node.nodeType === node.ELEMENT_NODE) {
+        name = node.nodeName.toLowerCase();
+        Array.prototype.forEach.call(node.attributes, function (attribute) {
+          this.data[name] = this.data[name] || {};
+          if (attribute.value) {
+            this.data[name][attribute.name] = attribute.value;
+          }
+          else {
+            this.data[name][attribute.name] = true;
+          }
+        }, this);
+      }
+      if (node.childElementCount > 0) {
+        for (var i = 0; i < node.childNodes.length; i++) {
+          this._traverseTemplateTree(node.childNodes[i]);
+        }
+      }
+    }
+  });
+</script>
