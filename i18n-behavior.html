@@ -75,30 +75,34 @@
    *
    *     <dom-module id="custom-element">
    *       <template>
-   *         <span>Hard-coded UI text</span>
+   *         <span>Hard-coded UI text can be left as it is in the source</span>
    *       </template>
    *       <﻿﻿script﻿﻿>
    *         Polymer({
    *           is: 'custom-element',
-   *           behaviors: [ BehaviorsStore.I18nBehavior ]
+   *           behaviors: [ 
+   *             BehaviorsStore.I18nBehavior  // Add this behavior
+   *           ]
    *         });
    *       <﻿﻿/script﻿﻿>
    *     </dom-module>
    *
-   * `I18nBehavior` automatically externalizes UI texts from `template` and 
+   * `I18nBehavior` automatically extracts UI texts from `template` and 
    * binds them to localizable variables in `this.text` object.
    *
-   * Following the `lang` attribute value, `this.text`, and thus the bound UI texts,
+   * According to the `lang` attribute value, `this.text`, and thus the bound UI texts,
    * dynamically mutates by loading localized values from a JSON file in the `locales` directory.
+   * By default, `lang` attribute values of all the localizable elements with `I18nBehavior` are
+   * automatically updated according to `<html lang>` attribute value.
    *
-   * The UI text externalization can be processed at build time as well so that 
-   * `I18nBehavior` can detect the externalized texts in JSON and 
-   * skip runtime externalization.
+   * The UI text externalization can be processed at build time as well by `gulp-externalize` task
+   * so that `I18nBehavior` can immediately recognize the extracted texts in JSON and 
+   * skip run-time externalization.
    *
-   * Runtime externalization is suitable for development and debugging 
-   * since it requires no build processes.
-   * In contrast, build time externalization is suitable for production builds 
-   * since it eliminates runtime externalization overheads.
+   * Run-time externalization is suitable for development and debugging 
+   * since the code changes are immediately reflected at reloading without build-time preprocesses.
+   * In contrast, build-time externalization is suitable for production builds 
+   * since it eliminates run-time externalization overheads.
    * 
    * ### Steps to localize a custom element
    *
@@ -111,8 +115,8 @@
    *
    * ### Directory structure of bundle files
    *
-   * Normal bundles (`/element-root/locales/element-name.*.json`) are stored 
-   * the root directories of the elements.
+   * Normal bundles (`/element-root/locales/element-name.*.json`) for elements
+   * are stored under their root directories.
    *
    * Shared bundles (`/locales/bundle.*.json`) are generated at build time 
    * by merging all the targeted bundles of the localizable elements. 
@@ -122,7 +126,7 @@
    * from the shared bundles.
    *
    * ```
-   *      /bundle.json
+   *      /bundle.json 
    *      /locales/bundle.ja.json
    *              /bundle.fr.json
    *              /bundle.zh-Hans.json
@@ -159,7 +163,7 @@
    *
    * ### TODOs
    *
-   * - Support compound bindings of Polymer 1.2
+   * - Support compound bindings since Polymer 1.2
    * - Normalize locale strings and eliminate case sensitivity
    * - Support user locale preference per user
    *
