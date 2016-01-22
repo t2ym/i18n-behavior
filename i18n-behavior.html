@@ -1,10 +1,10 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
-<link rel="import" href="../../bower_components/i18n-format/i18n-format.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../i18n-format/i18n-format.html">
 <link rel="import" href="i18n-attr-repo.html">
 <!-- TODO: convert to HTML import to avoid multiple deepcopy registration -->
-<script src="../../bower_components/deepcopy/deepcopy.min.js"></script>
+<script src="../deepcopy/deepcopy.min.js"></script>
 
 <script>
 /* jshint -W100 */
@@ -138,9 +138,9 @@
    *
    * - - -
    *
-   * ### Localizable `<template is="dom-bind-localizable" id="app">` element
+   * ### Localizable `<template is="i18n-dom-bind" id="app">` element
    *
-   * `<template is="dom-bind-localizable">` template element extends 
+   * `<template is="i18n-dom-bind">` template element extends 
    * `<template is="dom-bind">` template element with all the capabilities of 
    * `I18nBehavior`.  
    *
@@ -164,7 +164,7 @@
    * - Support user locale preference per user
    *
    * @polymerBehavior BehaviorsStore.I18nBehavior
-   * @group Localiable Behavior
+   * @group I18nBehavior
    * @hero hero.svg
    * @demo demo/index.html
    */
@@ -353,7 +353,7 @@
       //console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
 
       var resolved;
-      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
 
       if (lang && lang.length > 0) {
         var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
@@ -490,7 +490,7 @@
      */
     _langChanged: function (lang, oldLang) {
       //console.log(this.id + ':_langChanged lang = ' + lang + ' oldLang = ' + oldLang);
-      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
       lang = lang || ''; // undefined and null are treated as default ''
       oldLang = oldLang || '';
       if (lang !== oldLang &&
@@ -584,7 +584,7 @@
 
       // set up an empty bundle if inexistent
       bundles[lang] = bundles[lang] || {};
-      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
 
       if (bundles[lang][id]) {
         // bundle is available; no need to fetch
@@ -702,7 +702,7 @@
         bundleFetchingInstances[this._fetchStatus.ajaxLang] = null;
         //console.log('bundle-fetched ' + this.is + ' ' + this._fetchStatus.ajaxLang);
         this.fire('bundle-fetched', { success: true, lang: this._fetchStatus.ajaxLang });
-        var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+        var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
         if (bundles[this._fetchStatus.ajaxLang][id]) {
           this._fetchStatus.lastResponse = bundles[this._fetchStatus.ajaxLang][id];
         }
@@ -860,7 +860,7 @@
       var bundle = {};
       var raw;
       var baseLang;
-      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
       var i;
       fallbackLanguageList.push('');
       for (i = 0; i < fallbackLanguageList.length; i++) {
@@ -895,7 +895,7 @@
      */
     _constructPseudoBundle: function (lang) {
       var bundle = {};
-      var id = this.is === 'dom-bind-localizable' ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
       this._deepMap(bundle, bundles[''][id], function (value) {
         return typeof value === 'string' ? lang + ' ' + value : value;
       });
@@ -1012,7 +1012,7 @@
     _constructDefaultBundle: function () {
       var template;
       var id = this.is;
-      if (this.is === 'dom-bind-localizable') {
+      if (this.is === 'i18n-dom-bind') {
         template = this;
         id = this.id;
       }
@@ -1727,11 +1727,11 @@
      *
      * Notes: 
      *
-     * - For `dom-bind-localizable` elements, bundle construction is put off until `ready` lifecycle callback.
+     * - For `i18n-dom-bind` elements, bundle construction is put off until `ready` lifecycle callback.
      * - As called twice per custom element registration, the method skips bundle construction at the second call.
      */
     beforeRegister: function () {
-      if (this.is !== 'dom-bind-localizable') {
+      if (this.is !== 'i18n-dom-bind') {
         if (!this._templateLocalizable) {
           this._templateLocalizable = this._constructDefaultBundle();
         }
@@ -1761,7 +1761,7 @@
      * Lifecycle callback when the template children are ready.
      */
     ready: function () {
-      if (this.is === 'dom-bind-localizable') {
+      if (this.is === 'i18n-dom-bind') {
         if (!this._templateLocalizable) {
           this._templateLocalizable = this._constructDefaultBundle();
         }
@@ -1798,7 +1798,7 @@
     },
 
     /**
-     * Handle `dom-change` event for `dom-bind-localizable`
+     * Handle `dom-change` event for `i18n-dom-bind`
      */
     _onDomChange: function () {
       this.removeEventListener('dom-change', this._onDomChangeBindThis);
@@ -1820,15 +1820,15 @@
   };
 
   /**
-   * `<template is="dom-bind-localizable">` element extends `dom-bind` template element with `I18nBehavior`
+   * `<template is="i18n-dom-bind">` element extends `dom-bind` template element with `I18nBehavior`
    *
-   * @group Localiable Behavior
-   * @element dom-bind-localizable
+   * @group I18nBehavior
+   * @element i18n-dom-bind
    */
-  var domBindLocalizable = deepcopy(Object.getPrototypeOf(document.createElement('template', 'dom-bind')));
-  domBindLocalizable.is = 'dom-bind-localizable';
-  domBindLocalizable.behaviors = [ BehaviorsStore.I18nBehavior ];
+  var i18nDomBind = deepcopy(Object.getPrototypeOf(document.createElement('template', 'dom-bind')));
+  i18nDomBind.is = 'i18n-dom-bind';
+  i18nDomBind.behaviors = [ BehaviorsStore.I18nBehavior ];
   var _Polymer = Polymer;
-  _Polymer(domBindLocalizable);
+  _Polymer(i18nDomBind);
 })(document);
 </script>
