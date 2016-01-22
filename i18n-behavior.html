@@ -296,7 +296,7 @@
           },
           "google-chart-demo": {
             "simple-chart-desc": [
-              "template $1$ string", "param 1"
+              "template {1} string", "param 1"
             ]
             "model": {
               "simple-chart": {
@@ -955,8 +955,8 @@
      * ```
      *   <dom-module id="custom-element">
      *     <template>
-     *       <span id="input-label">UI Text Label:</span>
-     *       <input id="input-element"
+     *       <span id="label">UI Text Label:</span>
+     *       <input id="input-el"
      *              value="{{keyword}}"
      *              placeholder="Keyword">
      *     </template>
@@ -967,11 +967,11 @@
      * ```
      *   {
      *     "model" : {
-     *       "input-element": {
+     *       "input-el": {
      *         "placeholder": "Keyword"
      *       }
      *     },
-     *     "input-label": "UI Text Label:"
+     *     "label": "UI Text Label:"
      *   }
      * ```
      *
@@ -979,10 +979,10 @@
      * ```
      *   <dom-module id="custom-element">
      *     <template localizable-text="embedded">
-     *       <span id="input-label">{{text.input-label}}</span>
-     *       <input id="input-element"
-     *              value="{{keyword}}"
-     *              placeholder="{{model.input-element.placeholder}}">
+     *       <span id="label">{{text.label}}</span>
+     *       <input id="input-el"
+     *         value="{{keyword}}"
+     *         placeholder="{{model.input-el.placeholder}}">
      *     </template>
      *   </dom-module>
      * ```
@@ -991,18 +991,18 @@
      * ```
      *   <dom-module id="custom-element">
      *     <template localizable-text="embedded">
-     *       <span id="input-label">{{text.input-label}}</span>
-     *       <input id="input-element"
-     *              value="{{keyword}}"
-     *              placeholder="{{model.input-element.placeholder}}">
+     *       <span id="label">{{text.label}}</span>
+     *       <input id="input-el"
+     *         value="{{keyword}}"
+     *         placeholder="{{model.input-el.placeholder}}">
      *       <template id="localizable-text">
      *         <json-data>{
      *           "model" : {
-     *             "input-element": {
+     *             "input-el": {
      *               "placeholder": "Keyword"
      *             }
      *           },
-     *           "input-label": "UI Text Label:"
+     *           "label": "UI Text Label:"
      *         }</json-data>
      *       </template>
      *     </template>
@@ -1174,8 +1174,10 @@
      * #### Before processing
      *
      * ```
-     *   <p id="p">The <code>i18n-format</code> element is used for a sentence with 
-     *     <a href="https://www.google.com">parameters</a> like this.</p>
+     *   <p id="p"><code>i18n-format</code> is 
+     *     used for  
+     *     <a href="https://www.google.com">parameterized</a> 
+     *     sentences.</p>
      * ```
      *
      * #### After processing
@@ -1195,9 +1197,9 @@
      * ```
      *   {
      *     "p" : [
-     *       "The $1$ element is used for a sentence with $2$ like this.",
+     *       "{1} is\n used for\n {2}\n sentences.",
      *       "i18n-format",
-     *       "parameters"
+     *       "parameterized"
      *     ]
      *   }
      * ```
@@ -1215,73 +1217,82 @@
      * #### Before processing
      *
      * ```
-     *    <i18n-format id="sentence-with-plurals">
-     *      <json-data>{
-     *        "0": "You ($3$) gave no gifts.",
-     *        "1": {
-     *          "male": "You ($3$) gave him ($4$) $5$.",
-     *          "female": "You ($3$) gave her ($4$) $5$.",
-     *          "other": "You ($3$) gave them ($4$) $5$."
-     *        },
-     *        "one": {
-     *          "male": "You ($3$) gave him ($4$) and one other $5$.",
-     *          "female": "You ($3$) gave her ($4$) and one other $5$.",
-     *          "other": "You ($3$) gave them ($4$) and one other $5$."
-     *        },
-     *        "other": "You ($3$) gave them ($4$) and $1$ others gifts."
-     *      }</json-data>
-     *      <i18n-number 
-     *        offset="1"
-     *        >{{recipients.length}}</i18n-number>
-     *      <span>{{recipients.0.gender}}</span>
-     *      <span>{{sender.name}}</span>
-     *      <span>{{recipients.0.name}}</span>
-     *      <span>a gift</span>
-     *    </i18n-format>
+     * <i18n-format id="sentence">
+     *   <json-data>{
+     *     "0": "You ({3}) gave no gifts.",
+     *     "1": {
+     *       "male": "You ({3}) gave him ({4}) {5}.",
+     *       "female": "You ({3}) gave her ({4}) {5}.",
+     *       "other": "You ({3}) gave them ({4}) {5}."
+     *     },
+     *     "one": {
+     *       "male": 
+     *         "You ({3}) gave him ({4}) and one other {5}.",
+     *       "female": 
+     *         "You ({3}) gave her ({4}) and one other {5}.",
+     *       "other": 
+     *         "You ({3}) gave them ({4}) and one other {5}."
+     *     },
+     *     "other": 
+     *       "You ({3}) gave them ({4}) and {1} others gifts."
+     *   }</json-data>
+     *   <i18n-number 
+     *     offset="1"
+     *     >{{recipients.length}}</i18n-number>
+     *   <span>{{recipients.0.gender}}</span>
+     *   <span>{{sender.name}}</span>
+     *   <span>{{recipients.0.name}}</span>
+     *   <span>a gift</span>
+     * </i18n-format>
      * ```
      *
      * #### After processing
      *
      * ```
-     *    <i18n-format id="sentence-with-plurals" 
-     *                   lang="{{effectiveLang}}">
-     *      <json-data>{{text.sentence-with-plurals.0}}</json-data>
-     *      <i18n-number 
-     *        offset="1"
-     *        lang="{{effectiveLang}}"
-     *        >{{recipients.length}}</i18n-number>
-     *      <span>{{recipients.0.gender}}</span>
-     *      <span>{{sender.name}}</span>
-     *      <span>{{recipients.0.name}}</span>
-     *      <span>{{text.sentence-with-plurals.4}}</span>
-     *    </i18n-format>
+     * <i18n-format id="sentence" 
+     *              lang="{{effectiveLang}}">
+     *   <json-data>{{serialize(text.sentence.0)}}</json-data>
+     *   <i18n-number 
+     *     offset="1"
+     *     lang="{{effectiveLang}}"
+     *     >{{recipients.length}}</i18n-number>
+     *   <span>{{recipients.0.gender}}</span>
+     *   <span>{{sender.name}}</span>
+     *   <span>{{recipients.0.name}}</span>
+     *   <span>{{text.sentence.5}}</span>
+     * </i18n-format>
      * ```
      *
      * #### Constructed bundle data:
      *
      * ```
-     *   {
-     *     "sentence-with-plurals" : [
-     *       {
-     *         "0": "You ($3$) gave no gifts.",
-     *         "1": {
-     *           "male": "You ($3$) gave him ($4$) $5$.",
-     *           "female": "You ($3$) gave her ($4$) $5$.",
-     *           "other": "You ($3$) gave them ($4$) $5$."
-     *         },
-     *         "one": {
-     *           "male": "You ($3$) gave him ($4$) and one other $5$.",
-     *           "female": "You ($3$) gave her ($4$) and one other $5$.",
-     *           "other": "You ($3$) gave them ($4$) and one other $5$."
-     *         },
-     *         "other": "You ($3$) gave them ($4$) and $1$ others gifts."
+     * {
+     *   "sentence" : [
+     *     {
+     *       "0": "You ({3}) gave no gifts.",
+     *       "1": {
+     *         "male": "You ({3}) gave him ({4}) {5}.",
+     *         "female": "You ({3}) gave her ({4}) {5}.",
+     *         "other": "You ({3}) gave them ({4}) {5}."
      *       },
-     *       "{{recipients.length - 1}}",
-     *       "{{recipients.0.gender}}",
-     *       "{{recipients.0.name}}",
-     *       "a gift"
-     *     ]
-     *   }
+     *       "one": {
+     *         "male": 
+     *         "You ({3}) gave him ({4}) and one other {5}.",
+     *         "female": 
+     *         "You ({3}) gave her ({4}) and one other {5}.",
+     *         "other": 
+     *         "You ({3}) gave them ({4}) and one other {5}."
+     *       },
+     *       "other": 
+     *       "You ({3}) gave them ({4}) and {1} others gifts."
+     *     },
+     *     "{{recipients.length - 1}}",
+     *     "{{recipients.0.gender}}",
+     *     "{{sender.name}}",
+     *     "{{recipients.0.name}}",
+     *     "a gift"
+     *   ]
+     * }
      * ```
      *
      * @param {Object} node Target element node.
