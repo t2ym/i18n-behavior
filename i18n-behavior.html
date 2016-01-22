@@ -30,7 +30,7 @@
   // set up userPreference with two-way binding to html.lang
   if (!userPreference) {
     userPreference = document.createElement('iron-localstorage');
-    userPreference.name = 'i18n-behavior-preference';
+    userPreference.setAttribute('name', 'i18n-behavior-preference');
     userPreference.addEventListener('iron-localstorage-load-empty',
       function () {
         // preferred attribute in html to put higher priority
