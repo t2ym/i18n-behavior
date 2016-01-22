@@ -1,12 +1,11 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <!--
-`<localizable-attributes-repository>` maintains a list of attributes 
-targeted for UI localization.  It judges if a specific attribute of an element requires
-localization or not. 
+`<i18n-attr-repo>` maintains a list of attributes targeted for UI localization.  
+It judges whether a specific attribute of an element requires localization or not. 
 
     var attrRepository = 
-      document.createElement('localizable-attributes-repository');
+      document.createElement('i18n-attr-repo');
 
     attrRepository.registerLocalizableAttributes(
       'custom-element',
@@ -25,7 +24,7 @@ a singleton object dedicated for `BehaviorsStore.I18nBehavior`.
 ```
     // i18n-behavior.html
     var attrRepository = 
-      document.createElement('localizable-attributes-repository');
+      document.createElement('i18n-attr-repo');
 ```
 
 ### 2) Register localizable attributes of the newly registered elements from the `text-attr` attribute of the element's template.
@@ -128,11 +127,11 @@ For production builds, the build system can perform the same processes at build 
 Handle and judge JSON object attributes.
 
 @group Localiable Behavior
-@element localizable-attributes-repository
+@element i18n-attr-repo
 @hero hero.svg
 @demo demo/index.html
 -->
-<dom-module id="localizable-attributes-repository">
+<dom-module id="i18n-attr-repo">
   <template>
     <template id="standard">
       <!-- Standard HTML5 -->
@@ -152,7 +151,7 @@ Handle and judge JSON object attributes.
 </dom-module>
 <script>
   Polymer({
-    is: 'localizable-attributes-repository',
+    is: 'i18n-attr-repo',
 
     ready: function () {
       this.data = {};
@@ -236,7 +235,7 @@ Handle and judge JSON object attributes.
     },
 
     /**
-     * Traverse the template of `localizable-attributes-repository` in the ready() callback
+     * Traverse the template of `i18n-attr-repo` in the ready() callback
      * and construct the localizable attributes repository object. The method calls itself
      * recursively for traversal.
      *

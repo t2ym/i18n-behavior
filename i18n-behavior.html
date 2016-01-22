@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
 <link rel="import" href="../../bower_components/i18n-format/i18n-format.html">
-<link rel="import" href="localizable-attributes-repository.html">
+<link rel="import" href="i18n-attr-repo.html">
 <!-- TODO: convert to HTML import to avoid multiple deepcopy registration -->
 <script src="../../bower_components/deepcopy/deepcopy.min.js"></script>
 
@@ -25,7 +25,7 @@
 
   var userPreference = document.querySelector('iron-localstorage[name=i18n-behavior-preference]');
 
-  var attributesRepository = document.createElement('localizable-attributes-repository');
+  var attributesRepository = document.createElement('i18n-attr-repo');
 
   // set up userPreference with two-way binding to html.lang
   if (!userPreference) {
@@ -1075,7 +1075,7 @@
      * Traverse localizable attributes of the target element node and 
      * add them to the target bundle under the `model` object.
      * 
-     * The `<localizable-attributes-repository>` object is used 
+     * The `<i18n-attr-repo>` object is used 
      * to judge if the target attributes are localizable.
      *
      * @param {Object} node Target element node.
