@@ -190,8 +190,8 @@
        *
        * The value is synchronized with `<html lang>` attribute of the current page by default.
        *
-       * Note: The value may not reflect the current UI locale 
-       * until the localized texts are loaded.
+       * ### Note:
+       *  - The value may not reflect the current UI locale until the localized texts are loaded.
        */
       lang: {
         type: String,
@@ -411,7 +411,7 @@
      * 
      * Casual subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
      *
-     * #### Examples:
+     * ### Examples:
      *
      *| Target Locale | Fallback 1 | Fallback 2 |
      *|:--------------|:-----------|:-----------|
@@ -420,7 +420,7 @@
      *| fr-CA         | fr         | N/A        |
      *| zh-Hans-CN    | zh-Hans    | zh         |
      *
-     * #### TODOs:
+     * ### TODOs:
      *
      * - Support aliases.
      * - Normalize cases.
@@ -449,7 +449,7 @@
      * 
      * Casual subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
      *
-     * #### Examples:
+     * ### Examples:
      *
      *| Target Locale | Next Fallback |
      *|:--------------|:--------------|
@@ -458,7 +458,7 @@
      *| fr-CA         | fr            |
      *| zh-Hans-CN    | zh-Hans       |
      *
-     * #### TODOs:
+     * ### TODOs:
      *
      * - Support aliases.
      * - Normalize cases.
@@ -527,12 +527,12 @@
     /**
      * Trigger fetching of the appropriate text message bundle of the target locale.
      *
-     * #### Two Layers of Fallbacks:
+     * ### Two Layers of Fallbacks:
      *
      * 1. Missing bundles fall back to those of their fallback locales.
      * 1. Missing texts in the non-default bundles fall back to those in the default bundle. 
      *
-     * #### Fallback Examples:
+     * ### Fallback Examples:
      *
      *| Locale      | Bundle Status                    |
      *|:------------|:---------------------------------|
@@ -951,7 +951,7 @@
      *
      * Extract the default bundle from the template if it is embedded as JSON at build time.
      *
-     * #### Hard-coded UI text example:
+     * ### Hard-coded UI text example:
      * ```
      *   <dom-module id="custom-element">
      *     <template>
@@ -963,7 +963,7 @@
      *   </dom-module>
      * ```
      *
-     * #### Constructed default bundle for the above example:
+     * ### Constructed default bundle for the above example:
      * ```
      *   {
      *     "model" : {
@@ -975,7 +975,7 @@
      *   }
      * ```
      *
-     * #### Processed template with bound annotations for the above example:
+     * ### Processed template with bound annotations for the above example:
      * ```
      *   <dom-module id="custom-element">
      *     <template localizable-text="embedded">
@@ -987,7 +987,7 @@
      *   </dom-module>
      * ```
      *
-     * #### Embedded JSON bundle format for the above example:
+     * ### Embedded JSON bundle format for the above example:
      * ```
      *   <dom-module id="custom-element">
      *     <template localizable-text="embedded">
@@ -1171,7 +1171,7 @@
      * As the order of the parameters can change in different languages,
      * `<i18n-format>` element is used to make the sentence localizable.
      *
-     * #### Before processing
+     * ### Before processing
      *
      * ```
      *   <p id="p"><code>i18n-format</code> is 
@@ -1180,7 +1180,7 @@
      *     sentences.</p>
      * ```
      *
-     * #### After processing
+     * ### After processing
      *
      * ```
      *   <p id="p">
@@ -1192,7 +1192,7 @@
      *   </p>
      * ```
      *
-     * #### Constructed bundle data: Texts are stored in an Array of strings.
+     * ### Constructed bundle data: Texts are stored in an Array of strings.
      *
      * ```
      *   {
@@ -1214,7 +1214,7 @@
      * `lang="{{effectiveLang}}"` attribute is added to `<i18n-format>` node
      * as well as `<i18n-number>` node.
      *
-     * #### Before processing
+     * ### Before processing
      *
      * ```
      * <i18n-format id="sentence">
@@ -1246,7 +1246,7 @@
      * </i18n-format>
      * ```
      *
-     * #### After processing
+     * ### After processing
      *
      * ```
      * <i18n-format id="sentence" 
@@ -1263,7 +1263,7 @@
      * </i18n-format>
      * ```
      *
-     * #### Constructed bundle data:
+     * ### Constructed bundle data:
      *
      * ```
      * {
@@ -1662,7 +1662,9 @@
     /**
      * Generate a message ID from the specified path and id.
      * 
-     * TODO: shorten or optimize ids
+     * ### TODO: 
+     *
+     * - Shorten or optimize ids
      *
      * @param {Array} path List of ascestor elements of the current node in traversal.
      * @param {id} id Value of `id` or `text-id` attribute of the current node.
@@ -1695,7 +1697,9 @@
     /**
      * Merge `this.defaultText` into the target default bundle.
      * 
-     * TODO: Need more research on the effective usage of this feature.
+     * ### TODO: 
+     *
+     * - Need more research on the effective usage of this feature.
      *
      * @param {Object} bundle Default bundle.
      */
@@ -1710,7 +1714,7 @@
      *
      * Utility method for use in annotations.
      *
-     * Example Usage:
+     * ### Example Usage:
      * ```
      *   <input is="iron-input" class="flex"
      *     type="search" id="query" bind-value="{{query}}"
@@ -1736,7 +1740,7 @@
      *
      * The default bundle is constructed via traversal of the element's template at this timing per registration.
      *
-     * Notes: 
+     * ### Notes: 
      *
      * - For `i18n-dom-bind` elements, bundle construction is put off until `ready` lifecycle callback.
      * - As called twice per custom element registration, the method skips bundle construction at the second call.
