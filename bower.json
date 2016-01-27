@@ -4,7 +4,7 @@
   "authors": [
     "Tetsuya Mori <t2y3141592@gmail.com>"
   ],
-  "description": "",
+  "description": "Instant and Modular I18N for Polymer",
   "main": "i18n-behavior.html",
   "keywords": [
     "polymer",
@@ -14,9 +14,7 @@
     "internationalization",
     "l10n",
     "localization",
-    "format",
-    "pluralization",
-    "cldr"
+    "format"
   ],
   "license": "BSD-2-Clause",
   "homepage": "https://t2ym.github.io/i18n-behavior/",
