@@ -153,7 +153,7 @@ localized text strings are asynchronously fetched from JSON files under `locales
 
 ### Build-time Automatic I18N (for production)
 
-`gulp-*`(work in progress) task performs build-time automatic I18N and embeds UI texts as JSON.
+`gulp-*`(modularization in progress) filter performs build-time automatic I18N and embeds UI texts as JSON.
 
 I18N-ready Source Code preprocessed by `gulp-*`:
 
