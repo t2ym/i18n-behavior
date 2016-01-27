@@ -5,8 +5,8 @@ Instant and Modular I18N for Polymer (work in progress)
 ## Features
 
 - Instant I18N by one line addition of `I18nBehavior`
-  [Minimal or no overhead for development] Run-time automatic extraction of hard-coded UI text strings from HTML templates
-  [Optimal for production] Build-time automatic extraction and bundling of hard-coded UI text strings from HTML templates by `gulp-*` preprocessor (modularization in progress)
+- Minimal or no overhead for development: Run-time automatic extraction of hard-coded UI text strings from HTML templates
+- Optimal for production: Build-time automatic extraction and bundling of hard-coded UI text strings from HTML templates by `gulp-*` preprocessor (modularization in progress)
 - Modular (per element) JSON support for storing and fetching localized UI text strings
 - Bundled (per app) JSON support for storing and fetching localized UI text strings
 - Automatic application of [`<i18n-format>`](https://github.com/t2ym/i18n-format) for easier L10N of parameterized sentences
@@ -19,6 +19,7 @@ Instant and Modular I18N for Polymer (work in progress)
 - `i18n-attr-repo` to maintain repository of I18N target attributes
 - `gulp-**` filter (modularization in progress) to merge changes in the default language in HTML templates into localized JSON resources.
 - `gulp-**` filter to put meta infomation, that is, L10N "TO DO" list, for the merged changes in JSON resources
+- Option to define I18N target strings manually by `<json-data>` elements
 
 ## Install
 
