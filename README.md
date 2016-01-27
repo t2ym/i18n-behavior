@@ -80,7 +80,7 @@ If the containing element of the target text has `id` attribute, the string id i
 If not, the string id is automatically generated. It is recommended to put meaningful `id` to each string 
 for robustness. When attaching `id` attribute is too much for the containing element, `text-id` attribute can be used instead.
 
-```
+```html
     <span text-id="label">{{text.label}}</span>
 ```
 
@@ -108,7 +108,7 @@ according to the shared repository (`i18n-attr-repo`) of I18N target attributes 
 Optionally, any JSON data can be manually added to I18N target strings via `<json-data>` element.
 This option is effective for manual extraction of hard-coded UI text strings in JavaScript literals.
 
-```
+```html
   <dom-module id="my-element">
     <template>
       ... <!-- ordinary template for rendering -->
