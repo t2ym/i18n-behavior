@@ -2,6 +2,8 @@
 
 Instant and Modular I18N for Polymer (work in progress)
 
+[API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/)
+
 ## Features
 
 - Instant I18N by one line addition of `I18nBehavior`
