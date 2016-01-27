@@ -75,7 +75,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
   window.BehaviorsStore = window.BehaviorsStore || {};
   /**
-   * Use `BehaviorsStore.I18nBehavior` to implement localizable elements.
+   * Apply `BehaviorsStore.I18nBehavior` to implement localizable elements.
    *
    *     <dom-module id="custom-element">
    *       <template>
@@ -99,7 +99,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
    * By default, `lang` attribute values of all the localizable elements with `I18nBehavior` are
    * automatically updated according to `<html lang>` attribute value.
    *
-   * The UI text externalization can be processed at build time as well by `gulp-externalize` task
+   * The UI text externalization can be processed at build time as well by `gulp-*` task
    * so that `I18nBehavior` can immediately recognize the extracted texts in JSON and 
    * skip run-time externalization.
    *
@@ -111,7 +111,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
    * ### Steps to localize a custom element
    *
    * 1. [JavaScript] Add `BehaviorsStore.I18nBehavior` to `behaviors`
-   * 1. [gulp] Add `externalize` gulp task for `custom-element.html` and generate `custom-element.json`
+   * 1. [gulp] Add `gulp-*` filter for `custom-element.html` and generate `custom-element.json`
    * 1. [locales] Put `custom-element.lang.json` in `locales` directory
    * 1. [translation] Translate `locales/custom-element.lang.json`
    *
