@@ -9,9 +9,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <link rel="import" href="../../paper-menu/paper-menu.html">
 <link rel="import" href="../../paper-item/paper-item.html">
 <link rel="import" href="../../paper-styles/demo-pages.html">
-<link rel="import" href="../i18n-format.html">
+<link rel="import" href="../i18n-behavior.html">
 
-<dom-module id="i18n-format-demo">
+<dom-module id="i18n-behavior-demo">
   <template>
     <style>
     .text {
@@ -102,12 +102,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   </template>
   <script>
     Polymer({
-      is: 'i18n-format-demo',
+      is: 'i18n-behavior-demo',
+      behaviors: [
+        BehaviorsStore.I18nBehavior
+      ],
       properties: {
-        lang: {
-          type: String,
-          value: 'en'
-        },
         rawTemplate: {
           type: Object,
           value: function () {
