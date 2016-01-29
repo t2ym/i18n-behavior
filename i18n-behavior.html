@@ -756,6 +756,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         bundles[this._fetchStatus.ajaxLang] = bundles[this._fetchStatus.ajaxLang] || {};
         bundles[this._fetchStatus.ajaxLang].bundle = true;
         bundleFetchingInstances[this._fetchStatus.ajaxLang] = null;
+        // falls back to its element-specific bundle
+        this._fetchBundle(this._fetchStatus.ajaxLang);
         //console.log('bundle-fetched ' + this.is + ' ' + this._fetchStatus.ajaxLang);
         this.fire('bundle-fetched', { success: false, lang: this._fetchStatus.ajaxLang });
       }
