@@ -750,7 +750,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      * @param {Object} event `iron-ajax` error event.
      */
     _handleError: function (event) {
-      var nextFallbackLanguage = this._fetchStatus.fallbackLanguageList.shift();
+      var nextFallbackLanguage;
       this._fetchStatus.fetchingInstance = null;
       if (this._fetchStatus.ajax.url.indexOf('/' + localesPath + '/bundle.') >= 0) {
         bundles[this._fetchStatus.ajaxLang] = bundles[this._fetchStatus.ajaxLang] || {};
@@ -760,7 +760,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         this._fetchBundle(this._fetchStatus.ajaxLang);
         //console.log('bundle-fetched ' + this.is + ' ' + this._fetchStatus.ajaxLang);
         this.fire('bundle-fetched', { success: false, lang: this._fetchStatus.ajaxLang });
+        return;
       }
+      nextFallbackLanguage = this._fetchStatus.fallbackLanguageList.shift();
       if (this._fetchStatus.ajaxLang === this._fetchStatus.targetLang) {
         if (nextFallbackLanguage) {
           //console.log(this.is + ': ' + this._fetchStatus.ajaxLang +
