@@ -172,15 +172,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             </template>
             <﻿script>
               window.addEventListener('dom-change', function (e) {
-                if (Polymer.dom(e).localTarget === bind) {
-                  window.setInterval(function () {
-                    this.lang = this.lang !== 'ja' ? 'ja' : 'en';
-                  }.bind(bind), 1000);
-                  bind.langUpdated = function (e) {
-                    this.model = deepcopy(this.text.model);
-                  };
-                  bind.listen(bind, 'lang-updated', 'langUpdated');
-                }
+                window.setInterval(function () {
+                  this.lang = this.lang !== 'ja' ? 'ja' : 'en';
+                }.bind(bind), 1000);
+                bind.langUpdated = function (e) {
+                  this.model = deepcopy(this.text.model);
+                };
+                bind.listen(bind, 'lang-updated', 'langUpdated');
               });
             <﻿/script>
 
@@ -203,19 +201,17 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             (function () {
               var demoSnippet = document.querySelector('demo-snippet#i18n-dom-bind-demo');
               window.addEventListener('dom-change', function (e) {
-                if (Polymer.dom(e).localTarget === bind) {
-                  window.setInterval(function () {
-                    this.lang = this.lang !== 'ja' ? 'ja' : 'en';
-                    demoSnippet._markdown = demoSnippet._markdown.replace(/lang=\".*\"/, 'lang=\"' + this.lang + '\"');
-                  }.bind(bind), 1000);
-                  bind.langUpdated = function (e) {
-                    this.model = deepcopy(this.text.model);
-                  };
-                  bind.listen(bind, 'lang-updated', 'langUpdated');
-                  bind.serialize = function (obj) {
-                    return JSON.stringify(obj, null, 2);
-                  };
-                }
+                window.setInterval(function () {
+                  this.lang = this.lang !== 'ja' ? 'ja' : 'en';
+                  demoSnippet._markdown = demoSnippet._markdown.replace(/lang=\".*\"/, 'lang=\"' + this.lang + '\"');
+                }.bind(bind), 1000);
+                bind.langUpdated = function (e) {
+                  this.model = deepcopy(this.text.model);
+                };
+                bind.listen(bind, 'lang-updated', 'langUpdated');
+                bind.serialize = function (obj) {
+                  return JSON.stringify(obj, null, 2);
+                };
               });
             })();
           </script>
