@@ -24,7 +24,7 @@
     "bower_components"
   ],
   "dependencies": {
-    "polymer": "~1.2.3",
+    "polymer": "1.2.3",
     "i18n-format": "^0.1.2",
     "iron-ajax": "PolymerElements/iron-ajax#^1.1.1",
     "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.5",
