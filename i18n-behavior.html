@@ -498,7 +498,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      */
     _langChanged: function (lang, oldLang) {
       //console.log(this.id + ':_langChanged lang = ' + lang + ' oldLang = ' + oldLang);
-      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
+      var id = (this.is || this.getAttribute('is')) === 'i18n-dom-bind' ? this.id : this.is;
       lang = lang || ''; // undefined and null are treated as default ''
       oldLang = oldLang || '';
       if (lang !== oldLang &&
