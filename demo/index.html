@@ -171,8 +171,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               </ul>
             </template>
             <﻿script>
-              var onDomChange;
-              window.addEventListener('dom-change', onDomChange = function (e) {
+              window.addEventListener('dom-change', function onDomChange (e) {
                 if (e.target === window.bind) {
                   bind.observeHtmlLang = false;
                   window.setInterval(function () {
@@ -205,8 +204,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           <script>
             (function () {
               var demoSnippet = document.querySelector('demo-snippet#i18n-dom-bind-demo');
-              var onDomChange;
-              window.addEventListener('dom-change', onDomChange = function (e) {
+              window.addEventListener('dom-change', function onDomChange (e) {
                 if (e.target === window.bind) {
                   bind.observeHtmlLang = false;
                   window.setInterval(function () {
