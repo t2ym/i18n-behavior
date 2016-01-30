@@ -155,7 +155,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 <li><input id="input" placeholder="Placeholder Label"></li>
                 <li>lang = <span>{{lang}}</span> (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
                 <li><pre>text = <span>{{serialize(text)}}</span></pre></li>
-                <li id="fallback">This item and the previous one are missing in <i>ja</i> and falls back to English</li>
+                <li id="fallback">This item and the previous one are missing in <i>ja</i> and fall back to English</li>
               </ul>
             </template>
           </template>
@@ -167,18 +167,23 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 <li><input id="input" placeholder="Placeholder Label"></li>
                 <li>lang = <span>{{lang}}</span> (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
                 <li><pre>text = <span>{{serialize(text)}}</span></pre></li>
-                <li id="fallback">This item and the previous one are missing in <i>ja</i> and falls back to English</li>
+                <li id="fallback">This item and the previous one are missing in <i>ja</i> and fall back to English</li>
               </ul>
             </template>
             <﻿script>
-              window.addEventListener('dom-change', function (e) {
-                window.setInterval(function () {
-                  this.lang = this.lang !== 'ja' ? 'ja' : 'en';
-                }.bind(bind), 1000);
-                bind.langUpdated = function (e) {
-                  this.model = deepcopy(this.text.model);
-                };
-                bind.listen(bind, 'lang-updated', 'langUpdated');
+              var onDomChange;
+              window.addEventListener('dom-change', onDomChange = function (e) {
+                if (e.target === window.bind) {
+                  bind.observeHtmlLang = false;
+                  window.setInterval(function () {
+                    this.lang = this.lang !== 'ja' ? 'ja' : 'en';
+                  }.bind(bind), 1000);
+                  bind.langUpdated = function (e) {
+                    this.model = deepcopy(this.text.model);
+                  };
+                  bind.listen(bind, 'lang-updated', 'langUpdated');
+                  window.removeEventListener('dom-change', onDomChange);
+                }
               });
             <﻿/script>
 
@@ -200,18 +205,23 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           <script>
             (function () {
               var demoSnippet = document.querySelector('demo-snippet#i18n-dom-bind-demo');
-              window.addEventListener('dom-change', function (e) {
-                window.setInterval(function () {
-                  this.lang = this.lang !== 'ja' ? 'ja' : 'en';
-                  demoSnippet._markdown = demoSnippet._markdown.replace(/lang=\".*\"/, 'lang=\"' + this.lang + '\"');
-                }.bind(bind), 1000);
-                bind.langUpdated = function (e) {
-                  this.model = deepcopy(this.text.model);
-                };
-                bind.listen(bind, 'lang-updated', 'langUpdated');
-                bind.serialize = function (obj) {
-                  return JSON.stringify(obj, null, 2);
-                };
+              var onDomChange;
+              window.addEventListener('dom-change', onDomChange = function (e) {
+                if (e.target === window.bind) {
+                  bind.observeHtmlLang = false;
+                  window.setInterval(function () {
+                    this.lang = this.lang !== 'ja' ? 'ja' : 'en';
+                    demoSnippet._markdown = demoSnippet._markdown.replace(/lang=\".*\"/, 'lang=\"' + this.lang + '\"');
+                  }.bind(bind), 1000);
+                  bind.langUpdated = function (e) {
+                    this.model = deepcopy(this.text.model);
+                  };
+                  bind.listen(bind, 'lang-updated', 'langUpdated');
+                  bind.serialize = function (obj) {
+                    return JSON.stringify(obj, null, 2);
+                  };
+                  window.removeEventListener('dom-change', onDomChange);
+                }
               });
             })();
           </script>
