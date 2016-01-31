@@ -287,7 +287,7 @@ Handle and judge JSON object attributes.
           }
         }, this);
       }
-      if (node.childElementCount > 0) {
+      if (node.childNodes.length > 0) {
         for (var i = 0; i < node.childNodes.length; i++) {
           this._traverseTemplateTree(node.childNodes[i]);
         }
