@@ -13,7 +13,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../i18n-behavior.html">
-    <!-- <link rel="import" href="i18n-behavior-demo.html"> -->
+    <link rel="import" href="i18n-behavior-demo.html">
+    <!-- <link rel="import" href="my-list/my-list.html"> -->
     <style is="custom-style" include="demo-pages-shared-styles">
       .vertical-section-container {
         max-width: 768px;
@@ -145,6 +146,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
 
       <div class="vertical-section-container">
+
+        <h2><code>&lt;i18n-behavior-demo&gt;</code> Element</h2>
+        <demo-snippet id="demo-snippet" class="left-aligned-demo">
+          <template>
+            <i18n-behavior-demo id="i18n-behavior-demo"></i18n-behavior-demo>
+          </template>
+        </demo-snippet>
+
         <h2><code>i18n-dom-bind</code></h2>
         <demo-snippet id="i18n-dom-bind-demo" class="left-aligned-demo">
           <template>
@@ -224,57 +233,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             })();
           </script>
         </demo-snippet>
-<!--
-        <h2>Bound Text Values</h2>
-        <demo-snippet class="centered-demo">
-          <template>
-            <template is="dom-bind" id="demo">
-              <i18n-format>
-                <span>{{text.example.0}}</span>
-                <code>{{text.example.1}}</code>
-                <a href="https://www.google.com/">{{text.example.2}}</a>
-              </i18n-format>
-            </template>
-          </template>
-          <script type="text/markdown">
-            <i18n-format>
-              <span>{{text.example.0}}</span>
-              <code>{{text.example.1}}</code>
-              <a href="https://www.google.com/">{{text.example.2}}</a>
-            </i18n-format>
 
-            // In real cases, text values are dynamically loaded from JSON
-            text = {
-              "example": [
-                "A {1} element can represent a sentence with {2}.",
-                "i18n-format",
-                "localizable parameters"
-              ]
-            }
-          </script>
-          <script>
-            window.addEventListener('dom-change', function () {
-              /*
-              window.demo.text = {
-                example: [
-                  "A {1} element can represent a sentence with {2}.",
-                  "i18n-format",
-                  "localizable parameters"
-                ]
-              };
-              */
-            });
-          </script>
-        </demo-snippet>
-
-        <h2>Compound Template</h2>
-        <demo-snippet id="demo-snippet" class="left-aligned-demo" _markdown="{{markdown}}">
-          <template>
-            <i18n-behavior-demo id="i18n-behavior-demo"></i18n-behavior-demo>
-          </template>
-        </demo-snippet>
       </div>
--->
     </div>
     
     <script>
@@ -306,12 +266,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           demo._markdown = snippet;
         });
       });
-      /*
       var demoSnippet = document.querySelector('demo-snippet#demo-snippet');
       demoSnippet.addEventListener('markdown-changed', function (e) {
         demoSnippet._markdown = e.detail.markdown;
       });
-      */
     </script>
   </body>
 </html>

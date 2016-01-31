@@ -17,133 +17,78 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     .text {
       font-size: 18px;
     }
-    .input {
-      display: inline-block;
-      width: 160px;
-    }
-    .dropdown-menu {
-      display: inline-block;
-      width: 160px;
-    }
-    .rotate-button {
-      width: 160px;
-      margin: 8px;
-      display: inline-block;
-    }
-    .parameters-panel {
-      margin-top: 16px;
-      padding: 16px;
-      @apply(--shadow-elevation-2dp);              
-    }
-    .subhead {
-      margin: 8px 0 0 0;
-    }
-    .model {
+    .code {
       font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
     }
     </style>
 
-    <i18n-format id="text" class="text" lang="{{lang}}">
-      <json-data>{{template}}</json-data>
-      <i18n-number lang="{{lang}}" offset="{{offset}}">{{recipients.length}}</i18n-number>
-      <span>{{recipients.0.gender}}</span>
-      <span>{{sender.name}}</span>
-      <span>{{recipients.0.name}}</span>
-      <span>a gift</span>
-    </i18n-format>
+    <h2>Simple String</h2>
+    <span id="simple" class="text">UI Text String</span>
 
-    <div id="parameters" class="parameters-panel">
+    <h2>Simple Attribute</h2>
+    <input id="simple-input" placeholder="Placeholder String">
 
-      <paper-dropdown-menu id="lang"
-                          label="lang"
-                          class="dropdown-menu">
-        <paper-menu class="dropdown-content"
-                    selected="{{lang}}"
-                    attr-for-selected="name">
-          <template is="dom-repeat" items="{{langList}}">
-            <paper-item name="{{item.value}}">{{item.label}}</paper-item>
-          </template>
-        </paper-menu>
-      </paper-dropdown-menu>
+    <h2>Automatic Format</h2>
+    <p id="example-sentence" class="text">This <i>example sentence</i> with <b>some parameters or embedded tags</b> is automatically converted to <a class="code" href="https://github.com/t2ym/i18n-format">&lt;i18n-format&gt;</a> to translate it as a whole with any parameter order.</p>
 
-      <paper-input id="offset"
-            class="input"
-            type="number"
-            min="0"
-            max="3"
-            label="offset"
-            auto-validate
-            error-message="Expecting 0 to 3"
-            value="{{offset}}"></paper-input>
+    <h2>Compound Format with &lt;i18n-format&gt;</h2>
+    <p>
+      <i18n-format id="compound-format-text" class="text">
+        <json-data>{
+          "0": "You ({3}) gave no gifts.",
+          "1": {
+            "male": "You ({3}) gave him ({4}) {5}.",
+            "female": "You ({3}) gave her ({4}) {5}.",
+            "other": "You ({3}) gave them ({4}) {5}."
+          },
+          "one": {
+            "male": "You ({3}) gave him ({4}) and one other person {5}.",
+            "female": "You ({3}) gave her ({4}) and one other person {5}.",
+            "other": "You ({3}) gave them ({4}) and one other person {5}."
+          },
+          "other": "You ({3}) gave them ({4}) and {1} other people gifts."
+        }</json-data>
+        <i18n-number offset="1">{{recipients.length}}</i18n-number>
+        <span>{{recipients.0.gender}}</span>
+        <span>{{model.data.sender.name}}</span>
+        <span>{{recipients.0.name}}</span>
+        <span>a gift</span>
+      </i18n-format>
+    </p>
 
-      <paper-input id="length"
-            class="input"
-            type="number"
-            min="0"
-            max="3"
-            label="recipients.length"
-            auto-validate
-            error-message="Expecting 0 to 3"
-            value="{{recipientsLength}}"></paper-input>
+    <h2>Parameters</h2>
+    <pre class="code">lang = <span>{{effectiveLang}}</span> (<span>{{_getLangName(effectiveLang,text.langNames)}}</span>)</pre>
+    <pre class="code">sender = <span>{{_getStringifiedUser(model.data.sender)}}</span></pre>
+    <pre class="code">recipients = <span>{{_getStringifiedRecipients(recipients)}}</span></pre>
 
-      <paper-button id="rotate"
-            class="rotate-button"
-            raised
-            on-tap="_rotateRecipients">Rotate Recipients</paper-button>
-      <br>
-
-      <div>
-        <pre class="model">sender = {{_getStringifiedUser(sender)}}</pre>
-        <pre class="model">recipients = {{_getStringifiedRecipients(recipients)}}</pre>
-      <div>
-
-    </div>
+    <template>
+      <!-- manually define model data -->
+      <json-data id="data"
+        sender='{ "name": "Joe", "gender": "male" }'
+        recipients='[
+          { "name": "Alice", "gender": "female" },
+          { "name": "Bob", "gender": "male" },
+          { "name": "Yoda", "gender": "other" }
+        ]'
+      ></json-data>
+      <!-- define UI data -->
+      <json-data id="langNames">{
+        "en": "English",
+        "ja": "Japanese",
+        "fr": "French"
+      }</json-data>
+    </template>
 
   </template>
   <script>
     Polymer({
       is: 'i18n-behavior-demo',
+
       behaviors: [
         BehaviorsStore.I18nBehavior
       ],
+
       properties: {
-        rawTemplate: {
-          type: Object,
-          value: function () {
-            return {
-              '0': 'You ({3}) gave no gifts.',
-              '1': {
-                'male': 'You ({3}) gave him ({4}) {5}.',
-                'female': 'You ({3}) gave her ({4}) {5}.',
-                'other': 'You ({3}) gave them ({4}) {5}.'
-              },
-              'one': {
-                'male': 'You ({3}) gave him ({4}) and one other person {5}.',
-                'female': 'You ({3}) gave her ({4}) and one other person {5}.',
-                'other': 'You ({3}) gave them ({4}) and one other person {5}.'
-              },
-              'other': 'You ({3}) gave them ({4}) and {1} other people gifts.'
-            };
-          }
-        },
-        template: {
-          type: String,
-          computed: '_getTemplateJSON(rawTemplate)'
-        },
-        offset: {
-          type: Number,
-          value: 1
-        },
-        rawRecipients: {
-          type: Array,
-          value: function () {
-            return [
-              { name: 'Alice', gender: 'female' },
-              { name: 'Bob', gender: 'male' },
-              { name: 'Yoda', gender: 'other' }
-            ];
-          }
-        },
         recipientsLength: {
           type: Number,
           value: 2
@@ -152,29 +97,18 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           type: Number,
           value: 0
         },
-        recipients: {
-          type: Array
-        },
-        sender: {
-          type: Object,
-          value: function () {
-            return { name: 'Joe', gender: 'male' };
-          }
+        langIndex: {
+          type: Number,
+          value: 0
         },
         langList: {
           type: Array,
-          value: [
-            { value: '', label: '' },
-            { value: 'en', label: 'en (English (US))' },
-            { value: 'en-GB', label: 'en-GB (English (UK))' },
-            { value: 'de', label: 'de (German)' },
-            { value: 'es', label: 'es (Spanish)' },
-            { value: 'fr', label: 'fr (French)' },
-            { value: 'ja', label: 'ja (Japanese)' },
-            { value: 'zh-Hans', label: 'zh-Hans (Simplified Chinese)' },
-            { value: 'zh-Hant', label: 'zh-Hant (Traditional Chinese)' },
-            { value: 'ru', label: 'ru (Russian)' }
-          ]
+          value: function () {
+            return [ 'en', 'fr', 'ja' ];
+          }
+        },
+        recipients: {
+          type: Array
         },
         markdown: {
           type: String,
@@ -185,16 +119,25 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       },
 
       observers: [
-        '_update(lang,offset,recipientsLength,recipientsIndex)',
+        '_update(effectiveLang,recipientsLength,recipientsIndex,model.data.recipients)',
       ],
 
-      attached: function () {
-        this.isAttached = true;
-        this.markdown = this._getMarkDown();
+      listeners: {
+        'lang-updated': '_langUpdated'
       },
 
-      _update: function (lang, offset, recipientsLength, recipientsIndex) {
-        this.recipients = this._getRecipients(this.rawRecipients, recipientsLength, recipientsIndex);
+      attached: function () {
+        this.observeHtmlLang = false;
+        this.lang = 'fr';
+        this._updateParameters();
+      },
+
+      _langUpdated: function () {
+        this.model = deepcopy(this.text.model);
+      },
+
+      _update: function (lang, recipientsLength, recipientsIndex, rawRecipients) {
+        this.recipients = this._getRecipients(rawRecipients, recipientsLength, recipientsIndex);
         this.markdown = this._getMarkDown();
       },
 
@@ -221,27 +164,88 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       },
 
       _getMarkDown: function () {
-        var stringifiedRecipients = this._getStringifiedRecipients(this.rawRecipients,this.recipientsLength);
-        var markdown = this.isAttached ? '```\n\n' +
-          '<i18n-format' + 
-          (this.lang ? 
-          ' lang="' + this.lang + '"' : '' ) +
-          '>\n' + 
-          '  <json-data>' +
-          JSON.stringify(this.rawTemplate, null, 2).replace(/\n/g, '\n  ') +
-          '</json-data>\n' +
-          '  <i18n-number' + 
-          (this.lang ? 
-          ' lang="' + this.lang + '"' : '' ) +
-          ' offset="' + this.offset + '"' +
-          '>' + this.recipients.length + '</i18n-number><!-- {{recipients.length}} -->\n' +
-          '  <span>' + ( this.recipients[0] ? this.recipients[0].gender : '' ) + '</span><!-- {{recipients.0.gender}} -->\n' +
-          '  <span>' + this.sender.name + '</span><!-- {{sender.name}} -->\n' +
-          '  <span>' + ( this.recipients[0] ? this.recipients[0].name : '' ) + '</span><!-- {{recipients.0.name}} -->\n' +
-          '  <span>a gift</span>\n' +
-          '</i18n-format>\n' +
-          '\n```' : '';
-        return markdown;
+        var markdown =
+          '<dom-module id="i18n-behavior-demo">\n' +
+          '  <template>\n' +
+          '    <h2>Simple String</h2>\n' +
+          '    <span id="simple">UI Text String</span>\n' +
+          '\n' +
+          '    <h2>Simple Attribute</h2>\n' +
+          '    <input id="simple-input" placeholder="Placeholder String">\n' +
+          '\n' +
+          '    <h2>Automatic Format</h2>\n' +
+          '    <p id="example-sentence">This <i>example sentence</i> with \n' +
+          '      <b>some parameters or embedded tags</b> is automatically converted to \n' +
+          '      <a class="code" href="https://github.com/t2ym/i18n-format">&lt;i18n-format&gt;</a>\n' +
+          '      to translate it as a whole with any parameter order.\n' +
+          '    </p>\n' +
+          '\n' +
+          '    <h2>Compound Format with &lt;i18n-format&gt;</h2>\n' +
+          '    <p>\n' +
+          '      <i18n-format id="compound-format-text">\n' +
+          '        <json-data>{\n' +
+          '          "0": "You ({3}) gave no gifts.",\n' +
+          '          "1": {\n' +
+          '            "male": "You ({3}) gave him ({4}) {5}.",\n' +
+          '            "female": "You ({3}) gave her ({4}) {5}.",\n' +
+          '            "other": "You ({3}) gave them ({4}) {5}."\n' +
+          '          },\n' +
+          '          "one": {\n' +
+          '            "male": "You ({3}) gave him ({4}) and one other person {5}.",\n' +
+          '            "female": "You ({3}) gave her ({4}) and one other person {5}.",\n' +
+          '            "other": "You ({3}) gave them ({4}) and one other person {5}."\n' +
+          '          },\n' +
+          '          "other": "You ({3}) gave them ({4}) and {1} other people gifts."\n' +
+          '        }</json-data>\n' +
+          '        <i18n-number offset="1">{{recipients.length}}</i18n-number>\n' +
+          '        <span>{{recipients.0.gender}}</span>\n' +
+          '        <span>{{model.data.sender.name}}</span>\n' +
+          '        <span>{{recipients.0.name}}</span>\n' +
+          '        <span>a gift</span>\n' +
+          '      </i18n-format>\n' +
+          '    </p>\n' +
+          '    <h2>Parameters</h2>\n' +
+          '    <pre>lang = <span>{{effectiveLang}}</span> (<span>{{_getLangName(effectiveLang,text.langNames)}}</span>)</pre>\n' +
+          '    <pre>sender = <span>{{_getStringifiedUser(model.data.sender)}}</span></pre>\n' +
+          '    <pre>recipients = <span>{{_getStringifiedRecipients(recipients)}}</span></pre>\n' +
+          '\n' +
+          '    <template>\n' +
+          '      <json-data id="data"\n' +
+          '        sender=\'{ "name": "Joe", "gender": "male" }\'\n' +
+          '        recipients=\'[\n' +
+          '          { "name": "Alice", "gender": "female" },\n' +
+          '          { "name": "Bob", "gender": "male" },\n' +
+          '          { "name": "Yoda", "gender": "other" }\n' +
+          '        ]\'\n' +
+          '      ></json-data>\n' +
+          '      <json-data id="langNames">{\n' +
+          '        "en": "English",\n' +
+          '        "ja": "Japanese",\n' +
+          '        "fr": "French"\n' +
+          '      }</json-data>\n' +
+          '    </template>\n' +
+          '  </template>\n' +
+          '  <script>\n' +
+          '  Polymer({\n' +
+          '    is: \'i18n-behavior-demo\',\n' +
+          '    behaviors: [ \n' +
+          '      BehaviorsStore.I18nBehavior\n' +
+          '    ],\n' +
+          '    listeners: {\n' +
+          '      \'lang-updated\': \'_langUpdated\'\n' +
+          '    },\n' +
+          '    _langUpdated: function () {\n' +
+          '      this.model = deepcopy(this.text.model);\n' +
+          '    }\n' +
+          '  });\n' +
+          '  <' + '/script>\n' +
+          '</dom-module>\n';
+        return '```html\n\n' + 
+                markdown +
+                '```\n' +
+                '\n```\n' +
+                'text = ' + this._jsonStringify(this.text) +
+                '\n\n```';
       },
 
       _getRecipients: function (rawRecipients, recipientsLength, recipientsIndex) {
@@ -255,12 +259,24 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         return recipients;
       },
 
-      _getTemplateJSON: function (rawTemplate) {
-        return JSON.stringify(rawTemplate,null,2);
+      _jsonStringify: function (obj) {
+        return JSON.stringify(obj,null,2);
       },
 
-      _rotateRecipients: function () {
-        this.recipientsIndex = (this.recipientsIndex + 1) % this.rawRecipients.length;
+      _getLangName: function (lang, langNames) {
+        return langNames[lang];
+      },
+
+      _updateParameters: function () {
+        this.recipientsIndex = this.recipientsLength === 0 ? 0 : (this.recipientsIndex + 1) % this.model.data.recipients.length;
+        if (this.recipientsIndex === 0) {
+          this.recipientsLength = (this.recipientsLength + 1) % (this.model.data.recipients.length + 1);
+          if (this.recipientsLength === 0) {
+            this.langIndex = (this.langIndex + 1) % this.langList.length;
+            this.lang = this.langList[this.langIndex];
+          }
+        }
+        this.async(this._updateParameters, 1000);
       }
     });
   </script>
