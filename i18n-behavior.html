@@ -1028,6 +1028,18 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       if (this.is === 'i18n-dom-bind') {
         template = this;
         id = this.id;
+        if (template.content.childNodes.length === 0) {
+          // Find the real template in Internet Explorer 11 when i18n-dom-bind is concealed in a parent template
+          template = Array.prototype.map.call(document.querySelectorAll('template'), function (parentTemplate) {
+            return parentTemplate.content.querySelector('template#' + id + '[is="i18n-dom-bind"]');
+          }).reduce(function (prev, current) {
+            return prev || current;
+          });
+          // Patch this.content with the real one
+          if (template) {
+            this.content = template.content;
+          }
+        }
       }
       else {
         template = Polymer.DomModule.import(id, 'template');
