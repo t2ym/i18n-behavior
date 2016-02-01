@@ -1,62 +1,62 @@
 {
   "model": {
     "simple-input": {
-      "placeholder": "fr Placeholder String"
+      "placeholder": "texte d'espace réservé"
     },
     "data": {
       "sender": {
-        "name": "fr Joe",
+        "name": "Joseph",
         "gender": "male"
       },
       "recipients": [
         {
-          "name": "fr Alice",
+          "name": "Alis",
           "gender": "female"
         },
         {
-          "name": "fr Bob",
+          "name": "Robert",
           "gender": "male"
         },
         {
-          "name": "fr Yoda",
+          "name": "Yoda",
           "gender": "other"
         }
       ]
     }
   },
-  "h2_1": "fr Simple String",
-  "simple": "fr UI Text String",
-  "h2_3": "fr Simple Attribute",
-  "h2_5": "fr Automatic Format",
+  "h2_1": "Texte simple",
+  "simple": "UI texte",
+  "h2_3": "Attribut simple",
+  "h2_5": "Format automatique",
   "example-sentence": [
-    "fr This {1} with {2} is automatically converted to {3} to translate it as a whole with any parameter order.",
-    "fr example sentence",
-    "fr some parameters or embedded tags",
+    "Cette {1} avec {2} est automatiquement converti en {3} pour qu'il soit traduit dans son ensemble à un ordre de paramètre.",
+    "phrase d'exemple",
+    "des paramètres ou des balises embarquées",
     "<i18n-format>"
   ],
-  "h2_7": "fr Compound Format with <i18n-format>",
+  "h2_7": "Composé Format avec <i18n-format>",
   "compound-format-text": [
     {
-      "0": "fr You ({3}) gave no gifts.",
+      "0": "Vous ({3}) avez pas de cadeau.",
       "1": {
-        "male": "fr You ({3}) gave him ({4}) {5}.",
-        "female": "fr You ({3}) gave her ({4}) {5}.",
-        "other": "fr You ({3}) gave them ({4}) {5}."
+        "male": "Vous ({3}) lui a donné ({4}) {5}.",
+        "female": "Vous ({3}) lui avez donné ({4}) {5}.",
+        "other": "Vous ({3}) leur a donné ({4}) {5}."
       },
       "one": {
-        "male": "fr You ({3}) gave him ({4}) and one other person {5}.",
-        "female": "fr You ({3}) gave her ({4}) and one other person {5}.",
-        "other": "fr You ({3}) gave them ({4}) and one other person {5}."
+        "male": "Vous ({3}) lui a donné ({4}) et une autre personne {5}.",
+        "female": "Vous ({3}) lui avez donné ({4}) et une autre personne {5}.",
+        "other": "Vous ({3}) leur a donné ({4}) et une autre personne {5}."
       },
-      "other": "fr You ({3}) gave them ({4}) and {1} other people gifts."
+      "other": "Vous ({3}) leur a donné ({4}) et {1} autres cadeaux personnes."
     },
     "{{recipients.length - 1}}",
     "{{recipients.0.gender}}",
     "{{model.data.sender.name}}",
     "{{recipients.0.name}}",
-    "fr a gift"
+    "un cadeau"
   ],
-  "h2_9": "fr Parameters",
+  "h2_9": "Paramètres",
   "pre_10": [
     "lang = {1} ({2})",
     "{{effectiveLang}}",
@@ -71,8 +71,8 @@
     "{{_getStringifiedRecipients(recipients)}}"
   ],
   "langNames": {
-    "en": "fr English",
-    "ja": "fr Japanese",
-    "fr": "fr French"
+    "en": "anglais",
+    "ja": "japonais",
+    "fr": "français"
   }
 }

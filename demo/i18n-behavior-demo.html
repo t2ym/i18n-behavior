@@ -147,19 +147,20 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       _getStringifiedRecipients: function (recipients) {
         var result;
         if (recipients.length === 0) {
-          result = '[]';
+          result = '[]\n\n\n\n\n';
         }
         else {
           result = '[ \n' + 
             recipients.map(function (item) {
               return '  ' + this._getStringifiedUser(item);
             }.bind(this)).join(',\n') + '\n]';
+          result += '\n\n\n\n'.substr(recipients.length);
         }
         return result;
       },
 
       _getStringifiedUser: function (user) {
-        return JSON.stringify(user, null, 0).replace(/{/g, '{ ').replace(/:/g, ': ').replace(/,/g, ', ').replace(/}/g, ' }');
+        return user ? JSON.stringify(user, null, 0).replace(/{/g, '{ ').replace(/:/g, ': ').replace(/,/g, ', ').replace(/}/g, ' }') : '';
       },
 
       _getMarkDown: function () {
@@ -259,7 +260,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       },
 
       _jsonStringify: function (obj) {
-        return JSON.stringify(obj,null,2);
+        return obj ? JSON.stringify(obj,null,2) : '';
       },
 
       _getLangName: function (lang, langNames) {
@@ -267,12 +268,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       },
 
       _updateParameters: function () {
-        this.recipientsIndex = this.recipientsLength === 0 ? 0 : (this.recipientsIndex + 1) % this.model.data.recipients.length;
-        if (this.recipientsIndex === 0) {
-          this.recipientsLength = (this.recipientsLength + 1) % (this.model.data.recipients.length + 1);
-          if (this.recipientsLength === 0) {
-            this.langIndex = (this.langIndex + 1) % this.langList.length;
-            this.lang = this.langList[this.langIndex];
+        if (this.model &&
+            this.model.data &&
+            this.model.data.recipients) {
+          this.recipientsIndex = this.recipientsLength === 0 ? 0 : (this.recipientsIndex + 1) % this.model.data.recipients.length;
+          if (this.recipientsIndex === 0) {
+            this.recipientsLength = (this.recipientsLength + 1) % (this.model.data.recipients.length + 1);
+            if (this.recipientsLength === 0) {
+              this.langIndex = (this.langIndex + 1) % this.langList.length;
+              this.lang = this.langList[this.langIndex];
+            }
           }
         }
         this.async(this._updateParameters, 1000);

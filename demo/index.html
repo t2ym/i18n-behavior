@@ -13,8 +13,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../i18n-behavior.html">
-    <!-- <link rel="import" href="i18n-behavior-demo.html"> -->
-    <!-- <link rel="import" href="my-list/my-list.html"> -->
+    <link rel="import" href="i18n-behavior-demo.html">
     <style is="custom-style" include="demo-pages-shared-styles">
       .vertical-section-container {
         max-width: 768px;
@@ -66,6 +65,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       pre {
         font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
         color: black;
+      }
+
+      #input {
+        width: 200px;
       }
 
       .input {
@@ -147,14 +150,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
       <div class="vertical-section-container">
 
-<!--
         <h2><code>&lt;i18n-behavior-demo&gt;</code> Element</h2>
         <demo-snippet id="demo-snippet" class="left-aligned-demo">
           <template>
             <i18n-behavior-demo id="i18n-behavior-demo"></i18n-behavior-demo>
           </template>
         </demo-snippet>
--->
 
         <h2><code>i18n-dom-bind</code></h2>
         <demo-snippet id="i18n-dom-bind-demo" class="left-aligned-demo">
@@ -215,11 +216,17 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           <script>
             (function () {
               var demoSnippet = document.querySelector('demo-snippet#i18n-dom-bind-demo');
+              var langList = [ 'en', 'fr', 'ja' ];
+              var langIndex = 0;
               window.addEventListener('dom-change', function onDomChange (e) {
                 if (e.target === window.bind) {
                   bind.observeHtmlLang = false;
+                  bind.langList = [ 'en', 'fr', 'ja' ];
+                  bind.langIndex = 0;
+                  bind.lang = bind.langList[bind.langIndex];
                   window.setInterval(function () {
-                    this.lang = this.lang !== 'ja' ? 'ja' : 'en';
+                    this.langIndex = (this.langIndex + 1) % this.langList.length;
+                    this.lang = this.langList[this.langIndex];
                     demoSnippet._markdown = demoSnippet._markdown.replace(/lang=\".*\"/, 'lang=\"' + this.lang + '\"');
                   }.bind(bind), 1000);
                   bind.langUpdated = function (e) {
@@ -238,7 +245,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
       </div>
     </div>
-    
+
     <script>
       window.addEventListener('WebComponentsReady', function () {
         var demoSnippets = document.querySelectorAll('demo-snippet');
@@ -268,12 +275,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           demo._markdown = snippet;
         });
       });
-      /*
       var demoSnippet = document.querySelector('demo-snippet#demo-snippet');
       demoSnippet.addEventListener('markdown-changed', function (e) {
         demoSnippet._markdown = e.detail.markdown;
       });
-      */
     </script>
   </body>
 </html>
