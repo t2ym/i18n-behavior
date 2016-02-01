@@ -1513,7 +1513,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                     text: child.nodeType === child.TEXT_NODE ? 
                             child.textContent : null,
                     childTextNode: child.nodeType === child.ELEMENT_NODE &&
-                                   child.childNodes.length > 0 ? child.childNodes[0] : null
+                                   child.childNodes.length > 0
                   };
                 }).reduce(function (prev, current) {
                   if (current.text) {
@@ -1526,16 +1526,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                     this._traverseAttributes(current.node, path, bundle);
                     path.pop();
                     if (current.childTextNode) {
-                      var textContent = current.childTextNode.textContent;
+                      var textContent = current.node.textContent;
                       if (textContent.length === 0) {
                         // tag without textContent
                         prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                        current.childTextNode.textContent = '';
+                        current.node.textContent = '';
                       }
                       else if (textContent.match(/^\s*$/g)) {
                         // tag with whitespace textContent
                         prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                        current.childTextNode.textContent = ' ';
+                        current.node.textContent = ' ';
                       }
                       else if (textContent.match(/^{{.*}}$/) || textContent.match(/^\[\[.*\]\]$/)) {
                         // tag with annotation
@@ -1543,8 +1543,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                         // textContent is untouched
                       }
                       else {
-                        prev.text.push(current.childTextNode.textContent.trim());
-                        current.childTextNode.textContent = '{{text.' + messageId + '.' + n + '}}';
+                        prev.text.push(current.node.textContent.trim());
+                        current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
                       }
                     }
                     else {
