@@ -10,7 +10,7 @@ Instant and Modular I18N for Polymer (work in progress)
 
 - Instant I18N by one line addition of `I18nBehavior`
 - Minimal or no overhead for development: Run-time automatic extraction of hard-coded UI text strings from HTML templates
-- Optimal for production: Build-time automatic extraction and bundling of hard-coded UI text strings from HTML templates by `gulp-*` preprocessor (modularization in progress)
+- Optimal for production: Build-time automatic extraction and bundling of hard-coded UI text strings from HTML templates by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) preprocessor
 - Modular (per element) JSON support for storing and fetching localized UI text strings
 - Bundled (per app) JSON support for storing and fetching localized UI text strings
 - Automatic application of [`<i18n-format>`](https://github.com/t2ym/i18n-format) for easier L10N of parameterized sentences
@@ -20,9 +20,9 @@ Instant and Modular I18N for Polymer (work in progress)
 - Flexible fallback of missing UI text strings to parent locales and finally to the default locale (e.g. "fr-CA" -> "fr" -> "en")
 - `this.text` dynamic object shared among the same custom element to access localized strings
 - `this.model` object deepcopied from `this.text.model` object per instance to access localized attribute strings
-- `i18n-attr-repo` to maintain repository of I18N target attributes
-- `gulp-**` filter (modularization in progress) to merge changes in the default language in HTML templates into localized JSON resources.
-- `gulp-**` filter to put meta infomation, that is, L10N "TO DO" list, for the merged changes in JSON resources
+- [`i18n-attr-repo`](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/#i18n-attr-repo) to maintain repository of I18N target attributes
+- [`gulp-i18n-leverage`](https://github.com/t2ym/gulp-i18n-leverage) filter to merge changes in the default language in HTML templates into localized JSON resources.
+- [`gulp-i18n-leverage`](https://github.com/t2ym/gulp-i18n-leverage) filter to put meta infomation, that is, L10N "TO DO" list, for the merged changes in JSON resources
 - Option to define I18N target strings manually by `<json-data>` elements
 
 ## Install
@@ -157,9 +157,9 @@ localized text strings are asynchronously fetched from JSON files under `locales
 
 ### Build-time Automatic I18N (for production)
 
-`gulp-*`(modularization in progress) filter performs build-time automatic I18N and embeds UI texts as JSON.
+[`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter performs build-time automatic I18N and embeds UI texts as JSON.
 
-I18N-ready Source Code preprocessed by `gulp-*`:
+I18N-ready Source Code preprocessed by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess):
 
 ```html
     <dom-module id="custom-element">
@@ -179,13 +179,13 @@ without overheads of run-time traversal into the whole template.
 
 ## TODOs
 
-- Modularization of `gulp-*` preprocessor filter for automatic build-time I18N (currently working but not in github and npm repo)
-- Modularization of `gulp-**` resource merger filter for automatic L10N resource maintenance (currently working but not in github and npm repo)
+☑ (In progress) Modularization of [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) preprocessor filter for automatic build-time I18N
+☑ (In progress) Modularization of [`gulp-i18n-leverage`](https://github.com/t2ym/gulp-i18n-leverage) resource merger filter for automatic L10N resource maintenance
 - Modularization of `<i18n-preference>` element to maintain I18N preference
 - Normalization of locale names to support BCP-47 (currently case-sensitive)
 - Support of Polymer 1.2 compound annotations like `<span>{{label}}: {{name}}</span>` in automatic `<i18n-format>` application
 - Cleanup of verbose debug console logs
-- Expressive and impressive demos - A PoC app is currently available at [https://quew.net](https://quew.net) based on [Polymer Starter Kit](https://developers.google.com/web/tools/polymer-starter-kit/)
+☑ (In progress) Expressive and impressive demos - A PoC app is currently available at [https://quew.net](https://quew.net) based on [Polymer Starter Kit](https://developers.google.com/web/tools/polymer-starter-kit/)
 - Comprehensive tests with Web Component Tester
 
 ## License
