@@ -564,10 +564,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      * @param {string} lang Target locale.
      */
     _fetchLanguage: function (lang) {
-      this._fetchStatus.fallbackLanguageList = this._enumerateFallbackLanguages(lang);
-      this._fetchStatus.fallbackLanguageList.push('');
-      this._fetchStatus.targetLang = this._fetchStatus.fallbackLanguageList.shift();
-      this._fetchBundle(this._fetchStatus.targetLang);
+      if (this._fetchStatus) {
+        this._fetchStatus.fallbackLanguageList = this._enumerateFallbackLanguages(lang);
+        this._fetchStatus.fallbackLanguageList.push('');
+        this._fetchStatus.targetLang = this._fetchStatus.fallbackLanguageList.shift();
+        this._fetchBundle(this._fetchStatus.targetLang);
+      }
     },
 
     /**
