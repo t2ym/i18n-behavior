@@ -4,6 +4,8 @@ Instant and Modular I18N for Polymer (work in progress)
 
 [API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/) and [Demo](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/demo/) on GitHub Pages (https://t2ym.github.io/i18n-behavior)
 
+Project template available at [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-starter-kit-i18n). This is running on Github Pages (https://t2ym.github.io/polymer-starter-kit-i18n)
+
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/i18n-behavior.gif" width="768px">
 
 ## Features
