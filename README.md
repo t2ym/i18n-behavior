@@ -19,7 +19,7 @@ Project template available at [polymer-starter-kit-i18n](https://github.com/t2ym
 - `i18n-dom-bind` template instead of `dom-bind` for instant I18N of bound templates
 - Dynamic on-demand fetching of localized UI text strings from JSON under `locales` directories
 - Real-time observation of `<html lang>` attribute value for UI text localization
-- Flexible fallback of missing UI text strings to parent locales and finally to the default locale (e.g. "fr-CA" -> "fr" -> "en")
+- Robust fallback of missing UI text strings to parent locales and finally to the default locale (e.g. "fr-CA" -> "fr" -> "en") with practical [BCP47](https://tools.ietf.org/html/bcp47) support
 - `this.text` dynamic object shared among the same custom element to access localized strings
 - `this.model` object deepcopied from `this.text.model` object per instance to access localized attribute strings
 - [`i18n-attr-repo`](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/#i18n-attr-repo) to maintain repository of I18N target attributes
