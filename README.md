@@ -184,7 +184,6 @@ without overheads of run-time traversal into the whole template.
 - (In progress) Modularization of [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) preprocessor filter for automatic build-time I18N
 - (In progress) Modularization of [`gulp-i18n-leverage`](https://github.com/t2ym/gulp-i18n-leverage) resource merger filter for automatic L10N resource maintenance
 - Modularization of `<i18n-preference>` element to maintain I18N preference
-- Normalization of locale names to support BCP-47 (currently case-sensitive)
 - Support of Polymer 1.2 compound annotations like `<span>{{label}}: {{name}}</span>` in automatic `<i18n-format>` application
 - Cleanup of verbose debug console logs
 - (In progress) Expressive and impressive demos - A PoC app is currently available at [https://quew.net](https://quew.net) based on [Polymer Starter Kit](https://developers.google.com/web/tools/polymer-starter-kit/)
