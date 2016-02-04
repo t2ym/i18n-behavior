@@ -418,35 +418,136 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     /**
      * Enumerate fallback locales for the target locale.
      * 
-     * Casual subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
+     * Subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
      *
      * ### Examples:
      *
-     *| Target Locale | Fallback 1 | Fallback 2 |
-     *|:--------------|:-----------|:-----------|
-     *| ru            | N/A        | N/A        |
-     *| en-GB         | en         | N/A        |
-     *| fr-CA         | fr         | N/A        |
-     *| zh-Hans-CN    | zh-Hans    | zh         |
+     *| Target Locale | Fallback 1 | Fallback 2 | Fallback 3 |
+     *|:--------------|:-----------|:-----------|:-----------|
+     *| ru            | N/A        | N/A        | N/A        |
+     *| en-GB         | en         | N/A        | N/A        |
+     *| en-Latn-GB    | en-GB      | en-Latn    | en         |
+     *| fr-CA         | fr         | N/A        | N/A        |
+     *| zh-Hans-CN    | zh-Hans    | zh         | N/A        |
+     *| zh-CN         | zh-Hans    | zh         | N/A        |
+     *| zh-TW         | zh-Hant    | zh         | N/A        |
      *
-     * ### TODOs:
+     * #### Note:
      *
-     * - Support aliases.
-     * - Normalize cases.
-     * 
+     * For zh language, the script Hans or Hant is supplied as its default script when a country/region code is supplied.
+     *
      * @param {string} lang Target locale.
      * @return {Array} List of fallback locales including the target locale at the index 0.
      */
     _enumerateFallbackLanguages: function (lang) {
       var result = [];
       var parts;
+      var match;
+      var isExtLangCode = 0;
+      var extLangCode;
+      var isScriptCode = 0;
+      var scriptCode;
+      var isCountryCode = 0;
+      var countryCode;
+      var n;
       if (!lang || lang.length === 0) {
         result.push('');
       }
       else {
         parts = lang.split(/[-_]/);
+        // normalize ISO-639-1 language codes
+        if (parts.length > 0 &&
+            parts[0].match(/^[A-Za-z]{2,3}$/)) {
+          // language codes have to be lowercased
+          // e.g. JA -> ja, FR -> fr
+          // TODO: normalize 3-letter codes to 2-letter codes
+          parts[0] = parts[0].toLowerCase();
+        }
+        // normalize ISO-639-3 extension language codes
+        if (parts.length >= 2 &&
+            parts[1].match(/^[A-Za-z]{3}$/) &&
+            !parts[1].match(/^[Cc][Hh][SsTt]$/)) { // exclude CHS,CHT
+          // extension language codes have to be lowercased
+          // e.g. YUE -> yue
+          isExtLangCode = 1;
+          extLangCode = parts[1] = parts[1].toLowerCase();
+        }
+        // normalize ISO-15924 script codes
+        if (parts.length >= isExtLangCode + 2 &&
+            (match = parts[isExtLangCode + 1].match(/^([A-Za-z])([A-Za-z]{3})$/))) {
+          // script codes have to be capitalized only at the first character
+          // e.g. HANs -> Hans, lAtN -> Latn
+          isScriptCode = 1;
+          scriptCode = parts[isExtLangCode + 1] = match[1].toUpperCase() + match[2].toLowerCase();
+        }
+        // normalize ISO-3166-1 country/region codes
+        if (parts.length >= isExtLangCode + isScriptCode + 2 &&
+            (match = parts[isExtLangCode + isScriptCode + 1].match(/^[A-Za-z0-9]{2,3}$/))) {
+          // country/region codes have to be capitalized
+          // e.g. cn -> CN, jP -> JP
+          isCountryCode = 1;
+          countryCode = parts[isExtLangCode + isScriptCode + 1] = match[0].toUpperCase();
+        }
+        // extensions have to be in lowercases
+        // e.g. U-cA-Buddhist -> u-ca-buddhist, X-LiNux -> x-linux
+        if (parts.length >= isExtLangCode + isScriptCode + isCountryCode + 2) {
+          for (n = isExtLangCode + isScriptCode + isCountryCode + 1; n < parts.length; n++) {
+            parts[n] = parts[n].toLowerCase();
+          }
+        }
+        // enumerate fallback languages
         while (parts.length > 0) {
+          // normalize delimiters as -
+          // e.g. ja_JP -> ja-JP
           result.push(parts.join('-'));
+          if (isScriptCode &&
+              isCountryCode &&
+              parts.length == isExtLangCode + isScriptCode + 2) {
+            // script code can be omitted to default
+            // e.g. en-Latn-GB -> en-GB, zh-Hans-CN -> zh-CN
+            parts.splice(isExtLangCode + isScriptCode, 1);
+            result.push(parts.join('-'));
+            parts.splice(isExtLangCode + isScriptCode, 0, scriptCode);
+          }
+          if (isExtLangCode &&
+              isCountryCode &&
+              parts.length == isExtLangCode + isScriptCode + 2) {
+            // ext lang code can be omitted to default
+            // e.g. zh-yue-Hans-CN -> zh-Hans-CN
+            parts.splice(isExtLangCode, 1);
+            result.push(parts.join('-'));
+            parts.splice(isExtLangCode, 0, extLangCode);
+          }
+          if (isExtLangCode &&
+              isScriptCode &&
+              parts.length == isExtLangCode + isScriptCode + 1) {
+            // ext lang code can be omitted to default
+            // e.g. zh-yue-Hans -> zh-Hans
+            parts.splice(isExtLangCode, 1);
+            result.push(parts.join('-'));
+            parts.splice(isExtLangCode, 0, extLangCode);
+          }
+          if (!isScriptCode &&
+              !isExtLangCode &&
+              isCountryCode &&
+              parts.length == 2) {
+            // default script code can be added in certain cases with country codes
+            // e.g. zh-CN -> zh-Hans-CN, zh-TW -> zh-Hant-TW
+            switch (result[result.length - 1]) {
+            case 'zh-CN':
+            case 'zh-CHS':
+              result.push('zh-Hans');
+              break;
+            case 'zh-TW':
+            case 'zh-SG':
+            case 'zh-HK':
+            case 'zh-CHT':
+              result.push('zh-Hant');
+              break;
+            default:
+              break;
+            }
+          }
           parts.pop();
         }
       }
@@ -456,7 +557,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     /**
      * Get the next fallback locale for the target locale.
      * 
-     * Casual subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
+     * Subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
      *
      * ### Examples:
      *
@@ -467,24 +568,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      *| fr-CA         | fr            |
      *| zh-Hans-CN    | zh-Hans       |
      *
-     * ### TODOs:
-     *
-     * - Support aliases.
-     * - Normalize cases.
-     * 
      * @param {string} lang Target locale.
      * @return {string} Next fallback locale. `null` if there are no fallback languages.
      */
     _getNextFallbackLanguage: function (lang) {
-      var nextFallbackLanguage = null;
-      if (lang && lang.length > 0) {
-        var parts = lang.split(/[-_]/);
-        if (parts.length >= 2) {
-          parts.pop();
-          nextFallbackLanguage = parts.join('-');
-        }
-      }
-      return nextFallbackLanguage;
+      var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
+      fallbackLanguageList.shift();
+      var nextFallbackLanguage = fallbackLanguageList.shift();
+      return nextFallbackLanguage ? nextFallbackLanguage : null;
     },
 
     /**
