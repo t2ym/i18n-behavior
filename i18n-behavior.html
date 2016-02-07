@@ -1000,26 +1000,34 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         case 'string':
         case 'number':
         case 'boolean':
-          target[prop] = map(value, prop);
+          if (typeof target === 'object') {
+            target[prop] = map(value, prop);
+          }
           break;
         case 'object':
-          if (Array.isArray(value)) {
-            // TODO: cannot handle deep objects properly
-            target[prop] = target[prop] || [];
-            this._deepMap(target[prop], value, map);
-          }
-          else {
-            target[prop] = target[prop] || {};
-            this._deepMap(target[prop], value, map);
+          if (typeof target === 'object') {
+            if (Array.isArray(value)) {
+              // TODO: cannot handle deep objects properly
+              target[prop] = target[prop] || [];
+              this._deepMap(target[prop], value, map);
+            }
+            else {
+              target[prop] = target[prop] || {};
+              this._deepMap(target[prop], value, map);
+            }
           }
           break;
         case 'function':
         case 'symbol':
         case 'undefined':
-          target[prop] = value;
+          if (typeof target === 'object') {
+            target[prop] = value;
+          }
           break;
         default:
-          target[prop] = value;
+          if (typeof target === 'object') {
+            target[prop] = value;
+          }
           break;
         }
       }
