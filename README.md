@@ -181,9 +181,7 @@ without overheads of run-time traversal into the whole template.
 
 ## TODOs
 
-- Modularization of `<i18n-preference>` element to maintain I18N preference
 - Support of Polymer 1.2 compound annotations like `<span>{{label}}: {{name}}</span>` in automatic `<i18n-format>` application
-- Cleanup of verbose debug console logs
 - Comprehensive tests with Web Component Tester
 
 ## License
