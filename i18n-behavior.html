@@ -5,8 +5,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="patch-polymer-1.2.4-bindingRegex.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="../iron-localstorage/iron-localstorage.html">
 <link rel="import" href="../i18n-format/i18n-format.html">
+<link rel="import" href="i18n-preference.html">
 <link rel="import" href="i18n-attr-repo.html">
 <!-- TODO: convert to HTML import to avoid multiple deepcopy registration -->
 <script src="../deepcopy/deepcopy.min.js"></script>
@@ -28,50 +28,24 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   var localesPath = html.hasAttribute('locales-path') ? 
                       html.getAttribute('locales-path') : 'locales';
 
-  var userPreference = document.querySelector('iron-localstorage[name=i18n-behavior-preference]');
-
   var attributesRepository = document.createElement('i18n-attr-repo');
 
-  // set up userPreference with two-way binding to html.lang
-  if (!userPreference) {
-    userPreference = document.createElement('iron-localstorage');
-    userPreference.setAttribute('name', 'i18n-behavior-preference');
-    userPreference.addEventListener('iron-localstorage-load-empty',
-      function () {
-        // preferred attribute in html to put higher priority
-        // in the default html language than navigator.language
-        userPreference.value = html.hasAttribute('preferred') ? defaultLang : navigator.language;
-      });
+  // set up userPreference
+  var userPreference;
+  window.addEventListener('WebComponentsReady', function () {
+    userPreference = document.querySelector('i18n-preference');
+    if (!userPreference) {
+      userPreference = document.createElement('i18n-preference');
+      // append to body
+      document.querySelector('body').appendChild(userPreference);
+    }
+  });
 
-    // append to body
-    document.querySelector('body').appendChild(userPreference);
-
-    // set html lang as userPreference
-    userPreference.addEventListener('value-changed',
-      function () {
-        if (html.getAttribute('lang') !== userPreference.value) {
-          html.setAttribute('lang', userPreference.value);
-        }
-      });
-
-    // observe html lang mutations
-    var htmlLangMutationObserver =
-          new MutationObserver(function (mutations) {
-            mutations.forEach(function(mutation) {
-              switch (mutation.type) {
-              case 'attributes':
-                if (mutation.attributeName === 'lang') {
-                  if (userPreference.value !== html.getAttribute('lang')) {
-                    userPreference.value = html.getAttribute('lang');
-                  }
-                }
-                break;
-              default:
-                break;
-              }
-            });
-          });
-    htmlLangMutationObserver.observe(html, { attributes: true });
+  // debug log when <html debug> attribute exists
+  function debuglog (arg) {
+    if (html.hasAttribute('debug')) {
+      console.log(arg);
+    }
   }
 
   window.BehaviorsStore = window.BehaviorsStore || {};
@@ -169,7 +143,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
    * ### TODOs
    *
    * - Support compound bindings since Polymer 1.2
-   * - Normalize locale strings and eliminate case sensitivity
    * - Support user locale preference per user
    *
    * @polymerBehavior BehaviorsStore.I18nBehavior
@@ -1511,7 +1484,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             }
             return value;
           }, this);
-          console.log(messageId + ' = ' + text);
+          debuglog(messageId + ' = ' + text);
           this._setBundleValue(bundle, messageId, text);
           break;
         case 'template':
@@ -1557,7 +1530,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   //node.id = messageId;
                   //console.warn('add missing node id as ' + messageId + ' for ' + text);
                 }
-                console.log(messageId + ' = ' + text);
+                debuglog(messageId + ' = ' + text);
               }
             }
             else {
@@ -1681,7 +1654,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 //node.id = messageId;
                 //console.warn('add missing node id as ' + messageId + ' for ' + templateTextParams.text[0]);
               }
-              console.log(messageId + ' = ' + templateTextParams.text);
+              debuglog(messageId + ' = ' + templateTextParams.text);
             }
             else {
               // traverse childNodes
@@ -1728,7 +1701,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             //span.id = messageId;
             //console.warn('add missing span with id as ' + messageId + ' for ' + text);
           }
-          console.log(messageId + ' = ' + text);
+          debuglog(messageId + ' = ' + text);
         }
         break;
       case node.DOCUMENT_NODE:
