@@ -181,7 +181,7 @@ without overheads of run-time traversal into the whole template.
 
 ## TODOs
 
-- Support of Polymer 1.2 compound annotations like `<span>{{label}}: {{name}}</span>` in automatic `<i18n-format>` application
+- (In Progress) Support of Polymer 1.2 compound annotations like `<span>{{label}}: {{name}}</span>` in automatic `<i18n-format>` application
 - Comprehensive tests with Web Component Tester
 
 ## License
