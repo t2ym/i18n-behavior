@@ -1525,7 +1525,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 // generate message id
                 messageId = this._generateMessageId(path, id);
                 // store the text message
-                text = text.trim();
+                text = text.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
                 if (name === 'json-data') {
                   this._setBundleValue(bundle, messageId, JSON.parse(text));
                 }
@@ -1629,7 +1629,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                         // textContent is untouched
                       }
                       else {
-                        prev.text.push(current.node.textContent.trim());
+                        prev.text.push(current.node.textContent.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' '));
                         current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
                       }
                     }
@@ -1653,7 +1653,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 }
               );
               // store the text message
-              templateTextParams.text[0] = templateTextParams.text[0].trim();
+              templateTextParams.text[0] = templateTextParams.text[0].replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
               this._setBundleValue(bundle, messageId, templateTextParams.text);
               // insert i18n-format
               node.innerHTML = '';
@@ -1701,7 +1701,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           // generate message id
           messageId = this._generateMessageId(path, id);
           // store the text message
-          text = text.trim();
+          text = text.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
           this._setBundleValue(bundle, messageId, text);
           // replace textContent with annotation
           span.textContent = '{{text.' + messageId + '}}';
