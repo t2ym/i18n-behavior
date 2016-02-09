@@ -15,7 +15,8 @@ Template Project: [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-sta
 - Optimal for production: Build-time automatic extraction and bundling of hard-coded UI text strings from HTML templates by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) preprocessor
 - Modular (per element) JSON support for storing and fetching localized UI text strings
 - Bundled (per app) JSON support for storing and fetching localized UI text strings
-- Automatic application of [`<i18n-format>`](https://github.com/t2ym/i18n-format) for easier L10N of parameterized sentences
+- Automatic application of [`<i18n-format>`](https://github.com/t2ym/i18n-format) with [Unicode CLDR plural rules](http://cldr.unicode.org/index/cldr-spec/plural-rules) and Gender support
+- [Polymer 1.2.0](https://www.polymer-project.org/1.0/docs/release-notes.html#release-120httpsgithubcompolymerpolymertreev120-2015-10-22)'s [Compound Bindings](https://www.polymer-project.org/1.0/docs/devguide/data-binding.html#compound-bindings) support with [`<i18n-format>`](https://github.com/t2ym/i18n-format)
 - `i18n-dom-bind` template instead of `dom-bind` for instant I18N of bound templates
 - Dynamic on-demand fetching of localized UI text strings from JSON under `locales` directories
 - Real-time observation of `<html lang>` attribute value for UI text localization
@@ -183,7 +184,6 @@ without overheads of run-time traversal into the whole template.
 
 ## TODOs
 
-- (In Progress) Support of Polymer 1.2 compound annotations like `<span>{{label}}: {{name}}</span>` in automatic `<i18n-format>` application
 - Comprehensive tests with Web Component Tester
 
 ## Quick Tour
