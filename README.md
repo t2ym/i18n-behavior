@@ -188,7 +188,7 @@ without overheads of run-time traversal into the whole template.
 
 ## Quick Tour
 
-### Quick demo deployment
+### Quick demo project deployment
 
 ```
     git clone https://github.com/t2ym/polymer-starter-kit-i18n.git
