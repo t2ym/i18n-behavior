@@ -1403,6 +1403,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       var i;
       var whiteSpaceElements = 0;
       var isWhiteSpace = false;
+      var isCompoundAnnotatedNode = false;
       var text;
       var span;
       var name = node.nodeName.toLowerCase();
@@ -1410,6 +1411,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                  (node.getAttribute('text-id') || 
                   node.getAttribute('id')) : null;
       var messageId;
+      var n;
+      var templateText;
+      var templateTextParams;
       path.push(id ? '#' + id : name + (index > 0 ? '_' + index : ''));
       //console.log(path.join(':'));
       switch (node.nodeType) {
@@ -1510,13 +1514,20 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }
           // pick up element attributes
           this._traverseAttributes(node, path, bundle);
+          // check annonated node
+          isCompoundAnnotatedNode = false;
           if (node.childElementCount === 0) {
+            if (node.textContent) {
+              isCompoundAnnotatedNode = this._isCompoundAnnotatedText(node.textContent);
+            }
+          }
+          if (node.childElementCount === 0 && !isCompoundAnnotatedNode) {
             if (node.textContent) { // use textContent for Firefox compatibility
               text = node.textContent;
               if (text.length === 0 || text.match(/^\s*$/g)) {
                 // skip empty or whitespace node
               }
-              else if (text.trim().match(/^{{[^{}]*}}$/) || text.trim().match(/^\[\[[^\[\]]*\]\]$/)) {
+              else if (text.trim().match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/)) {
                 // skip annotation node
                 // TODO: compound bindings support
               }
@@ -1546,7 +1557,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             }
           } 
           else {
-            // has children
+            // has children or compound annotation
             // check if i18n-format is applicable
             var childStatus = Array.prototype.map.call(
               node.childNodes, function (child) {
@@ -1554,8 +1565,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   hasText: child.nodeType === child.TEXT_NODE && 
                            child.textContent.length > 0 && 
                            !child.textContent.match(/^\s*$/g), 
+                  hasCompoundAnnotatedText: child.nodeType === child.TEXT_NODE &&
+                                            this._isCompoundAnnotatedText(child.textContent),
                   hasTextChild: child.nodeType === child.ELEMENT_NODE &&
                                 child.childElementCount === 0, // including <br>
+                  hasCompoundAnnotatedChildNode: child.nodeType === child.ELEMENT_NODE &&
+                                                 child.childElementCount === 0 &&
+                                                 this._isCompoundAnnotatedText(child.textContent),
                   hasGrandChildren: child.nodeType === child.ELEMENT_NODE &&
                                     Array.prototype.map.call(
                                       child.childNodes, 
@@ -1566,20 +1582,25 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                                       return prev || current;
                                     }, false)
                 };
-              }).reduce(function (prev, current) { 
+              }.bind(this)).reduce(function (prev, current) { 
                 return {
                   hasText: prev.hasText || current.hasText,
+                  hasCompoundAnnotatedText: prev.hasCompoundAnnotatedText || current.hasCompoundAnnotatedText,
                   hasTextChild: prev.hasTextChild || current.hasTextChild,
+                  hasCompoundAnnotatedChildNode: prev.hasCompoundAnnotatedChildNode || current.hasCompoundAnnotatedChildNode,
                   hasGrandChildren: prev.hasGrandChildren || current.hasGrandChildren
                 };
               }, { 
                 hasText: false, 
+                hasCompoundAnnotatedText: false,
                 hasTextChild: false,
+                hasCompoundAnnotatedChildNode: false,
                 hasGrandChildren: false
               });
-            if ((childStatus.hasText || node.hasAttribute('text-id')) && 
-                childStatus.hasTextChild && 
-                !childStatus.hasGrandChildren) {
+            if ((childStatus.hasText || node.hasAttribute('text-id')) &&
+                (childStatus.hasTextChild || childStatus.hasCompoundAnnotatedText) && 
+                !childStatus.hasGrandChildren &&
+                !childStatus.hasCompoundAnnotatedChildNode) {
               // apply i18n-format
               /*
                     <i18n-format>
@@ -1589,59 +1610,79 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                       <a param="3" href="link2">{{text.simpleChartDesc.3}}</a>
                     </i18n-format>
               */
-              var n = 0;
+              n = 0;
               messageId = this._generateMessageId(path, id);
-              var templateTextParams = Array.prototype.map.call(
+              templateTextParams = Array.prototype.map.call(
                 node.childNodes, function (child) {
-                  return {
-                    node: child,
-                    type: child.nodeType,
-                    text: child.nodeType === child.TEXT_NODE ? 
-                            child.textContent : null,
-                    childTextNode: child.nodeType === child.ELEMENT_NODE &&
-                                   child.childNodes.length > 0
-                  };
-                }).reduce(function (prev, current) {
-                  if (current.text) {
-                    prev.text[0] += current.text;
+                  if (child.nodeType === child.TEXT_NODE &&
+                      this._hasAnnotatedText(child.textContent)) {
+                    return this._compoundAnnotationToSpan(child)
+                      .map(function (_child) {
+                        return {
+                          node: _child,
+                          type: _child.nodeType,
+                          text: _child.nodeType === _child.TEXT_NODE ? 
+                                  _child.textContent : null,
+                          childTextNode: _child.nodeType === _child.ELEMENT_NODE &&
+                                         _child.childNodes.length > 0
+                        };
+                      });
                   }
-                  if (current.type === current.node.ELEMENT_NODE) {
-                    n++;
-                    prev.text[0] += '{' + n + '}';
-                    path.push(n);
-                    this._traverseAttributes(current.node, path, bundle);
-                    path.pop();
-                    if (current.childTextNode) {
-                      var textContent = current.node.textContent;
-                      if (textContent.length === 0) {
-                        // tag without textContent
-                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                        current.node.textContent = '';
-                      }
-                      else if (textContent.match(/^\s*$/g)) {
-                        // tag with whitespace textContent
-                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                        current.node.textContent = ' ';
-                      }
-                      else if (textContent.match(/^{{.*}}$/) || textContent.match(/^\[\[.*\]\]$/)) {
-                        // tag with annotation
-                        prev.text.push(textContent);
-                        // textContent is untouched
+                  else {
+                    return [{
+                      node: child,
+                      type: child.nodeType,
+                      text: child.nodeType === child.TEXT_NODE ? 
+                              child.textContent : null,
+                      childTextNode: child.nodeType === child.ELEMENT_NODE &&
+                                     child.childNodes.length > 0
+                    }];
+                  }
+                }.bind(this)).reduce(function (prev, currentList) {
+                  var current;
+                  for (var i = 0; i < currentList.length; i++) {
+                    current = currentList[i];
+                    if (current.text) {
+                      prev.text[0] += current.text;
+                    }
+                    if (current.type === current.node.ELEMENT_NODE) {
+                      n++;
+                      prev.text[0] += '{' + n + '}';
+                      path.push(n);
+                      this._traverseAttributes(current.node, path, bundle);
+                      path.pop();
+                      if (current.childTextNode) {
+                        var textContent = current.node.textContent;
+                        if (textContent.length === 0) {
+                          // tag without textContent
+                          prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
+                          current.node.textContent = '';
+                        }
+                        else if (textContent.match(/^\s*$/g)) {
+                          // tag with whitespace textContent
+                          prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
+                          current.node.textContent = ' ';
+                        }
+                        else if (textContent.match(/^({{.*}}|\[\[.*\]\])$/)) {
+                          // tag with annotation
+                          prev.text.push(textContent);
+                          // textContent is untouched
+                        }
+                        else {
+                          prev.text.push(current.node.textContent.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' '));
+                          current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
+                        }
                       }
                       else {
-                        prev.text.push(current.node.textContent.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' '));
-                        current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
+                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
                       }
+                      current.node.setAttribute('param', n.toString());
+                      prev.params.push(current.node);
                     }
-                    else {
-                      prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                    }
-                    current.node.setAttribute('param', n.toString());
-                    prev.params.push(current.node);
                   }
                   return prev;
                 }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
-              var templateText = document.createElement('i18n-format');
+              templateText = document.createElement('i18n-format');
               templateText.setAttribute('lang', '{{effectiveLang}}');
               span = document.createElement('span');
               // span.innerText does not set an effective value in Firefox
@@ -1684,32 +1725,119 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           // skip empty or whitespace node
           isWhiteSpace = true;
         }
-        else if (text.trim().match(/^{{[^{}]*}}$/) || text.trim().match(/^\[\[[^\[\]]*\]\]$/)) {
+        else if (text.trim().match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/)) {
           // skip annotation node
         }
         else {
           var parent = node.parentNode;
-          span = document.createElement('span');
 
-          // replace text node with span
-          Polymer.dom(parent).insertBefore(span, node);
-          Polymer.dom(parent).removeChild(node);
-
-          // update path
-          path[path.length - 1] = path[path.length - 1].replace('#text', 'span');
-
-          // generate message id
-          messageId = this._generateMessageId(path, id);
-          // store the text message
-          text = text.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
-          this._setBundleValue(bundle, messageId, text);
-          // replace textContent with annotation
-          span.textContent = '{{text.' + messageId + '}}';
-          if (!id) {
-            //span.id = messageId;
-            //console.warn('add missing span with id as ' + messageId + ' for ' + text);
+          if (this._isCompoundAnnotatedText(text)) {
+            // apply i18n-format
+            n = 0;
+            messageId = this._generateMessageId(path, id);
+            templateTextParams = Array.prototype.map.call(
+              [ node ], function (child) {
+                if (child.nodeType === child.TEXT_NODE &&
+                    this._hasAnnotatedText(child.textContent)) {
+                  return this._compoundAnnotationToSpan(child)
+                    .map(function (_child) {
+                      return {
+                        node: _child,
+                        type: _child.nodeType,
+                        text: _child.nodeType === _child.TEXT_NODE ? 
+                                _child.textContent : null,
+                        childTextNode: _child.nodeType === _child.ELEMENT_NODE &&
+                                       _child.childNodes.length > 0
+                      };
+                    });
+                }
+                else {
+                  return [{
+                    node: child,
+                    type: child.nodeType,
+                    text: child.nodeType === child.TEXT_NODE ? 
+                            child.textContent : null,
+                    childTextNode: child.nodeType === child.ELEMENT_NODE &&
+                                   child.childNodes.length > 0
+                  }];
+                }
+              }.bind(this)).reduce(function (prev, currentList) {
+                var current;
+                for (var i = 0; i < currentList.length; i++) {
+                  current = currentList[i];
+                  if (current.text) {
+                    prev.text[0] += current.text;
+                  }
+                  if (current.type === current.node.ELEMENT_NODE) {
+                    n++;
+                    prev.text[0] += '{' + n + '}';
+                    path.push(n);
+                    this._traverseAttributes(current.node, path, bundle);
+                    path.pop();
+                    if (current.childTextNode) {
+                      var textContent = current.node.textContent;
+                      if (textContent.length === 0) {
+                        // tag without textContent
+                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
+                        current.node.textContent = '';
+                      }
+                      else if (textContent.match(/^\s*$/g)) {
+                        // tag with whitespace textContent
+                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
+                        current.node.textContent = ' ';
+                      }
+                      else if (textContent.match(/^({{.*}}|\[\[.*\]\])$/)) {
+                        // tag with annotation
+                        prev.text.push(textContent);
+                        // textContent is untouched
+                      }
+                      else {
+                        prev.text.push(current.node.textContent.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' '));
+                        current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
+                      }
+                    }
+                    else {
+                      prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
+                    }
+                    current.node.setAttribute('param', n.toString());
+                    prev.params.push(current.node);
+                  }
+                }
+                return prev;
+              }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
+            templateText = document.createElement('i18n-format');
+            templateText.setAttribute('lang', '{{effectiveLang}}');
+            span = document.createElement('span');
+            // span.innerText does not set an effective value in Firefox
+            span.textContent = templateTextParams.params.shift();
+            templateText.appendChild(span);
+            Array.prototype.forEach.call(templateTextParams.params,
+              function (param) {
+                templateText.appendChild(param);
+              }
+            );
+            // store the text message
+            templateTextParams.text[0] = templateTextParams.text[0].replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
+            this._setBundleValue(bundle, messageId, templateTextParams.text);
+            // insert i18n-format
+            Polymer.dom(parent).insertBefore(templateText, node);
+            Polymer.dom(parent).removeChild(node);
+            debuglog(messageId + ' = ' + templateTextParams.text);
           }
-          debuglog(messageId + ' = ' + text);
+          else {
+            // generate message id
+            messageId = this._generateMessageId(path, id);
+            // store the text message
+            text = text.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
+            this._setBundleValue(bundle, messageId, text);
+            // replace textContent with annotation
+            node.textContent = '{{text.' + messageId + '}}';
+            if (!id) {
+              //span.id = messageId;
+              //console.warn('add missing span with id as ' + messageId + ' for ' + text);
+            }
+            debuglog(messageId + ' = ' + text);
+          }
         }
         break;
       case node.DOCUMENT_NODE:
@@ -1729,6 +1857,77 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       }
       path.pop();
       return isWhiteSpace;
+    },
+
+    /**
+     * Check if the text has compound annotation 
+     * 
+     * @param {string} text target text to check compound annotation
+     * @return {Boolean} true if the text contains compound annotation
+     */
+    _isCompoundAnnotatedText: function (text) {
+      return !text.trim().match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/) &&
+             !!text.match(/({{[^{}]*}}|\[\[[^\[\]]*\]\])/);
+    },
+
+    /**
+     * Check if the text has annotation 
+     * 
+     * @param {string} text target text to check annotation
+     * @return {Boolean} true if the text contains annotation
+     */
+    _hasAnnotatedText: function (text) {
+      return !!text.match(/({{[^{}]*}}|\[\[[^\[\]]*\]\])/);
+    },
+
+    /**
+     * Convert compound annotations to span elements
+     * 
+     * @param {Text} node target text node to convert compound annotations
+     * @return {Object[]} Array of Text or span elements
+     */
+    _compoundAnnotationToSpan: function (node) {
+      var result;
+      if (node.textContent.match(/({{[^{}]*}}|\[\[[^\[\]]*\]\])/)) {
+        result = node.textContent
+          .match(/({{[^{}]*}}|\[\[[^\[\]]*\]\]|[^{}\[\]]{1,}|[{}\[\]]{1,})/g)
+          .reduce(function (prev, current) {
+            if (current.match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/)) {
+              prev.push(current);
+              prev.push('');
+            }
+            else {
+              if (prev.length === 0) {
+                prev.push(current);
+              }
+              else {
+                prev[prev.length - 1] += current;
+              }
+            }
+            return prev;
+          }.bind(this), [])
+          .map(function (item) {
+            var childNode;
+            if (item.match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/)) {
+              childNode = document.createElement('span');
+              childNode.textContent = item;
+            }
+            else {
+              childNode = new Text(item);
+            }
+            return childNode;
+          });
+        if (result.length > 0) {
+          if (!result[result.length - 1]) {
+            result.pop(); // pop ''
+          }
+        }
+      }
+      else {
+        // no compound annotation
+        result = [ node ];
+      }
+      return result;
     },
 
     /**
@@ -1774,7 +1973,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         for (var i = 1; i < path.length; i++) {
           if (path[i][0] === '#') {
             if (path[i] !== '#document-fragment') {
-              messageId = path[i].substr(1);
+              if (messageId && path[i].substr(0, 5) === '#text') {
+                messageId += ':' + path[i].substr(1);
+              }
+              else {
+                messageId = path[i].substr(1);
+              }
             }
           }
           else {
