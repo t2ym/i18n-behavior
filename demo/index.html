@@ -167,8 +167,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 <li id="label">UI Text Label</li>
                 <li><input id="input" placeholder="Placeholder Label"></li>
                 <li>lang = {{lang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
-                <li><pre>text = <span>{{serialize(text)}}</span></pre></li>
-                <li id="fallback">This item and the previous one are missing in <i>ja</i> and fall back to English</li>
+                <li><pre>text = {{serialize(text)}}</pre></li>
+                <li id="fallback"><i18n-format><json-data>{
+                  "en": "The last 2 items are missing in non-{1} and fall back to English",
+                  "other": "The last 2 items are missing in {1} and fall back to English" 
+                }</json-data><i>{{lang}}</i></i18n-format></li>
               </ul>
             </template>
           </template>
@@ -179,8 +182,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 <li id="label">UI Text Label</li>
                 <li><input id="input" placeholder="Placeholder Label"></li>
                 <li>lang = {{lang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
-                <li><pre>text = <span>{{serialize(text)}}</span></pre></li>
-                <li id="fallback">This item and the previous one are missing in <i>ja</i> and fall back to English</li>
+                <li><pre>text = {{serialize(text)}}</pre></li>
+                <li id="fallback"><i18n-format><json-data>{
+                  "en": "The last 2 items are missing in non-{1} and fall back to English",
+                  "other": "The last 2 items are missing in {1} and fall back to English" 
+                }</json-data><i>{{lang}}</i></i18n-format></li>
               </ul>
             </template>
             <﻿script>
