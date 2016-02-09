@@ -33,6 +33,8 @@ Template Project: [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-sta
     bower install --save i18n-behavior
 ```
 
+[Quick Tour](#quick-tour)
+
 ## Import
 
 ```html
@@ -181,8 +183,60 @@ without overheads of run-time traversal into the whole template.
 
 ## TODOs
 
-- Support of Polymer 1.2 compound annotations like `<span>{{label}}: {{name}}</span>` in automatic `<i18n-format>` application
+- (In Progress) Support of Polymer 1.2 compound annotations like `<span>{{label}}: {{name}}</span>` in automatic `<i18n-format>` application
 - Comprehensive tests with Web Component Tester
+
+## Quick Tour
+
+### Quick demo deployment
+
+```
+    git clone https://github.com/t2ym/polymer-starter-kit-i18n.git
+    cd polymer-starter-kit-i18n
+    npm install -g gulp bower # if missing
+    npm install && bower install
+    # Development build with scan/preprocess/leverage/bundle/feedback tasks
+    gulp --dev
+    # Run-time I18N demo on http://localhost:5000
+    gulp serve
+    # Build-time I18N demo on http://localhost:5001
+    gulp serve:dist --dev
+```
+
+### Change language on the demo
+
+##### 1. Press F12 to open debugger console on the browser
+
+##### 2. Navigate to the elements or DOM tab in the debugger
+
+##### 3. Change `lang` attribute of `html` element from "en" to "ja" or "fr"
+
+```
+    <html lang="ja">
+```
+
+### Update UI strings on the demo
+
+##### 1. Change any UI strings in the following HTMLs
+
+```
+    polymer-starter-kit-i18n/app/index.html
+                                /elements/my-greeting/my-greeting.html
+                                /elements/my-list/my-list.html
+```
+
+##### 2. Merge changes into JSON files
+
+```
+    cd polymer-starter-kit-i18n
+    gulp --dev
+```
+
+##### 3. Check diffs
+
+```
+    git diff app
+```
 
 ## License
 
