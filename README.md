@@ -28,7 +28,7 @@ Template Project: [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-sta
 - [`gulp-i18n-leverage`](https://github.com/t2ym/gulp-i18n-leverage) filter to put meta infomation, that is, L10N "TO DO" list, for the merged changes in JSON resources
 - Option to define I18N target strings manually by `<json-data>` elements
 
-## Workflow
+## Conceptual Workflow
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/PolymerI18nFlow.gif" width="768px">
 
