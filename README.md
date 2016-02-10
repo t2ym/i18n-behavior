@@ -8,10 +8,6 @@ Template Project: [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-sta
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/i18n-behavior.gif" width="768px">
 
-## Workflow
-
-<img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/PolymerI18nFlow.gif" width="768px">
-
 ## Features
 
 - Instant I18N by one line addition of `I18nBehavior`
@@ -31,6 +27,10 @@ Template Project: [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-sta
 - [`gulp-i18n-leverage`](https://github.com/t2ym/gulp-i18n-leverage) filter to merge changes in the default language in HTML templates into localized JSON resources.
 - [`gulp-i18n-leverage`](https://github.com/t2ym/gulp-i18n-leverage) filter to put meta infomation, that is, L10N "TO DO" list, for the merged changes in JSON resources
 - Option to define I18N target strings manually by `<json-data>` elements
+
+## Workflow
+
+<img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/PolymerI18nFlow.gif" width="768px">
 
 ## Install
 
