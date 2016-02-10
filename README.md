@@ -8,6 +8,10 @@ Template Project: [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-sta
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/i18n-behavior.gif" width="768px">
 
+## Workflow
+
+<img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/PolymerI18nFlow.gif" width="768px">
+
 ## Features
 
 - Instant I18N by one line addition of `I18nBehavior`
