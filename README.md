@@ -1,8 +1,8 @@
 # `i18n-behavior`
 
-Instant and Modular I18N for Polymer (work in progress)
+Instant and Modular I18N for Polymer (beta for Release 0.1.0)
 
-[API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/) and [Demo](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/demo/) on GitHub Pages (https://t2ym.github.io/i18n-behavior)
+[API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/), [Demo](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/demo/), and [Test](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/test/) on GitHub Pages (https://t2ym.github.io/i18n-behavior)
 
 Template Project: [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-starter-kit-i18n) with [Demo on Github Pages](https://t2ym.github.io/polymer-starter-kit-i18n)
 
@@ -188,7 +188,7 @@ without overheads of run-time traversal into the whole template.
 
 ## TODOs
 
-- Comprehensive tests with Web Component Tester
+- (In Progress) Comprehensive tests with Web Component Tester
 
 ## Quick Tour
 
