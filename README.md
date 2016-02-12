@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/t2ym/i18n-behavior.svg?branch=master)](https://travis-ci.org/t2ym/i18n-behavior)
+
 # `i18n-behavior`
 
 Instant and Modular I18N for Polymer (beta for Release 0.1.0)
