@@ -37,6 +37,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </test-fixture>
 
+    <test-fixture id="commented-simple-text-element">
+      <template is="dom-template" id="bound-commented-simple-text-element">
+        <commented-simple-text-element 
+          lang="{{lang}}"
+          observe-html-lang="{{observeHtmlLang}}">
+        </commented-simple-text-element>
+      </template>
+    </test-fixture>
+
 <!--
     <test-fixture id="static">
       <template>
@@ -317,6 +326,118 @@ suite('I18nBehavior', function () {
       effectiveLang: lang2,
       templateDefaultLang: lang1,
       observeHtmlLang: true,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: 'simple text', 
+      fixture: 'simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: undefined,
+      lang: lang0,
+      effectiveLang: lang0,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: 'simple text', 
+      fixture: 'simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang1 },
+      lang: lang1,
+      effectiveLang: lang1,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: lang2 + ' simple text', 
+      fixture: 'simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: 'commented simple text', 
+      fixture: 'commented-simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang2 }, 
+      assign: undefined,
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: 'commented simple text', 
+      fixture: 'commented-simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: undefined,
+      lang: lang0,
+      effectiveLang: lang0,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: 'commented simple text', 
+      fixture: 'commented-simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang1 },
+      lang: lang1,
+      effectiveLang: lang1,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: lang2 + ' commented simple text', 
+      fixture: 'commented-simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: lang2 + ' commented simple text', 
+      fixture: 'commented-simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang2 }, 
+      assign: undefined,
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
       text: text_simple,
       model: {},
       localDOM: localDOM_simple,
