@@ -14,6 +14,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <link rel="import" href="simple-text-element.html">
     <link rel="import" href="commented-simple-text-element.html">
     <link rel="import" href="plural-gender-element.html">
+    <link rel="import" href="simple-attribute-element.html">
   </head>
   <body>
 
@@ -55,6 +56,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           sender="{{sender}}"
           recipients="{{recipients}}">
         </plural-gender-element>
+      </template>
+    </test-fixture>
+
+
+    <test-fixture id="simple-attribute-element">
+      <template is="dom-template">
+        <simple-attribute-element 
+          lang="{{lang}}"
+          observe-html-lang="{{observeHtmlLang}}">
+        </simple-attribute-element>
       </template>
     </test-fixture>
 
@@ -329,6 +340,230 @@ suite('I18nBehavior', function () {
     { select: '#compound-format-text', 'PolymerDom.children.3.PolymerDom.childNodes.0.data.raw': 'Joe' },
     { select: '#compound-format-text', 'PolymerDom.children.4.PolymerDom.childNodes.0.data.raw': '' },
     { select: '#compound-format-text', 'PolymerDom.children.5.PolymerDom.childNodes.0.data': 'a gift' }
+  ];
+  var text_simple_attribute = {
+    'model': {
+      'standard-input': {
+        'placeholder': 'standard HTML5 attribute'
+      },
+      'outer-div:input_2': {
+        'placeholder': 'standard HTML5 attribute without id'
+      },
+      'paper-input-element': {
+        'label': 'paper-input label',
+        'error-message': 'paper-input error message',
+        'placeholder': 'paper-input placeholder'
+      },
+      'outer-div:paper-input_4': {
+        'label': 'paper-input label without id',
+        'error-message': 'paper-input error message without id',
+        'placeholder': 'paper-input placeholder without id'
+      },
+      'pie-chart': {
+        'options': {
+          'title': 'Distribution of days in 2001H1'
+        },
+        'cols': [
+          {
+            'label': 'Month',
+            'type': 'string'
+          },
+          {
+            'label': 'Days',
+            'type': 'number'
+          }
+        ],
+        'rows': [
+          [
+            'Jan',
+            31
+          ],
+          [
+            'Feb',
+            28
+          ],
+          [
+            'Mar',
+            31
+          ],
+          [
+            'Apr',
+            30
+          ],
+          [
+            'May',
+            31
+          ],
+          [
+            'Jun',
+            30
+          ]
+        ]
+      },
+      'column-chart': {
+        'options': {
+          'title': 'Inventory'
+        },
+        'data': [
+          [
+            'Year',
+            'Things',
+            'Stuff'
+          ],
+          [
+            '2004',
+            1000,
+            400
+          ],
+          [
+            '2005',
+            1170,
+            460
+          ],
+          [
+            '2006',
+            660,
+            1120
+          ],
+          [
+            '2007',
+            1030,
+            540
+          ]
+        ]
+      },
+      'custom-attr': {
+        'custom-text-attr1': 'custom text attribute 1',
+        'custom-text-attr2': 'custom text attribute 2',
+        'custom-text-attr3': 'custom text attribute 3'
+      },
+      'json-data-id': {
+        'attr1': 'this attr1 is extracted',
+        'i18n-target-attr': 'this attribute is also extracted'
+      },
+      'template_2:json-data_1': {
+        'attr1': 'this attr1 without id is extracted',
+        'i18n-target-attr': 'this attribute without id is also extracted'
+      }
+    },
+    'ordinary-div': 'text 1'
+  };
+  var model_simple_attribute = {
+    'standard-input': {
+      'placeholder': 'standard HTML5 attribute'
+    },
+    'outer-div:input_2': {
+      'placeholder': 'standard HTML5 attribute without id'
+    },
+    'paper-input-element': {
+      'label': 'paper-input label',
+      'error-message': 'paper-input error message',
+      'placeholder': 'paper-input placeholder'
+    },
+    'outer-div:paper-input_4': {
+      'label': 'paper-input label without id',
+      'error-message': 'paper-input error message without id',
+      'placeholder': 'paper-input placeholder without id'
+    },
+    'pie-chart': {
+      'options': {
+        'title': 'Distribution of days in 2001H1'
+      },
+      'cols': [
+        {
+          'label': 'Month',
+          'type': 'string'
+        },
+        {
+          'label': 'Days',
+          'type': 'number'
+        }
+      ],
+      'rows': [
+        [
+          'Jan',
+          31
+        ],
+        [
+          'Feb',
+          28
+        ],
+        [
+          'Mar',
+          31
+        ],
+        [
+          'Apr',
+          30
+        ],
+        [
+          'May',
+          31
+        ],
+        [
+          'Jun',
+          30
+        ]
+      ]
+    },
+    'column-chart': {
+      'options': {
+        'title': 'Inventory'
+      },
+      'data': [
+        [
+          'Year',
+          'Things',
+          'Stuff'
+        ],
+        [
+          '2004',
+          1000,
+          400
+        ],
+        [
+          '2005',
+          1170,
+          460
+        ],
+        [
+          '2006',
+          660,
+          1120
+        ],
+        [
+          '2007',
+          1030,
+          540
+        ]
+      ]
+    },
+    'custom-attr': {
+      'custom-text-attr1': 'custom text attribute 1',
+      'custom-text-attr2': 'custom text attribute 2',
+      'custom-text-attr3': 'custom text attribute 3'
+    },
+    'json-data-id': {
+      'attr1': 'this attr1 is extracted',
+      'i18n-target-attr': 'this attribute is also extracted'
+    },
+    'template_2:json-data_1': {
+      'attr1': 'this attr1 without id is extracted',
+      'i18n-target-attr': 'this attribute without id is also extracted'
+    }
+  };
+  var localDOM_simple_attribute = [
+    { select: 'input[id="standard-input"]', 'placeholder.text': 'standard HTML5 attribute' },
+    { select: 'input[id="standard-input"] + input', 'placeholder.text': 'standard HTML5 attribute without id' },
+    { select: 'paper-input[id="paper-input-element"]', 'label.text': 'paper-input label', 'errorMessage.text': 'paper-input error message', 'placeholder.text': 'paper-input placeholder' },
+    { select: 'paper-input[id="paper-input-element"] + paper-input', 'label.text': 'paper-input label without id', 'errorMessage.text': 'paper-input error message without id', 'placeholder.text': 'paper-input placeholder without id' },
+    { select: 'google-chart[id="pie-chart"]', 'options.title.text': 'Distribution of days in 2001H1', 'cols.0.label.text': 'Month', 'cols.1.label.text': 'Days', 'rows.0.0.text': 'Jan', 'rows.1.0.text': 'Feb', 'rows.2.0.text': 'Mar', 'rows.3.0.text': 'Apr', 'rows.4.0.text': 'May', 'rows.5.0.text': 'Jun' },
+    { select: 'google-chart[id="column-chart"]', 'options.title.text': 'Inventory', 'data.0.0.text': 'Year', 'data.0.1.text': 'Things', 'data.0.2.text': 'Stuff' },
+    { select: 'text-attribute-element[id="custom-attr"]', 'customTextAttr1.text': 'custom text attribute 1', 'customTextAttr2.text': 'custom text attribute 2', 'customTextAttr3.text': 'custom text attribute 3' },
+    { select: 'span[id="test-json-data-1"]', 'textContent': 'this attr1 is extracted' },
+    { select: 'span[id="test-json-data-2"]', 'textContent': 'this attribute is also extracted' },
+    { select: 'span[id="test-json-data-3"]', 'textContent': 'this attr1 without id is extracted' },
+    { select: 'span[id="test-json-data-4"]', 'textContent': 'this attribute without id is also extracted' },
   ];
 
   var suites = [
@@ -704,6 +939,42 @@ suite('I18nBehavior', function () {
       localDOM: localDOM_plural_gender_4,
       lightDOM: undefined
     },
+    { 
+      suite: 'simple attribute', 
+      fixture: 'simple-attribute-element', 
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      }, 
+      assign: { lang: lang1 },
+      lang: lang1,
+      effectiveLang: lang1,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      event: 'local-dom-ready',
+      text: text_simple_attribute,
+      model: model_simple_attribute,
+      localDOM: localDOM_simple_attribute,
+      lightDOM: undefined
+    },
+    { 
+      suite: lang2 + ' simple attribute', 
+      fixture: 'simple-attribute-element', 
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      }, 
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      event: 'local-dom-ready',
+      text: text_simple_attribute,
+      model: model_simple_attribute,
+      localDOM: localDOM_simple_attribute,
+      lightDOM: undefined
+    },
 /*
     { 
       suite: 'simple text', 
@@ -1040,7 +1311,8 @@ suite('I18nBehavior', function () {
       while (p) {
         //console.log(p, cursor);
         if (path.length < 1) {
-          if (p === 'raw') {
+          if (p === 'raw' ||
+              p === 'text') {
             return cursor;
           }
           else {
@@ -1120,11 +1392,13 @@ suite('I18nBehavior', function () {
       result = text;
       break;
     default:
-      if (!path || path.match(/(textContent|[.]data)$/)) {
+      if (!path || path.match(/(textContent|[.]data|[.]text)$/)) {
         result = {};
         deepMap(result, { text: text }, function (value, prop) {
           if (typeof value === 'string' &&
-              !value.match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/)) {
+              !value.match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/) &&
+              !value.match(/^[0-9]{1,}$/) &&
+              prop !== 'type') {
             return lang + ' ' + value;
           }
           return value;
@@ -1245,6 +1519,7 @@ suite('I18nBehavior', function () {
               el.addEventListener('lang-updated', function textIsSet (e) {
                 assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
                 assert.isObject(el.text, 'text property is an object');
+                //console.log(JSON.stringify(el.text, null, 2));
                 for (p in params.text) {
                   noProperties = false;
                   assert.deepEqual(el.text[p], translate(el.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + el.effectiveLang);
@@ -1285,6 +1560,8 @@ suite('I18nBehavior', function () {
                 assert.isObject(el.model, 'model property is an object');
                 for (p in params.model) {
                   noProperties = false;
+                  //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
+                  //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
                   assert.deepEqual(el.model[p], translate(el.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + el.effectiveLang);
                 }
                 el.removeEventListener('lang-updated', modelIsSet);
