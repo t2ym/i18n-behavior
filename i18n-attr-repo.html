@@ -52,7 +52,7 @@ Pre-defined I18N-target attributes in the static template of `i18n-attr-repo`:
     </dom-module>
 ```
 
-This static list is also referenced by `gulp-*` (modularization in progress) filter for
+This static list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for
 build-time automatic I18N of hard-coded string attributes.
 
 ### 2) Register localizable attributes of the newly registered elements from the `text-attr` attribute of the element's template.
@@ -90,7 +90,7 @@ build-time automatic I18N of hard-coded string attributes.
 ```
 
 `text-attr` attributes are also traversed for build-time automatic I18N of 
-hard-coded UI string attributes by `gulp-*` (modularization in progress) filter.
+hard-coded UI string attributes by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter.
 
 ### 3) Judge localizability of attributes for the local DOM elements of the newly registered element.
 
