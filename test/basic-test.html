@@ -266,6 +266,14 @@ suite('I18nBehavior', function () {
     { 'name': 'Bob', 'gender': 'male' },
     { 'name': 'Yoda', 'gender': 'other' }
   ];
+  var recipients2 = [
+    { 'name': 'Alice', 'gender': 'female' },
+    { 'name': 'Bob', 'gender': 'male' }
+  ];
+  var recipients3 = [
+    { 'name': 'Bob', 'gender': 'male' }
+  ];
+  var recipients4 = [];
   var text_plural_gender = {
     'model': {},
     'compound-format-text': [
@@ -296,6 +304,30 @@ suite('I18nBehavior', function () {
     { select: '#compound-format-text', 'PolymerDom.children.2.PolymerDom.childNodes.0.data.raw': 'female' },
     { select: '#compound-format-text', 'PolymerDom.children.3.PolymerDom.childNodes.0.data.raw': 'Joe' },
     { select: '#compound-format-text', 'PolymerDom.children.4.PolymerDom.childNodes.0.data.raw': 'Alice' },
+    { select: '#compound-format-text', 'PolymerDom.children.5.PolymerDom.childNodes.0.data': 'a gift' }
+  ];
+  var localDOM_plural_gender_2 = [
+    { select: '#compound-format-text', 'root.PolymerDom.textContent': 'You () gave her () and one other person .' },
+    { select: '#compound-format-text', 'PolymerDom.children.1.PolymerDom.childNodes.0.data.raw': '2' },
+    { select: '#compound-format-text', 'PolymerDom.children.2.PolymerDom.childNodes.0.data.raw': 'female' },
+    { select: '#compound-format-text', 'PolymerDom.children.3.PolymerDom.childNodes.0.data.raw': 'Joe' },
+    { select: '#compound-format-text', 'PolymerDom.children.4.PolymerDom.childNodes.0.data.raw': 'Alice' },
+    { select: '#compound-format-text', 'PolymerDom.children.5.PolymerDom.childNodes.0.data': 'a gift' }
+  ];
+  var localDOM_plural_gender_3 = [
+    { select: '#compound-format-text', 'root.PolymerDom.textContent': 'You () gave him () .' },
+    { select: '#compound-format-text', 'PolymerDom.children.1.PolymerDom.childNodes.0.data.raw': '1' },
+    { select: '#compound-format-text', 'PolymerDom.children.2.PolymerDom.childNodes.0.data.raw': 'male' },
+    { select: '#compound-format-text', 'PolymerDom.children.3.PolymerDom.childNodes.0.data.raw': 'Joe' },
+    { select: '#compound-format-text', 'PolymerDom.children.4.PolymerDom.childNodes.0.data.raw': 'Bob' },
+    { select: '#compound-format-text', 'PolymerDom.children.5.PolymerDom.childNodes.0.data': 'a gift' }
+  ];
+  var localDOM_plural_gender_4 = [
+    { select: '#compound-format-text', 'root.PolymerDom.textContent': 'You () gave no gifts.' },
+    { select: '#compound-format-text', 'PolymerDom.children.1.PolymerDom.childNodes.0.data.raw': '0' },
+    { select: '#compound-format-text', 'PolymerDom.children.2.PolymerDom.childNodes.0.data.raw': '' },
+    { select: '#compound-format-text', 'PolymerDom.children.3.PolymerDom.childNodes.0.data.raw': 'Joe' },
+    { select: '#compound-format-text', 'PolymerDom.children.4.PolymerDom.childNodes.0.data.raw': '' },
     { select: '#compound-format-text', 'PolymerDom.children.5.PolymerDom.childNodes.0.data': 'a gift' }
   ];
 
@@ -519,6 +551,72 @@ suite('I18nBehavior', function () {
       lightDOM: undefined
     },
     {
+      suite: 'plural gender 2', 
+      fixture: 'plural-gender-element', 
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      }, 
+      assign: {
+        lang: lang1,
+        sender: sender1,
+        recipients: recipients2
+      },
+      lang: lang1,
+      effectiveLang: lang1,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      event: 'local-dom-ready',
+      text: text_plural_gender,
+      model: {},
+      localDOM: localDOM_plural_gender_2,
+      lightDOM: undefined
+    },
+    {
+      suite: 'plural gender 3', 
+      fixture: 'plural-gender-element', 
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      }, 
+      assign: {
+        lang: lang1,
+        sender: sender1,
+        recipients: recipients3
+      },
+      lang: lang1,
+      effectiveLang: lang1,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      event: 'local-dom-ready',
+      text: text_plural_gender,
+      model: {},
+      localDOM: localDOM_plural_gender_3,
+      lightDOM: undefined
+    },
+    {
+      suite: 'plural gender 4', 
+      fixture: 'plural-gender-element', 
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      }, 
+      assign: {
+        lang: lang1,
+        sender: sender1,
+        recipients: recipients4
+      },
+      lang: lang1,
+      effectiveLang: lang1,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      event: 'local-dom-ready',
+      text: text_plural_gender,
+      model: {},
+      localDOM: localDOM_plural_gender_4,
+      lightDOM: undefined
+    },
+    {
       suite: lang2 + ' plural gender', 
       fixture: 'plural-gender-element', 
       fixtureModel: {
@@ -538,6 +636,72 @@ suite('I18nBehavior', function () {
       text: text_plural_gender,
       model: {},
       localDOM: localDOM_plural_gender_1,
+      lightDOM: undefined
+    },
+    {
+      suite: lang2 + ' plural gender 2', 
+      fixture: 'plural-gender-element', 
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      }, 
+      assign: {
+        lang: lang2,
+        sender: sender1,
+        recipients: recipients2
+      },
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      event: 'local-dom-ready',
+      text: text_plural_gender,
+      model: {},
+      localDOM: localDOM_plural_gender_2,
+      lightDOM: undefined
+    },
+    {
+      suite: lang2 + ' plural gender 3', 
+      fixture: 'plural-gender-element', 
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      }, 
+      assign: {
+        lang: lang2,
+        sender: sender1,
+        recipients: recipients3
+      },
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      event: 'local-dom-ready',
+      text: text_plural_gender,
+      model: {},
+      localDOM: localDOM_plural_gender_3,
+      lightDOM: undefined
+    },
+    {
+      suite: lang2 + ' plural gender 4', 
+      fixture: 'plural-gender-element', 
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      }, 
+      assign: {
+        lang: lang2,
+        sender: sender1,
+        recipients: recipients4
+      },
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      event: 'local-dom-ready',
+      text: text_plural_gender,
+      model: {},
+      localDOM: localDOM_plural_gender_4,
       lightDOM: undefined
     },
 /*
@@ -971,7 +1135,7 @@ suite('I18nBehavior', function () {
         result = text;
       }
     }
-    console.log('translate (' + lang + ', ' + path + ', ' + JSON.stringify(text, null, 2) + ') = ' + JSON.stringify(result, null, 2));
+    //console.log('translate (' + lang + ', ' + path + ', ' + JSON.stringify(text, null, 2) + ') = ' + JSON.stringify(result, null, 2));
     return result;
   };
 
