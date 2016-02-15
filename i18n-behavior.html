@@ -727,8 +727,22 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           // set up ajax client
           this._fetchStatus.ajax = Polymer.Base.create('iron-ajax');
           this._fetchStatus.ajax.handleAs = 'json';
-          this._fetchStatus.ajax.addEventListener('response', this._handleResponse.bind(this));
-          this._fetchStatus.ajax.addEventListener('error', this._handleError.bind(this));
+          this._fetchStatus._handleResponseBindFetchingInstance = this._handleResponse.bind(this);
+          this._fetchStatus._handleErrorBindFetchingInstance = this._handleError.bind(this);
+          this._fetchStatus.ajax.addEventListener('response', this._fetchStatus._handleResponseBindFetchingInstance);
+          this._fetchStatus.ajax.addEventListener('error', this._fetchStatus._handleErrorBindFetchingInstance);
+        }
+        else {
+          if (this._fetchStatus._handleResponseBindFetchingInstance) {
+            this._fetchStatus.ajax.removeEventListener('response', this._fetchStatus._handleResponseBindFetchingInstance);
+          }
+          if (this._fetchStatus._handleErrorBindFetchingInstance) {
+            this._fetchStatus.ajax.removeEventListener('error', this._fetchStatus._handleErrorBindFetchingInstance);
+          }
+          this._fetchStatus._handleResponseBindFetchingInstance = this._handleResponse.bind(this);
+          this._fetchStatus._handleErrorBindFetchingInstance = this._handleError.bind(this);
+          this._fetchStatus.ajax.addEventListener('response', this._fetchStatus._handleResponseBindFetchingInstance);
+          this._fetchStatus.ajax.addEventListener('error', this._fetchStatus._handleErrorBindFetchingInstance);
         }
         // TODO: app global bundles have to be handled
         var url;
