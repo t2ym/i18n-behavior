@@ -187,6 +187,8 @@ suite('I18nBehavior', function () {
   var lang1 = 'en';
   var lang2 = 'fr';
   var lang3 = 'ja';
+  var lang4 = 'fr-CA';
+  var lang5 = 'zh-Hans-CN';
   var text_simple = {
     'model': {},
     'text': ' outermost text at the beginning ',
@@ -975,6 +977,62 @@ suite('I18nBehavior', function () {
       localDOM: localDOM_simple_attribute,
       lightDOM: undefined
     },
+    { 
+      suite: lang4 + ' simple text default with fallback to ' + lang2, 
+      fixture: 'simple-text-element-default', 
+      fixtureModel: undefined, 
+      assign: { lang: lang4 },
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: true,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: lang4 + ' simple text with fallback to ' + lang2, 
+      fixture: 'simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang4 },
+      lang: lang2,
+      effectiveLang: lang2,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: lang5 + ' simple text with fallback to default', 
+      fixture: 'simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang5 },
+      lang: lang0,
+      effectiveLang: lang0,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: lang3 + ' simple text with fallback to default', 
+      fixture: 'simple-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang3 },
+      lang: lang0,
+      effectiveLang: lang0,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      text: text_simple,
+      model: {},
+      localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
 /*
     { 
       suite: 'simple text', 
@@ -1433,10 +1491,29 @@ suite('I18nBehavior', function () {
           el = fixture(params.fixture, params.fixtureModel);
         });
 
-        test('lang property is set as ' + params.lang, function () {
-          updateProperty(el, params.assign);
-          assert.isString(el.lang, 'lang property is a string');
-          assert.equal(el.lang, params.lang, 'lang is set');
+        test('lang property is set as ' + params.lang, function (done) {
+          if (params && params.assign && params.assign.lang) {
+            el.addEventListener('lang-updated', function langIsSet (e) {
+              if (el === Polymer.dom(e).rootTarget) {
+                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
+                assert.isString(el.lang, 'lang property is a string');
+                assert.equal(el.lang, params.lang, 'lang property is set');
+                el.removeEventListener('lang-updated', langIsSet);
+                done();
+              }
+            });
+            updateProperty(el, params.assign);
+          }
+          else {
+            updateProperty(el, params.assign);
+            assert.isString(el.lang, 'lang property is a string');
+            assert.equal(el.lang, params.lang, 'lang property is set');
+            done();
+          }
+        });
+
+        teardown(function () {
+          document.querySelector('#' + params.fixture).restore();
         });
       });
 
@@ -1449,11 +1526,17 @@ suite('I18nBehavior', function () {
 
           test('lang-updated event is fired', function (done) {
             el.addEventListener('lang-updated', function langUpdatedFired (e) {
-              assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-              el.removeEventListener('lang-updated', langUpdatedFired);
-              done();
+              if (el === Polymer.dom(e).rootTarget) {
+                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
+                el.removeEventListener('lang-updated', langUpdatedFired);
+                done();
+              }
             });
             updateProperty(el, params.assign);
+          });
+
+          teardown(function () {
+            document.querySelector('#' + params.fixture).restore();
           });
         });
       }
@@ -1466,11 +1549,13 @@ suite('I18nBehavior', function () {
         test('effectiveLang property is set as ' + params.effectiveLang, function (done) {
           if (params && params.assign && params.assign.lang) {
             el.addEventListener('lang-updated', function effectiveLangIsSet (e) {
-              assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-              assert.isString(el.effectiveLang, 'effectiveLang property is a string');
-              assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang property is set');
-              el.removeEventListener('lang-updated', effectiveLangIsSet);
-              done();
+              if (el === Polymer.dom(e).rootTarget) {
+                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
+                assert.isString(el.effectiveLang, 'effectiveLang property is a string');
+                assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang property is set');
+                el.removeEventListener('lang-updated', effectiveLangIsSet);
+                done();
+              }
             });
             updateProperty(el, params.assign);
           }
@@ -1481,6 +1566,10 @@ suite('I18nBehavior', function () {
             done();
           }
         });
+
+        teardown(function () {
+          document.querySelector('#' + params.fixture).restore();
+        });
       });
 
       suite(params.suite + ' templateDefaultLang property', function () {
@@ -1488,10 +1577,29 @@ suite('I18nBehavior', function () {
           el = fixture(params.fixture, params.fixtureModel);
         });
 
-        test('templateDefaultLang property is set as ' + params.templateDefaultLang, function () {
-          updateProperty(el, params.assign);
-          assert.isString(el.templateDefaultLang, 'templateDefaultLang property is a string');
-          assert.equal(el.templateDefaultLang, params.templateDefaultLang, 'templateDefaultLang property is set');
+        test('templateDefaultLang property is set as ' + params.templateDefaultLang, function (done) {
+          if (params && params.assign && params.assign.lang) {
+            el.addEventListener('lang-updated', function getTemplateDefaultLang (e) {
+              if (el === Polymer.dom(e).rootTarget) {
+                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
+                assert.isString(el.templateDefaultLang, 'templateDefaultLang property is a string');
+                assert.equal(el.templateDefaultLang, params.templateDefaultLang, 'templateDefaultLang property is set');
+                el.removeEventListener('lang-updated', getTemplateDefaultLang);
+                done();
+              }
+            });
+            updateProperty(el, params.assign);
+          }
+          else {
+            updateProperty(el, params.assign);
+            assert.isString(el.templateDefaultLang, 'templateDefaultLang property is a string');
+            assert.equal(el.templateDefaultLang, params.templateDefaultLang, 'templateDefaultLang property is set');
+            done();
+          }
+        });
+
+        teardown(function () {
+          document.querySelector('#' + params.fixture).restore();
         });
       });
 
@@ -1500,10 +1608,28 @@ suite('I18nBehavior', function () {
           el = fixture(params.fixture, params.fixtureModel);
         });
 
-        test('observeHtmlLang property is set as ' + params.observeHtmlLang, function () {
-          updateProperty(el, params.assign);
-          assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
-          assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
+        test('observeHtmlLang property is set as ' + params.observeHtmlLang, function (done) {
+          if (params && params.assign && params.assign.lang) {
+            el.addEventListener('lang-updated', function getObserveHtmlLang (e) {
+              if (el === Polymer.dom(e).rootTarget) {
+                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
+                assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
+                assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
+                el.removeEventListener('lang-updated', getObserveHtmlLang);
+                done();
+              }
+            });
+            updateProperty(el, params.assign);
+          }
+          else {
+            assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
+            assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
+            done();
+          }
+        });
+
+        teardown(function () {
+          document.querySelector('#' + params.fixture).restore();
         });
       });
 
@@ -1517,22 +1643,27 @@ suite('I18nBehavior', function () {
             noProperties = true;
             if (params && params.assign && params.assign.lang) {
               el.addEventListener('lang-updated', function textIsSet (e) {
-                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                assert.isObject(el.text, 'text property is an object');
-                //console.log(JSON.stringify(el.text, null, 2));
-                for (p in params.text) {
-                  noProperties = false;
-                  assert.deepEqual(el.text[p], translate(el.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + el.effectiveLang);
+                if (el === Polymer.dom(e).rootTarget) {
+                  assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
+                  assert.equal(el.lang, params.lang, 'lang is set as ' + params.lang);
+                  assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang is set as ' + params.effectiveLang);
+                  assert.isObject(el.text, 'text property is an object');
+                  //console.log(JSON.stringify(e.detail, null, 2));
+                  //console.log(JSON.stringify(el.text, null, 2));
+                  for (p in params.text) {
+                    noProperties = false;
+                    assert.deepEqual(el.text[p], translate(params.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
+                  }
+                  el.removeEventListener('lang-updated', textIsSet);
+                  done();
                 }
-                el.removeEventListener('lang-updated', textIsSet);
-                done();
               });
               updateProperty(el, params.assign);
             }
             else {
               updateProperty(el, params.assign);
               assert.isObject(el.text, 'text property is an object');
-              assert.deepEqual(el.text[p], translate(el.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + el.effectiveLang);
+              assert.deepEqual(el.text[p], translate(el.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
               done();
             }
             if (noProperties) {
@@ -1542,6 +1673,10 @@ suite('I18nBehavior', function () {
                 assert.deepEqual(el.text, params.text, 'text property is set');
               });
             }
+          });
+
+          teardown(function () {
+            document.querySelector('#' + params.fixture).restore();
           });
         });
       }
@@ -1556,23 +1691,27 @@ suite('I18nBehavior', function () {
             noProperties = true;
             if (params && params.assign && params.assign.lang) {
               el.addEventListener('lang-updated', function modelIsSet (e) {
-                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                assert.isObject(el.model, 'model property is an object');
-                for (p in params.model) {
-                  noProperties = false;
-                  //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
-                  //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
-                  assert.deepEqual(el.model[p], translate(el.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + el.effectiveLang);
+                if (el === Polymer.dom(e).rootTarget) {
+                  assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
+                  assert.equal(el.lang, params.lang, 'lang is set as ' + params.lang);
+                  assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang is set as ' + params.effectiveLang);
+                  assert.isObject(el.model, 'model property is an object');
+                  for (p in params.model) {
+                    noProperties = false;
+                    //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
+                    //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
+                    assert.deepEqual(el.model[p], translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
+                  }
+                  el.removeEventListener('lang-updated', modelIsSet);
+                  done();
                 }
-                el.removeEventListener('lang-updated', modelIsSet);
-                done();
               });
               updateProperty(el, params.assign);
             }
             else {
               updateProperty(el, params.assign);
               assert.isObject(el.model, 'model property is an object');
-              assert.deepEqual(el.model[p], translate(el.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + el.effectiveLang);
+              assert.deepEqual(el.model[p], translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
               done();
             }
             if (noProperties) {
@@ -1582,6 +1721,10 @@ suite('I18nBehavior', function () {
                 assert.deepEqual(el.model, params.model, 'model property is set');
               });
             }
+          });
+
+          teardown(function () {
+            document.querySelector('#' + params.fixture).restore();
           });
         });
       }
@@ -1597,31 +1740,35 @@ suite('I18nBehavior', function () {
             function (done) {
               if (params && params.assign && params.assign.lang) {
                 el.addEventListener(event, function localDomSet (e) {
-                  assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                  params.localDOM.forEach(function (childPath) {
-                    var completeStatus;
-                    var nodes = Polymer.dom(el.root).querySelectorAll(childPath.select);
-                    assert.ok(nodes.length > 0, childPath.select + ' is defined');
-                    for (var p in childPath) {
-                      if (p === 'select') {
-                        continue;
+                  if (el === Polymer.dom(e).rootTarget) {
+                    assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
+                    assert.equal(el.lang, params.lang, 'lang is set as ' + params.lang);
+                    assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang is set as ' + params.effectiveLang);
+                    params.localDOM.forEach(function (childPath) {
+                      var completeStatus;
+                      var nodes = Polymer.dom(el.root).querySelectorAll(childPath.select);
+                      assert.ok(nodes.length > 0, childPath.select + ' is defined');
+                      for (var p in childPath) {
+                        if (p === 'select') {
+                          continue;
+                        }
+                        //console.log(p + ' is set as ' + childPath[p]);
+                        if (Array.isArray(childPath[p])) {
+                          //console.log(nodes);
+                          Array.prototype.forEach.call(childPath[p], function (path, i, a) {
+                            assert.equal(getProperty(nodes[i], p), translate(params.effectiveLang, p, path), p + ' is set as ' + translate(params.effectiveLang, p, path));
+                          });
+                        }
+                        else {
+                          //console.log(nodes[0]);
+                          assert.equal(getProperty(nodes[0], p), translate(params.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(params.effectiveLang, p, childPath[p]));
+                        }
                       }
-                      //console.log(p + ' is set as ' + childPath[p]);
-                      if (Array.isArray(childPath[p])) {
-                        //console.log(nodes);
-                        Array.prototype.forEach.call(childPath[p], function (path, i, a) {
-                          assert.equal(getProperty(nodes[i], p), translate(el.effectiveLang, p, path), p + ' is set as ' + translate(el.effectiveLang, p, path));
-                        });
-                      }
-                      else {
-                        //console.log(nodes[0]);
-                        assert.equal(getProperty(nodes[0], p), translate(el.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(el.effectiveLang, p, childPath[p]));
-                      }
-                    }
-                    //console.log(childPath);
-                  });
-                  el.removeEventListener(event, localDomSet);
-                  done();
+                      //console.log(childPath);
+                    });
+                    el.removeEventListener(event, localDomSet);
+                    done();
+                  }
                 });
                 updateProperty(el, params.assign);
               }
@@ -1652,6 +1799,10 @@ suite('I18nBehavior', function () {
               }
             }
           );
+
+          teardown(function () {
+            document.querySelector('#' + params.fixture).restore();
+          });
         });
       }
 
@@ -1666,31 +1817,35 @@ suite('I18nBehavior', function () {
             function (done) {
               if (params && params.assign && params.assign.lang) {
                 el.addEventListener(event, function lightDomSet (e) {
-                  assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                  params.lightDOM.forEach(function (childPath) {
-                    var completeStatus;
-                    var nodes = Polymer.dom(el).querySelectorAll(childPath.select);
-                    assert.ok(nodes.length > 0, childPath.select + ' is defined');
-                    for (var p in childPath) {
-                      if (p === 'select') {
-                        continue;
+                  if (el === Polymer.dom(e).rootTarget) {
+                    assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
+                    assert.equal(el.lang, params.lang, 'lang is set as ' + params.lang);
+                    assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang is set as ' + params.effectiveLang);
+                    params.lightDOM.forEach(function (childPath) {
+                      var completeStatus;
+                      var nodes = Polymer.dom(el).querySelectorAll(childPath.select);
+                      assert.ok(nodes.length > 0, childPath.select + ' is defined');
+                      for (var p in childPath) {
+                        if (p === 'select') {
+                          continue;
+                        }
+                        //console.log(p + ' is set as ' + childPath[p]);
+                        if (Array.isArray(childPath[p])) {
+                          //console.log(nodes);
+                          Array.prototype.forEach.call(childPath[p], function (path, i, a) {
+                            assert.equal(getProperty(nodes[i], p), translate(params.effectiveLang, p, path), p + ' is set as ' + translate(params.effectiveLang, p, path));
+                          });
+                        }
+                        else {
+                          //console.log(nodes[0]);
+                          assert.equal(getProperty(nodes[0], p), translate(params.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(params.effectiveLang, p, childPath[p]));
+                        }
                       }
-                      //console.log(p + ' is set as ' + childPath[p]);
-                      if (Array.isArray(childPath[p])) {
-                        //console.log(nodes);
-                        Array.prototype.forEach.call(childPath[p], function (path, i, a) {
-                          assert.equal(getProperty(nodes[i], p), translate(el.effectiveLang, p, path), p + ' is set as ' + translate(el.effectiveLang, p, path));
-                        });
-                      }
-                      else {
-                        //console.log(nodes[0]);
-                        assert.equal(getProperty(nodes[0], p), translate(el.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(el.effectiveLang, p, childPath[p]));
-                      }
-                    }
-                    //console.log(childPath);
-                  });
-                  el.removeEventListener(event, lightDomSet);
-                  done();
+                      //console.log(childPath);
+                    });
+                    el.removeEventListener(event, lightDomSet);
+                    done();
+                  }
                 });
                 updateProperty(el, params.assign);
               }
@@ -1720,7 +1875,11 @@ suite('I18nBehavior', function () {
                 done();
               }
             }
-          ); 
+          );
+
+          teardown(function () {
+            document.querySelector('#' + params.fixture).restore();
+          });
         });
       }
 
