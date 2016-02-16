@@ -15,6 +15,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <link rel="import" href="commented-simple-text-element.html">
     <link rel="import" href="plural-gender-element.html">
     <link rel="import" href="simple-attribute-element.html">
+    <link rel="import" href="fallback-text-element.html">
   </head>
   <body>
 
@@ -66,6 +67,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           lang="{{lang}}"
           observe-html-lang="{{observeHtmlLang}}">
         </simple-attribute-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="fallback-text-element">
+      <template is="dom-template">
+        <fallback-text-element 
+          lang="{{lang}}"
+          observe-html-lang="{{observeHtmlLang}}">
+        </fallback-text-element>
       </template>
     </test-fixture>
 
@@ -567,6 +577,87 @@ suite('I18nBehavior', function () {
     { select: 'span[id="test-json-data-3"]', 'textContent': 'this attr1 without id is extracted' },
     { select: 'span[id="test-json-data-4"]', 'textContent': 'this attribute without id is also extracted' },
   ];
+  var text_fallback = {
+    'model': {},
+    'text': 'fr-CA  outermost text at the beginning ',
+    'h1_3': 'fr-CA outermost header 1',
+    'text_4': 'fr-CA  outermost text in the middle ',
+    'span_5': 'fr-CA simple text without id',
+    'span_6': 'fr-CA simple text without id 2',
+    'label-1': 'fr-CA simple text with id',
+    'label-2': 'fr-CA simple text with id 2',
+    'div_9:span': 'simple text within div',
+    'div_9:span_1': 'simple text within div 2',
+    'div_9:div_2:div': 'great grandchild text within div',
+    'div_10:text': ' simple text as the first element in div ',
+    'div_10:span_1': 'fr-CA simple text within div',
+    'div_10:text_2': ' simple text in the middle of div ',
+    'div_10:span_3': 'simple text within div 2',
+    'div_10:div_4:div': 'great grandchild text within div',
+    'div_10:text_5': ' simple text at the last element in div ',
+    'toplevel-div:span': 'fr-CA simple text within div',
+    'toplevel-div:span_1': 'fr-CA simple text within div 2',
+    'third-level-div': 'fr-CA great grandchild text within div',
+    'second-level-div:div_1': 'fr-CA great grandchild text within div without id',
+    'div_12:ul:li': 'fr line item without id 1',
+    'div_12:ul:li_1': 'fr line item without id 2',
+    'div_12:ul:li_2': 'fr line item without id 3',
+    'line-items:li': 'fr line item with id 1',
+    'line-items:li_1': 'fr line item with id 2',
+    'line-items:li_2': 'fr line item with id 3',
+    'p_13': [
+      'fr-CA A paragraph with {1} is converted to {2}.',
+      'fr-CA parameters',
+      'fr-CA <i18n-format>'
+    ],
+    'paragraph': [
+      'fr-CA A paragraph with {1} is converted to {2}.',
+      'fr-CA id',
+      'fr-CA <i18n-format>'
+    ],
+    'text_15': 'fr-CA  outermost text at the end '
+  };
+  var localDOM_fallback = [
+    { select: 'div:not([id])', 'previousTextSibling.data': 'fr-CA  outermost text at the beginning ' },
+    { select: 'h1', textContent: 'fr-CA outermost header 1' },
+    { select: 'h1', 'nextTextSibling.data': 'fr-CA  outermost text in the middle ' },
+    { select: 'span:not([id])', textContent: [ 'fr-CA simple text without id', 'fr-CA simple text without id 2' ] },
+    { select: 'span[id="label-1"]', textContent: 'fr-CA simple text with id' },
+    { select: 'span[id="label-2"]', textContent: 'fr-CA simple text with id 2' },
+    { select: 'span[id="label-2"] + div span:not([id])', textContent:  [ 'simple text within div', 'simple text within div 2' ] },
+    { select: 'span[id="label-2"] + div div:not([id]) div:not([id])', textContent: [ 'great grandchild text within div' ] },
+    { select: 'span[id="label-2"] + div + div', 'childNodes.0.data': ' simple text as the first element in div ' },
+    { select: 'span[id="label-2"] + div + div span:not([id])', textContent:  [ 'fr-CA simple text within div', 'simple text within div 2' ] },
+    { select: 'span[id="label-2"] + div + div span:not([id])', 'nextTextSibling.data': ' simple text in the middle of div ' },
+    { select: 'span[id="label-2"] + div + div div:not([id]) div:not([id])', textContent: 'great grandchild text within div' },
+    { select: 'span[id="label-2"] + div + div div:not([id])', 'nextTextSibling.data': ' simple text at the last element in div ' },
+    { select: '[id="toplevel-div"] span:not([id])', textContent: [ 'fr-CA simple text within div', 'fr-CA simple text within div 2' ] },
+    { select: '[id="third-level-div"]', textContent: 'fr-CA great grandchild text within div' },
+    { select: '[id="second-level-div"] div:not([id])', textContent: 'fr-CA great grandchild text within div without id' },
+    { select: 'div ul:not([id]) li:not([id])', textContent: [ 'fr line item without id 1', 'fr line item without id 2', 'fr line item without id 3' ] },
+    { select: '[id="line-items"] li:not([id])', textContent: [ 'fr line item with id 1', 'fr line item with id 2', 'fr line item with id 3' ] },
+    { select: 'p:not([id]) i18n-format', 
+      'PolymerDom.children.0.textContent': 'fr-CA A paragraph with {1} is converted to {2}.' },
+    { select: 'p:not([id]) i18n-format',
+      'PolymerDom.children.1.tagName': 'B',
+      'PolymerDom.children.1.textContent': 'fr-CA parameters',
+      'PolymerDom.children.1.attributes.param.value': '1' },
+    { select: 'p:not([id]) i18n-format',
+      'PolymerDom.children.2.tagName': 'CODE',
+      'PolymerDom.children.2.textContent': 'fr-CA <i18n-format>',
+      'PolymerDom.children.2.attributes.param.value': '2' },
+    { select: '[id="paragraph"] i18n-format',
+      'PolymerDom.children.0.textContent': 'fr-CA A paragraph with {1} is converted to {2}.' },
+    { select: '[id="paragraph"] i18n-format',
+      'PolymerDom.children.1.tagName': 'B',
+      'PolymerDom.children.1.textContent': 'fr-CA id',
+      'PolymerDom.children.1.attributes.param.value': '1' },
+    { select: '[id="paragraph"] i18n-format',
+      'PolymerDom.children.2.tagName': 'CODE',
+      'PolymerDom.children.2.textContent': 'fr-CA <i18n-format>',
+      'PolymerDom.children.2.attributes.param.value': '2' },
+    { select: '[id="paragraph"]', 'nextTextSibling.data': 'fr-CA  outermost text at the end ' }
+  ];
 
   var suites = [
     { 
@@ -1031,6 +1122,21 @@ suite('I18nBehavior', function () {
       text: text_simple,
       model: {},
       localDOM: localDOM_simple,
+      lightDOM: undefined
+    },
+    { 
+      suite: lang4 + ' fallback text', 
+      fixture: 'fallback-text-element', 
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang4 },
+      lang: lang4,
+      effectiveLang: lang4,
+      templateDefaultLang: lang1,
+      observeHtmlLang: false,
+      rawText: true,
+      text: text_fallback,
+      model: {},
+      localDOM: localDOM_fallback,
       lightDOM: undefined
     },
 /*
@@ -1652,7 +1758,7 @@ suite('I18nBehavior', function () {
                   //console.log(JSON.stringify(el.text, null, 2));
                   for (p in params.text) {
                     noProperties = false;
-                    assert.deepEqual(el.text[p], translate(params.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
+                    assert.deepEqual(el.text[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
                   }
                   el.removeEventListener('lang-updated', textIsSet);
                   done();
@@ -1663,7 +1769,7 @@ suite('I18nBehavior', function () {
             else {
               updateProperty(el, params.assign);
               assert.isObject(el.text, 'text property is an object');
-              assert.deepEqual(el.text[p], translate(el.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
+              assert.deepEqual(el.text[p], params.rawText ? params.text[p] : translate(el.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
               done();
             }
             if (noProperties) {
@@ -1700,7 +1806,7 @@ suite('I18nBehavior', function () {
                     noProperties = false;
                     //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
                     //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
-                    assert.deepEqual(el.model[p], translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
+                    assert.deepEqual(el.model[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
                   }
                   el.removeEventListener('lang-updated', modelIsSet);
                   done();
@@ -1711,7 +1817,7 @@ suite('I18nBehavior', function () {
             else {
               updateProperty(el, params.assign);
               assert.isObject(el.model, 'model property is an object');
-              assert.deepEqual(el.model[p], translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
+              assert.deepEqual(el.model[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
               done();
             }
             if (noProperties) {
@@ -1756,12 +1862,12 @@ suite('I18nBehavior', function () {
                         if (Array.isArray(childPath[p])) {
                           //console.log(nodes);
                           Array.prototype.forEach.call(childPath[p], function (path, i, a) {
-                            assert.equal(getProperty(nodes[i], p), translate(params.effectiveLang, p, path), p + ' is set as ' + translate(params.effectiveLang, p, path));
+                            assert.equal(getProperty(nodes[i], p), params.rawText ? path : translate(params.effectiveLang, p, path), p + ' is set as ' + translate(params.effectiveLang, p, path));
                           });
                         }
                         else {
                           //console.log(nodes[0]);
-                          assert.equal(getProperty(nodes[0], p), translate(params.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(params.effectiveLang, p, childPath[p]));
+                          assert.equal(getProperty(nodes[0], p), params.rawText ? childPath[p] : translate(params.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(params.effectiveLang, p, childPath[p]));
                         }
                       }
                       //console.log(childPath);
@@ -1785,12 +1891,12 @@ suite('I18nBehavior', function () {
                     if (Array.isArray(childPath[p])) {
                       //console.log(nodes);
                       Array.prototype.forEach.call(childPath[p], function (path, i, a) {
-                        assert.equal(getProperty(nodes[i], p), translate(el.lang, p, path), p + ' is set as ' + translate(el.lang, p, path));
+                        assert.equal(getProperty(nodes[i], p), params.rawText ? path : translate(el.lang, p, path), p + ' is set as ' + translate(el.lang, p, path));
                       });
                     }
                     else {
                       //console.log(nodes[0]);
-                      assert.equal(getProperty(nodes[0], p), translate(el.lang, p, childPath[p]), p + ' is set as ' + translate(el.lang, p, childPath[p]));
+                      assert.equal(getProperty(nodes[0], p), params.rawText ? childPath[p] : translate(el.lang, p, childPath[p]), p + ' is set as ' + translate(el.lang, p, childPath[p]));
                     }
                   }
                   //console.log(childPath);
