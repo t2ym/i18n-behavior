@@ -4,25 +4,27 @@ branches:
   - gh-pages
 sudo: false
 before_script:
-  - npm install web-component-tester
-  - npm install bower
-  - 'export PATH=$PWD/node_modules/.bin:$PATH'
-  - bower install
+- npm install web-component-tester
+- npm install bower
+- export PATH=$PWD/node_modules/.bin:$PATH
+- bower install
 env:
   global:
-    - secure: LUyZtmLpmfQQDriJSfYjp2T3154mS9718cNriqFnr4PrpqgImDzzsHGQ+mcepjx+1n++twnSTr6/QlWwC77XklEboZSO2GGOewhOswL2x9Tld7CCeyVRlt0b2fvQx9eSeR7mbgz5hVB1R28erf9+8t0kWnLnZBuO2PEUGf0D+okxNnlPDGczeUvJzoGdcMxX9zzAil1oksgV+ZwyYhEyvVxk7/9wlJRHbXQ5hkfCxjknAcEbsAa3cYt5/R8p4HHO/2HKUAMQ09NeC3MkWKyPS900gfzqgfTMXF/NvgHqw/2wQp9gDrffkC7yK0JLEbf4sYikNuIT6eIEMu2h7EBwOc4Zd21ELQM8oL15ZaUhHw4tvWJ00SOCFUSlRkQK/+y+3uNkaGoSSL32DJKYGrx0bS5tZ257zGD9tKSUVpGtn4VUIr9h4wJ1LhfSVDmDffzBXv55/dQp+6Fe4yrzEM52v3LuwiTjuiNN1dG7CSawhaBCWne3WnG4oNUccnyRc9ddKmk/9pmS7kBGLK1upLHmfL1MPWkLmYh9H3E9ZeFWfQJTU5UgQ0jWNl/L33Mo+Arv87UG+c8i7KEJYBABm5DDDdgJXaKKpRswGnOrTVOlElG7Wfs00ioh1xA+JvlYZNoCIsoilvRAk31zX6gZUR+yG9c1azzJ3b3FuW1fI1RgAJs=
-    - secure: TjH/bqBKnAnC2W/wpYpGb9J23NBOplwMhrY3mq9KQbdthb2vJOE9+mR4XP9Fk5OvyTnxZGYk5luhjaSXwje804A7/pPkFclbtSRtx+mryoZRaHVB5gz++4F45Dchmou1HaffPxn6xF4AkbI91UwYjy+jPKwe+ZNoyEPM+5NIwR+NFbs/ROLEdCZgOpxAIp+12Y2BH8eWTfni0iVFQChV3rUhqvVYmZ1jovoiw7eNPy8uN/aAx7tr+uxBTXAtRvARFc0kRXePfjyijdoIDECDmVxpW1i2Ug4Veu3Dh6wxX/tR8yAIxJutCVRf6rMDq8QRXmP54C14JBpt3QzNG/IbNR6CLIctwgPFP/4AXu5QmPunn5TPRUy8lnwAfbdt3DWIc/LBqOYGc4Ye7qLoxZgBonNE5HJ7khc8tnupEIZf9eDzHVT5+tOunE4jTzZeniwjqhgHdr8aqvI33imgg5K8MXt0wIf/K0p5twmnERv8OjOHQHD6aOnui0ODiX9GD6taMTeYro2X4ooczj3Va1HvvFxM8vSqB2R1CwxfJVufcKFmNqv2SIv74x450vPOG/Q7Q8He2CEKgSs0wnNwdAjqsJd9eSalyvUbJBXZWcc4YY5hn6ZaWMIa+Hb+0qke665nr5fMzUxXY/xyzrZPMJsQ9h5cddlYJQdhmkkOf+yBUbc=
-    - CXX=g++-4.8
+  - CXX=g++-4.8
+  - secure: p25+lDgCw7qt7yfW8lDCX9yWh+GICZaWKdcM0OoNJaaR75kOi0lVYsmkmL7vv3iGFjnx6hIcn+VR9wovk0yTMup8mOM1ergO6IMO6EfKqbKot0uAYZ4c70SN1nAX36WDr0boBKoyA1e+6WLwEwM7sujqmKWnbNDWGcqmWK8Jx8s+8D1IEOTB3ZsK0JqmQCOD+c73vpzQ89br7vudSfjCeXkpuOF1wfT+4jZObpeXLH5LpzyAgm6RUkte8WRFfn1kt5gYINT02X0yFcqC+EWlDZGG25CmJW9D6p81gJu4jQl2a6OHMD9IuGNyyhCkIXAdZnHcl/gBK3XMTCdMg2FnX4Ubz2/SM/imJDEGnFY38AyHXf5KhU6vp18JZl65GFEo7zjVTqLYTg8xhz/vJEp6PrJ9uptwC5gRiM4SeKO75+G8GDetyXteb30pd94oLtw53gmj/L9ATpLgURl77lgsmbrKwjqaM/QKiDtpl3Z3s8iM3ithA/Zk1kI9OKvEx7xZA7RtYY/aJlClWfim7Mefwcq+sWFOqtiTkCW7L5b5oTDZLPAYeXowOLGvXHhplBgLX/QbSVNsPPQLda5pEbR1dRK4j/CFh2i9UEV785RWkFvXruUJQLev8NmDhCLMWuhxkkFal4hsIEj5iJ639lglJnIJBJipcBWWeXs2JQEVyhQ=
+  - secure: J0OgdWaeCkL6Uo2BrZmHc90FXBMAVzI8NAHgYmEpAaW4GklfE0MzfESxQLE32GdJKYipY3/w+fTSlVZ/Am8FWsPKSWjJKg9iZVnPZaIX7Krvk1dA2/pMApapM8AFdOdLLZJmiKFAOa5xz20Z4AR377cmpppo/gm95wcMuUyhuxqd476wopUAbdffmuugtUOurpNqSN/vqVRX0zP1m5hhMeGAKU7RaVU1a6tNv3pinjDjl5JPLAY63PaaDAR+qfgn3jbLxXT1Yd8Oj/GVsb/9JQzWtKumyiQPx9923XnF0/zhbhqPQ/EIyN42Ph61Fo89FLVmCWTJTfFrFRg6ASoNPWOZNeweoH4sH5tCkv9dJdwqgpTFPHLJQ5PSSwuskwcACp4cOYcIIr6v/65ME/e7iqSXeKYlfm/NnOLs9woZytlCxvjaSpRd7in6SLuXWvky+t8o6jE7jnLyNGVuykY/I3rZm2oepZ2NoyE0KO6KN3c2hQcG1+F/B0UH8/MNx+hroy1G25WpPRScVJj1z47cPB/Y8q7L3H6GAUA8sAmPOPzZzEtxmFxauYleOnhYzmVEGf4aPBPeLI9htdUiyxPMwlEoNZMopldOHXpiJOMkHyaKh0HkyeJU7yXqNBPVyNjmASb8cob9C2+JSQy1+znYbRebG6oIH2rPmoYpKKE8gWY=
 node_js: 4
 addons:
   firefox: latest
   apt:
     sources:
-      - google-chrome
+    - google-chrome
     packages:
-      - google-chrome-stable
-      - g++-4.8
+    - google-chrome-stable
+    - g++-4.8
   sauce_connect: true
 script:
-  - xvfb-run wct
-  - "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then wct --plugin sauce --sauce 'Linux/Chrome' --sauce 'OS X 10.11/Safari' --sauce 'Windows 10/microsoftedge' --sauce 'Windows 8.1/Internet Explorer'; fi"
+- xvfb-run wct
+- if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then wct --plugin sauce --sauce 'Linux/Chrome'
+  --sauce 'OS X 10.11/Safari' --sauce 'Windows 10/microsoftedge' --sauce 'Windows
+  8.1/Internet Explorer'; fi
