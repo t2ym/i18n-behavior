@@ -10,7 +10,9 @@ before_script:
   - bower install
 env:
   global:
-    - NAME=i18n-behavior
+    - secure: LUyZtmLpmfQQDriJSfYjp2T3154mS9718cNriqFnr4PrpqgImDzzsHGQ+mcepjx+1n++twnSTr6/QlWwC77XklEboZSO2GGOewhOswL2x9Tld7CCeyVRlt0b2fvQx9eSeR7mbgz5hVB1R28erf9+8t0kWnLnZBuO2PEUGf0D+okxNnlPDGczeUvJzoGdcMxX9zzAil1oksgV+ZwyYhEyvVxk7/9wlJRHbXQ5hkfCxjknAcEbsAa3cYt5/R8p4HHO/2HKUAMQ09NeC3MkWKyPS900gfzqgfTMXF/NvgHqw/2wQp9gDrffkC7yK0JLEbf4sYikNuIT6eIEMu2h7EBwOc4Zd21ELQM8oL15ZaUhHw4tvWJ00SOCFUSlRkQK/+y+3uNkaGoSSL32DJKYGrx0bS5tZ257zGD9tKSUVpGtn4VUIr9h4wJ1LhfSVDmDffzBXv55/dQp+6Fe4yrzEM52v3LuwiTjuiNN1dG7CSawhaBCWne3WnG4oNUccnyRc9ddKmk/9pmS7kBGLK1upLHmfL1MPWkLmYh9H3E9ZeFWfQJTU5UgQ0jWNl/L33Mo+Arv87UG+c8i7KEJYBABm5DDDdgJXaKKpRswGnOrTVOlElG7Wfs00ioh1xA+JvlYZNoCIsoilvRAk31zX6gZUR+yG9c1azzJ3b3FuW1fI1RgAJs=
+    - secure: TjH/bqBKnAnC2W/wpYpGb9J23NBOplwMhrY3mq9KQbdthb2vJOE9+mR4XP9Fk5OvyTnxZGYk5luhjaSXwje804A7/pPkFclbtSRtx+mryoZRaHVB5gz++4F45Dchmou1HaffPxn6xF4AkbI91UwYjy+jPKwe+ZNoyEPM+5NIwR+NFbs/ROLEdCZgOpxAIp+12Y2BH8eWTfni0iVFQChV3rUhqvVYmZ1jovoiw7eNPy8uN/aAx7tr+uxBTXAtRvARFc0kRXePfjyijdoIDECDmVxpW1i2Ug4Veu3Dh6wxX/tR8yAIxJutCVRf6rMDq8QRXmP54C14JBpt3QzNG/IbNR6CLIctwgPFP/4AXu5QmPunn5TPRUy8lnwAfbdt3DWIc/LBqOYGc4Ye7qLoxZgBonNE5HJ7khc8tnupEIZf9eDzHVT5+tOunE4jTzZeniwjqhgHdr8aqvI33imgg5K8MXt0wIf/K0p5twmnERv8OjOHQHD6aOnui0ODiX9GD6taMTeYro2X4ooczj3Va1HvvFxM8vSqB2R1CwxfJVufcKFmNqv2SIv74x450vPOG/Q7Q8He2CEKgSs0wnNwdAjqsJd9eSalyvUbJBXZWcc4YY5hn6ZaWMIa+Hb+0qke665nr5fMzUxXY/xyzrZPMJsQ9h5cddlYJQdhmkkOf+yBUbc=
+    - CXX=g++-4.8
 node_js: 4
 addons:
   firefox: latest
@@ -19,5 +21,8 @@ addons:
       - google-chrome
     packages:
       - google-chrome-stable
+      - g++-4.8
+  sauce_connect: true
 script:
   - xvfb-run wct
+  - "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then wct --plugin sauce --sauce 'Linux/Chrome' --sauce 'OS X 10.11/Safari' --sauce 'Windows 10/microsoftedge' --sauce 'Windows 8.1/Internet Explorer'; fi"
