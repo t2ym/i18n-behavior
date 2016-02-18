@@ -103,6 +103,23 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       },
 
       attached: function () {
+        this._intervalId = window.setInterval(this._checkChartStatus.bind(this), 1000);
+      },
+
+      _checkChartStatus: function () {
+        var pieChartInnerHtml = this.$['pie-chart'].$.chartdiv.innerHTML;
+        var columnChartInnerHtml = this.$['column-chart'].$.chartdiv.innerHTML;
+        var notLoaded = false;
+        if (pieChartInnerHtml === 'Undefined chart type') {
+          this.isPieChartRendered = true; // google api to blame; this is not responsible
+        }
+        if (columnChartInnerHtml === 'Undefined chart type') {
+          this.isColumnChartRendered = true; // google api to blame; this is not responsible
+        }
+        if (this.isPieChartRendered && this.isColumnChartRendered) {
+          window.clearInterval(this._intervalId);
+          this.fire('local-dom-ready');
+        }
       },
 
       _langUpdated: function (e) {
