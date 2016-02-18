@@ -6,8 +6,6 @@ Instant and Modular I18N for Polymer (beta for Release 0.1.0)
 
 [API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/), [Demo](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/demo/), and [Test](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/test/) on GitHub Pages (https://t2ym.github.io/i18n-behavior)
 
-Template Project: [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-starter-kit-i18n) with [Demo on Github Pages](https://t2ym.github.io/polymer-starter-kit-i18n)
-
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/i18n-behavior.gif" width="768px">
 
 ## Features
@@ -40,7 +38,7 @@ Template Project: [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-sta
     bower install --save i18n-behavior
 ```
 
-[Quick Tour](#quick-tour)
+[Quick Tour](#quick-tour) with [polymer-starter-kit-i18n](https://github.com/t2ym/polymer-starter-kit-i18n)
 
 ## Import
 
