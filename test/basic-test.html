@@ -149,7 +149,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     </test-fixture>
 -->
     <script>
-suite('I18nBehavior', function () {
+suite('I18nBehavior with ' + 
+  (Polymer.Settings.useShadow ? 
+    (Polymer.Settings.useNativeShadow ? 'Native ' : '') + 'Shadow DOM' : 'Shady DOM'), 
+  function () {
 
 /*
   suite('default values', function () {
@@ -745,8 +748,8 @@ suite('I18nBehavior', function () {
       effectiveLang: lang0
     }),
     s(lang2 + ' commented simple text', 'commented simple text', {
-      fixtureModel: { observeHtmlLang: false, lang: lang2 }, 
-      assign: undefined,
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang2 },
       lang: lang2,
       effectiveLang: lang2
     }),
@@ -978,7 +981,7 @@ suite('I18nBehavior', function () {
       lightDOM: undefined
     },
     { 
-      suite: 'simple text', 
+      suite: 'simple text null lang', 
       fixture: 'simple-text-element', 
       fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
       assign: undefined,
@@ -1022,10 +1025,10 @@ suite('I18nBehavior', function () {
     { 
       suite: 'commented simple text', 
       fixture: 'commented-simple-text-element', 
-      fixtureModel: { observeHtmlLang: false, lang: lang2 }, 
-      assign: undefined,
-      lang: lang2,
-      effectiveLang: lang2,
+      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+      assign: { lang: lang1 },
+      lang: lang1,
+      effectiveLang: lang1,
       templateDefaultLang: lang1,
       observeHtmlLang: false,
       text: text_simple,
@@ -1034,26 +1037,12 @@ suite('I18nBehavior', function () {
       lightDOM: undefined
     },
     { 
-      suite: 'commented simple text', 
+      suite: 'commented simple text null lang', 
       fixture: 'commented-simple-text-element', 
       fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
       assign: undefined,
       lang: lang0,
       effectiveLang: lang0,
-      templateDefaultLang: lang1,
-      observeHtmlLang: false,
-      text: text_simple,
-      model: {},
-      localDOM: localDOM_simple,
-      lightDOM: undefined
-    },
-    { 
-      suite: 'commented simple text', 
-      fixture: 'commented-simple-text-element', 
-      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
-      assign: { lang: lang1 },
-      lang: lang1,
-      effectiveLang: lang1,
       templateDefaultLang: lang1,
       observeHtmlLang: false,
       text: text_simple,
@@ -1076,7 +1065,7 @@ suite('I18nBehavior', function () {
       lightDOM: undefined
     },
     { 
-      suite: lang2 + ' commented simple text', 
+      suite: lang2 + ' static commented simple text', 
       fixture: 'commented-simple-text-element', 
       fixtureModel: { observeHtmlLang: false, lang: lang2 }, 
       assign: undefined,
