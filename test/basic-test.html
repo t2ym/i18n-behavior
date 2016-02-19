@@ -866,17 +866,17 @@ suite('I18nBehavior with ' +
       effectiveLang: lang2
     }),
     s(lang5 + ' simple text with fallback to default', 'simple text', {
-      fixture: 'simple-text-element', 
-      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
+//      fixture: 'simple-text-element', 
+//      fixtureModel: { observeHtmlLang: false, lang: lang0 }, 
       assign: { lang: lang5 },
       lang: lang0,
-      effectiveLang: lang0,
-      templateDefaultLang: lang1,
-      observeHtmlLang: false,
-      text: text_simple,
-      model: {},
-      localDOM: localDOM_simple,
-      lightDOM: undefined
+      effectiveLang: lang0//,
+//      templateDefaultLang: lang1,
+//      observeHtmlLang: false,
+//      text: text_simple,
+//      model: {},
+//      localDOM: localDOM_simple,
+//      lightDOM: undefined
     }),
     s(lang3 + ' simple text with fallback to default', 'simple text', {
       assign: { lang: lang3 },
