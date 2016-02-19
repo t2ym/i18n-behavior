@@ -857,7 +857,7 @@ suite('I18nBehavior with ' +
         'A paragraph with {1}, {2}, and {3} is converted to {4}.',
         ' outermost text at the end with {1} and {2} variables '
       ],
-      'PolymerDom.children.1.textContent': [
+      'PolymerDom.children.1.textContent.raw': [
         '1st compound parameter',
         '1st compound parameter',
         '1st compound parameter',
@@ -884,11 +884,9 @@ suite('I18nBehavior with ' +
         '1st compound parameter',
         '1st compound parameter',
         '1st compound parameter',
-        '1st compound parameter',
-        'id',
         '1st compound parameter'
       ],
-      'PolymerDom.children.2.textContent': [
+      'PolymerDom.children.2.textContent.raw': [
         '2nd compound parameter',
         '2nd compound parameter',
         '2nd compound parameter',
@@ -921,49 +919,16 @@ suite('I18nBehavior with ' +
       ]
     },
     { select: '[id="paragraph"] i18n-format',
-      'PolymerDom.children.3.tagName': 'SPAN',
-      'PolymerDom.children.3.textContent': '2nd compound parameter',
-      'PolymerDom.children.3.attributes.param.value': '3' }
-/*
-    { select: 'h1', textContent: 'outermost header 1' },
-    { select: 'h1', 'nextTextSibling.data': ' outermost text in the middle ' },
-    { select: 'span:not([id])', textContent: [ 'simple text without id', 'simple text without id 2' ] },
-    { select: 'span[id="label-1"]', textContent: 'simple text with id' },
-    { select: 'span[id="label-2"]', textContent: 'simple text with id 2' },
-    { select: 'span[id="label-2"] + div span:not([id])', textContent:  [ 'simple text within div', 'simple text within div 2' ] },
-    { select: 'span[id="label-2"] + div div:not([id]) div:not([id])', textContent: [ 'great grandchild text within div' ] },
-    { select: 'span[id="label-2"] + div + div', 'childNodes.0.data': ' simple text as the first element in div ' },
-    { select: 'span[id="label-2"] + div + div span:not([id])', textContent:  [ 'simple text within div', 'simple text within div 2' ] },
-    { select: 'span[id="label-2"] + div + div span:not([id])', 'nextTextSibling.data': ' simple text in the middle of div ' },
-    { select: 'span[id="label-2"] + div + div div:not([id]) div:not([id])', textContent: 'great grandchild text within div' },
-    { select: 'span[id="label-2"] + div + div div:not([id])', 'nextTextSibling.data': ' simple text at the last element in div ' },
-    { select: '[id="toplevel-div"] span:not([id])', textContent: [ 'simple text within div', 'simple text within div 2' ] },
-    { select: '[id="third-level-div"]', textContent: 'great grandchild text within div' },
-    { select: '[id="second-level-div"] div:not([id])', textContent: 'great grandchild text within div without id' },
-    { select: 'div ul:not([id]) li:not([id])', textContent: [ 'line item without id 1', 'line item without id 2', 'line item without id 3' ] },
-    { select: '[id="line-items"] li:not([id])', textContent: [ 'line item with id 1', 'line item with id 2', 'line item with id 3' ] },
-    { select: 'p:not([id]) i18n-format', 
-      'PolymerDom.children.0.textContent': 'A paragraph with {1} is converted to {2}.' },
-    { select: 'p:not([id]) i18n-format',
-      'PolymerDom.children.1.tagName': 'B',
-      'PolymerDom.children.1.textContent': 'parameters',
-      'PolymerDom.children.1.attributes.param.value': '1' },
-    { select: 'p:not([id]) i18n-format',
-      'PolymerDom.children.2.tagName': 'CODE',
-      'PolymerDom.children.2.textContent': '<i18n-format>',
-      'PolymerDom.children.2.attributes.param.value': '2' },
-    { select: '[id="paragraph"] i18n-format',
-      'PolymerDom.children.0.textContent': 'A paragraph with {1} is converted to {2}.' },
-    { select: '[id="paragraph"] i18n-format',
       'PolymerDom.children.1.tagName': 'B',
       'PolymerDom.children.1.textContent': 'id',
-      'PolymerDom.children.1.attributes.param.value': '1' },
-    { select: '[id="paragraph"] i18n-format',
-      'PolymerDom.children.2.tagName': 'CODE',
-      'PolymerDom.children.2.textContent': '<i18n-format>',
-      'PolymerDom.children.2.attributes.param.value': '2' },
-    { select: '[id="paragraph"]', 'nextTextSibling.data': ' outermost text at the end ' }
-*/
+      'PolymerDom.children.1.attributes.param.value.raw': '1',
+      'PolymerDom.children.3.tagName': 'SPAN',
+      'PolymerDom.children.3.textContent.raw': '2nd compound parameter',
+      'PolymerDom.children.3.attributes.param.value.raw': '3'
+    },
+    { select: '[id="paragraph"] +i18n-format', 
+      'PolymerDom.children.1.textContent.raw': '1st compound parameter'
+    }
   ];
 
   var p = Object.setPrototypeOf || function (target, base) { 
@@ -1200,6 +1165,17 @@ suite('I18nBehavior with ' +
       text: text_compound,
       localDOM: localDOM_compound
     }),
+    s(lang2 + ' compound binding', 'compound binding', {
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0,
+        param1: param1,
+        param2: param2
+      },
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2
+    })
   ];
 
 /*
