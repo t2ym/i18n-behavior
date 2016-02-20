@@ -2156,9 +2156,20 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
    * @group I18nBehavior
    * @element i18n-dom-bind
    */
-  var i18nDomBind = deepcopy(Object.getPrototypeOf(document.createElement('template', 'dom-bind')));
+  var i18nDomBind = {};
+  var domBind = document.createElement('template', 'dom-bind');
+  var domBindProto = Object.getPrototypeOf(domBind);
+  if (typeof domBindProto.render !== 'function') {
+    domBindProto = domBind.__proto__; // fallback for IE10
+  }
+  Polymer.Base.extend(i18nDomBind, domBindProto);
   i18nDomBind.is = 'i18n-dom-bind';
-  i18nDomBind.behaviors = [ BehaviorsStore.I18nBehavior ];
+  if (i18nDomBind.behaviors) {
+    i18nDomBind.behaviors.push(BehavirosStore.I18nBehavior);
+  }
+  else {
+    i18nDomBind.behaviors = [ BehaviorsStore.I18nBehavior ];
+  }
   var _Polymer = Polymer;
   _Polymer(i18nDomBind);
 })(document);
