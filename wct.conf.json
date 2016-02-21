@@ -10,16 +10,6 @@
       "disabled": false,
       "browsers": [
         {
-          "browserName":  "Chrome",
-          "platform":     "Windows 10",
-          "version":      ""
-        },
-        {
-          "browserName":  "Firefox",
-          "platform":     "Windows 10",
-          "version":      ""
-        },
-        {
           "browserName":  "microsoftedge",
           "platform":     "Windows 10",
           "version":      ""
