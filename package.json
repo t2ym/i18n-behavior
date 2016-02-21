@@ -1,0 +1,47 @@
+{
+  "name": "i18n-behavior",
+  "version": "0.0.27",
+  "description": "Instant and Modular I18N for Polymer",
+  "main": "i18n-behavior.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t2ym/i18n-behavior.git"
+  },
+  "keywords": [
+    "polymer",
+    "web-components",
+    "web-component",
+    "i18n",
+    "internationalization",
+    "l10n",
+    "localization",
+    "format"
+  ],
+  "author": "Tetsuya Mori <t2y3141592@gmail.com>",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/t2ym/i18n-behavior/issues"
+  },
+  "homepage": "https://github.com/t2ym/i18n-behavior#readme",
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-crisper": "^1.0.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-i18n-leverage": "^0.0.13",
+    "gulp-i18n-preprocess": "^0.0.19",
+    "gulp-if": "^2.0.0",
+    "gulp-size": "^2.0.0",
+    "gulp-vulcanize": "^6.1.0",
+    "json-stringify-safe": "^5.0.1",
+    "merge-stream": "^1.0.0",
+    "run-sequence": "^1.1.5",
+    "web-component-tester": "^4.2.1"
+  }
+}
