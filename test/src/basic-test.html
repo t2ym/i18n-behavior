@@ -7,32 +7,41 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script src="../../webcomponentsjs/webcomponents.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../../webcomponentsjs/webcomponents.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
 
-    <link rel="import" href="../i18n-behavior.html">
-    <link rel="import" href="simple-text-element.html">
-    <link rel="import" href="commented-simple-text-element.html">
-    <link rel="import" href="plural-gender-element.html">
-    <link rel="import" href="simple-attribute-element.html">
-    <link rel="import" href="fallback-text-element.html">
-    <link rel="import" href="compound-binding-element.html">
+    <link rel="import" href="../../i18n-behavior.html">
+    <link rel="import" href="simple-text-element/simple-text-element.html">
+    <link rel="import" href="commented-simple-text-element/commented-simple-text-element.html">
+    <link rel="import" href="plural-gender-element/plural-gender-element.html">
+    <link rel="import" href="simple-attribute-element/simple-attribute-element.html">
+    <link rel="import" href="fallback-text-element/fallback-text-element.html">
+    <link rel="import" href="compound-binding-element/compound-binding-element.html">
+    <style>
+    .test-container.running-test {
+      display: block;
+    }
+    .test-container:not(.running-test) { 
+      display: none;
+    }
+    </style>
   </head>
   <body>
+    <h2 id="test-name"></h2>
 
-    <test-fixture id="simple-text-element-default">
+    <test-fixture class="test-container" id="simple-text-element-default">
       <template>
         <simple-text-element></simple-text-element>
       </template>
     </test-fixture>
 
-    <test-fixture id="commented-simple-text-element-default">
+    <test-fixture class="test-container" id="commented-simple-text-element-default">
       <template>
         <commented-simple-text-element></commented-simple-text-element>
       </template>
     </test-fixture>
 
-    <test-fixture id="simple-text-element">
+    <test-fixture class="test-container" id="simple-text-element">
       <template is="dom-template" id="bound-simple-text-element">
         <simple-text-element 
           lang="{{lang}}"
@@ -41,7 +50,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </test-fixture>
 
-    <test-fixture id="commented-simple-text-element">
+    <test-fixture class="test-container" id="commented-simple-text-element">
       <template is="dom-template" id="bound-commented-simple-text-element">
         <commented-simple-text-element 
           lang="{{lang}}"
@@ -50,7 +59,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </test-fixture>
 
-    <test-fixture id="plural-gender-element">
+    <test-fixture class="test-container" id="plural-gender-element">
       <template is="dom-template">
         <plural-gender-element
           lang="{{lang}}"
@@ -62,7 +71,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     </test-fixture>
 
 
-    <test-fixture id="simple-attribute-element">
+    <test-fixture class="test-container" id="simple-attribute-element">
       <template is="dom-template">
         <simple-attribute-element 
           lang="{{lang}}"
@@ -71,7 +80,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </test-fixture>
 
-    <test-fixture id="fallback-text-element">
+    <test-fixture class="test-container" id="fallback-text-element">
       <template is="dom-template">
         <fallback-text-element 
           lang="{{lang}}"
@@ -80,7 +89,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </test-fixture>
 
-    <test-fixture id="compound-binding-element">
+    <test-fixture class="test-container" id="compound-binding-element">
       <template is="dom-template">
         <compound-binding-element 
           lang="{{lang}}"
@@ -91,7 +100,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </test-fixture>
 
-    <div>
+    <div class="test-container">
       <template id="simple-text-dom-bind"
         is="i18n-dom-bind">
         outermost text at the beginning 
@@ -142,7 +151,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </div>
 
-    <div>
+    <div class="test-container">
       <template id="simple-attribute-dom-bind"
         is="i18n-dom-bind">
         <style attr="This is not extracted">
@@ -246,7 +255,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       });
     </script>
 
-    <div>
+    <div class="test-container">
       <template id="compound-binding-dom-bind"
         is="i18n-dom-bind">
         outermost text at the beginning with compound {{param1}} and {{param2}} variables
@@ -1862,10 +1871,25 @@ suite('I18nBehavior with ' +
   var setupFixture = function (params, fixtureModel) {
     var fixtureName = params.fixture;
     var e = document.querySelector('#' + fixtureName);
+    var runningTest = document.querySelectorAll('.running-test');
+    var title = document.querySelector('#test-name');
+    var currentPath = window.location.pathname.split('/');
     if (!e) {
       throw new Error('Fixture element with id = ' + fixtureName + ' not found');
     }
+    if (title) {
+      title.textContent =
+        (currentPath.length >= 2 ? currentPath[currentPath.length - 2] : '') +
+        (currentPath.length >= 1 ? '/' + currentPath[currentPath.length - 1].replace(/-test[.]html$/, '') + '/': '') +
+        params.suite;
+    }
     if (e.is === 'i18n-dom-bind') {
+      e.parentElement.classList.add('running-test');
+      Array.prototype.forEach.call(runningTest, function (node) {
+        if (node !== e.parentElement) {
+          node.classList.remove('running-test');
+        }
+      });
       for (var p in fixtureModel) {
         e[p] = fixtureModel[p];
       }
@@ -1874,6 +1898,12 @@ suite('I18nBehavior with ' +
       return e;
     }
     else {
+      e.classList.add('running-test');
+      Array.prototype.forEach.call(runningTest, function (node) {
+        if (node !== e) {
+          node.classList.remove('running-test');
+        }
+      });
       return fixture(fixtureName, fixtureModel);
     }
   };
