@@ -1,13 +1,13 @@
 {
   "name": "i18n-behavior",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "Instant and Modular I18N for Polymer",
   "main": "i18n-behavior.html",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test:local"
   },
   "repository": {
     "type": "git",
