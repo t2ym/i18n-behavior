@@ -1873,11 +1873,15 @@ suite('I18nBehavior with ' +
     var e = document.querySelector('#' + fixtureName);
     var runningTest = document.querySelectorAll('.running-test');
     var title = document.querySelector('#test-name');
+    var currentPath = window.location.pathname.split('/');
     if (!e) {
       throw new Error('Fixture element with id = ' + fixtureName + ' not found');
     }
     if (title) {
-      title.textContent = params.suite;
+      title.textContent =
+        (currentPath.length >= 2 ? currentPath[currentPath.length - 2] : '') +
+        (currentPath.length >= 1 ? '/' + currentPath[currentPath.length - 1].replace(/-test[.]html$/, '') + '/': '') +
+        params.suite;
     }
     if (e.is === 'i18n-dom-bind') {
       e.parentElement.classList.add('running-test');
