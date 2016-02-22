@@ -8,6 +8,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <script src="../../../webcomponentsjs/webcomponents.js"></script>
     <script src="../../../web-component-tester/browser.js"></script>
 
+    <link rel="import" href="../../../promise-polyfill/promise-polyfill-lite.html">
     <link rel="import" href="../../i18n-behavior.html">
     <link rel="import" href="simple-text-element/simple-text-element.html">
     <link rel="import" href="commented-simple-text-element/commented-simple-text-element.html">
@@ -549,75 +550,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 </template>
     </div>
 
-<!--
-    <test-fixture id="static">
-      <template>
-        <i18n-format lang="en">
-          <span>Parameter {1} and {2} are rendered.</span>
-          <b>A</b>
-          <i>B</i>
-        </i18n-format>
-      </template>
-    </test-fixture>
-
-    <test-fixture id="non-default-attributes">
-      <template>
-        <i18n-format lang="fr" param-attribute="parameter" param-format="%n%">
-          <span>Parameter %1% and %2% are rendered.</span>
-          <b>A</b>
-          <i>B</i>
-        </i18n-format>
-      </template>
-    </test-fixture>
-
-    <test-fixture id="bound">
-      <template is="dom-template" id="bound-template">
-        <i18n-format lang="{{lang}}">
-          <span>{{text.0}}</span>
-          <b>{{text.1}}</b>
-          <i>{{text.2}}</i>
-        </i18n-format>
-      </template>
-    </test-fixture>
-
-    <test-fixture id="compound-static">
-      <template>
-        <i18n-format lang="en">
-          <json-data>{
-            "0": "You ({3}) gave no gifts.",
-            "1": {
-              "male": "You ({3}) gave him ({4}) {5}.",
-              "female": "You ({3}) gave her ({4}) {5}.",
-              "other": "You ({3}) gave them ({4}) {5}."
-            },
-            "one": {
-              "male": "You ({3}) gave him ({4}) and one other person {5}.",
-              "female": "You ({3}) gave her ({4}) and one other person {5}.",
-              "other": "You ({3}) gave them ({4}) and one other person {5}."
-            },
-            "other": "You ({3}) gave them ({4}) and {1} other people gifts."
-          }</json-data>
-          <i18n-number lang="en" offset="1">2</i18n-number>
-          <span>female</span>
-          <span>Joe</span>
-          <span>Alice</span>
-          <span>a gift</span>
-        </i18n-format>
-      </template>
-    </test-fixture>
-
-    <test-fixture id="bound-and-wrapped">
-      <template is="dom-template" id="bound-and-wrapped-template">
-        <bound-i18n-format 
-          lang="{{lang}}"
-          text="{{text}}"
-          param-format="{{paramFormat}}"
-          compound-text="{{compoundText}}"
-          recipients="{{recipients}}"
-          sender="{{sender}}"></bound-i18n-format>
-      </template>
-    </test-fixture>
--->
     <script>
 suite('I18nBehavior with ' + 
   (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM'), 
@@ -1792,274 +1724,6 @@ suite('I18nBehavior with ' +
     })
   ];
 
-/*
-    { 
-      suite: 'simple text', 
-      fixture: 'simple-text-element', 
-      fixtureModel: { observeHtmlLang: true, lang: lang0 }, 
-      assign: {}, //{ lang: lang1 },
-      lang: lang0,
-      effectiveLang: lang0,
-      templateDefaultLang: lang1,
-      observeHtmlLang: true,
-      childNodes: [
-        { nodeName: '#text', data: 'Parameter ' },
-        { nodeName: 'CONTENT', select: '[param=\'1\']' },
-        { nodeName: '#text', data: ' and ' },
-        { nodeName: 'CONTENT', select: '[param=\'2\']' },
-        { nodeName: '#text', data: ' are rendered.' }
-      ],
-      parameters: [
-        { select: 'b[param=\'1\']', textContent: 'A' },
-        { select: 'i[param=\'2\']', textContent: 'B' }
-      ]
-    }
-    { 
-      suite: 'non-default static parameters', 
-      fixture: 'non-default-attributes', 
-      fixtureModel: undefined, 
-      lang: lang2,
-      paramAttribute: paramAttribute2,
-      paramFormat: paramFormat2,
-      childNodes: [
-        { nodeName: '#text', data: 'Parameter ' },
-        { nodeName: 'CONTENT', select: '[parameter=\'1\']' },
-        { nodeName: '#text', data: ' and ' },
-        { nodeName: 'CONTENT', select: '[parameter=\'2\']' },
-        { nodeName: '#text', data: ' are rendered.' }
-      ],
-      parameters: [
-        { select: 'b[parameter=\'1\']', textContent: 'A' },
-        { select: 'i[parameter=\'2\']', textContent: 'B' }
-      ]
-    },
-    { 
-      suite: 'static bound values', 
-      fixture: 'bound', 
-      fixtureModel: {
-        lang: 'en',
-        text: [
-          'Parameter {1} and {2} are rendered.',
-          'A',
-          'B'
-        ]
-      }, 
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [
-        { nodeName: '#text', data: 'Parameter ' },
-        { nodeName: 'CONTENT', select: '[param=\'1\']' },
-        { nodeName: '#text', data: ' and ' },
-        { nodeName: 'CONTENT', select: '[param=\'2\']' },
-        { nodeName: '#text', data: ' are rendered.' }
-      ],
-      parameters: [
-        { select: 'b[param=\'1\']', textContent: 'A' },
-        { select: 'i[param=\'2\']', textContent: 'B' }
-      ]
-    },
-    { 
-      suite: 'static compound template', 
-      fixture: 'compound-static', 
-      fixtureModel: undefined,
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [
-        { nodeName: '#text', data: 'You (' },
-        { nodeName: 'CONTENT', select: '[param=\'3\']' },
-        { nodeName: '#text', data: ') gave her (' },
-        { nodeName: 'CONTENT', select: '[param=\'4\']' },
-        { nodeName: '#text', data: ') and one other person ' },
-        { nodeName: 'CONTENT', select: '[param=\'5\']' },
-        { nodeName: '#text', data: '.' }
-      ],
-      parameters: [
-        { select: 'i18n-number[param=\'1\']', number: 1, formatted: '1', 'root.PolymerDom.children.0.textContent': '1' },
-        { select: 'span[param=\'2\']', textContent: 'female' },
-        { select: 'span[param=\'3\']', textContent: 'Joe' },
-        { select: 'span[param=\'4\']', textContent: 'Alice' },
-        { select: 'span[param=\'5\']', textContent: 'a gift' }
-      ]
-    }
-    { 
-      suite: 'change text values', 
-      fixture: 'bound', 
-      fixtureModel: {
-        lang: 'en',
-        text: [
-          'Parameter {1} and {2} are rendered.',
-          'A',
-          'B'
-        ]
-      }, 
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      assign: { 
-        text: [
-          'Param {2} and {1} are rendered.',
-          'AAA',
-          'BBB'
-        ]
-      },
-      childNodes: [
-        { nodeName: '#text', data: 'Param ' },
-        { nodeName: 'CONTENT', select: '[param=\'2\']' },
-        { nodeName: '#text', data: ' and ' },
-        { nodeName: 'CONTENT', select: '[param=\'1\']' },
-        { nodeName: '#text', data: ' are rendered.' }
-      ],
-      parameters: [
-        { select: 'b[param=\'1\']', textContent: 'AAA' },
-        { select: 'i[param=\'2\']', textContent: 'BBB' }
-      ]
-    },
-    { 
-      suite: 'change raw value', 
-      fixture: 'bound', 
-      fixtureModel: { number: '987654.321' }, 
-      rawValue: rawValue1,
-      offset: offset1,
-      rawNumber: rawNumber1,
-      number: number1,
-      options: {},
-      assign: { raw: rawValue1 },
-      formatted: formatted1_en
-    },
-    { 
-      suite: 'change lang value', 
-      fixture: 'bound', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offset1,
-      rawNumber: rawNumber1,
-      number: number1,
-      options: {},
-      assign: { lang: 'fr' },
-      formatted: formatted1_fr
-    },
-    { 
-      suite: 'change options object value', 
-      fixture: 'bound', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offset1,
-      rawNumber: rawNumber1,
-      number: number1,
-      options: { 'style': 'currency', 'currency': 'USD' },
-      assign: { options: { 'style': 'currency', 'currency': 'USD' } },
-      formatted: formatted1_USD
-    },
-    { 
-      suite: 'change options property values', 
-      fixture: 'bound', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offset1,
-      rawNumber: rawNumber1,
-      number: number1,
-      options: { 'style': 'currency', 'currency': 'USD' },
-      assign: { 'options': {}, 'options.style': 'currency', 'options.currency': 'USD' },
-      formatted: formatted1_USD
-    },
-    { 
-      suite: 'change currency options object value', 
-      fixture: 'bound-currency-options', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offset1,
-      rawNumber: rawNumber1,
-      number: number1,
-      options: { 'style': 'currency', 'currency': 'JPY' },
-      assign: { options: { 'style': 'currency', 'currency': 'JPY' } },
-      formatted: formatted1_JPY
-    },
-    { 
-      suite: 'change currency options property values', 
-      fixture: 'bound-currency-options', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offset1,
-      rawNumber: rawNumber1,
-      number: number1,
-      options: { 'style': 'currency', 'currency': 'JPY' },
-      assign: { 'options.currency': 'JPY' },
-      formatted: formatted1_JPY
-    },
-    { 
-      suite: 'default options object value', 
-      fixture: 'bound-default-options', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offset1,
-      rawNumber: rawNumber1,
-      number: number1,
-      options: undefined,
-      formatted: formatted1_en
-    },
-    { 
-      suite: 'change options object value from default options', 
-      fixture: 'bound-default-options', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offset1,
-      rawNumber: rawNumber1,
-      number: number1,
-      options: { 'style': 'currency', 'currency': 'USD' },
-      assign: { options: { 'style': 'currency', 'currency': 'USD' } },
-      formatted: formatted1_USD
-    },
-    { 
-      suite: 'change options property values from default options', 
-      fixture: 'bound-default-options', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offset1,
-      rawNumber: rawNumber1,
-      number: number1,
-      options: { 'style': 'currency', 'currency': 'USD' },
-      assign: { 'options': {}, 'options.style': 'currency', 'options.currency': 'USD' },
-      formatted: formatted1_USD
-    },
-    { 
-      suite: 'change offset value', 
-      fixture: 'bound', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offset2,
-      rawNumber: rawNumber1,
-      number: number2,
-      options: {},
-      assign: { offset: offset2 },
-      formatted: formatted1_offset
-    },
-    { 
-      suite: 'invalid value', 
-      fixture: 'bound', 
-      fixtureModel: { number: rawValueInvalid }, 
-      rawValue: rawValueInvalid,
-      offset: offset1,
-      rawNumber: NaN,
-      number: NaN,
-      options: {},
-      formatted: 'NaN'
-    },
-    { 
-      suite: 'invalid offset value', 
-      fixture: 'bound', 
-      fixtureModel: { number: rawValue1 }, 
-      rawValue: rawValue1,
-      offset: offsetInvalid,
-      rawNumber: rawValue1,
-      number: NaN,
-      options: {},
-      assign: { offset: offsetInvalid },
-      formatted: 'NaN'
-    }
-*/
-
   var updateProperty = function (element, properties) {
     for (var name in properties) {
       var path = name.split(/[.]/);
@@ -2316,959 +1980,134 @@ suite('I18nBehavior with ' +
       var lang = params.assign && params.assign.lang ? params.assign.lang : 'en';
       var event = params.event ? params.event : 'lang-updated';
 
-      suite(params.suite + ' lang property', function () {
-        setup(function () {
-          el = setupFixture(params, params.fixtureModel);
-        });
-
-        test('lang property is set as ' + params.lang, function (done) {
+      suiteSetup(function () {
+        el = setupFixture(params, params.fixtureModel);
+        return new Promise(function (resolve, reject) {
           if (params && params.assign && params.assign.lang) {
-            el.addEventListener('lang-updated', function langIsSet (e) {
+            el.addEventListener(event, function (e) {
               if (el === Polymer.dom(e).rootTarget) {
-                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                assert.isString(el.lang, 'lang property is a string');
-                assert.equal(el.lang, params.lang, 'lang property is set');
-                el.removeEventListener('lang-updated', langIsSet);
-                done();
+                console.log('suiteSetup received ' + event);
+                resolve(el);
               }
             });
             updateProperty(el, params.assign);
           }
           else {
             updateProperty(el, params.assign);
-            assert.isString(el.lang, 'lang property is a string');
-            assert.equal(el.lang, params.lang, 'lang property is set');
-            done();
+            resolve(el);
           }
-        });
-
-        teardown(function () {
-          restoreFixture(params.fixture);
         });
       });
 
-
-      if (params && params.assign && params.assign.lang) {
-        suite(params.suite + ' lang-updated event', function () {
-          setup(function () {
-            el = setupFixture(params, params.fixtureModel);
-          });
-
-          test('lang-updated event is fired', function (done) {
-            el.addEventListener('lang-updated', function langUpdatedFired (e) {
-              if (el === Polymer.dom(e).rootTarget) {
-                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                el.removeEventListener('lang-updated', langUpdatedFired);
-                done();
-              }
-            });
-            updateProperty(el, params.assign);
-          });
-
-          teardown(function () {
-            restoreFixture(params.fixture);
-          });
-        });
-      }
-
-      suite(params.suite + ' effectiveLang property', function () {
-        setup(function () {
-          el = setupFixture(params, params.fixtureModel);
-        });
-
-        test('effectiveLang property is set as ' + params.effectiveLang, function (done) {
-          if (params && params.assign && params.assign.lang) {
-            el.addEventListener('lang-updated', function effectiveLangIsSet (e) {
-              if (el === Polymer.dom(e).rootTarget) {
-                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                assert.isString(el.effectiveLang, 'effectiveLang property is a string');
-                assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang property is set');
-                el.removeEventListener('lang-updated', effectiveLangIsSet);
-                done();
-              }
-            });
-            updateProperty(el, params.assign);
-          }
-          else {
-            updateProperty(el, params.assign);
-            assert.isString(el.effectiveLang, 'effectiveLang property is a string');
-            assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang property is set');
-            done();
-          }
-        });
-
-        teardown(function () {
-          restoreFixture(params.fixture);
-        });
+      test('lang property is set as ' + params.lang, function () {
+        assert.isString(el.lang, 'lang property is a string');
+        assert.equal(el.lang, params.lang, 'lang property is set');
       });
-
-      suite(params.suite + ' templateDefaultLang property', function () {
-        setup(function () {
-          el = setupFixture(params, params.fixtureModel);
-        });
-
-        test('templateDefaultLang property is set as ' + params.templateDefaultLang, function (done) {
-          if (params && params.assign && params.assign.lang) {
-            el.addEventListener('lang-updated', function getTemplateDefaultLang (e) {
-              if (el === Polymer.dom(e).rootTarget) {
-                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                assert.isString(el.templateDefaultLang, 'templateDefaultLang property is a string');
-                assert.equal(el.templateDefaultLang, params.templateDefaultLang, 'templateDefaultLang property is set');
-                el.removeEventListener('lang-updated', getTemplateDefaultLang);
-                done();
-              }
-            });
-            updateProperty(el, params.assign);
-          }
-          else {
-            updateProperty(el, params.assign);
-            assert.isString(el.templateDefaultLang, 'templateDefaultLang property is a string');
-            assert.equal(el.templateDefaultLang, params.templateDefaultLang, 'templateDefaultLang property is set');
-            done();
-          }
-        });
-
-        teardown(function () {
-          restoreFixture(params.fixture);
-        });
+      test('effectiveLang property is set as ' + params.effectiveLang, function () {
+        assert.isString(el.effectiveLang, 'effectiveLang property is a string');
+        assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang property is set');
       });
-
-      suite(params.suite + ' observeHtmlLang property', function () {
-        setup(function () {
-          el = setupFixture(params, params.fixtureModel);
-        });
-
-        test('observeHtmlLang property is set as ' + params.observeHtmlLang, function (done) {
-          if (params && params.assign && params.assign.lang) {
-            el.addEventListener('lang-updated', function getObserveHtmlLang (e) {
-              if (el === Polymer.dom(e).rootTarget) {
-                assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
-                assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
-                el.removeEventListener('lang-updated', getObserveHtmlLang);
-                done();
-              }
-            });
-            updateProperty(el, params.assign);
-          }
-          else {
-            assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
-            assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
-            done();
-          }
-        });
-
-        teardown(function () {
-          restoreFixture(params.fixture);
-        });
+      test('templateDefaultLang property is set as ' + params.templateDefaultLang, function () {
+        assert.isString(el.templateDefaultLang, 'templateDefaultLang property is a string');
+        assert.equal(el.templateDefaultLang, params.templateDefaultLang, 'templateDefaultLang property is set');
+      });
+      test('observeHtmlLang property is set as ' + params.observeHtmlLang, function () {
+        assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
+        assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
       });
 
       if (params.text) {
-        suite(params.suite + ' text property', function () {
-          setup(function () {
-            el = setupFixture(params, params.fixtureModel);
-          });
-
-          test('text' + ' property is set as ' + JSON.stringify(params.text,null,2) + (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function (done) {
-            noProperties = true;
-            if (params && params.assign && params.assign.lang) {
-              el.addEventListener('lang-updated', function textIsSet (e) {
-                if (el === Polymer.dom(e).rootTarget) {
-                  assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                  assert.equal(el.lang, params.lang, 'lang is set as ' + params.lang);
-                  assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang is set as ' + params.effectiveLang);
-                  assert.isObject(el.text, 'text property is an object');
-                  //console.log(JSON.stringify(e.detail, null, 2));
-                  //console.log(JSON.stringify(el.text, null, 2));
-                  for (p in params.text) {
-                    noProperties = false;
-                    assert.deepEqual(el.text[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
-                  }
-                  el.removeEventListener('lang-updated', textIsSet);
-                  done();
-                }
-              });
-              updateProperty(el, params.assign);
-            }
-            else {
-              updateProperty(el, params.assign);
-              assert.isObject(el.text, 'text property is an object');
-              assert.deepEqual(el.text[p], params.rawText ? params.text[p] : translate(el.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
-              done();
-            }
-            if (noProperties) {
-              test('text property is set as ' + JSON.stringify(params.text), function () {
-                updateProperty(el, params.assign);
-                assert.isObject(el.text, 'text property is an object');
-                assert.deepEqual(el.text, params.text, 'text property is set');
-              });
-            }
-          });
-
-          teardown(function () {
-            restoreFixture(params.fixture);
-          });
+        test('text' + ' property is set as ' + JSON.stringify(params.text,null,2) + 
+          (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
+          noProperties = true;
+          assert.isObject(el.text, 'text property is an object');
+          //console.log(JSON.stringify(e.detail, null, 2));
+          //console.log(JSON.stringify(el.text, null, 2));
+          for (p in params.text) {
+            noProperties = false;
+            assert.deepEqual(el.text[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
+          }
+          if (noProperties) {
+            assert.deepEqual(el.text, params.text, 'text property is set');
+          }
         });
       }
 
       if (params.model) {
-        suite(params.suite + ' model property', function () {
-          setup(function () {
-            el = setupFixture(params, params.fixtureModel);
-          });
-
-          test('model' + ' property is set as ' + JSON.stringify(params.model,null,2) + (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function (done) {
-            noProperties = true;
-            if (params && params.assign && params.assign.lang) {
-              el.addEventListener('lang-updated', function modelIsSet (e) {
-                if (el.effectiveLang !== params.effectiveLang) {
-                  console.log('discarding lang-updated event for ' + el.effectiveLang);
-                  return true;
-                }
-                if (el === Polymer.dom(e).rootTarget) {
-                  assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                  assert.equal(el.lang, params.lang, 'lang is set as ' + params.lang);
-                  assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang is set as ' + params.effectiveLang);
-                  assert.isObject(el.model, 'model property is an object');
-                  for (p in params.model) {
-                    noProperties = false;
-                    //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
-                    //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
-                    assert.deepEqual(el.model[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
-                  }
-                  el.removeEventListener('lang-updated', modelIsSet);
-                  done();
-                }
-              });
-              updateProperty(el, params.assign);
-            }
-            else {
-              updateProperty(el, params.assign);
-              assert.isObject(el.model, 'model property is an object');
-              assert.deepEqual(el.model[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
-              done();
-            }
-            if (noProperties) {
-              test('model property is set as ' + JSON.stringify(params.model), function () {
-                updateProperty(el, params.assign);
-                assert.isObject(el.model, 'model property is an object');
-                assert.deepEqual(el.model, params.model, 'model property is set');
-              });
-            }
-          });
-
-          teardown(function () {
-            restoreFixture(params.fixture);
-          });
+        test('model' + ' property is set as ' + JSON.stringify(params.model,null,2) + 
+          (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
+          noProperties = true;
+          assert.isObject(el.model, 'model property is an object');
+          for (p in params.model) {
+            noProperties = false;
+            //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
+            //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
+            assert.deepEqual(el.model[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
+          }
+          if (noProperties) {
+            assert.deepEqual(el.model, params.model, 'model property is set');
+          }
         });
       }
 
       if (params.localDOM) {
-        suite(params.suite + ' local DOM', function () {
-          setup(function () {
-            el = setupFixture(params, params.fixtureModel);
-          });
-
-          test('local DOM ' + JSON.stringify(params.localDOM, null, 2) + ' is set' + 
-                (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), 
-            function (done) {
-              if (params && params.assign && params.assign.lang) {
-                el.addEventListener(event, function localDomSet (e) {
-                  if (el === Polymer.dom(e).rootTarget &&
-                      el.lang === params.lang) {
-                    assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                    assert.equal(el.lang, params.lang, 'lang is set as ' + params.lang);
-                    assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang is set as ' + params.effectiveLang);
-                    params.localDOM.forEach(function (childPath) {
-                      var completeStatus;
-                      var nodes = Polymer.dom(getLocalDomRoot(el)).querySelectorAll(childPath.select);
-                      assert.ok(nodes.length > 0, childPath.select + ' is defined');
-                      for (var p in childPath) {
-                        if (p === 'select') {
-                          continue;
-                        }
-                        //console.log(p + ' is set as ' + childPath[p]);
-                        if (Array.isArray(childPath[p])) {
-                          //console.log(nodes);
-                          Array.prototype.forEach.call(childPath[p], function (path, i, a) {
-                            assert.equal(getProperty(nodes[i], p), params.rawText ? path : translate(params.effectiveLang, p, path), p + ' is set as ' + translate(params.effectiveLang, p, path));
-                          });
-                        }
-                        else {
-                          //console.log(nodes[0]);
-                          assert.equal(getProperty(nodes[0], p), params.rawText ? childPath[p] : translate(params.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(params.effectiveLang, p, childPath[p]));
-                        }
-                      }
-                      //console.log(childPath);
-                    });
-                    el.removeEventListener(event, localDomSet);
-                    done();
-                  }
+        test('local DOM ' + JSON.stringify(params.localDOM, null, 2) + ' is set' + 
+              (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
+          params.localDOM.forEach(function (childPath) {
+            var completeStatus;
+            var nodes = Polymer.dom(getLocalDomRoot(el)).querySelectorAll(childPath.select);
+            assert.ok(nodes.length > 0, childPath.select + ' is defined');
+            for (var p in childPath) {
+              if (p === 'select') {
+                continue;
+              }
+              //console.log(p + ' is set as ' + childPath[p]);
+              if (Array.isArray(childPath[p])) {
+                //console.log(nodes);
+                Array.prototype.forEach.call(childPath[p], function (path, i, a) {
+                  assert.equal(getProperty(nodes[i], p), params.rawText ? path : translate(params.effectiveLang, p, path), p + ' is set as ' + translate(params.effectiveLang, p, path));
                 });
-                updateProperty(el, params.assign);
               }
               else {
-                updateProperty(el, params.assign);
-                params.localDOM.forEach(function (childPath) {
-                  var nodes = Polymer.dom(getLocalDomRoot(el)).querySelectorAll(childPath.select);
-                  assert.ok(nodes.length > 0, childPath.select + ' is defined');
-                  for (var p in childPath) {
-                    if (p === 'select') {
-                      continue;
-                    }
-                    //console.log(p + ' is set as ' + childPath[p]);
-                    if (Array.isArray(childPath[p])) {
-                      //console.log(nodes);
-                      Array.prototype.forEach.call(childPath[p], function (path, i, a) {
-                        assert.equal(getProperty(nodes[i], p), params.rawText ? path : translate(el.lang, p, path), p + ' is set as ' + translate(el.lang, p, path));
-                      });
-                    }
-                    else {
-                      //console.log(nodes[0]);
-                      assert.equal(getProperty(nodes[0], p), params.rawText ? childPath[p] : translate(el.lang, p, childPath[p]), p + ' is set as ' + translate(el.lang, p, childPath[p]));
-                    }
-                  }
-                  //console.log(childPath);
-                });
-                done();
+                //console.log(nodes[0]);
+                assert.equal(getProperty(nodes[0], p), params.rawText ? childPath[p] : translate(params.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(params.effectiveLang, p, childPath[p]));
               }
             }
-          );
-
-          teardown(function () {
-            restoreFixture(params.fixture);
+            //console.log(childPath);
           });
         });
       }
 
       if (params.lightDOM) {
-        suite(params.suite + ' light DOM', function () {
-          setup(function () {
-            el = setupFixture(params, params.fixtureModel);
-          });
-
-          test('light DOM ' + JSON.stringify(params.lightDOM, null, 2) + ' is set' + 
-                (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), 
-            function (done) {
-              if (params && params.assign && params.assign.lang) {
-                el.addEventListener(event, function lightDomSet (e) {
-                  if (el === Polymer.dom(e).rootTarget) {
-                    assert.equal(el, Polymer.dom(e).rootTarget, 'event target is the element');
-                    assert.equal(el.lang, params.lang, 'lang is set as ' + params.lang);
-                    assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang is set as ' + params.effectiveLang);
-                    params.lightDOM.forEach(function (childPath) {
-                      var completeStatus;
-                      var nodes = Polymer.dom(el).querySelectorAll(childPath.select);
-                      assert.ok(nodes.length > 0, childPath.select + ' is defined');
-                      for (var p in childPath) {
-                        if (p === 'select') {
-                          continue;
-                        }
-                        //console.log(p + ' is set as ' + childPath[p]);
-                        if (Array.isArray(childPath[p])) {
-                          //console.log(nodes);
-                          Array.prototype.forEach.call(childPath[p], function (path, i, a) {
-                            assert.equal(getProperty(nodes[i], p), translate(params.effectiveLang, p, path), p + ' is set as ' + translate(params.effectiveLang, p, path));
-                          });
-                        }
-                        else {
-                          //console.log(nodes[0]);
-                          assert.equal(getProperty(nodes[0], p), translate(params.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(params.effectiveLang, p, childPath[p]));
-                        }
-                      }
-                      //console.log(childPath);
-                    });
-                    el.removeEventListener(event, lightDomSet);
-                    done();
-                  }
+        test('light DOM ' + JSON.stringify(params.lightDOM, null, 2) + ' is set' + 
+              (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
+          params.lightDOM.forEach(function (childPath) {
+            var completeStatus;
+            var nodes = Polymer.dom(el).querySelectorAll(childPath.select);
+            assert.ok(nodes.length > 0, childPath.select + ' is defined');
+            for (var p in childPath) {
+              if (p === 'select') {
+                continue;
+              }
+              //console.log(p + ' is set as ' + childPath[p]);
+              if (Array.isArray(childPath[p])) {
+                //console.log(nodes);
+                Array.prototype.forEach.call(childPath[p], function (path, i, a) {
+                  assert.equal(getProperty(nodes[i], p), translate(params.effectiveLang, p, path), p + ' is set as ' + translate(params.effectiveLang, p, path));
                 });
-                updateProperty(el, params.assign);
               }
               else {
-                updateProperty(el, params.assign);
-                params.localDOM.forEach(function (childPath) {
-                  var nodes = Polymer.dom(el).querySelectorAll(childPath.select);
-                  assert.ok(nodes.length > 0, childPath.select + ' is defined');
-                  for (var p in childPath) {
-                    if (p === 'select') {
-                      continue;
-                    }
-                    //console.log(p + ' is set as ' + childPath[p]);
-                    if (Array.isArray(childPath[p])) {
-                      //console.log(nodes);
-                      Array.prototype.forEach.call(childPath[p], function (path, i, a) {
-                        assert.equal(getProperty(nodes[i], p), translate(el.lang, p, path), p + ' is set as ' + translate(el.lang, p, path));
-                      });
-                    }
-                    else {
-                      //console.log(nodes[0]);
-                      assert.equal(getProperty(nodes[0], p), translate(el.lang, p, childPath[p]), p + ' is set as ' + translate(el.lang, p, childPath[p]));
-                    }
-                  }
-                  //console.log(childPath);
-                });
-                done();
+                //console.log(nodes[0]);
+                assert.equal(getProperty(nodes[0], p), translate(params.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(params.effectiveLang, p, childPath[p]));
               }
             }
-          );
-
-          teardown(function () {
-            restoreFixture(params.fixture);
+            //console.log(childPath);
           });
         });
       }
 
-/*
-      test('childNodes are set as ' + JSON.stringify(params.childNodes), function () {
-        updateProperty(el, params.assign);
-        var childNodes = Polymer.dom(el.root).childNodes;
-        var i;
-        for (i = 0; i < params.childNodes.length; i++) {
-          for (var p in params.childNodes[i]) {
-            assert.equal(childNodes[i][p] || childNodes[i].getAttribute(p), params.childNodes[i][p], p + ' is set as ' + params.childNodes[i][p]);
-          }
-        }
-      });
-
-      test('parameters are set as ' + JSON.stringify(params.parameters), function () {
-        updateProperty(el, params.assign);
-        var i;
-        for (i = 0; i < params.parameters.length; i++) {
-          var node = Polymer.dom(el).querySelector(params.parameters[i].select);
-          assert.isDefined(node, params.parameters[i].select + ' is defined');
-          for (var p in params.parameters[i]) {
-            if (p === 'select') {
-              continue;
-            }
-            assert.equal(getProperty(node, p), params.parameters[i][p], p + ' is set as ' + params.parameters[i][p]);
-          }
-        }
-      });
-
-*/
-    });
-  });
-
-  var boundSuites = [
-  /*
-    { 
-      suite: 'change bound text values', 
-      fixture: 'bound-and-wrapped',
-      target: 'simple',
-      fixtureModel: {
-        lang: lang1,
-        text: [
-          'Parameter {1} and {2} are rendered.',
-          'A',
-          'B'
-        ]
-      }, 
-      assign: { 
-        text: [
-          'Param {2} and {1} are re-rendered.',
-          'AAA',
-          'BBB'
-        ]
-      },
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [
-        { nodeName: '#text', data: 'Param ' },
-        { nodeName: 'CONTENT', select: '[param=\'2\']' },
-        { nodeName: '#text', data: ' and ' },
-        { nodeName: 'CONTENT', select: '[param=\'1\']' },
-        { nodeName: '#text', data: ' are re-rendered.' }
-      ],
-      parameters: [
-        { select: 'b[param=\'1\']', textContent: 'AAA' },
-        { select: 'i[param=\'2\']', textContent: 'BBB' }
-      ]
-    },
-    { 
-      suite: 'plural category other', 
-      fixture: 'bound-and-wrapped',
-      target: 'compound',
-      fixtureModel: {
-        recipients: []
-      },
-      assign: { 
-        recipients: [
-          { name: 'Alice', gender: 'female' },
-          { name: 'Bob', gender: 'male' },
-          { name: 'Yoda', gender: 'other' }
-        ]
-      },
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [
-        { nodeName: '#text', data: 'You (' },
-        { nodeName: 'CONTENT', select: '[param=\'3\']' },
-        { nodeName: '#text', data: ') gave them (' },
-        { nodeName: 'CONTENT', select: '[param=\'4\']' },
-        { nodeName: '#text', data: ') and ' },
-        { nodeName: 'CONTENT', select: '[param=\'1\']' },
-        { nodeName: '#text', data: ' other people gifts.' }
-      ],
-      parameters: [
-        { select: 'i18n-number[param=\'1\']', number: 2, formatted: '2', 'root.PolymerDom.children.0.textContent': '2' },
-        { select: 'span[param=\'2\']', textContent: 'female' },
-        { select: 'span[param=\'3\']', textContent: 'Joe' },
-        { select: 'span[param=\'4\']', textContent: 'Alice' },
-        { select: 'span[param=\'5\']', textContent: 'a gift' }
-      ]
-    },
-    { 
-      suite: 'plural category one', 
-      fixture: 'bound-and-wrapped',
-      target: 'compound',
-      fixtureModel: {
-        recipients: []
-      },
-      assign: { 
-        recipients: [
-          { name: 'Alice', gender: 'female' },
-          { name: 'Bob', gender: 'male' }
-        ]
-      },
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [
-        { nodeName: '#text', data: 'You (' },
-        { nodeName: 'CONTENT', select: '[param=\'3\']' },
-        { nodeName: '#text', data: ') gave her (' },
-        { nodeName: 'CONTENT', select: '[param=\'4\']' },
-        { nodeName: '#text', data: ') and one other person ' },
-        { nodeName: 'CONTENT', select: '[param=\'5\']' },
-        { nodeName: '#text', data: '.' }
-      ],
-      parameters: [
-        { select: 'i18n-number[param=\'1\']', number: 1, formatted: '1', 'root.PolymerDom.children.0.textContent': '1' },
-        { select: 'span[param=\'2\']', textContent: 'female' },
-        { select: 'span[param=\'3\']', textContent: 'Joe' },
-        { select: 'span[param=\'4\']', textContent: 'Alice' },
-        { select: 'span[param=\'5\']', textContent: 'a gift' }
-      ]
-    },
-    { 
-      suite: 'plural category 0', 
-      fixture: 'bound-and-wrapped',
-      target: 'compound',
-      fixtureModel: {
-        recipients: [
-          { name: 'Alice', gender: 'female' },
-          { name: 'Bob', gender: 'male' }
-        ]
-      },
-      assign: { 
-        recipients: []
-      },
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [
-        { nodeName: '#text', data: 'You (' },
-        { nodeName: 'CONTENT', select: '[param=\'3\']' },
-        { nodeName: '#text', data: ') gave no gifts.' }
-      ],
-      parameters: [
-        { select: 'i18n-number[param=\'1\']', number: -1, formatted: '-1', rawNumber: 0, 'root.PolymerDom.children.0.textContent': '-1' },
-        { select: 'span[param=\'2\']', textContent: '' },
-        { select: 'span[param=\'3\']', textContent: 'Joe' },
-        { select: 'span[param=\'4\']', textContent: '' },
-        { select: 'span[param=\'5\']', textContent: 'a gift' }
-      ]
-    },
-    { 
-      suite: 'plural category 1', 
-      fixture: 'bound-and-wrapped',
-      target: 'compound',
-      fixtureModel: {
-        recipients: [
-          { name: 'Alice', gender: 'female' },
-          { name: 'Bob', gender: 'male' }
-        ]
-      },
-      assign: { 
-        recipients: [
-          { name: 'Alice', gender: 'female' },
-        ]
-      },
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [
-        { nodeName: '#text', data: 'You (' },
-        { nodeName: 'CONTENT', select: '[param=\'3\']' },
-        { nodeName: '#text', data: ') gave her (' },
-        { nodeName: 'CONTENT', select: '[param=\'4\']' },
-        { nodeName: '#text', data: ') ' },
-        { nodeName: 'CONTENT', select: '[param=\'5\']' },
-        { nodeName: '#text', data: '.' }
-      ],
-      parameters: [
-        { select: 'i18n-number[param=\'1\']', number: 0, formatted: '0', rawNumber: 1, 'root.PolymerDom.children.0.textContent': '0' },
-        { select: 'span[param=\'2\']', textContent: 'female' },
-        { select: 'span[param=\'3\']', textContent: 'Joe' },
-        { select: 'span[param=\'4\']', textContent: 'Alice' },
-        { select: 'span[param=\'5\']', textContent: 'a gift' }
-      ]
-    },
-    { 
-      suite: 'update lang and re-render', 
-      fixture: 'bound-and-wrapped',
-      target: 'compound',
-      fixtureModel: {
-        lang: lang1,
-        recipients: [
-          { name: 'Alice', gender: 'female' },
-          { name: 'Bob', gender: 'male' }
-        ]
-      },
-      assign: { 
-        lang: lang3 // 'ja' -> plural category 'other'
-      },
-      lang: lang3,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [
-        { nodeName: '#text', data: 'You (' },
-        { nodeName: 'CONTENT', select: '[param=\'3\']' },
-        { nodeName: '#text', data: ') gave them (' },
-        { nodeName: 'CONTENT', select: '[param=\'4\']' },
-        { nodeName: '#text', data: ') and ' },
-        { nodeName: 'CONTENT', select: '[param=\'1\']' },
-        { nodeName: '#text', data: ' other people gifts.' }
-      ],
-      parameters: [
-        { select: 'i18n-number[param=\'1\']', number: 1, formatted: '1', 'root.PolymerDom.children.0.textContent': '1' },
-        { select: 'span[param=\'2\']', textContent: 'female' },
-        { select: 'span[param=\'3\']', textContent: 'Joe' },
-        { select: 'span[param=\'4\']', textContent: 'Alice' },
-        { select: 'span[param=\'5\']', textContent: 'a gift' }
-      ]
-    },
-    { 
-      suite: 'empty text', 
-      fixture: 'bound-and-wrapped',
-      target: 'compound',
-      fixtureModel: {
-      },
-      assign: { 
-        compoundText: []
-      },
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [],
-      parameters: [
-        { select: 'i18n-number[param=\'1\']', number: 2, formatted: '2', 'root.PolymerDom.children.0.textContent': '2' },
-        { select: 'span[param=\'2\']', textContent: 'female' },
-        { select: 'span[param=\'3\']', textContent: 'Joe' },
-        { select: 'span[param=\'4\']', textContent: 'Alice' },
-        { select: 'span[param=\'5\']', textContent: '' }
-      ]
-    },
-    { 
-      suite: 'illegal compound template', 
-      fixture: 'bound-and-wrapped',
-      target: 'compound',
-      fixtureModel: {
-      },
-      assign: { 
-        compoundText: [
-          { 'illegal': 'illegal compound template' }
-        ]
-      },
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat1,
-      childNodes: [],
-      parameters: [
-        { select: 'i18n-number[param=\'1\']', number: 2, formatted: '2', 'root.PolymerDom.children.0.textContent': '2' },
-        { select: 'span[param=\'2\']', textContent: 'female' },
-        { select: 'span[param=\'3\']', textContent: 'Joe' },
-        { select: 'span[param=\'4\']', textContent: 'Alice' },
-        { select: 'span[param=\'5\']', textContent: '' }
-      ]
-    },
-    { 
-      suite: 'change paramFormat', 
-      fixture: 'bound-and-wrapped',
-      target: 'compound',
-      fixtureModel: {
-        compoundText: [
-          {
-            '0': 'You (%3%) gave no gifts.',
-            '1': {
-              'male': 'You (%3%) gave him (%4%) %5%.',
-              'female': 'You (%3%) gave her (%4%) %5%.',
-              'other': 'You (%3%) gave them (%4%) %5%.'
-            },
-            'one': {
-              'male': 'You (%3%) gave him (%4%) and one other person %5%.',
-              'female': 'You (%3%) gave her (%4%) and one other person %5%.',
-              'other': 'You (%3%) gave them (%4%) and one other person %5%.'
-            },
-            'other': 'You (%3%) gave them (%4%) and %1% other people gifts.'
-          },
-          '{{recipients.length}}', // dummy
-          '{{recipients.0.gender}}', // dummy
-          '{{sender.name}}', // dummy
-          '{{recipients.0.name}}', // dummy
-          'a gift'
-        ],
-        recipients: [
-          { name: 'Alice', gender: 'female' },
-          { name: 'Bob', gender: 'male' }
-        ]
-      },
-      assign: {
-        paramFormat: paramFormat2
-      },
-      lang: lang1,
-      paramAttribute: paramAttribute1,
-      paramFormat: paramFormat2,
-      childNodes: [
-        { nodeName: '#text', data: 'You (' },
-        { nodeName: 'CONTENT', select: '[param=\'3\']' },
-        { nodeName: '#text', data: ') gave her (' },
-        { nodeName: 'CONTENT', select: '[param=\'4\']' },
-        { nodeName: '#text', data: ') and one other person ' },
-        { nodeName: 'CONTENT', select: '[param=\'5\']' },
-        { nodeName: '#text', data: '.' }
-      ],
-      parameters: [
-        { select: 'i18n-number[param=\'1\']', number: 1, formatted: '1', 'root.PolymerDom.children.0.textContent': '1' },
-        { select: 'span[param=\'2\']', textContent: 'female' },
-        { select: 'span[param=\'3\']', textContent: 'Joe' },
-        { select: 'span[param=\'4\']', textContent: 'Alice' },
-        { select: 'span[param=\'5\']', textContent: 'a gift' }
-      ]
-    },
-    { 
-      suite: 'change paramAttribute', 
-      fixture: 'bound-and-wrapped',
-      target: 'compound',
-      fixtureModel: {
-        recipients: [
-          { name: 'Alice', gender: 'female' },
-          { name: 'Bob', gender: 'male' }
-        ]
-      },
-      assign: {
-        paramAttribute: paramAttribute2
-      },
-      lang: lang1,
-      paramAttribute: paramAttribute2,
-      paramFormat: paramFormat1,
-      childNodes: [
-        { nodeName: '#text', data: 'You (' },
-        { nodeName: 'CONTENT', select: '[parameter=\'3\']' },
-        { nodeName: '#text', data: ') gave her (' },
-        { nodeName: 'CONTENT', select: '[parameter=\'4\']' },
-        { nodeName: '#text', data: ') and one other person ' },
-        { nodeName: 'CONTENT', select: '[parameter=\'5\']' },
-        { nodeName: '#text', data: '.' }
-      ],
-      parameters: [
-        { select: 'i18n-number[parameter=\'1\']', number: 1, formatted: '1', 'root.PolymerDom.children.0.textContent': '1' },
-        { select: 'span[parameter=\'2\']', textContent: 'female' },
-        { select: 'span[parameter=\'3\']', textContent: 'Joe' },
-        { select: 'span[parameter=\'4\']', textContent: 'Alice' },
-        { select: 'span[parameter=\'5\']', textContent: 'a gift' }
-      ]
-    }
-  */
-  ];
-
-  suite('bound in a local DOM', function () {
-    var wrapper;
-    var el;
-
-    var reattach = function (placeholder) {
-      var simple = Polymer.dom(placeholder).querySelector('#simple');
-      var compound = Polymer.dom(placeholder).querySelector('#compound');
-      Polymer.dom(placeholder).removeChild(simple);
-      Polymer.dom(placeholder).appendChild(simple);
-      Polymer.dom(placeholder).removeChild(compound);
-      Polymer.dom(placeholder).appendChild(compound);
-    };
-
-    boundSuites.forEach(function (params) {
-
-      [ false, true ].forEach(function (isReattach) {
-
-        suite(params.suite + (isReattach ? ' with reattaching' : ''), function () {
-
-          setup(function () {
-            wrapper = fixture(params.fixture, params.fixtureModel);
-            if (isReattach) {
-              reattach(wrapper.$.placeholder);
-            }
-            el = wrapper.$[params.target];
-          });
-
-          test('lang property is ' + params.lang, function () {
-            updateModel(wrapper, params.assign);
-            assert.equal(el.lang, params.lang, 'lang is ' + params.lang);
-          });
-
-          test('paramAttribute property is ' + params.paramAttribute, function () {
-            updateModel(wrapper, params.assign);
-            assert.equal(el.paramAttribute, params.paramAttribute, 'paramAttribute is ' + params.paramAttribute);
-          });
-
-          test('paramFormat property is ' + params.paramFormat, function () {
-            updateModel(wrapper, params.assign);
-            assert.equal(el.paramFormat, params.paramFormat, 'paramFormat is ' + params.paramFormat);
-          });
-
-          test('updated childNodes are ' + JSON.stringify(params.childNodes), function (done) {
-            el.addEventListener('rendered', function (e) {
-              if (e.target === el) {
-                var childNodes = Polymer.dom(el.root).childNodes;
-                var i;
-                for (i = 0; i < params.childNodes.length; i++) {
-                  for (var p in params.childNodes[i]) {
-                    assert.equal(childNodes[i][p] || childNodes[i].getAttribute(p), params.childNodes[i][p], p + ' is set as ' + params.childNodes[i][p]);
-                  }
-                }
-                done();
-              }
-            });
-            updateModel(wrapper, params.assign);
-          });
-
-          test('updated parameters are ' + JSON.stringify(params.parameters), function (done) {
-            el.addEventListener('rendered', function (e) {
-              if (e.target === el) {
-                var i;
-                for (i = 0; i < params.parameters.length; i++) {
-                  var node = Polymer.dom(el).querySelector(params.parameters[i].select);
-                  assert.isDefined(node, params.parameters[i].select + ' is defined');
-                  for (var p in params.parameters[i]) {
-                    if (p === 'select') {
-                      continue;
-                    }
-                    assert.equal(getProperty(node, p), params.parameters[i][p], p + ' is set as ' + params.parameters[i][p]);
-                  }
-                }
-                done();
-              }
-            });
-            updateModel(wrapper, params.assign);
-          });
-
-    /*
-          suite('bound value changed' 
-                + (isReattach ? ' with reattaching' : ''), function () {
-            setup(function () {
-              el = wrapper.$.num;
-            });
-
-            test('change bound value to ' + rawNumber1, function (done) {
-              el.addEventListener('rendered', function (e) {
-                assert.equal(el.$.number.textContent, '123,456.789', 
-                            'renders the formatted number');    
-                done();
-              });
-              wrapper.number = rawNumber1;
-            });
-
-          });
-
-          suite('bound value emptied' 
-                + (isReattach ? ' with reattaching' : ''), function () {
-            setup(function () {
-              el = wrapper.$.num2;
-            });
-
-            test('change bound value to empty', function (done) {
-              el.addEventListener('rendered', function (e) {
-                assert.equal(el.$.number.textContent, '', 
-                            'renders the formatted number');    
-                done();
-              });
-              wrapper.number2 = '';
-            });
-
-          });
-
-          suite('non-bound empty textContent changed' 
-                + (isReattach ? ' with reattaching' : ''), function () {
-            setup(function () {
-              el = wrapper.$.empty;
-            });
-
-            test('change empty textContent value to ' + rawNumber1, function (done) {
-              el.addEventListener('rendered', function (e) {
-                assert.equal(el.$.number.textContent, '123,456.789', 
-                            'renders the formatted number');    
-                done();
-              });
-              Polymer.dom(el).textContent = rawNumber1;
-            });
-
-          });
-
-          suite('currency options value changed' 
-                + (isReattach ? ' with reattaching' : ''), function () {
-            setup(function () {
-              el = wrapper.$.currency;
-            });
-
-            test('change currency options value to JPY', function (done) {
-              el.addEventListener('rendered', function (e) {
-                assert.equal(el.$.number.textContent, '¥123,457', 
-                            'renders the formatted currency');
-                done();
-              });
-              wrapper.options.currency = 'JPY';
-              wrapper.notifyPath('options.currency', wrapper.options.currency, true);
-            });
-
-          });
-
-          suite('currency options value changed' 
-                + (isReattach ? ' with reattaching' : ''), function () {
-            setup(function () {
-              el = wrapper.$.currency;
-            });
-
-            test('change currency options value to JPY and render()', function (done) {
-              el.addEventListener('rendered', function (e) {
-                assert.equal(el.$.number.textContent, '¥123,457', 
-                            'renders the formatted currency');
-                done();
-              });
-              wrapper.options.currency = 'JPY';
-              el.render();
-            });
-
-          });
-
-          suite('bound currency options value changed' 
-                + (isReattach ? ' with reattaching' : ''), function () {
-            setup(function () {
-              el = wrapper.$.currency;
-            });
-
-            test('change bound currency options value to JPY', function (done) {
-              el.addEventListener('rendered', function (e) {
-                assert.equal(el.$.number.textContent, '¥123,457', 
-                            'renders the formatted currency');
-                done();
-              });
-              wrapper.$.currencySelector.select('JPY');
-              //wrapper.notifyPath('options.currency', wrapper.options.currency, true);
-            });
-
-          });
-    */
-        });
+      suiteTeardown(function () {
+        restoreFixture(params.fixture);
       });
     });
   });
