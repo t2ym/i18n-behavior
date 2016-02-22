@@ -5,7 +5,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script src="../../../webcomponentsjs/webcomponents.js"></script>
+    <script src="../../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <script src="../../../web-component-tester/browser.js"></script>
 
     <link rel="import" href="../../../promise-polyfill/promise-polyfill-lite.html">
@@ -1985,8 +1985,9 @@ suite('I18nBehavior with ' +
         return new Promise(function (resolve, reject) {
           if (params && params.assign && params.assign.lang) {
             el.addEventListener(event, function (e) {
-              if (el === Polymer.dom(e).rootTarget) {
-                console.log('suiteSetup received ' + event);
+              if (el === Polymer.dom(e).rootTarget &&
+                  el.lang === params.lang &&
+                  el.effectiveLang === params.effectiveLang) {
                 resolve(el);
               }
             });
