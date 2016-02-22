@@ -18898,10 +18898,11 @@ suite('I18nBehavior with ' +
         el = setupFixture(params, params.fixtureModel);
         return new Promise(function (resolve, reject) {
           if (params && params.assign && params.assign.lang) {
-            el.addEventListener(event, function (e) {
+            el.addEventListener(event, function fixtureSetup (e) {
               if (el === Polymer.dom(e).rootTarget &&
                   el.lang === params.lang &&
                   el.effectiveLang === params.effectiveLang) {
+                el.removeEventListener(event, fixtureSetup);
                 resolve(el);
               }
             });
