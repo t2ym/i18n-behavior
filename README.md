@@ -242,6 +242,37 @@ without overheads of run-time traversal into the whole template.
     git diff app
 ```
 
+## Testing
+
+### Test Suites
+
+| Test Suites      | UI Strings | L10N JSON | HTML       |
+|:-----------------|:-----------|:----------|:-----------|
+| test/src         | Hard-coded | Modular   | Modular    |
+| test/preprocess  | Extracted  | Modular   | Modular    |
+| test/vulcanize   | Extracted  | Bundled   | Vulcanized |
+
+### Online Test
+
+Available at https://t2ym.github.io/i18n-behavior/components/i18n-behavior/test/
+
+### Rebuild Test Suites
+
+Rebuild [preprocessed](https://github.com/t2ym/gulp-i18n-preprocess) and [vulcanized](https://github.com/Polymer/vulcanize) test suites by the following commmand.
+
+```
+    gulp pretest
+```
+
+### Local/Remote Browsers Test
+
+These `test:*` tasks perform the `pretest` task as a dependency.
+
+```
+    gulp test:local  # local browsers; Chrome and Firefox are preset in wct.conf.json
+    gulp test:remote # remote browsers on Sauce Labs; Edge, IE10/11, Safari 7/8/9 are preset in wct.conf.json
+```
+
 ## License
 
 [BSD-2-Clause](https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md)
