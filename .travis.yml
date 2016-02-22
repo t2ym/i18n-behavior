@@ -30,3 +30,6 @@ addons:
 script:
   - xvfb-run gulp test:local
   - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then gulp test:remote; fi
+  - cp -vf ie10.wct.conf.json wct.conf.json
+  - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then gulp test:remote; fi
+  
