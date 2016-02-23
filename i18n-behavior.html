@@ -176,7 +176,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
        */
       lang: {
         type: String,
-        value: function () { return defaultLang; },
+        value: defaultLang,
         reflectToAttribute: true,
         observer: '_langChanged'
       },
@@ -2125,8 +2125,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      * Handle `dom-change` event for `i18n-dom-bind`
      */
     _onDomChange: function () {
+      // Fix #16: [IE11][Polymer 1.3.0] On IE11, i18n-dom-bind does not work with Polymer 1.3.0
+      // Patch the broken lang property accessors manually if it is missing
+      if (this._propertyEffects.lang &&
+          !Object.getOwnPropertyDescriptor(this, 'lang')) {
+        Polymer.Bind._createAccessors(this, 'lang', this._propertyEffects.lang);
+      }
       this.removeEventListener('dom-change', this._onDomChangeBindThis);
-      this.model = deepcopy(this.text.model);
+      if (this.text && this.text.model) {
+        this.model = deepcopy(this.text.model);
+      }
       if (this.observeHtmlLang) {
         this.lang = html.lang;
         this._observeHtmlLangChanged(true);
