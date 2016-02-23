@@ -5,6 +5,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
+    <script>
+/*!
+ * @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
+ * Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+ */
+    </script>
+
     <script src="../../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <script src="../../../web-component-tester/browser.js"></script>
 
@@ -1898,6 +1905,13 @@ suite('I18nBehavior with ' +
     return result;
   };
 
+  var minifyText = function (text) {
+    if (text && typeof text === 'string') {
+      text = text.replace(/\n[\s]{1,}/g, '\n ');
+    }
+    return text;
+  };
+
   var setupFixture = function (params, fixtureModel) {
     var fixtureName = params.fixture;
     var e = document.querySelector('#' + fixtureName);
@@ -1972,6 +1986,7 @@ suite('I18nBehavior with ' +
       var p;
       var n;
       var i, j;
+      var expected;
       var results;
       var node;
       var rawValue = params.rawValue;
@@ -2021,16 +2036,21 @@ suite('I18nBehavior with ' +
       if (params.text) {
         test('text' + ' property is set as ' + JSON.stringify(params.text,null,2) + 
           (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
+          expected = deepMap(deepcopy(params.text), params.text, minifyText);
           noProperties = true;
           assert.isObject(el.text, 'text property is an object');
           //console.log(JSON.stringify(e.detail, null, 2));
           //console.log(JSON.stringify(el.text, null, 2));
-          for (p in params.text) {
+          for (p in expected) {
             noProperties = false;
-            assert.deepEqual(el.text[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.text[p]), 'text.' + p + ' property is set for ' + params.effectiveLang);
+            assert.deepEqual(deepMap(deepcopy(el.text[p]), el.text[p], minifyText),
+              params.rawText ? expected[p] : translate(params.effectiveLang, null, expected[p]),
+              'text.' + p + ' property is set for ' + params.effectiveLang);
           }
           if (noProperties) {
-            assert.deepEqual(el.text, params.text, 'text property is set');
+            assert.deepEqual(deepMap(deepcopy(el.text), el.text, minifyText),
+              expected,
+              'text property is set');
           }
         });
       }
@@ -2044,7 +2064,9 @@ suite('I18nBehavior with ' +
             noProperties = false;
             //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
             //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
-            assert.deepEqual(el.model[p], params.rawText ? params.text[p] : translate(params.effectiveLang, null, params.model[p]), 'model.' + p + ' property is set for ' + params.effectiveLang);
+            assert.deepEqual(el.model[p],
+              params.rawText ? params.model[p] : translate(params.effectiveLang, null, params.model[p]),
+              'model.' + p + ' property is set for ' + params.effectiveLang);
           }
           if (noProperties) {
             assert.deepEqual(el.model, params.model, 'model property is set');
@@ -2067,12 +2089,16 @@ suite('I18nBehavior with ' +
               if (Array.isArray(childPath[p])) {
                 //console.log(nodes);
                 Array.prototype.forEach.call(childPath[p], function (path, i, a) {
-                  assert.equal(getProperty(nodes[i], p), params.rawText ? path : translate(params.effectiveLang, p, path), p + ' is set as ' + translate(params.effectiveLang, p, path));
+                  assert.equal(minifyText(getProperty(nodes[i], p)),
+                    minifyText(params.rawText ? path : translate(params.effectiveLang, p, path)),
+                    p + ' is set as ' + minifyText(params.rawText ? path : translate(params.effectiveLang, p, path)));
                 });
               }
               else {
                 //console.log(nodes[0]);
-                assert.equal(getProperty(nodes[0], p), params.rawText ? childPath[p] : translate(params.effectiveLang, p, childPath[p]), p + ' is set as ' + translate(params.effectiveLang, p, childPath[p]));
+                assert.equal(minifyText(getProperty(nodes[0], p)),
+                  minifyText(params.rawText ? childPath[p] : translate(params.effectiveLang, p, childPath[p])),
+                  p + ' is set as ' + translate(params.rawText ? childPath[p] : params.effectiveLang, p, childPath[p]));
               }
             }
             //console.log(childPath);

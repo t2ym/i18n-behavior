@@ -1,0 +1,798 @@
+<html lang="en" preferred=""><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"><script src="../../../web-component-tester/browser.js"></script><style>
+    .test-container.running-test {
+      display: block;
+    }
+    .test-container:not(.running-test) { 
+      display: none;
+    }
+    </style></head><body><div hidden="" by-vulcanize=""><dom-module id="i18n-number" assetpath="../../../i18n-number/"><template><span id="number"></span></template></dom-module><dom-module id="i18n-format" assetpath="../../../i18n-format/"><template></template></dom-module><dom-module id="iron-localstorage" assetpath="../../../iron-localstorage/"></dom-module><dom-module id="i18n-preference" assetpath="../../"><template><iron-localstorage id="storage" name="i18n-behavior-preference"></iron-localstorage></template></dom-module><dom-module id="i18n-attr-repo" assetpath="../../"><template><template id="standard"><input placeholder=""><paper-input label="" error-message="" placeholder=""></paper-input><paper-textarea label="" error-message="" placeholder=""></paper-textarea><paper-dropdown-menu label=""></paper-dropdown-menu><paper-toast text=""></paper-toast><google-chart options="" cols="" rows="" data=""></google-chart><platinum-push-messaging title="" message=""></platinum-push-messaging><json-data any-attributes=""></json-data></template></template></dom-module><dom-module id="simple-text-element" assetpath="simple-text-element/"><template localizable-text="embedded">{{text.text}}<div><div></div></div><span id="whitespace">&nbsp;</span><h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span> <span>{{text.span_6}}</span> <span id="label-1">{{text.label-1}}</span> <span id="label-2">{{text.label-2}}</span><div><span>{{text.div_9:span}}</span> <span>{{text.div_9:span_1}}</span><div><div>{{text.div_9:div_2:div}}</div></div></div><div>{{text.div_10:text}}<span>{{text.div_10:span_1}}</span>{{text.div_10:text_2}}<span>{{text.div_10:span_3}}</span><div><div>{{text.div_10:div_4:div}}</div></div>{{text.div_10:text_5}}</div><div id="toplevel-div"><span>{{text.toplevel-div:span}}</span> <span>{{text.toplevel-div:span_1}}</span><div id="second-level-div"><div id="third-level-div">{{text.third-level-div}}</div><div>{{text.second-level-div:div_1}}</div></div></div><div><ul><li>{{text.div_12:ul:li}}</li><li>{{text.div_12:ul:li_1}}</li><li>{{text.div_12:ul:li_2}}</li></ul><ul id="line-items"><li>{{text.line-items:li}}</li><li>{{text.line-items:li_1}}</li><li>{{text.line-items:li_2}}</li></ul></div><p><i18n-format lang="{{effectiveLang}}"><span>{{text.p_13.0}}</span><b param="1">{{text.p_13.1}}</b><code param="2">{{text.p_13.2}}</code></i18n-format></p><p id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><b param="1">{{text.paragraph.1}}</b><code param="2">{{text.paragraph.2}}</code></i18n-format></p>{{text.text_15}}<template id="localizable-text"><json-data>{ "meta": {}, "model": {}, "text": " outermost text at the beginning ", "h1_3": "outermost header 1", "text_4": " outermost text in the middle ", "span_5": "simple text without id", "span_6": "simple text without id 2", "label-1": "simple text with id", "label-2": "simple text with id 2", "div_9:span": "simple text within div", "div_9:span_1": "simple text within div 2", "div_9:div_2:div": "great grandchild text within div", "div_10:text": " simple text as the first element in div ", "div_10:span_1": "simple text within div", "div_10:text_2": " simple text in the middle of div ", "div_10:span_3": "simple text within div 2", "div_10:div_4:div": "great grandchild text within div", "div_10:text_5": " simple text at the last element in div ", "toplevel-div:span": "simple text within div", "toplevel-div:span_1": "simple text within div 2", "third-level-div": "great grandchild text within div", "second-level-div:div_1": "great grandchild text within div without id", "div_12:ul:li": "line item without id 1", "div_12:ul:li_1": "line item without id 2", "div_12:ul:li_2": "line item without id 3", "line-items:li": "line item with id 1", "line-items:li_1": "line item with id 2", "line-items:li_2": "line item with id 3", "p_13": [ "A paragraph with {1} is converted to {2}.", "parameters", "&lt;i18n-format&gt;" ], "paragraph": [ "A paragraph with {1} is converted to {2}.", "id", "&lt;i18n-format&gt;" ], "text_15": " outermost text at the end " }</json-data></template></template></dom-module><dom-module id="commented-simple-text-element" assetpath="commented-simple-text-element/"><template localizable-text="embedded">{{text.text}}<div><div></div></div><span id="whitespace">&nbsp;</span><h1>{{text.h1_3}}</h1>{{text.text_4}} <span>{{text.span_5}}</span> <span>{{text.span_6}}</span> <span id="label-1">{{text.label-1}}</span> <span id="label-2">{{text.label-2}}</span><div><span>{{text.div_9:span}}</span> <span>{{text.div_9:span_1}}</span><div><div>{{text.div_9:div_2:div}}</div></div></div><div>{{text.div_10:text}} <span>{{text.div_10:span_1}}</span>{{text.div_10:text_2}} <span>{{text.div_10:span_3}}</span><div><div>{{text.div_10:div_4:div}}</div></div>{{text.div_10:text_5}}</div><div id="toplevel-div"><span>{{text.toplevel-div:span}}</span> <span>{{text.toplevel-div:span_1}}</span><div id="second-level-div"><div id="third-level-div">{{text.third-level-div}}</div><div>{{text.second-level-div:div_1}}</div></div></div><div><ul><li>{{text.div_12:ul:li}}</li><li>{{text.div_12:ul:li_1}}</li><li>{{text.div_12:ul:li_2}}</li></ul><ul id="line-items"><li>{{text.line-items:li}}</li><li>{{text.line-items:li_1}}</li><li>{{text.line-items:li_2}}</li></ul></div><p><i18n-format lang="{{effectiveLang}}"><span>{{text.p_13.0}}</span><b param="1">{{text.p_13.1}}</b><code param="2">{{text.p_13.2}}</code></i18n-format></p><p id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><b param="1">{{text.paragraph.1}}</b><code param="2">{{text.paragraph.2}}</code></i18n-format></p>{{text.text_15}}<template id="localizable-text"><json-data>{ "meta": {}, "model": {}, "text": " outermost text at the beginning ", "h1_3": "outermost header 1", "text_4": " outermost text in the middle ", "span_5": "simple text without id", "span_6": "simple text without id 2", "label-1": "simple text with id", "label-2": "simple text with id 2", "div_9:span": "simple text within div", "div_9:span_1": "simple text within div 2", "div_9:div_2:div": "great grandchild text within div", "div_10:text": " simple text as the first element in div ", "div_10:span_1": "simple text within div", "div_10:text_2": " simple text in the middle of div ", "div_10:span_3": "simple text within div 2", "div_10:div_4:div": "great grandchild text within div", "div_10:text_5": " simple text at the last element in div ", "toplevel-div:span": "simple text within div", "toplevel-div:span_1": "simple text within div 2", "third-level-div": "great grandchild text within div", "second-level-div:div_1": "great grandchild text within div without id", "div_12:ul:li": "line item without id 1", "div_12:ul:li_1": "line item without id 2", "div_12:ul:li_2": "line item without id 3", "line-items:li": "line item with id 1", "line-items:li_1": "line item with id 2", "line-items:li_2": "line item with id 3", "p_13": [ "A paragraph with {1} is converted to {2}.", "parameters", "&lt;i18n-format&gt;" ], "paragraph": [ "A paragraph with {1} is converted to {2}.", "id", "&lt;i18n-format&gt;" ], "text_15": " outermost text at the end " }</json-data></template></template></dom-module><dom-module id="plural-gender-element" assetpath="plural-gender-element/"><template localizable-text="embedded"><p><i18n-format id="compound-format-text" lang="{{effectiveLang}}"><json-data>{{serialize(text.compound-format-text.0)}}</json-data><i18n-number offset="1" param="1" lang="{{effectiveLang}}">{{recipients.length}}</i18n-number><span param="2">{{recipients.0.gender}}</span> <span param="3">{{sender.name}}</span> <span param="4">{{recipients.0.name}}</span> <span param="5">{{text.compound-format-text.5}}</span></i18n-format></p><template id="localizable-text"><json-data>{ "meta": {}, "model": {}, "compound-format-text": [ { "0": "You ({3}) gave no gifts.", "1": { "male": "You ({3}) gave him ({4}) {5}.", "female": "You ({3}) gave her ({4}) {5}.", "other": "You ({3}) gave them ({4}) {5}." }, "one": { "male": "You ({3}) gave him ({4}) and one other person {5}.", "female": "You ({3}) gave her ({4}) and one other person {5}.", "other": "You ({3}) gave them ({4}) and one other person {5}." }, "other": "You ({3}) gave them ({4}) and {1} other people gifts." }, "{{recipients.length - 1}}", "{{recipients.0.gender}}", "{{sender.name}}", "{{recipients.0.name}}", "a gift" ] }</json-data></template></template></dom-module><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700"><style is="custom-style">
+
+  :root {
+
+    /* Shared Styles */
+    --paper-font-common-base: {
+      font-family: 'Roboto', 'Noto', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    };
+
+    --paper-font-common-code: {
+      font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+      -webkit-font-smoothing: antialiased;
+    };
+
+    --paper-font-common-expensive-kerning: {
+      text-rendering: optimizeLegibility;
+    };
+
+    --paper-font-common-nowrap: {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    };
+
+    /* Material Font Styles */
+
+    --paper-font-display4: {
+      @apply(--paper-font-common-base);
+      @apply(--paper-font-common-nowrap);
+
+      font-size: 112px;
+      font-weight: 300;
+      letter-spacing: -.044em;
+      line-height: 120px;
+    };
+
+    --paper-font-display3: {
+      @apply(--paper-font-common-base);
+      @apply(--paper-font-common-nowrap);
+
+      font-size: 56px;
+      font-weight: 400;
+      letter-spacing: -.026em;
+      line-height: 60px;
+    };
+
+    --paper-font-display2: {
+      @apply(--paper-font-common-base);
+
+      font-size: 45px;
+      font-weight: 400;
+      letter-spacing: -.018em;
+      line-height: 48px;
+    };
+
+    --paper-font-display1: {
+      @apply(--paper-font-common-base);
+
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: -.01em;
+      line-height: 40px;
+    };
+
+    --paper-font-headline: {
+      @apply(--paper-font-common-base);
+
+      font-size: 24px;
+      font-weight: 400;
+      letter-spacing: -.012em;
+      line-height: 32px;
+    };
+
+    --paper-font-title: {
+      @apply(--paper-font-common-base);
+      @apply(--paper-font-common-nowrap);
+
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 28px;
+    };
+
+    --paper-font-subhead: {
+      @apply(--paper-font-common-base);
+
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+    };
+
+    --paper-font-body2: {
+      @apply(--paper-font-common-base);
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 24px;
+    };
+
+    --paper-font-body1: {
+      @apply(--paper-font-common-base);
+
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+    };
+
+    --paper-font-caption: {
+      @apply(--paper-font-common-base);
+      @apply(--paper-font-common-nowrap);
+
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.011em;
+      line-height: 20px;
+    };
+
+    --paper-font-menu: {
+      @apply(--paper-font-common-base);
+      @apply(--paper-font-common-nowrap);
+
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 24px;
+    };
+
+    --paper-font-button: {
+      @apply(--paper-font-common-base);
+      @apply(--paper-font-common-nowrap);
+
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.018em;
+      line-height: 24px;
+      text-transform: uppercase;
+    };
+
+    --paper-font-code2: {
+      @apply(--paper-font-common-code);
+
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+    };
+
+    --paper-font-code1: {
+      @apply(--paper-font-common-code);
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    };
+
+  }
+
+</style><dom-module id="paper-input-char-counter" assetpath="../../../paper-input/"><template><style>
+      :host {
+        display: inline-block;
+        float: right;
+
+        @apply(--paper-font-caption);
+        @apply(--paper-input-char-counter);
+      }
+
+      :host-context([dir="rtl"]) {
+        float: left;
+      }
+    </style><span>[[_charCounterStr]]</span></template></dom-module><style>
+  /* IE 10 support for HTML5 hidden attr */
+  [hidden] {
+    display: none !important;
+  }
+</style><style is="custom-style">
+  :root {
+
+    --layout: {
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+    };
+
+    --layout-inline: {
+      display: -ms-inline-flexbox;
+      display: -webkit-inline-flex;
+      display: inline-flex;
+    };
+
+    --layout-horizontal: {
+      @apply(--layout);
+
+      -ms-flex-direction: row;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+    };
+
+    --layout-horizontal-reverse: {
+      @apply(--layout);
+
+      -ms-flex-direction: row-reverse;
+      -webkit-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+    };
+
+    --layout-vertical: {
+      @apply(--layout);
+
+      -ms-flex-direction: column;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+    };
+
+    --layout-vertical-reverse: {
+      @apply(--layout);
+
+      -ms-flex-direction: column-reverse;
+      -webkit-flex-direction: column-reverse;
+      flex-direction: column-reverse;
+    };
+
+    --layout-wrap: {
+      -ms-flex-wrap: wrap;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+    };
+
+    --layout-wrap-reverse: {
+      -ms-flex-wrap: wrap-reverse;
+      -webkit-flex-wrap: wrap-reverse;
+      flex-wrap: wrap-reverse;
+    };
+
+    --layout-flex-auto: {
+      -ms-flex: 1 1 auto;
+      -webkit-flex: 1 1 auto;
+      flex: 1 1 auto;
+    };
+
+    --layout-flex-none: {
+      -ms-flex: none;
+      -webkit-flex: none;
+      flex: none;
+    };
+
+    --layout-flex: {
+      -ms-flex: 1 1 0.000000001px;
+      -webkit-flex: 1;
+      flex: 1;
+      -webkit-flex-basis: 0.000000001px;
+      flex-basis: 0.000000001px;
+    };
+
+    --layout-flex-2: {
+      -ms-flex: 2;
+      -webkit-flex: 2;
+      flex: 2;
+    };
+
+    --layout-flex-3: {
+      -ms-flex: 3;
+      -webkit-flex: 3;
+      flex: 3;
+    };
+
+    --layout-flex-4: {
+      -ms-flex: 4;
+      -webkit-flex: 4;
+      flex: 4;
+    };
+
+    --layout-flex-5: {
+      -ms-flex: 5;
+      -webkit-flex: 5;
+      flex: 5;
+    };
+
+    --layout-flex-6: {
+      -ms-flex: 6;
+      -webkit-flex: 6;
+      flex: 6;
+    };
+
+    --layout-flex-7: {
+      -ms-flex: 7;
+      -webkit-flex: 7;
+      flex: 7;
+    };
+
+    --layout-flex-8: {
+      -ms-flex: 8;
+      -webkit-flex: 8;
+      flex: 8;
+    };
+
+    --layout-flex-9: {
+      -ms-flex: 9;
+      -webkit-flex: 9;
+      flex: 9;
+    };
+
+    --layout-flex-10: {
+      -ms-flex: 10;
+      -webkit-flex: 10;
+      flex: 10;
+    };
+
+    --layout-flex-11: {
+      -ms-flex: 11;
+      -webkit-flex: 11;
+      flex: 11;
+    };
+
+    --layout-flex-12: {
+      -ms-flex: 12;
+      -webkit-flex: 12;
+      flex: 12;
+    };
+
+    /* alignment in cross axis */
+
+    --layout-start: {
+      -ms-flex-align: start;
+      -webkit-align-items: flex-start;
+      align-items: flex-start;
+    };
+
+    --layout-center: {
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    };
+
+    --layout-end: {
+      -ms-flex-align: end;
+      -webkit-align-items: flex-end;
+      align-items: flex-end;
+    };
+
+    /* alignment in main axis */
+
+    --layout-start-justified: {
+      -ms-flex-pack: start;
+      -webkit-justify-content: flex-start;
+      justify-content: flex-start;
+    };
+
+    --layout-center-justified: {
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+    };
+
+    --layout-end-justified: {
+      -ms-flex-pack: end;
+      -webkit-justify-content: flex-end;
+      justify-content: flex-end;
+    };
+
+    --layout-around-justified: {
+      -ms-flex-pack: distribute;
+      -webkit-justify-content: space-around;
+      justify-content: space-around;
+    };
+
+    --layout-justified: {
+      -ms-flex-pack: justify;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+    };
+
+    --layout-center-center: {
+      @apply(--layout-center);
+      @apply(--layout-center-justified);
+    };
+
+    /* self alignment */
+
+    --layout-self-start: {
+      -ms-align-self: flex-start;
+      -webkit-align-self: flex-start;
+      align-self: flex-start;
+    };
+
+    --layout-self-center: {
+      -ms-align-self: center;
+      -webkit-align-self: center;
+      align-self: center;
+    };
+
+    --layout-self-end: {
+      -ms-align-self: flex-end;
+      -webkit-align-self: flex-end;
+      align-self: flex-end;
+    };
+
+    --layout-self-stretch: {
+      -ms-align-self: stretch;
+      -webkit-align-self: stretch;
+      align-self: stretch;
+    };
+
+    /*******************************
+              Other Layout
+    *******************************/
+
+    --layout-block: {
+      display: block;
+    };
+
+    --layout-invisible: {
+      visibility: hidden !important;
+    };
+
+    --layout-relative: {
+      position: relative;
+    };
+
+    --layout-fit: {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    };
+
+    --layout-scroll: {
+      -webkit-overflow-scrolling: touch;
+      overflow: auto;
+    };
+
+    --layout-fullbleed: {
+      margin: 0;
+      height: 100vh;
+    };
+
+    /* fixed position */
+
+    --layout-fixed-top: {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+    };
+
+    --layout-fixed-right: {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+    };
+
+    --layout-fixed-bottom: {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    };
+
+    --layout-fixed-left: {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    };
+
+  }
+
+</style><style is="custom-style">
+
+  :root {
+    /*
+     * You can use these generic variables in your elements for easy theming.
+     * For example, if all your elements use `--primary-text-color` as its main
+     * color, then switching from a light to a dark theme is just a matter of
+     * changing the value of `--primary-text-color` in your application.
+     */
+    --primary-text-color: var(--light-theme-text-color);
+    --primary-background-color: var(--light-theme-background-color);
+    --secondary-text-color: var(--light-theme-secondary-color);
+    --disabled-text-color: var(--light-theme-disabled-color);
+    --divider-color: var(--light-theme-divider-color);
+
+    /*
+     * Primary and accent colors. Also see color.html for more colors.
+     */
+    --primary-color: #3f51b5;  /* --paper-indigo-500 */
+    --light-primary-color: #c5cae9;  /* --paper-indigo-100 */
+    --dark-primary-color: #303f9f;  /* --paper-indigo-700 */
+
+    --accent-color: #ff4081;  /* --paper-pink-a200 */
+    --light-accent-color: #ff80ab;  /* --paper-pink-a100 */
+    --dark-accent-color: #f50057;  /* --paper-pink-a400 */
+
+    /*
+     * Material Design Light background theme
+     */
+    --light-theme-background-color: #ffffff;
+    --light-theme-base-color: #000000;
+    --light-theme-text-color: #212121;
+    --light-theme-secondary-color: #737373;  /* for secondary text and icons */
+    --light-theme-disabled-color: #9b9b9b;  /* disabled/hint text */
+    --light-theme-divider-color: #dbdbdb;
+
+    /*
+     * Material Design Dark background theme
+     */
+    --dark-theme-background-color: #212121;
+    --dark-theme-base-color: #ffffff;
+    --dark-theme-text-color: #ffffff;
+    --dark-theme-secondary-color: #bcbcbc;  /* for secondary text and icons */
+    --dark-theme-disabled-color: #646464;  /* disabled/hint text */
+    --dark-theme-divider-color: #3c3c3c;
+
+    /*
+     * Deprecated values because of their confusing names.
+     */
+    --text-primary-color: var(--dark-theme-text-color);
+    --default-primary-color: var(--primary-color);
+
+  }
+
+</style><dom-module id="paper-input-container" assetpath="../../../paper-input/"><template><style>
+      :host {
+        display: block;
+        padding: 8px 0;
+
+        @apply(--paper-input-container);
+      }
+
+      :host[inline] {
+        display: inline-block;
+      }
+
+      :host([disabled]) {
+        pointer-events: none;
+        opacity: 0.33;
+
+        @apply(--paper-input-container-disabled);
+      }
+
+      .floated-label-placeholder {
+        @apply(--paper-font-caption);
+      }
+
+      .underline {
+        position: relative;
+      }
+
+      .focused-line {
+        @apply(--layout-fit);
+
+        background: var(--paper-input-container-focus-color, --primary-color);
+        height: 2px;
+
+        -webkit-transform-origin: center center;
+        transform-origin: center center;
+        -webkit-transform: scale3d(0,1,1);
+        transform: scale3d(0,1,1);
+
+        @apply(--paper-input-container-underline-focus);
+      }
+
+      .underline.is-highlighted .focused-line {
+        -webkit-transform: none;
+        transform: none;
+        -webkit-transition: -webkit-transform 0.25s;
+        transition: transform 0.25s;
+
+        @apply(--paper-transition-easing);
+      }
+
+      .underline.is-invalid .focused-line {
+        background: var(--paper-input-container-invalid-color, --error-color);
+        -webkit-transform: none;
+        transform: none;
+        -webkit-transition: -webkit-transform 0.25s;
+        transition: transform 0.25s;
+
+        @apply(--paper-transition-easing);
+      }
+
+      .unfocused-line {
+        @apply(--layout-fit);
+
+        background: var(--paper-input-container-color, --secondary-text-color);
+        height: 1px;
+
+        @apply(--paper-input-container-underline);
+      }
+
+      :host([disabled]) .unfocused-line {
+        border-bottom: 1px dashed;
+        border-color: var(--paper-input-container-color, --secondary-text-color);
+        background: transparent;
+
+        @apply(--paper-input-container-underline-disabled);
+      }
+
+      .label-and-input-container {
+        @apply(--layout-flex-auto);
+        @apply(--layout-relative);
+
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .input-content {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+
+        position: relative;
+      }
+
+      .input-content ::content label,
+      .input-content ::content .paper-input-label {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        font: inherit;
+        color: var(--paper-input-container-color, --secondary-text-color);
+        -webkit-transition: -webkit-transform 0.25s, width 0.25s;
+        transition: transform 0.25s, width 0.25s;
+        -webkit-transform-origin: left top;
+        transform-origin: left top;
+
+        @apply(--paper-font-common-nowrap);
+        @apply(--paper-font-subhead);
+        @apply(--paper-input-container-label);
+        @apply(--paper-transition-easing);
+      }
+
+      .input-content.label-is-floating ::content label,
+      .input-content.label-is-floating ::content .paper-input-label {
+        -webkit-transform: translateY(-75%) scale(0.75);
+        transform: translateY(-75%) scale(0.75);
+
+        /* Since we scale to 75/100 of the size, we actually have 100/75 of the
+        original space now available */
+        width: 133%;
+
+        @apply(--paper-input-container-label-floating);
+      }
+
+      :host-context([dir="rtl"]) .input-content.label-is-floating ::content label,
+      :host-context([dir="rtl"]) .input-content.label-is-floating ::content .paper-input-label {
+        /* TODO(noms): Figure out why leaving the width at 133% before the animation
+         * actually makes
+         * it wider on the right side, not left side, as you would expect in RTL */
+        width: 100%;
+        -webkit-transform-origin: right top;
+        transform-origin: right top;
+      }
+
+      .input-content.label-is-highlighted ::content label,
+      .input-content.label-is-highlighted ::content .paper-input-label {
+        color: var(--paper-input-container-focus-color, --primary-color);
+
+        @apply(--paper-input-container-label-focus);
+      }
+
+      .input-content.is-invalid ::content label,
+      .input-content.is-invalid ::content .paper-input-label {
+        color: var(--paper-input-container-invalid-color, --error-color);
+      }
+
+      .input-content.label-is-hidden ::content label,
+      .input-content.label-is-hidden ::content .paper-input-label {
+        visibility: hidden;
+      }
+
+      .input-content ::content input,
+      .input-content ::content textarea,
+      .input-content ::content iron-autogrow-textarea,
+      .input-content ::content .paper-input-input {
+        position: relative; /* to make a stacking context */
+        outline: none;
+        box-shadow: none;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        background: transparent;
+        border: none;
+        color: var(--paper-input-container-input-color, --primary-text-color);
+        -webkit-appearance: none;
+        text-align: inherit;
+
+        @apply(--paper-font-subhead);
+        @apply(--paper-input-container-input);
+      }
+
+      ::content [prefix] {
+        @apply(--paper-font-subhead);
+
+        @apply(--paper-input-prefix);
+        @apply(--layout-flex-none);
+      }
+
+      ::content [suffix] {
+        @apply(--paper-font-subhead);
+
+        @apply(--paper-input-suffix);
+        @apply(--layout-flex-none);
+      }
+
+      /* Firefox sets a min-width on the input, which can cause layout issues */
+      .input-content ::content input {
+        min-width: 0;
+      }
+
+      .input-content ::content textarea {
+        resize: none;
+      }
+
+      .add-on-content {
+        position: relative;
+      }
+
+      .add-on-content.is-invalid ::content * {
+        color: var(--paper-input-container-invalid-color, --error-color);
+      }
+
+      .add-on-content.is-highlighted ::content * {
+        color: var(--paper-input-container-focus-color, --primary-color);
+      }
+    </style><template is="dom-if" if="[[!noLabelFloat]]"><div class="floated-label-placeholder">&nbsp;</div></template><div class$="[[_computeInputContentClass(noLabelFloat,alwaysFloatLabel,focused,invalid,_inputHasContent)]]"><content select="[prefix]" id="prefix"></content><div class="label-and-input-container" id="labelAndInputContainer"><content select=":not([add-on]):not([prefix]):not([suffix])"></content></div><content select="[suffix]"></content></div><div class$="[[_computeUnderlineClass(focused,invalid)]]"><div class="unfocused-line"></div><div class="focused-line"></div></div><div class$="[[_computeAddOnContentClass(focused,invalid)]]"><content id="addOnContent" select="[add-on]"></content></div></template></dom-module><dom-module id="paper-input-error" assetpath="../../../paper-input/"><template><style>
+      :host {
+        display: inline-block;
+        visibility: hidden;
+
+        color: var(--paper-input-container-invalid-color, --error-color);
+
+        @apply(--paper-font-caption);
+        @apply(--paper-input-error);
+        position: absolute;
+        left:0;
+        right:0;
+      }
+
+      :host([invalid]) {
+        visibility: visible;
+      };
+    </style><content></content></template></dom-module><dom-module id="paper-input" assetpath="../../../paper-input/"><template><style>
+      :host {
+        display: block;
+      }
+
+      input::-webkit-input-placeholder {
+        color: var(--paper-input-container-color, --secondary-text-color);
+      }
+
+      input:-moz-placeholder {
+        color: var(--paper-input-container-color, --secondary-text-color);
+      }
+
+      input::-moz-placeholder {
+        color: var(--paper-input-container-color, --secondary-text-color);
+      }
+
+      input:-ms-input-placeholder {
+        color: var(--paper-input-container-color, --secondary-text-color);
+      }
+    </style><paper-input-container no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" auto-validate$="[[autoValidate]]" disabled$="[[disabled]]" invalid="[[invalid]]"><content select="[prefix]"></content><label hidden$="[[!label]]">[[label]]</label> <input is="iron-input" id="input" aria-labelledby$="[[_ariaLabelledBy]]" aria-describedby$="[[_ariaDescribedBy]]" disabled$="[[disabled]]" title$="[[title]]" bind-value="{{value}}" invalid="{{invalid}}" prevent-invalid-input="[[preventInvalidInput]]" allowed-pattern="[[allowedPattern]]" validator="[[validator]]" type$="[[type]]" pattern$="[[pattern]]" required$="[[required]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]" inputmode$="[[inputmode]]" minlength$="[[minlength]]" maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" step$="[[step]]" name$="[[name]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" list$="[[list]]" size$="[[size]]" autocapitalize$="[[autocapitalize]]" autocorrect$="[[autocorrect]]" on-change="_onChange" tabindex$="[[tabindex]]" autosave$="[[autosave]]" results$="[[results]]" accept$="[[accept]]" multiple$="[[multiple]]"><content select="[suffix]"></content><template is="dom-if" if="[[errorMessage]]"><paper-input-error>[[errorMessage]]</paper-input-error></template><template is="dom-if" if="[[charCounter]]"><paper-input-char-counter></paper-input-char-counter></template></paper-input-container></template></dom-module><dom-module id="google-chart" assetpath="../../../google-chart/"><template><style>
+:host {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 400px;
+  height: 300px;
+}
+
+:host([type="gauge"]) {
+  width: 300px;
+  height: 300px;
+}
+
+#chartdiv {
+  width: 100%;
+}
+
+</style><iron-ajax id="ajax" handle-as="json" url="{{data}}" on-response="_externalDataLoaded"></iron-ajax><div id="chartdiv"></div><google-legacy-loader on-api-load="_readyForAction"></google-legacy-loader></template></dom-module><dom-module id="text-attribute-element" assetpath="simple-attribute-element/"><template text-attr="custom-text-attr1 custom-text-attr2 custom-text-attr3" localizable-text="embedded"><span id="attr1">{{customTextAttr1}}</span> <span id="attr2">{{customTextAttr2}}</span> <span id="attr3">{{customTextAttr3}}</span> <span id="attr4">{{outOfScopeAttr}}</span> <span>{{text.span_4}}</span><template id="localizable-text"><json-data>{ "meta": {}, "model": {}, "span_4": "text" }</json-data></template></template></dom-module><dom-module id="simple-attribute-element" assetpath="simple-attribute-element/"><template localizable-text="embedded"><style attr="This is not extracted">
+    google-chart {
+      width: 300px;
+    }
+    </style><div id="outer-div"><div id="ordinary-div" attr="This is not targeted for extraction">{{text.ordinary-div}}</div><input id="standard-input" placeholder="{{model.standard-input.placeholder}}"> <input placeholder="{{model.outer-div:input_2.placeholder}}"><paper-input id="paper-input-element" label="{{model.paper-input-element.label}}" error-message="{{model.paper-input-element.error-message}}" placeholder="{{model.paper-input-element.placeholder}}" value="this is not a target"></paper-input><paper-input label="{{model.outer-div:paper-input_4.label}}" error-message="{{model.outer-div:paper-input_4.error-message}}" placeholder="{{model.outer-div:paper-input_4.placeholder}}" value="this is not a target"></paper-input><google-chart type="pie" id="pie-chart" options="{{model.pie-chart.options}}" cols="{{model.pie-chart.cols}}" rows="{{model.pie-chart.rows}}"></google-chart><google-chart id="column-chart" type="column" options="{{model.column-chart.options}}" data="{{model.column-chart.data}}"></google-chart><text-attribute-element id="custom-attr" custom-text-attr1="{{model.custom-attr.custom-text-attr1}}" custom-text-attr2="{{model.custom-attr.custom-text-attr2}}" custom-text-attr3="{{model.custom-attr.custom-text-attr3}}" out-of-scope-attr="out of scope attr"></text-attribute-element><span id="test-json-data-1">{{model.json-data-id.attr1}}</span> <span id="test-json-data-2">{{model.json-data-id.i18n-target-attr}}</span> <span id="test-json-data-3">{{model.template_2:json-data_1.attr1}}</span> <span id="test-json-data-4">{{model.template_2:json-data_1.i18n-target-attr}}</span></div><template><json-data id="json-data-id" attr1="{{model.json-data-id.attr1}}" i18n-target-attr="{{model.json-data-id.i18n-target-attr}}"></json-data><json-data attr1="{{model.template_2:json-data_1.attr1}}" i18n-target-attr="{{model.template_2:json-data_1.i18n-target-attr}}"></json-data></template><template id="localizable-text"><json-data>{ "meta": {}, "model": { "standard-input": { "placeholder": "standard HTML5 attribute" }, "outer-div:input_2": { "placeholder": "standard HTML5 attribute without id" }, "paper-input-element": { "label": "paper-input label", "error-message": "paper-input error message", "placeholder": "paper-input placeholder" }, "outer-div:paper-input_4": { "label": "paper-input label without id", "error-message": "paper-input error message without id", "placeholder": "paper-input placeholder without id" }, "pie-chart": { "options": { "title": "Distribution of days in 2001H1" }, "cols": [ { "label": "Month", "type": "string" }, { "label": "Days", "type": "number" } ], "rows": [ [ "Jan", 31 ], [ "Feb", 28 ], [ "Mar", 31 ], [ "Apr", 30 ], [ "May", 31 ], [ "Jun", 30 ] ] }, "column-chart": { "options": { "title": "Inventory" }, "data": [ [ "Year", "Things", "Stuff" ], [ "2004", 1000, 400 ], [ "2005", 1170, 460 ], [ "2006", 660, 1120 ], [ "2007", 1030, 540 ] ] }, "custom-attr": { "custom-text-attr1": "custom text attribute 1", "custom-text-attr2": "custom text attribute 2", "custom-text-attr3": "custom text attribute 3" }, "json-data-id": { "attr1": "this attr1 is extracted", "i18n-target-attr": "this attribute is also extracted" }, "template_2:json-data_1": { "attr1": "this attr1 without id is extracted", "i18n-target-attr": "this attribute without id is also extracted" } }, "ordinary-div": "text 1" }</json-data></template></template></dom-module><dom-module id="fallback-text-element" assetpath="fallback-text-element/"><template localizable-text="embedded">{{text.text}}<div><div></div></div><span id="whitespace">&nbsp;</span><h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span> <span>{{text.span_6}}</span> <span id="label-1">{{text.label-1}}</span> <span id="label-2">{{text.label-2}}</span><div><span>{{text.div_9:span}}</span> <span>{{text.div_9:span_1}}</span><div><div>{{text.div_9:div_2:div}}</div></div></div><div>{{text.div_10:text}}<span>{{text.div_10:span_1}}</span>{{text.div_10:text_2}}<span>{{text.div_10:span_3}}</span><div><div>{{text.div_10:div_4:div}}</div></div>{{text.div_10:text_5}}</div><div id="toplevel-div"><span>{{text.toplevel-div:span}}</span> <span>{{text.toplevel-div:span_1}}</span><div id="second-level-div"><div id="third-level-div">{{text.third-level-div}}</div><div>{{text.second-level-div:div_1}}</div></div></div><div><ul><li>{{text.div_12:ul:li}}</li><li>{{text.div_12:ul:li_1}}</li><li>{{text.div_12:ul:li_2}}</li></ul><ul id="line-items"><li>{{text.line-items:li}}</li><li>{{text.line-items:li_1}}</li><li>{{text.line-items:li_2}}</li></ul></div><p><i18n-format lang="{{effectiveLang}}"><span>{{text.p_13.0}}</span><b param="1">{{text.p_13.1}}</b><code param="2">{{text.p_13.2}}</code></i18n-format></p><p id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><b param="1">{{text.paragraph.1}}</b><code param="2">{{text.paragraph.2}}</code></i18n-format></p>{{text.text_15}}<template id="localizable-text"><json-data>{ "meta": {}, "model": {}, "text": " outermost text at the beginning ", "h1_3": "outermost header 1", "text_4": " outermost text in the middle ", "span_5": "simple text without id", "span_6": "simple text without id 2", "label-1": "simple text with id", "label-2": "simple text with id 2", "div_9:span": "simple text within div", "div_9:span_1": "simple text within div 2", "div_9:div_2:div": "great grandchild text within div", "div_10:text": " simple text as the first element in div ", "div_10:span_1": "simple text within div", "div_10:text_2": " simple text in the middle of div ", "div_10:span_3": "simple text within div 2", "div_10:div_4:div": "great grandchild text within div", "div_10:text_5": " simple text at the last element in div ", "toplevel-div:span": "simple text within div", "toplevel-div:span_1": "simple text within div 2", "third-level-div": "great grandchild text within div", "second-level-div:div_1": "great grandchild text within div without id", "div_12:ul:li": "line item without id 1", "div_12:ul:li_1": "line item without id 2", "div_12:ul:li_2": "line item without id 3", "line-items:li": "line item with id 1", "line-items:li_1": "line item with id 2", "line-items:li_2": "line item with id 3", "p_13": [ "A paragraph with {1} is converted to {2}.", "parameters", "&lt;i18n-format&gt;" ], "paragraph": [ "A paragraph with {1} is converted to {2}.", "id", "&lt;i18n-format&gt;" ], "text_15": " outermost text at the end " }</json-data></template></template></dom-module><dom-module id="compound-binding-element" assetpath="compound-binding-element/"><template localizable-text="embedded"><i18n-format lang="{{effectiveLang}}"><span>{{text.text.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><div><div></div></div><span id="whitespace">&nbsp;</span><h1><i18n-format lang="{{effectiveLang}}"><span>{{text.h1_3.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></h1><i18n-format lang="{{effectiveLang}}"><span>{{text.text_4.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_6.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span id="label-1"><i18n-format lang="{{effectiveLang}}"><span>{{text.label-1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span id="label-2"><i18n-format lang="{{effectiveLang}}"><span>{{text.label-2.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><div><span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_9:span.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_9:span_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><div><div><i18n-format lang="{{effectiveLang}}"><span>{{text.div_9:div_2:div.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div></div></div><div><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:text.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:span_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:text_2.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:span_3.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><div><div><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:div_4:div.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div></div><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:text_5.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div><div id="toplevel-div"><span><i18n-format lang="{{effectiveLang}}"><span>{{text.toplevel-div:span.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span><i18n-format lang="{{effectiveLang}}"><span>{{text.toplevel-div:span_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><div id="second-level-div"><div id="third-level-div"><i18n-format lang="{{effectiveLang}}"><span>{{text.third-level-div.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div><div><i18n-format lang="{{effectiveLang}}"><span>{{text.second-level-div:div_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div></div></div><div><ul><li><i18n-format lang="{{effectiveLang}}"><span>{{text.div_12:ul:li.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li><li><i18n-format lang="{{effectiveLang}}"><span>{{text.div_12:ul:li_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li><li><i18n-format lang="{{effectiveLang}}"><span>{{text.div_12:ul:li_2.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li></ul><ul id="line-items"><li><i18n-format lang="{{effectiveLang}}"><span>{{text.line-items:li.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li><li><i18n-format lang="{{effectiveLang}}"><span>{{text.line-items:li_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li><li><i18n-format lang="{{effectiveLang}}"><span>{{text.line-items:li_2.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li></ul></div><p><i18n-format lang="{{effectiveLang}}"><span>{{text.p_13.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></p><p id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><b param="1">{{text.paragraph.1}}</b><span param="2">{{param1}}</span><span param="3">{{param2}}</span><code param="4">{{text.paragraph.4}}</code></i18n-format></p><i18n-format lang="{{effectiveLang}}"><span>{{text.text_15.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><template id="localizable-text"><json-data>{ "meta": {}, "model": {}, "text": [ " outermost text at the beginning with compound {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "h1_3": [ "outermost header 1 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "text_4": [ " outermost text in the middle with {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "span_5": [ "simple text without id with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "span_6": [ "simple text without id 2 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "label-1": [ "simple text with id and {1} and {2} variables", "{{param1}}", "{{param2}}" ], "label-2": [ "simple text with id and {1} and {2} variables 2", "{{param1}}", "{{param2}}" ], "div_9:span": [ "simple text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_9:span_1": [ "simple text within div with {1} and {2} variables 2", "{{param1}}", "{{param2}}" ], "div_9:div_2:div": [ "great grandchild text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_10:text": [ " simple text as the first element in div with {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "div_10:span_1": [ "simple text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_10:text_2": [ " simple text in the middle of div with {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "div_10:span_3": [ "simple text within div with {1} and {2} variables 2", "{{param1}}", "{{param2}}" ], "div_10:div_4:div": [ "great grandchild text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_10:text_5": [ " simple text at the last element in div with {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "toplevel-div:span": [ "simple text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "toplevel-div:span_1": [ "simple text within div 2 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "third-level-div": [ "great grandchild text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "second-level-div:div_1": [ "great grandchild text within div without id with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_12:ul:li": [ "line item without id 1 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_12:ul:li_1": [ "line item without id 2 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_12:ul:li_2": [ "line item without id 3 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "line-items:li": [ "line item with id 1 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "line-items:li_1": [ "line item with id 2 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "line-items:li_2": [ "line item with id 3 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "p_13": [ "A paragraph with {1} is converted to {2}.", "{{param1}}", "{{param2}}" ], "paragraph": [ "A paragraph with {1}, {2}, and {3} is converted to {4}.", "id", "{{param1}}", "{{param2}}", "&lt;i18n-format&gt;" ], "text_15": [ " outermost text at the end with {1} and {2} variables ", "{{param1}}", "{{param2}}" ] }</json-data></template></template></dom-module><dom-module id="simple-text-id-element" assetpath="simple-text-id-element/"><template localizable-text="embedded">{{text.text}}<div><div></div></div><span text-id="whitespace">&nbsp;</span><h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span> <span>{{text.span_6}}</span> <span text-id="label-1">{{text.label-1}}</span> <span text-id="label-2">{{text.label-2}}</span><div><span>{{text.div_9:span}}</span> <span>{{text.div_9:span_1}}</span><div><div>{{text.div_9:div_2:div}}</div></div></div><div>{{text.div_10:text}}<span>{{text.div_10:span_1}}</span>{{text.div_10:text_2}}<span>{{text.div_10:span_3}}</span><div><div>{{text.div_10:div_4:div}}</div></div>{{text.div_10:text_5}}</div><div text-id="toplevel-div"><span>{{text.toplevel-div:span}}</span> <span>{{text.toplevel-div:span_1}}</span><div text-id="second-level-div"><i18n-format lang="{{effectiveLang}}"><span>{{text.second-level-div.0}}</span><div text-id="third-level-div" param="1">{{text.second-level-div.1}}</div><div param="2">{{text.second-level-div.2}}</div></i18n-format></div></div><div><ul><li>{{text.div_12:ul:li}}</li><li>{{text.div_12:ul:li_1}}</li><li>{{text.div_12:ul:li_2}}</li></ul><ul text-id="line-items"><i18n-format lang="{{effectiveLang}}"><span>{{text.line-items.0}}</span><li param="1">{{text.line-items.1}}</li><li param="2">{{text.line-items.2}}</li><li param="3">{{text.line-items.3}}</li></i18n-format></ul></div><p><i18n-format lang="{{effectiveLang}}"><span>{{text.p_13.0}}</span><b param="1">{{text.p_13.1}}</b><code param="2">{{text.p_13.2}}</code></i18n-format></p><p text-id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><b param="1">{{text.paragraph.1}}</b><code param="2">{{text.paragraph.2}}</code></i18n-format></p>{{text.text_15}}<template id="localizable-text"><json-data>{ "meta": {}, "model": {}, "text": " outermost text at the beginning ", "h1_3": "outermost header 1", "text_4": " outermost text in the middle ", "span_5": "simple text without id", "span_6": "simple text without id 2", "label-1": "simple text with id", "label-2": "simple text with id 2", "div_9:span": "simple text within div", "div_9:span_1": "simple text within div 2", "div_9:div_2:div": "great grandchild text within div", "div_10:text": " simple text as the first element in div ", "div_10:span_1": "simple text within div", "div_10:text_2": " simple text in the middle of div ", "div_10:span_3": "simple text within div 2", "div_10:div_4:div": "great grandchild text within div", "div_10:text_5": " simple text at the last element in div ", "toplevel-div:span": "simple text within div", "toplevel-div:span_1": "simple text within div 2", "second-level-div": [ " {1}\n {2} ", "great grandchild text within div", "great grandchild text within div without id" ], "div_12:ul:li": "line item without id 1", "div_12:ul:li_1": "line item without id 2", "div_12:ul:li_2": "line item without id 3", "line-items": [ " {1}\n {2}\n {3} ", "line item with id 1", "line item with id 2", "line item with id 3" ], "p_13": [ "A paragraph with {1} is converted to {2}.", "parameters", "&lt;i18n-format&gt;" ], "paragraph": [ "A paragraph with {1} is converted to {2}.", "id", "&lt;i18n-format&gt;" ], "text_15": " outermost text at the end " }</json-data></template></template></dom-module></div><h2 id="test-name"></h2><test-fixture class="test-container" id="simple-text-element-default-fixture"><template><simple-text-element></simple-text-element></template></test-fixture><test-fixture class="test-container" id="commented-simple-text-element-default-fixture"><template><commented-simple-text-element></commented-simple-text-element></template></test-fixture><test-fixture class="test-container" id="simple-text-element-fixture"><template is="dom-template" id="bound-simple-text-element"><simple-text-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}"></simple-text-element></template></test-fixture><test-fixture class="test-container" id="commented-simple-text-element-fixture"><template is="dom-template" id="bound-commented-simple-text-element"><commented-simple-text-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}"></commented-simple-text-element></template></test-fixture><test-fixture class="test-container" id="simple-text-id-element-fixture"><template is="dom-template" id="bound-simple-text-id-element"><simple-text-id-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}"></simple-text-id-element></template></test-fixture><test-fixture class="test-container" id="plural-gender-element-fixture"><template is="dom-template"><plural-gender-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}" sender="{{sender}}" recipients="{{recipients}}"></plural-gender-element></template></test-fixture><test-fixture class="test-container" id="simple-attribute-element-fixture"><template is="dom-template"><simple-attribute-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}"></simple-attribute-element></template></test-fixture><test-fixture class="test-container" id="fallback-text-element-fixture"><template is="dom-template"><fallback-text-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}"></fallback-text-element></template></test-fixture><test-fixture class="test-container" id="compound-binding-element-fixture"><template is="dom-template"><compound-binding-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}" param1="{{param1}}" param2="{{param2}}"></compound-binding-element></template></test-fixture><div class="test-container"><template id="simple-text-dom-bind" is="i18n-dom-bind" assetpath="/" localizable-text="embedded">{{text.text}}<div><div></div></div><span id="whitespace">&nbsp;</span><h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span> <span>{{text.span_6}}</span> <span id="label-1">{{text.label-1}}</span> <span id="label-2">{{text.label-2}}</span><div><span>{{text.div_9:span}}</span> <span>{{text.div_9:span_1}}</span><div><div>{{text.div_9:div_2:div}}</div></div></div><div>{{text.div_10:text}}<span>{{text.div_10:span_1}}</span>{{text.div_10:text_2}}<span>{{text.div_10:span_3}}</span><div><div>{{text.div_10:div_4:div}}</div></div>{{text.div_10:text_5}}</div><div id="toplevel-div"><span>{{text.toplevel-div:span}}</span> <span>{{text.toplevel-div:span_1}}</span><div id="second-level-div"><div id="third-level-div">{{text.third-level-div}}</div><div>{{text.second-level-div:div_1}}</div></div></div><div><ul><li>{{text.div_12:ul:li}}</li><li>{{text.div_12:ul:li_1}}</li><li>{{text.div_12:ul:li_2}}</li></ul><ul id="line-items"><li>{{text.line-items:li}}</li><li>{{text.line-items:li_1}}</li><li>{{text.line-items:li_2}}</li></ul></div><p><i18n-format lang="{{effectiveLang}}"><span>{{text.p_13.0}}</span><b param="1">{{text.p_13.1}}</b><code param="2">{{text.p_13.2}}</code></i18n-format></p><p id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><b param="1">{{text.paragraph.1}}</b><code param="2">{{text.paragraph.2}}</code></i18n-format></p>{{text.text_15}}<template id="localizable-text"><json-data>{ "meta": {}, "model": {}, "text": " outermost text at the beginning ", "h1_3": "outermost header 1", "text_4": " outermost text in the middle ", "span_5": "simple text without id", "span_6": "simple text without id 2", "label-1": "simple text with id", "label-2": "simple text with id 2", "div_9:span": "simple text within div", "div_9:span_1": "simple text within div 2", "div_9:div_2:div": "great grandchild text within div", "div_10:text": " simple text as the first element in div ", "div_10:span_1": "simple text within div", "div_10:text_2": " simple text in the middle of div ", "div_10:span_3": "simple text within div 2", "div_10:div_4:div": "great grandchild text within div", "div_10:text_5": " simple text at the last element in div ", "toplevel-div:span": "simple text within div", "toplevel-div:span_1": "simple text within div 2", "third-level-div": "great grandchild text within div", "second-level-div:div_1": "great grandchild text within div without id", "div_12:ul:li": "line item without id 1", "div_12:ul:li_1": "line item without id 2", "div_12:ul:li_2": "line item without id 3", "line-items:li": "line item with id 1", "line-items:li_1": "line item with id 2", "line-items:li_2": "line item with id 3", "p_13": [ "A paragraph with {1} is converted to {2}.", "parameters", "&lt;i18n-format&gt;" ], "paragraph": [ "A paragraph with {1} is converted to {2}.", "id", "&lt;i18n-format&gt;" ], "text_15": " outermost text at the end " }</json-data></template></template></div><div class="test-container"><template id="simple-attribute-dom-bind" is="i18n-dom-bind" assetpath="/" localizable-text="embedded"><style attr="This is not extracted">
+        google-chart {
+          width: 300px;
+        }
+        </style><div id="outer-div"><div id="ordinary-div" attr="This is not targeted for extraction">{{text.ordinary-div}}</div><input id="standard-input" placeholder="{{model.standard-input.placeholder}}"> <input placeholder="{{model.outer-div:input_2.placeholder}}"><paper-input id="paper-input-element" label="{{model.paper-input-element.label}}" error-message="{{model.paper-input-element.error-message}}" placeholder="{{model.paper-input-element.placeholder}}" value="this is not a target"></paper-input><paper-input label="{{model.outer-div:paper-input_4.label}}" error-message="{{model.outer-div:paper-input_4.error-message}}" placeholder="{{model.outer-div:paper-input_4.placeholder}}" value="this is not a target"></paper-input><google-chart type="pie" id="pie-chart" options="{{model.pie-chart.options}}" cols="{{model.pie-chart.cols}}" rows="{{model.pie-chart.rows}}"></google-chart><google-chart id="column-chart" type="column" options="{{model.column-chart.options}}" data="{{model.column-chart.data}}"></google-chart><text-attribute-element id="custom-attr" custom-text-attr1="{{model.custom-attr.custom-text-attr1}}" custom-text-attr2="{{model.custom-attr.custom-text-attr2}}" custom-text-attr3="{{model.custom-attr.custom-text-attr3}}" out-of-scope-attr="out of scope attr"></text-attribute-element><span id="test-json-data-1">{{model.json-data-id.attr1}}</span> <span id="test-json-data-2">{{model.json-data-id.i18n-target-attr}}</span> <span id="test-json-data-3">{{model.template_2:json-data_1.attr1}}</span> <span id="test-json-data-4">{{model.template_2:json-data_1.i18n-target-attr}}</span></div><template><json-data id="json-data-id" attr1="{{model.json-data-id.attr1}}" i18n-target-attr="{{model.json-data-id.i18n-target-attr}}"></json-data><json-data attr1="{{model.template_2:json-data_1.attr1}}" i18n-target-attr="{{model.template_2:json-data_1.i18n-target-attr}}"></json-data></template><template id="localizable-text"><json-data>{ "meta": {}, "model": { "standard-input": { "placeholder": "standard HTML5 attribute" }, "outer-div:input_2": { "placeholder": "standard HTML5 attribute without id" }, "paper-input-element": { "label": "paper-input label", "error-message": "paper-input error message", "placeholder": "paper-input placeholder" }, "outer-div:paper-input_4": { "label": "paper-input label without id", "error-message": "paper-input error message without id", "placeholder": "paper-input placeholder without id" }, "pie-chart": { "options": { "title": "Distribution of days in 2001H1" }, "cols": [ { "label": "Month", "type": "string" }, { "label": "Days", "type": "number" } ], "rows": [ [ "Jan", 31 ], [ "Feb", 28 ], [ "Mar", 31 ], [ "Apr", 30 ], [ "May", 31 ], [ "Jun", 30 ] ] }, "column-chart": { "options": { "title": "Inventory" }, "data": [ [ "Year", "Things", "Stuff" ], [ "2004", 1000, 400 ], [ "2005", 1170, 460 ], [ "2006", 660, 1120 ], [ "2007", 1030, 540 ] ] }, "custom-attr": { "custom-text-attr1": "custom text attribute 1", "custom-text-attr2": "custom text attribute 2", "custom-text-attr3": "custom text attribute 3" }, "json-data-id": { "attr1": "this attr1 is extracted", "i18n-target-attr": "this attribute is also extracted" }, "template_2:json-data_1": { "attr1": "this attr1 without id is extracted", "i18n-target-attr": "this attribute without id is also extracted" } }, "ordinary-div": "text 1" }</json-data></template></template></div><div class="test-container"><template id="compound-binding-dom-bind" is="i18n-dom-bind" assetpath="/" localizable-text="embedded"><i18n-format lang="{{effectiveLang}}"><span>{{text.text.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><div><div></div></div><span id="whitespace">&nbsp;</span><h1><i18n-format lang="{{effectiveLang}}"><span>{{text.h1_3.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></h1><i18n-format lang="{{effectiveLang}}"><span>{{text.text_4.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_6.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span id="label-1"><i18n-format lang="{{effectiveLang}}"><span>{{text.label-1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span id="label-2"><i18n-format lang="{{effectiveLang}}"><span>{{text.label-2.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><div><span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_9:span.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_9:span_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><div><div><i18n-format lang="{{effectiveLang}}"><span>{{text.div_9:div_2:div.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div></div></div><div><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:text.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:span_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:text_2.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><span><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:span_3.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><div><div><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:div_4:div.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div></div><i18n-format lang="{{effectiveLang}}"><span>{{text.div_10:text_5.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div><div id="toplevel-div"><span><i18n-format lang="{{effectiveLang}}"><span>{{text.toplevel-div:span.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span> <span><i18n-format lang="{{effectiveLang}}"><span>{{text.toplevel-div:span_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></span><div id="second-level-div"><div id="third-level-div"><i18n-format lang="{{effectiveLang}}"><span>{{text.third-level-div.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div><div><i18n-format lang="{{effectiveLang}}"><span>{{text.second-level-div:div_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></div></div></div><div><ul><li><i18n-format lang="{{effectiveLang}}"><span>{{text.div_12:ul:li.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li><li><i18n-format lang="{{effectiveLang}}"><span>{{text.div_12:ul:li_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li><li><i18n-format lang="{{effectiveLang}}"><span>{{text.div_12:ul:li_2.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li></ul><ul id="line-items"><li><i18n-format lang="{{effectiveLang}}"><span>{{text.line-items:li.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li><li><i18n-format lang="{{effectiveLang}}"><span>{{text.line-items:li_1.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li><li><i18n-format lang="{{effectiveLang}}"><span>{{text.line-items:li_2.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></li></ul></div><p><i18n-format lang="{{effectiveLang}}"><span>{{text.p_13.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format></p><p id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><b param="1">{{text.paragraph.1}}</b><span param="2">{{param1}}</span><span param="3">{{param2}}</span><code param="4">{{text.paragraph.4}}</code></i18n-format></p><i18n-format lang="{{effectiveLang}}"><span>{{text.text_15.0}}</span><span param="1">{{param1}}</span><span param="2">{{param2}}</span></i18n-format><template id="localizable-text"><json-data>{ "meta": {}, "model": {}, "text": [ " outermost text at the beginning with compound {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "h1_3": [ "outermost header 1 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "text_4": [ " outermost text in the middle with {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "span_5": [ "simple text without id with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "span_6": [ "simple text without id 2 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "label-1": [ "simple text with id and {1} and {2} variables", "{{param1}}", "{{param2}}" ], "label-2": [ "simple text with id and {1} and {2} variables 2", "{{param1}}", "{{param2}}" ], "div_9:span": [ "simple text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_9:span_1": [ "simple text within div with {1} and {2} variables 2", "{{param1}}", "{{param2}}" ], "div_9:div_2:div": [ "great grandchild text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_10:text": [ " simple text as the first element in div with {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "div_10:span_1": [ "simple text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_10:text_2": [ " simple text in the middle of div with {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "div_10:span_3": [ "simple text within div with {1} and {2} variables 2", "{{param1}}", "{{param2}}" ], "div_10:div_4:div": [ "great grandchild text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_10:text_5": [ " simple text at the last element in div with {1} and {2} variables ", "{{param1}}", "{{param2}}" ], "toplevel-div:span": [ "simple text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "toplevel-div:span_1": [ "simple text within div 2 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "third-level-div": [ "great grandchild text within div with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "second-level-div:div_1": [ "great grandchild text within div without id with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_12:ul:li": [ "line item without id 1 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_12:ul:li_1": [ "line item without id 2 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "div_12:ul:li_2": [ "line item without id 3 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "line-items:li": [ "line item with id 1 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "line-items:li_1": [ "line item with id 2 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "line-items:li_2": [ "line item with id 3 with {1} and {2} variables", "{{param1}}", "{{param2}}" ], "p_13": [ "A paragraph with {1} is converted to {2}.", "{{param1}}", "{{param2}}" ], "paragraph": [ "A paragraph with {1}, {2}, and {3} is converted to {4}.", "id", "{{param1}}", "{{param2}}", "&lt;i18n-format&gt;" ], "text_15": [ " outermost text at the end with {1} and {2} variables ", "{{param1}}", "{{param2}}" ] }</json-data></template></template></div><script src="basic-test.js"></script></body></html>
