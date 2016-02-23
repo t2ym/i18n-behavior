@@ -246,11 +246,12 @@ without overheads of run-time traversal into the whole template.
 
 ### Test Suites
 
-| Test Suites      | UI Strings | L10N JSON | HTML       |
-|:-----------------|:-----------|:----------|:-----------|
-| test/src         | Hard-coded | Modular   | Modular    |
-| test/preprocess  | Extracted  | Modular   | Modular    |
-| test/vulcanize   | Extracted  | Bundled   | Vulcanized |
+| Test Suites      | UI Strings | L10N JSON            | HTML                    | JavaScript                   |
+|:-----------------|:-----------|:---------------------|:------------------------|:-----------------------------|
+| test/src         | Hard-coded | Modular              | Modular                 | HTML Embedded                |
+| test/preprocess  | Extracted  | Modular              | Modular                 | HTML Embedded                |
+| test/vulcanize   | Extracted  | Bundled              | Vulcanized              | HTML Embedded and Vulcanized |
+| test/minify      | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Obfuscated  |
 
 ### Online Test
 

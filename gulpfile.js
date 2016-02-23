@@ -14,6 +14,9 @@ const runSequence = require('run-sequence');
 const JSONstringify = require('json-stringify-safe');
 //const babel = require('gulp-babel');
 const crisper = require('gulp-crisper');
+const htmlmin = require('gulp-htmlmin');
+const minifyHtml = require('gulp-minify-html');
+const uglify = require('gulp-uglify');
 const vulcanize = require('gulp-vulcanize');
 const i18nPreprocess = require('gulp-i18n-preprocess');
 const i18nLeverage = require('gulp-i18n-leverage');
@@ -25,7 +28,7 @@ var attributesRepository = {};
 var bundles = {};
 
 gulp.task('clean', function() {
-  return del(['test/preprocess']);
+  return del(['test/preprocess', 'test/vulcanize', 'test/minify']);
 });
 
 // Scan HTMLs and construct localizable attributes repository
@@ -127,6 +130,41 @@ gulp.task('bundles', function (callback) {
   }
   callback();
 });
+
+gulp.task('minify', function() {
+  return gulp.src(['test/vulcanize/**/*', '!test/vulcanize/bundle.json'])
+    .pipe(gulpif('*.html', crisper({
+      scriptInHead: false
+    })))
+    .pipe(gulpif('*.html', minifyHtml({
+      quotes: true,
+      empty: true,
+      spare: true
+    })))
+    .pipe(gulpif('*.js', uglify({
+      preserveComments: 'some'
+    })))
+    .pipe(gulp.dest('test/minify'))
+    .pipe(size({title: 'minify'}));
+});
+
+gulp.task('mini-bundles', function (callback) {
+  var DEST_DIR = 'test' + path.sep + 'minify';
+  var localesPath = DEST_DIR + path.sep + 'locales';
+
+  try {
+    fs.mkdirSync(localesPath);
+  }
+  catch (e) {}
+  for (var lang in bundles) {
+    bundles[lang].bundle = true;
+    if (lang) {
+      fs.writeFileSync(localesPath + path.sep + 'bundle.' + lang + '.json', 
+                        JSONstringify(bundles[lang], null, 0));
+    }
+  }
+  callback();
+});
  
 gulp.task('pretest', ['clean'], function(cb) {
   runSequence(
@@ -137,6 +175,8 @@ gulp.task('pretest', ['clean'], function(cb) {
     'vulcanize',
     'clean-clone',
     'bundles',
+    'minify',
+    'mini-bundles',
     /*
     'feedback',
     */
