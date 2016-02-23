@@ -222,20 +222,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
        */
       templateDefaultLang: {
         type: String,
-        readOnly: true,
-        value: function () {
-          if (!this._templateDefaultLang) {
-            var template = Polymer.DomModule.import(this.is, 'template');
-            if (template) {
-              this._templateDefaultLang = template.hasAttribute('lang') ? template.lang : 'en';
-            }
-            else {
-              this._templateDefaultLang = 'en';
-            }
-          }
-          var templateDefaultLang = this._templateDefaultLang;
-          return templateDefaultLang;
-        }
+        value: 'en'
       },
 
       /**
@@ -1131,12 +1118,18 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       else {
         template = Polymer.DomModule.import(id, 'template');
       }
+      if (template) {
+        this.templateDefaultLang = template.hasAttribute('lang') ? template.lang : 'en';
+      }
+      else {
+        this.templateDefaultLang = 'en';
+      }
       if (!template) {
         return false;
       }
       var bundle = {};
       var path = [];
-      var templateDefaultLang = this.getPropertyInfo('templateDefaultLang').value();
+      var templateDefaultLang = this.templateDefaultLang;
       var localizableText, jsonData;
 
       // register localizable attributes of the element itself
