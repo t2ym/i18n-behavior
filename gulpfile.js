@@ -14,7 +14,6 @@ const runSequence = require('run-sequence');
 const JSONstringify = require('json-stringify-safe');
 //const babel = require('gulp-babel');
 const crisper = require('gulp-crisper');
-const htmlmin = require('gulp-htmlmin');
 const minifyHtml = require('gulp-minify-html');
 const uglify = require('gulp-uglify');
 const vulcanize = require('gulp-vulcanize');
