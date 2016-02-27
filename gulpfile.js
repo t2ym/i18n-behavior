@@ -82,6 +82,15 @@ gulp.task('leverage', function () {
     .pipe(gulp.dest('test/preprocess')); // path to output next localized JSON files
 });
 
+// Save attributes respository in test/preprocess just for testing
+gulp.task('attributes-repository', function (callback) {
+  var DEST_DIR = 'test' + path.sep + 'preprocess';
+
+  fs.writeFileSync(DEST_DIR + path.sep + 'attributes-repository.json', 
+                    JSONstringify(attributesRepository, null, 2));
+  callback();
+});
+
 gulp.task('clone', function () {
   return gulp.src([ '*.html', 'test/preprocess/**/*' ], { base: '.' })
     .pipe(debug())
@@ -170,6 +179,7 @@ gulp.task('pretest', ['clean'], function(cb) {
     'scan',
     'preprocess',
     'leverage',
+    'attributes-repository',
     'clone',
     'vulcanize',
     'clean-clone',
