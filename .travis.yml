@@ -31,8 +31,3 @@ script:
   - xvfb-run gulp test:local
   - cp -vf non-ie10.wct.conf.json wct.conf.json
   - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then gulp test:remote; fi
-  - rm -rf bower_components
-  - cp -vf bower.json.with.polymer.1.2.4 bower.json
-  - bower install
-  - xvfb-run gulp test:local
-  - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then gulp test:remote; fi
