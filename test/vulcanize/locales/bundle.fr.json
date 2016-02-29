@@ -727,6 +727,13 @@
     },
     "ordinary-div": "fr text 1"
   },
+  "text-attribute-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "span_4": "fr text"
+  },
   "simple-text-element": {
     "meta": {
       "todo": []

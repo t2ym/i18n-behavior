@@ -1690,8 +1690,24 @@ suite('I18nBehavior with ' +
       lang: lang2,
       effectiveLang: lang2
     }),
+    s(lang2 + ' default observeHtmlLang simple text dom bind', 'simple text', {
+      fixture: 'simple-text-dom-bind',
+      fixtureModel: {
+        'html.lang': lang5
+      },
+      assign: { 'html.lang': lang2 },
+      lang: lang2,
+      effectiveLang: lang2,
+      text: text_simple,
+      localDOM: localDOM_simple,
+      observeHtmlLang: true
+    }),
     s('simple text dom bind', 'simple text', {
       fixture: 'simple-text-dom-bind',
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      },
       text: text_simple,
       localDOM: localDOM_simple
     }),
@@ -1728,6 +1744,29 @@ suite('I18nBehavior with ' +
       assign: { lang: lang2 },
       lang: lang2,
       effectiveLang: lang2
+    }),
+    s('html.lang simple text dom bind', 'simple text dom bind', {
+      fixtureModel: {
+        observeHtmlLang: true,
+        lang: lang1,
+        'html.lang': lang1
+      },
+      assign: { 'html.lang': lang1 },
+      observeHtmlLang: true
+    }),
+    s(lang2 + ' html.lang simple text dom bind', 'html.lang simple text dom bind', {
+      assign: { 'html.lang': lang2 },
+      lang: lang2,
+      effectiveLang: lang2
+    }),
+    s('observeHtmlLang default simple text', 'simple text null lang', {
+      fixtureModel: {
+        observeHtmlLang: true
+      },
+      assign: { 'html.lang': lang1 },
+      lang: lang1,
+      effectiveLang: lang1,
+      observeHtmlLang: true
     })
   ];
 
@@ -1749,34 +1788,8 @@ suite('I18nBehavior with ' +
           else if (p === 'PolymerDom') {
             cursor = Polymer.dom(cursor);
           }
-          else {
-            cursor = cursor[p];
-          }
-          p = path.shift();
-        }
-      }
-    }
-  };
-
-  var updateModel = function (element, model) {
-    for (var name in model) {
-      var path = name.split(/[.]/);
-      if (path.length === 1) {
-        element[name] = model[name];
-        //console.log('updateModel: notifyPath: name = ' + name);
-        //element.notifyPath(name, model[name], true);
-      }
-      else {
-        var cursor = element;
-        var p = path.shift();
-        while (p) {
-          if (path.length < 1) {
-            cursor[p] = model[name];
-            element.notifyPath(name, model[name], true);
-            break;
-          }
-          else if (p === 'PolymerDom') {
-            cursor = Polymer.dom(cursor);
+          else if (p === 'html') {
+            cursor = document.querySelector('html');
           }
           else {
             cursor = cursor[p];
@@ -1961,6 +1974,11 @@ suite('I18nBehavior with ' +
       if (e._intervalId) {
         clearInterval(e._intervalId);
       }
+      Array.prototype.forEach.call(document.querySelectorAll('[is="i18n-dom-bind"]'),
+        function (node) {
+          node.observeHtmlLang = true;
+        }
+      );
     }
     else {
       e.restore();
@@ -1998,13 +2016,17 @@ suite('I18nBehavior with ' +
       suiteSetup(function () {
         el = setupFixture(params, params.fixtureModel);
         return new Promise(function (resolve, reject) {
-          if (params && params.assign && params.assign.lang) {
+          if (params && params.assign && (params.assign.lang || params.assign['html.lang'])) {
             el.addEventListener(event, function fixtureSetup (e) {
               if (el === Polymer.dom(e).rootTarget &&
                   el.lang === params.lang &&
                   el.effectiveLang === params.effectiveLang) {
                 el.removeEventListener(event, fixtureSetup);
                 resolve(el);
+              }
+              else {
+                console.log(params.suite + ' skipping uninteresting event ' + event + ' ' + 
+                  el.lang + ' ' + params.lang + ' ' + el.effectiveLang + ' ' + params.effectiveLang);
               }
             });
             updateProperty(el, params.assign);

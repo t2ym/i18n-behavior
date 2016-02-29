@@ -665,6 +665,11 @@
     },
     "ordinary-div": "text 1"
   },
+  "text-attribute-element": {
+    "meta": {},
+    "model": {},
+    "span_4": "text"
+  },
   "simple-text-element": {
     "meta": {},
     "model": {},
