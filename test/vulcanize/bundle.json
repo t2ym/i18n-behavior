@@ -491,6 +491,10 @@
       "{{param2}}"
     ]
   },
+  "empty-element": {
+    "meta": {},
+    "model": {}
+  },
   "fallback-text-element": {
     "meta": {},
     "model": {},

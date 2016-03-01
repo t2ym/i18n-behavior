@@ -501,6 +501,12 @@
       "{{param2}}"
     ]
   },
+  "empty-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {}
+  },
   "fallback-text-element": {
     "meta": {
       "todo": [
