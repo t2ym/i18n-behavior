@@ -536,6 +536,15 @@
     ],
     "text_15": " outermost text at the end "
   },
+  "item-element": {
+    "meta": {},
+    "model": {},
+    "label": "A"
+  },
+  "multiple-element": {
+    "meta": {},
+    "model": {}
+  },
   "plural-gender-element": {
     "meta": {},
     "model": {},

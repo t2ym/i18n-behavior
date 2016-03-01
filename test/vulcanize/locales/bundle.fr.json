@@ -596,6 +596,19 @@
     ],
     "text_15": "fr  outermost text at the end "
   },
+  "item-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label": "fr A"
+  },
+  "multiple-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {}
+  },
   "plural-gender-element": {
     "meta": {
       "todo": []
