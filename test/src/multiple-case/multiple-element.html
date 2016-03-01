@@ -1,0 +1,74 @@
+<!--
+@license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+-->
+<link rel="import" href="../../../i18n-behavior.html">
+<link rel="import" href="item-element.html">
+
+<dom-module id="multiple-element">
+  <template>
+    <div id="base">
+      <template id="items" is="dom-repeat" items="{{getArray(count)}}">
+        <span>
+          <item-element
+            lang="{{lang}}"
+            observe-html-lang="{{observeHtmlLang}}"></item-element>
+        </span>
+      </template>
+    </div>
+    <div id="save"></div>
+  </template>
+  <script>
+    Polymer({
+      is: 'multiple-element',
+
+      behaviors: [
+        BehaviorsStore.I18nBehavior
+      ],
+
+      properties: {
+        count: {
+          type: Number,
+          value: 100
+        }
+      },
+
+      listeners: {
+        'lang-updated': 'langUpdated',
+        'dom-change': 'domChanged'
+      },
+
+      getArray: function (count) {
+        var a = [];
+        for (var i = 0; i < count; i++) {
+          a.push(i);
+        }
+        return a;
+      },
+
+      domChanged: function (e) {
+        var nodes = Polymer.dom(this.root).querySelectorAll('item-element');
+        if (nodes.length === this.count &&
+            this.lang === this.effectiveLang) {
+          Array.prototype.forEach.call(nodes, function (node) {
+            this.$.save.appendChild(node);
+          }.bind(this));
+          this.fire('local-dom-ready');
+        }
+      },
+
+      langUpdated: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        this.itemLang = this.itemLang || {};
+        if (target.tagName.toLowerCase() === 'item-element') {
+          this.itemLang[target.effectiveLang] = this.itemLang[target.effectiveLang] || 0;
+          this.itemLang[target.effectiveLang]++;
+        }
+        if (this.itemLang[this.lang] === this.count) {
+          this.$.items.render();
+        }
+        return false;
+      }
+    });
+  </script>
+</dom-module>

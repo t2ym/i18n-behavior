@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var suites = [];
       [ 'src', 'preprocess', 'vulcanize', 'minify' ].forEach(function (phase) {
         return [ '', '?dom=shadow' ].forEach(function (dom) {
-          return [ 'basic', 'edge-case' ].forEach(function (type) {
+          return [ 'basic', 'edge-case', 'multiple-case' ].forEach(function (type) {
             suites.push(phase + '/' + type + '-test.html' + dom);
           });
         });
