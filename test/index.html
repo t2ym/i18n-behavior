@@ -15,17 +15,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </head>
   <body>
     <script>
+      var suites = [];
+      [ 'src', 'preprocess', 'vulcanize', 'minify' ].forEach(function (phase) {
+        return [ '', '?dom=shadow' ].forEach(function (dom) {
+          return [ 'basic', 'edge-case' ].forEach(function (type) {
+            suites.push(phase + '/' + type + '-test.html' + dom);
+          });
+        });
+      });
       // Load and run all tests (.html, .js):
-      WCT.loadSuites([
-        'src/basic-test.html',
-        'src/basic-test.html?dom=shadow',
-        'preprocess/basic-test.html',
-        'preprocess/basic-test.html?dom=shadow',
-        'vulcanize/basic-test.html',
-        'vulcanize/basic-test.html?dom=shadow',
-        'minify/basic-test.html',
-        'minify/basic-test.html?dom=shadow'
-      ]);
+      WCT.loadSuites(suites);
     </script>
 
 </body></html>

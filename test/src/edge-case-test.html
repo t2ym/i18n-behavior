@@ -1,0 +1,103 @@
+<!--
+@license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+-->
+<html lang="en" preferred>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script>
+/*!
+ * @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
+ * Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+ */
+    </script>
+
+    <script src="../../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+    <script src="test-runner.js"></script>
+
+    <link rel="import" href="../../../promise-polyfill/promise-polyfill-lite.html">
+    <link rel="import" href="../../i18n-behavior.html">
+    <link rel="import" href="edge-case/empty-element.html">
+    <link rel="import" href="edge-case/no-template-element.html">
+    <style>
+    .test-container.running-test {
+      display: block;
+    }
+    .test-container:not(.running-test) { 
+      display: none;
+    }
+    </style>
+  </head>
+  <body>
+    <h2 id="test-name"></h2>
+
+    <test-fixture class="test-container" id="empty-element-fixture">
+      <template>
+        <empty-element></empty-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture class="test-container" id="bound-empty-element-fixture">
+      <template is="dom-template">
+        <empty-element
+          lang="{{lang}}"
+          observe-html-lang="{{observeHtmlLang}}"></empty-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture class="test-container" id="no-template-element-fixture">
+      <template>
+        <no-template-element></no-template-element>
+      </template>
+    </test-fixture>
+
+    <script>
+suite('I18nBehavior with ' + 
+  (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM'), 
+  function () {
+
+  var lang0 = '';
+  var lang1 = 'en';
+  var lang2 = 'fr';
+  var lang3 = 'ja';
+  var lang4 = 'fr-CA';
+  var lang5 = 'zh-Hans-CN';
+
+  var suites = [
+    s('empty element', null, {
+      fixture: 'empty-element-fixture', 
+      fixtureModel: undefined,
+      assign: undefined,
+      lang: lang1,
+      effectiveLang: lang1,
+      templateDefaultLang: lang1,
+      observeHtmlLang: true,
+      text: { model: {} },
+      model: {},
+      localDOM: undefined,
+      lightDOM: undefined
+    }),
+    s(lang2 + ' empty element', 'empty element', {
+      fixture: 'bound-empty-element-fixture',
+      fixtureModel: { observeHtmlLang: false, lang: lang1 },
+      assign: { lang: lang2 },
+      event: 'lang-updated',
+      lang: lang2,
+      effectiveLang: lang2,
+      observeHtmlLang: false
+    }),
+    s('no template element', 'empty element', {
+      fixture: 'no-template-element-fixture'
+    }),
+  ];
+
+  suitesRunner(suites);
+
+});
+    </script>
+
+  </body>
+</html>
