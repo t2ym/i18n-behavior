@@ -65,7 +65,10 @@ gulp.task('preprocess', function () {
      }))
     .pipe(gulp.dest('test/preprocess'));
 
-  return merge(elements, html)
+  var js = gulp.src([ 'test/src/**/*.js' ])
+    .pipe(gulp.dest('test/preprocess'));
+
+  return merge(elements, html, js)
     .pipe(size({title: 'preprocess'}));
 });
 
@@ -76,6 +79,7 @@ gulp.task('leverage', function () {
       jsonSpace: 2, // JSON format with 2 spaces
       srcPath: 'test/src', // path to source root
       distPath: 'test/preprocess', // path to dist root to fetch next default JSON files
+      finalize: false, // leave meta
       bundles: bundles // output bundles object
     }))
     .pipe(debug())
@@ -98,7 +102,7 @@ gulp.task('clone', function () {
 });
 
 gulp.task('vulcanize', function() {
-  return gulp.src(['bower_components/i18n-behavior/test/preprocess/basic-test.html'])
+  return gulp.src(['bower_components/i18n-behavior/test/preprocess/*-test.html'])
     .pipe(vulcanize({
       excludes: [
         'bower_components/webcomponentsjs/webcomponents.js',
