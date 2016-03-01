@@ -1124,54 +1124,41 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       else {
         this.templateDefaultLang = 'en';
       }
-      if (!template) {
-        return false;
-      }
-      var bundle = {};
+      var bundle = { model: {} };
       var path = [];
       var templateDefaultLang = this.templateDefaultLang;
       var localizableText, jsonData;
 
-      // register localizable attributes of the element itself
-      attributesRepository.registerLocalizableAttributes(id, template);
-
-      if (template.getAttribute('localizable-text') === 'embedded') {
-        // pick up embedded JSON from the template
-        localizableText = template.content.querySelector('#localizable-text');
-        if (localizableText) {
-          jsonData = localizableText.content.querySelector('json-data');
-          if (jsonData) {
-            bundle = JSON.parse(jsonData.textContent);
+      if (template) {
+        // register localizable attributes of the element itself
+        attributesRepository.registerLocalizableAttributes(id, template);
+        if (template.getAttribute('localizable-text') === 'embedded') {
+          // pick up embedded JSON from the template
+          localizableText = template.content.querySelector('#localizable-text');
+          if (localizableText) {
+            jsonData = localizableText.content.querySelector('json-data');
+            if (jsonData) {
+              bundle = JSON.parse(jsonData.textContent);
+            }
+            else {
+              console.error('<json-data> not found in <template id=\"localizable-text\">');
+            }
           }
           else {
-            console.error('<json-data> not found in <template id=\"localizable-text\">');
+            console.error('<template id=\"localizable-text\"> not found');
           }
         }
         else {
-          console.error('<template id=\"localizable-text\"> not found');
+          // traverse template to generate bundle
+          this._traverseTemplateTree(template.content, path, bundle, 0);
         }
       }
-      else {
-        // traverse template to generate bundle
-        this._traverseTemplateTree(template.content, path, bundle, 0);
-      }
-      //console.log('template = ');
-      //console.log(template);
 
-      if (bundle.model) {
-        bundles[''][id] = bundle;
-        bundles[templateDefaultLang] = bundles[templateDefaultLang] || {};
-        bundles[templateDefaultLang][id] = bundle;
-      }
-      else {
-        // TODO: handle default language fetching
-        this._fetchLanguage('');
-      }
-
-      // merge default text into bundle
-      this._mergeDefaultText(bundle);
+      bundles[''][id] = bundle;
+      bundles[templateDefaultLang] = bundles[templateDefaultLang] || {};
+      bundles[templateDefaultLang][id] = bundle;
       //console.log('text = ');
-      //console.log(bundle);
+      //console.log(JSON.stringify(bundle, null, 2));
 
       return true;
     },
