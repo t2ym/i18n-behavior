@@ -1,0 +1,182 @@
+<!--
+@license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+-->
+<link rel="import" href="../../../i18n-behavior.html">
+
+<dom-module id="complex-compound-binding-element">
+  <template>
+    <h5 id="item-update">updated: {{text.updated}}, by: 
+      <template id="template-1" is="dom-repeat" items="{{text.authors}}">
+        <span>  {{item.name}}  </span>
+      </template>
+      xxx
+      <template id="template-2" is="dom-if" if="true">
+        <b>IF CONTENT</b>
+      </template>
+      <b>abc</b>
+      <template id="template-3" is="dom-if" if="true">IF CONTENT 2</template>
+      hello
+    </h5>
+    <h5 id="item-update2">updated: {{text.updated}}, by: 
+      <template is="dom-repeat" items="{{text.authors}}">
+        {{item.name}}
+      </template>
+      xxx
+      <template is="dom-if" if="true">
+        <span><b>IF CONTENT</b></span>
+      </template>
+      <b>abc</b>
+      <template is="dom-if" if="true">IF CONTENT 2</template>
+      hello
+    </h5>
+    <h5 id="item-update3">updated: {{text.updated}}, by: 
+      <template is="dom-repeat" items="{{text.authors}}">
+        {{item.name}}
+      </template>
+      xxx
+      <template is="dom-if" if="true">
+        <b>IF</b><b>CONTENT</b>
+      </template>
+      <b>abc</b>
+      <template is="dom-if" if="true">IF CONTENT 2</template>
+      hello
+    </h5>
+    <h5 id="item-update4">updated: {{text.updated}}, by: 
+      <template is="dom-repeat" items="{{text.authors}}">
+        {{item.name}} = {{text.updated}}
+      </template>
+      xxx
+      <template is="dom-if" if="true">
+        <b>IF CONTENT</b>
+      </template>
+      <b>abc</b>
+      <template is="dom-if" if="true">IF CONTENT 2</template>
+      hello
+    </h5>
+    <p id="paragraph">A paragraph with 
+      <template id="template-4" is="dom-repeat" items="{{text.parameters}}">
+        <i>{{item}} </i>
+      </template>
+      is converted to 
+      <code>&lt;i18n-format&gt;</code>.
+    </p>
+    <p id="paragraph2">A paragraph with deep 
+      <template is="dom-repeat" items="{{text.parameters}}">
+        <span><i>{{item}}</i> </span>
+      </template>
+      is <b>not</b> converted to 
+      <code>&lt;i18n-format&gt;</code>.
+    </p>
+    <div id="save"></div>
+    <template>
+      <json-data id="authors">[
+        { "name": "Joe" }, { "name": "Alice" }
+      ]</json-data>
+      <span id="updated">Jan 1st, 2016</span>
+      <json-data id="parameters">[
+        "parameter 1", "parameter 2"
+      ]</json-data>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'complex-compound-binding-element',
+
+      behaviors: [
+        BehaviorsStore.I18nBehavior
+      ],
+
+      properties: {
+      },
+
+      observers: [
+      ],
+
+      listeners: {
+        'lang-updated': '_langUpdated',
+        'dom-change': '_domChanged',
+        'template-1.dom-change': '_domChanged',
+        'template-2.dom-change': '_domChanged',
+        'template-3.dom-change': '_domChanged',
+        'template-4.dom-change': '_domChanged',
+        'rendered': '_childRendered'
+      },
+
+      ready: function () {
+        //this.observeHtmlLang = false;
+      },
+
+      attached: function () {
+      },
+
+      _langUpdated: function (e) {
+        if (Polymer.dom(e).rootTarget === this) {
+          this.model = deepcopy(this.text.model);
+          Array.prototype.forEach.call(Polymer.dom(this).querySelectorAll('template[is="dom-repeat"]'),
+            function (node) {
+              node.render();
+            }
+          );
+          Array.prototype.forEach.call(Polymer.dom(this).querySelectorAll('template[is="dom-if"]'),
+            function (node) {
+              node.render();
+            }
+          );
+        }
+      },
+
+      _domChanged: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        var cursor;
+        var i;
+        var index;
+        var id;
+        //console.log('dom-change for ' + target.getAttribute('is'));
+        //console.log(target.id);
+        if (target.is === 'dom-repeat') {
+          i = target.renderedItemCount - 1;
+          cursor = target.previousSibling;
+          while (i >= 0 && cursor) {
+            index = target.indexForElement(cursor);
+            this.$.save.items = this.$.save.items || {};
+            id = target.parentNode.id;
+            //console.log('id = ' + id + ' textContent = ' + cursor.textContent);
+            this.$.save.items[id] = this.$.save.items[id] || [];
+            this.$.save.items[id][index] = cursor.textContent;
+            cursor = cursor.previousSibling;
+            i--;
+          }
+        }
+      },
+
+      _childRendered: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        var cursor;
+        var i;
+        var index;
+        var id;
+        //console.log('rendered for ' + target.is);
+        //console.log(target);
+        if (target.is === 'i18n-format' &&
+            target.parentNode.id &&
+            !target.parentNode.id.match(/[0-9]$/)) {
+          this.$.save.items = this.$.save.items || {};
+          id = target.parentNode.id;
+          this.$.save.items[id] = this.$.save.items[id] || [];
+          var templates = Polymer.dom(target).querySelectorAll('template');
+          Array.prototype.forEach.call(templates, function (template) {
+            this.listen(template, 'dom-change', '_domChanged');
+            template.render();
+          }.bind(this));
+
+          var params = Polymer.dom(target).querySelectorAll(':not(template)[param]');
+          Array.prototype.forEach.call(params, function (param, idx) {
+            this.$.save.items[id][idx] = param.textContent;
+            //console.log('Saving ' + id + '[' + idx + '] = ' + param.textContent);
+          }.bind(this));
+        }
+      }
+    });
+  </script>
+</dom-module>

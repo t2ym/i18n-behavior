@@ -81,6 +81,9 @@ function getProperty (target, name) {
             p === 'text') {
           return cursor;
         }
+        else if (p === 'trim') {
+          return cursor.trim();
+        }
         if (p === 'data') {
           cursor = cursor[p];
           cursor = cursor.replace(/^[\s]{1,}/g, ' ').replace(/[\s]{1,}$/g, ' ');
@@ -163,14 +166,14 @@ function translate (lang, path, text) {
     result = text;
     break;
   default:
-    if (!path || path.match(/(textContent|[.]data|[.]text)$/)) {
+    if (!path || path.match(/(textContent|[.]data|[.]text|[.]trim)$/)) {
       result = {};
       deepMap(result, { text: text }, function (value, prop) {
         if (typeof value === 'string' &&
             !value.match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/) &&
             !value.match(/^[0-9]{1,}$/) &&
             prop !== 'type') {
-          return lang + ' ' + value;
+          return path && path.match(/[.]trim$/) ? (lang + ' ' + value).trim() : lang + ' ' + value;
         }
         return value;
       });
@@ -186,7 +189,7 @@ function translate (lang, path, text) {
 
 function minifyText (text) {
   if (text && typeof text === 'string') {
-    text = text.replace(/\n[\s]{1,}/g, '\n ');
+    text = text.replace(/[\s]{1,}/g, ' ');
   }
   return text;
 }
