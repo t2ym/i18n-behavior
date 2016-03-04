@@ -10487,7 +10487,6 @@ Polymer({
     <template id="standard">
       
       <input placeholder="">
-      <any-elements title=""></any-elements>
 
       
       <paper-input label="" error-message="" placeholder=""></paper-input>
@@ -10523,10 +10522,6 @@ Polymer({
       if (this.data[element]) {
         return  !!this.data[element]['any-attributes'] ||
                 !!this.data[element][attr];
-      }
-      else if (this.data['any-elements'] &&
-               this.data['any-elements'][attr]) {
-        return true;
       }
       else {
         return false;
