@@ -82,7 +82,7 @@ gulp.task('leverage', function () {
       finalize: false, // leave meta
       bundles: bundles // output bundles object
     }))
-    .pipe(debug())
+    //.pipe(debug())
     .pipe(gulp.dest('test/preprocess')); // path to output next localized JSON files
 });
 
@@ -97,7 +97,7 @@ gulp.task('attributes-repository', function (callback) {
 
 gulp.task('clone', function () {
   return gulp.src([ '*.html', 'test/preprocess/**/*' ], { base: '.' })
-    .pipe(debug())
+    //.pipe(debug())
     .pipe(gulp.dest('bower_components/i18n-behavior'));
 });
 
