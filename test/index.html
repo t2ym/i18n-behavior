@@ -15,9 +15,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </head>
   <body>
     <script>
+      var hasShadow = Boolean(Element.prototype.createShadowRoot);
+      var nativeShadow = hasShadow && !window.ShadowDOMPolyfill;
       var suites = [];
       [ 'src', 'preprocess', 'vulcanize', 'minify' ].forEach(function (phase) {
-        return [ '', '?dom=shadow' ].forEach(function (dom) {
+        return (nativeShadow ? [ '', '?dom=shadow' ] : [ '' ]).forEach(function (dom) {
           return [ 'basic', 'edge-case', 'multiple-case' ].forEach(function (type) {
             suites.push(phase + '/' + type + '-test.html' + dom);
           });
