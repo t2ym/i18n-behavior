@@ -108,6 +108,9 @@ function getProperty (target, name) {
             p === 'text') {
           return cursor;
         }
+        else if (p === 'trim') {
+          return cursor.trim();
+        }
         if (p === 'data') {
           cursor = cursor[p];
           cursor = cursor.replace(/^[\s]{1,}/g, ' ').replace(/[\s]{1,}$/g, ' ');
@@ -190,14 +193,14 @@ function translate (lang, path, text) {
     result = text;
     break;
   default:
-    if (!path || path.match(/(textContent|[.]data|[.]text)$/)) {
+    if (!path || path.match(/(textContent|[.]data|[.]text|[.]trim)$/)) {
       result = {};
       deepMap(result, { text: text }, function (value, prop) {
         if (typeof value === 'string' &&
             !value.match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/) &&
             !value.match(/^[0-9]{1,}$/) &&
             prop !== 'type') {
-          return lang + ' ' + value;
+          return path && path.match(/[.]trim$/) ? (lang + ' ' + value).trim() : lang + ' ' + value;
         }
         return value;
       });
@@ -213,7 +216,7 @@ function translate (lang, path, text) {
 
 function minifyText (text) {
   if (text && typeof text === 'string') {
-    text = text.replace(/\n[\s]{1,}/g, '\n ');
+    text = text.replace(/[\s]{1,}/g, ' ');
   }
   return text;
 }
@@ -10484,6 +10487,7 @@ Polymer({
     <template id="standard">
       
       <input placeholder="">
+      <any-elements title=""></any-elements>
 
       
       <paper-input label="" error-message="" placeholder=""></paper-input>
@@ -10491,6 +10495,7 @@ Polymer({
       <paper-dropdown-menu label=""></paper-dropdown-menu>
       <paper-toast text=""></paper-toast>
       <google-chart options="" cols="" rows="" data=""></google-chart>
+      <google-signin label-signin="" label-signout="" label-additional=""></google-signin>
       <platinum-push-messaging title="" message=""></platinum-push-messaging>
 
       
@@ -10518,6 +10523,10 @@ Polymer({
       if (this.data[element]) {
         return  !!this.data[element]['any-attributes'] ||
                 !!this.data[element][attr];
+      }
+      else if (this.data['any-elements'] &&
+               this.data['any-elements'][attr]) {
+        return true;
       }
       else {
         return false;
@@ -12159,27 +12168,84 @@ Polymer({
             // check if i18n-format is applicable
             var childStatus = Array.prototype.map.call(
               node.childNodes, function (child) {
-                return {
-                  hasText: child.nodeType === child.TEXT_NODE && 
-                           child.textContent.length > 0 && 
-                           !child.textContent.match(/^\s*$/g), 
-                  hasCompoundAnnotatedText: child.nodeType === child.TEXT_NODE &&
-                                            this._isCompoundAnnotatedText(child.textContent),
-                  hasTextChild: child.nodeType === child.ELEMENT_NODE &&
-                                child.childElementCount === 0, // including <br>
-                  hasCompoundAnnotatedChildNode: child.nodeType === child.ELEMENT_NODE &&
-                                                 child.childElementCount === 0 &&
-                                                 this._isCompoundAnnotatedText(child.textContent),
-                  hasGrandChildren: child.nodeType === child.ELEMENT_NODE &&
-                                    Array.prototype.map.call(
-                                      child.childNodes, 
-                                      function (grandChild) {
-                                        return grandChild.nodeType !== grandChild.TEXT_NODE;
-                                      }
-                                    ).reduce(function (prev, current) {
-                                      return prev || current;
-                                    }, false)
-                };
+                var result;
+                if (child.nodeType === child.ELEMENT_NODE &&
+                    child.tagName === 'TEMPLATE') {
+                  var templateNonCommentChildNodes =
+                    Array.prototype.filter.call(child.content.childNodes, function (templateChild) {
+                      switch (templateChild.nodeType) {
+                      case templateChild.COMMENT_NODE:
+                        return false;
+                      case templateChild.TEXT_NODE:
+                        return !templateChild.textContent.match(/^\s*$/g);
+                      default:
+                      case templateChild.ELEMENT_NODE:
+                        return true;
+                      }
+                    });
+                  var firstChild = templateNonCommentChildNodes.shift();
+                  // Examples:
+                  // hasText: <template>text</template>
+                  // hasCompoundAnnotatedText: <template>{{item.name}} text</template>
+                  // hasTextChild: <template><b>text</b></template> or <template><br></template>
+                  // hasCompoundAnnotatedChildNode: <template><b>{{item.name}} text</b></template>
+                  // hasGrandChildren: <template><span><b>text</b></span></template> or 
+                  //                   <template><b>A</b><i>B</i></template> or
+                  //                   hasCompoundAnnotatedText
+                  result = {
+                    hasText: templateNonCommentChildNodes.length === 0 &&
+                             firstChild &&
+                             firstChild.nodeType === firstChild.TEXT_NODE &&
+                             firstChild.textContent.length > 0 &&
+                             !firstChild.textContent.match(/^\s*$/g),
+                    hasCompoundAnnotatedText: firstChild &&
+                                              firstChild.nodeType === firstChild.TEXT_NODE &&
+                                              this._isCompoundAnnotatedText(firstChild.textContent),
+                    hasTextChild: templateNonCommentChildNodes.length === 0 &&
+                                  firstChild.nodeType === child.ELEMENT_NODE &&
+                                  firstChild.childElementCount === 0, // including <br>
+                    hasCompoundAnnotatedChildNode: firstChild.nodeType === firstChild.ELEMENT_NODE &&
+                                                   firstChild.childElementCount === 0 &&
+                                                   this._isCompoundAnnotatedText(firstChild.textContent),
+                    hasGrandChildren: templateNonCommentChildNodes.length > 0 ||
+                                      (firstChild.nodeType === firstChild.ELEMENT_NODE &&
+                                        Array.prototype.map.call(
+                                          firstChild.childNodes,
+                                          function (grandChild) {
+                                            return grandChild.nodeType !== grandChild.TEXT_NODE;
+                                          }
+                                        ).reduce(function (prev, current) {
+                                          return prev || current;
+                                        }, false)) ||
+                                      (firstChild &&
+                                       firstChild.nodeType === firstChild.TEXT_NODE &&
+                                       this._isCompoundAnnotatedText(firstChild.textContent))
+                  };
+                }
+                else {
+                  result = {
+                    hasText: child.nodeType === child.TEXT_NODE &&
+                             child.textContent.length > 0 &&
+                             !child.textContent.match(/^\s*$/g),
+                    hasCompoundAnnotatedText: child.nodeType === child.TEXT_NODE &&
+                                              this._isCompoundAnnotatedText(child.textContent),
+                    hasTextChild: child.nodeType === child.ELEMENT_NODE &&
+                                  child.childElementCount === 0, // including <br>
+                    hasCompoundAnnotatedChildNode: child.nodeType === child.ELEMENT_NODE &&
+                                                   child.childElementCount === 0 &&
+                                                   this._isCompoundAnnotatedText(child.textContent),
+                    hasGrandChildren: child.nodeType === child.ELEMENT_NODE &&
+                                      Array.prototype.map.call(
+                                        child.childNodes,
+                                        function (grandChild) {
+                                          return grandChild.nodeType !== grandChild.TEXT_NODE;
+                                        }
+                                      ).reduce(function (prev, current) {
+                                        return prev || current;
+                                      }, false)
+                  };
+                }
+                return result;
               }.bind(this)).reduce(function (prev, current) { 
                 return {
                   hasText: prev.hasText || current.hasText,
@@ -12212,12 +12278,14 @@ Polymer({
               messageId = this._generateMessageId(path, id);
               templateTextParams = Array.prototype.map.call(
                 node.childNodes, function (child) {
+                  var firstChild;
                   if (child.nodeType === child.TEXT_NODE &&
                       this._hasAnnotatedText(child.textContent)) {
                     return this._compoundAnnotationToSpan(child)
                       .map(function (_child) {
                         return {
                           node: _child,
+                          templateNode: null,
                           type: _child.nodeType,
                           text: _child.nodeType === _child.TEXT_NODE ? 
                                   _child.textContent : null,
@@ -12226,9 +12294,32 @@ Polymer({
                         };
                       });
                   }
+                  else if (child.nodeType === child.ELEMENT_NODE &&
+                      child.tagName === 'TEMPLATE') {
+                    firstChild =
+                      Array.prototype.filter.call(child.content.childNodes, function (templateChild) {
+                        switch (templateChild.nodeType) {
+                        case templateChild.COMMENT_NODE:
+                          return false;
+                        case templateChild.TEXT_NODE:
+                          return !templateChild.textContent.match(/^\s*$/g);
+                        default:
+                        case templateChild.ELEMENT_NODE:
+                          return true;
+                        }
+                      }).shift();
+                    return [{
+                      node: firstChild,
+                      templateNode: child,
+                      type: firstChild.nodeType,
+                      text: null,
+                      childTextNode: true
+                    }];
+                  }
                   else {
                     return [{
                       node: child,
+                      templateNode: null,
                       type: child.nodeType,
                       text: child.nodeType === child.TEXT_NODE ? 
                               child.textContent : null,
@@ -12238,6 +12329,7 @@ Polymer({
                   }
                 }.bind(this)).reduce(function (prev, currentList) {
                   var current;
+                  var textContent;
                   for (var i = 0; i < currentList.length; i++) {
                     current = currentList[i];
                     if (current.text) {
@@ -12250,7 +12342,7 @@ Polymer({
                       this._traverseAttributes(current.node, path, bundle);
                       path.pop();
                       if (current.childTextNode) {
-                        var textContent = current.node.textContent;
+                        textContent = current.node.textContent;
                         if (textContent.length === 0) {
                           // tag without textContent
                           prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
@@ -12261,7 +12353,7 @@ Polymer({
                           prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
                           current.node.textContent = ' ';
                         }
-                        else if (textContent.match(/^({{.*}}|\[\[.*\]\])$/)) {
+                        else if (textContent.match(/^[\s]*({{.*}}|\[\[.*\]\])[\s]*$/)) {
                           // tag with annotation
                           prev.text.push(textContent);
                           // textContent is untouched
@@ -12275,7 +12367,39 @@ Polymer({
                         prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
                       }
                       current.node.setAttribute('param', n.toString());
-                      prev.params.push(current.node);
+                      prev.params.push(current.templateNode || current.node);
+                    }
+                    else if (current.type === current.node.TEXT_NODE &&
+                             current.childTextNode) {
+                      // in template node
+                      n++;
+                      prev.text[0] += '{' + n + '}';
+                      textContent = current.node.textContent;
+                      if (textContent.length === 0) {
+                        // template without textContent
+                        prev.text.push('<template>');
+                        current.node.textContent = '';
+                      }
+                      else if (textContent.match(/^\s*$/g)) {
+                        // template with whitespace textContent
+                        prev.text.push('<template>');
+                        current.node.textContent = ' ';
+                      }
+                      else if (textContent.match(/^[\s]*({{.*}}|\[\[.*\]\])[\s]*$/)) {
+                        // tag with annotation
+                        prev.text.push(textContent);
+                        // textContent is untouched
+                      }
+                      else {
+                        prev.text.push(textContent.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' '));
+                        current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
+                      }
+                      span = document.createElement('span');
+                      span.setAttribute('param', n.toString());
+                      current.templateNode.content.removeChild(current.node);
+                      span.appendChild(current.node);
+                      current.templateNode.content.appendChild(span);
+                      prev.params.push(current.templateNode);
                     }
                   }
                   return prev;
@@ -12806,6 +12930,219 @@ Polymer({
     });
   </script>
 </dom-module>
+<dom-module id="complex-compound-binding-element" assetpath="edge-case/">
+  <template localizable-text="embedded">
+    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update.0}}</span><span param="1">{{text.updated}}</span><template id="template-1" is="dom-repeat" items="{{text.authors}}">
+        <span param="2">  {{item.name}}  </span>
+      </template><template id="template-2" is="dom-if" if="true">
+        <b param="3">{{text.item-update.3}}</b>
+      </template><b param="4">{{text.item-update.4}}</b><template id="template-3" is="dom-if" if="true"><span param="5">{{text.item-update.5}}</span></template></i18n-format></h5>
+    <h5 id="item-update2"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update2:text.0}}</span><span param="1">{{text.updated}}</span></i18n-format><template is="dom-repeat" items="{{text.authors}}">
+        {{item.name}}
+      </template>{{text.item-update2:text_2}}<template is="dom-if" if="true">
+        <span><b>{{text.item-update2:template_3:span:b}}</b></span>
+      </template>
+      <b>{{text.item-update2:b_4}}</b>
+      <template is="dom-if" if="true">{{text.item-update2:template_5:text}}</template>{{text.item-update2:text_6}}</h5>
+    <h5 id="item-update3"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update3:text.0}}</span><span param="1">{{text.updated}}</span></i18n-format><template is="dom-repeat" items="{{text.authors}}">
+        {{item.name}}
+      </template>{{text.item-update3:text_2}}<template is="dom-if" if="true">
+        <b>{{text.item-update3:template_3:b}}</b><b>{{text.item-update3:template_3:b_1}}</b>
+      </template>
+      <b>{{text.item-update3:b_4}}</b>
+      <template is="dom-if" if="true">{{text.item-update3:template_5:text}}</template>{{text.item-update3:text_6}}</h5>
+    <h5 id="item-update4"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update4:text.0}}</span><span param="1">{{text.updated}}</span></i18n-format><template is="dom-repeat" items="{{text.authors}}"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update4:template_1:text.0}}</span><span param="1">{{item.name}}</span><span param="2">{{text.updated}}</span></i18n-format></template>{{text.item-update4:text_2}}<template is="dom-if" if="true">
+        <b>{{text.item-update4:template_3:b}}</b>
+      </template>
+      <b>{{text.item-update4:b_4}}</b>
+      <template is="dom-if" if="true">{{text.item-update4:template_5:text}}</template>{{text.item-update4:text_6}}</h5>
+    <p id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><template id="template-4" is="dom-repeat" items="{{text.parameters}}">
+        <i param="1">{{item}} </i>
+      </template><code param="2">{{text.paragraph.2}}</code></i18n-format></p>
+    <p id="paragraph2">{{text.paragraph2:text}}<template is="dom-repeat" items="{{text.parameters}}">
+        <span><i>{{item}}</i> </span>
+      </template>{{text.paragraph2:text_2}}<b>{{text.paragraph2:b_3}}</b>{{text.paragraph2:text_4}}<code>{{text.paragraph2:code_5}}</code>{{text.paragraph2:text_6}}</p>
+    <div id="save"></div>
+    <template>
+      <json-data id="authors">{{text.authors}}</json-data>
+      <span id="updated">{{text.updated}}</span>
+      <json-data id="parameters">{{text.parameters}}</json-data>
+    </template>
+  <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "item-update": [
+    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ",
+    "{{text.updated}}",
+    "  {{item.name}}  ",
+    "IF CONTENT",
+    "abc",
+    "IF CONTENT 2"
+  ],
+  "item-update2:text": [
+    "updated: {1}, by: ",
+    "{{text.updated}}"
+  ],
+  "item-update2:text_2": " xxx ",
+  "item-update2:template_3:span:b": "IF CONTENT",
+  "item-update2:b_4": "abc",
+  "item-update2:template_5:text": "IF CONTENT 2",
+  "item-update2:text_6": " hello ",
+  "item-update3:text": [
+    "updated: {1}, by: ",
+    "{{text.updated}}"
+  ],
+  "item-update3:text_2": " xxx ",
+  "item-update3:template_3:b": "IF",
+  "item-update3:template_3:b_1": "CONTENT",
+  "item-update3:b_4": "abc",
+  "item-update3:template_5:text": "IF CONTENT 2",
+  "item-update3:text_6": " hello ",
+  "item-update4:text": [
+    "updated: {1}, by: ",
+    "{{text.updated}}"
+  ],
+  "item-update4:template_1:text": [
+    " {1} = {2} ",
+    "{{item.name}}",
+    "{{text.updated}}"
+  ],
+  "item-update4:text_2": " xxx ",
+  "item-update4:template_3:b": "IF CONTENT",
+  "item-update4:b_4": "abc",
+  "item-update4:template_5:text": "IF CONTENT 2",
+  "item-update4:text_6": " hello ",
+  "paragraph": [
+    "A paragraph with \n      {1}\n      is converted to \n      {2}. ",
+    "{{item}} ",
+    "&lt;i18n-format&gt;"
+  ],
+  "paragraph2:text": "A paragraph with deep ",
+  "paragraph2:text_2": " is ",
+  "paragraph2:b_3": "not",
+  "paragraph2:text_4": " converted to ",
+  "paragraph2:code_5": "&lt;i18n-format&gt;",
+  "paragraph2:text_6": ". ",
+  "authors": [
+    {
+      "name": "Joe"
+    },
+    {
+      "name": "Alice"
+    }
+  ],
+  "updated": "Jan 1st, 2016",
+  "parameters": [
+    "parameter 1",
+    "parameter 2"
+  ]
+}
+</json-data>
+</template>
+</template>
+  <script>
+    Polymer({
+      is: 'complex-compound-binding-element',
+
+      behaviors: [
+        BehaviorsStore.I18nBehavior
+      ],
+
+      properties: {
+      },
+
+      observers: [
+      ],
+
+      listeners: {
+        'lang-updated': '_langUpdated',
+        'dom-change': '_domChanged',
+        'template-1.dom-change': '_domChanged',
+        'template-2.dom-change': '_domChanged',
+        'template-3.dom-change': '_domChanged',
+        'template-4.dom-change': '_domChanged',
+        'rendered': '_childRendered'
+      },
+
+      ready: function () {
+        //this.observeHtmlLang = false;
+      },
+
+      attached: function () {
+      },
+
+      _langUpdated: function (e) {
+        if (Polymer.dom(e).rootTarget === this) {
+          this.model = deepcopy(this.text.model);
+          Array.prototype.forEach.call(Polymer.dom(this).querySelectorAll('template[is="dom-repeat"]'),
+            function (node) {
+              node.render();
+            }
+          );
+          Array.prototype.forEach.call(Polymer.dom(this).querySelectorAll('template[is="dom-if"]'),
+            function (node) {
+              node.render();
+            }
+          );
+        }
+      },
+
+      _domChanged: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        var cursor;
+        var i;
+        var index;
+        var id;
+        //console.log('dom-change for ' + target.getAttribute('is'));
+        //console.log(target.id);
+        if (target.is === 'dom-repeat') {
+          i = target.renderedItemCount - 1;
+          cursor = target.previousSibling;
+          while (i >= 0 && cursor) {
+            index = target.indexForElement(cursor);
+            this.$.save.items = this.$.save.items || {};
+            id = target.parentNode.id;
+            //console.log('id = ' + id + ' textContent = ' + cursor.textContent);
+            this.$.save.items[id] = this.$.save.items[id] || [];
+            this.$.save.items[id][index] = cursor.textContent;
+            cursor = cursor.previousSibling;
+            i--;
+          }
+        }
+      },
+
+      _childRendered: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        var cursor;
+        var i;
+        var index;
+        var id;
+        //console.log('rendered for ' + target.is);
+        //console.log(target);
+        if (target.is === 'i18n-format' &&
+            target.parentNode.id &&
+            !target.parentNode.id.match(/[0-9]$/)) {
+          this.$.save.items = this.$.save.items || {};
+          id = target.parentNode.id;
+          this.$.save.items[id] = this.$.save.items[id] || [];
+          var templates = Polymer.dom(target).querySelectorAll('template');
+          Array.prototype.forEach.call(templates, function (template) {
+            this.listen(template, 'dom-change', '_domChanged');
+            template.render();
+          }.bind(this));
+
+          var params = Polymer.dom(target).querySelectorAll(':not(template)[param]');
+          Array.prototype.forEach.call(params, function (param, idx) {
+            this.$.save.items[id][idx] = param.textContent;
+            //console.log('Saving ' + id + '[' + idx + '] = ' + param.textContent);
+          }.bind(this));
+        }
+      }
+    });
+  </script>
+</dom-module>
 </div>
     <h2 id="test-name"></h2>
 
@@ -12827,6 +13164,12 @@ Polymer({
       </template>
     </test-fixture>
 
+    <test-fixture class="test-container" id="complex-compound-binding-element-fixture">
+      <template is="dom-template">
+        <complex-compound-binding-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}"></complex-compound-binding-element>
+      </template>
+    </test-fixture>
+
     <script>
 suite('I18nBehavior with ' + 
   (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM'), 
@@ -12838,6 +13181,89 @@ suite('I18nBehavior with ' +
   var lang3 = 'ja';
   var lang4 = 'fr-CA';
   var lang5 = 'zh-Hans-CN';
+  var text_complex_compound_binding = {
+    'model': {},
+    'item-update': [
+      'updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ',
+      '{{text.updated}}',
+      '  {{item.name}}  ',
+      'IF CONTENT',
+      'abc',
+      'IF CONTENT 2'
+    ],
+    'item-update2:text': [
+      'updated: {1}, by: ',
+      '{{text.updated}}'
+    ],
+    'item-update2:text_2': ' xxx ',
+    'item-update2:template_3:span:b': 'IF CONTENT',
+    'item-update2:b_4': 'abc',
+    'item-update2:template_5:text': 'IF CONTENT 2',
+    'item-update2:text_6': ' hello ',
+    'item-update3:text': [
+      'updated: {1}, by: ',
+      '{{text.updated}}'
+    ],
+    'item-update3:text_2': ' xxx ',
+    'item-update3:template_3:b': 'IF',
+    'item-update3:template_3:b_1': 'CONTENT',
+    'item-update3:b_4': 'abc',
+    'item-update3:template_5:text': 'IF CONTENT 2',
+    'item-update3:text_6': ' hello ',
+    'item-update4:text': [
+      'updated: {1}, by: ',
+      '{{text.updated}}'
+    ],
+    'item-update4:template_1:text': [
+      ' {1} = {2} ',
+      '{{item.name}}',
+      '{{text.updated}}'
+    ],
+    'item-update4:text_2': ' xxx ',
+    'item-update4:template_3:b': 'IF CONTENT',
+    'item-update4:b_4': 'abc',
+    'item-update4:template_5:text': 'IF CONTENT 2',
+    'item-update4:text_6': ' hello ',
+    'paragraph': [
+      'A paragraph with \n      {1}\n      is converted to \n      {2}. ',
+      '{{item}} ',
+      '<i18n-format>'
+    ],
+    'paragraph2:text': 'A paragraph with deep ',
+    'paragraph2:text_2': ' is ',
+    'paragraph2:b_3': 'not',
+    'paragraph2:text_4': ' converted to ',
+    'paragraph2:code_5': '<i18n-format>',
+    'paragraph2:text_6': '. ',
+    'authors': [
+      {
+        'name': 'Joe'
+      },
+      {
+        'name': 'Alice'
+      }
+    ],
+    'updated': 'Jan 1st, 2016',
+    'parameters': [
+      'parameter 1',
+      'parameter 2'
+    ]
+  };
+  var localDOM_complex_compound_binding = [
+    { select: '[id="save"]',
+      'items.item-update.0.trim': text_complex_compound_binding.updated,
+      'items.item-update.1.trim': 'Joe',
+      'items.item-update.2.trim': 'Alice',
+      'items.item-update.3.trim': 'IF CONTENT',
+      'items.item-update.4.trim': 'abc',
+      'items.item-update.5.trim': 'IF CONTENT 2'
+    },
+    { select: '[id="paragraph"] i18n-format',
+      'PolymerDom.children.0.textContent': 'A paragraph with {1} is converted to {2}. ' },
+    { select: '[id="paragraph"] i18n-format',
+      'PolymerDom.children.1.tagName': 'TEMPLATE',
+      'PolymerDom.children.1.renderedItemCount': 2 }
+  ];
 
   var suites = [
     s('empty element', null, {
@@ -12865,6 +13291,17 @@ suite('I18nBehavior with ' +
     s('no template element', 'empty element', {
       fixture: 'no-template-element-fixture'
     }),
+    s('complex compound binding element', 'empty element', {
+      fixture: 'complex-compound-binding-element-fixture',
+      fixtureModel: { observeHtmlLang: false, lang: lang0 },
+      assign: { lang: lang1 },
+      event: 'lang-updated',
+      lang: lang1,
+      effectiveLang: lang1,
+      observeHtmlLang: false,
+      text: text_complex_compound_binding,
+      localDOM: localDOM_complex_compound_binding
+    })
   ];
 
   suitesRunner(suites);

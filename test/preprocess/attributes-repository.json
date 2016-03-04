@@ -2,6 +2,9 @@
   "input": {
     "placeholder": true
   },
+  "any-elements": {
+    "title": true
+  },
   "paper-input": {
     "label": true,
     "error-message": true,
@@ -23,6 +26,11 @@
     "cols": true,
     "rows": true,
     "data": true
+  },
+  "google-signin": {
+    "label-signin": true,
+    "label-signout": true,
+    "label-additional": true
   },
   "platinum-push-messaging": {
     "title": true,

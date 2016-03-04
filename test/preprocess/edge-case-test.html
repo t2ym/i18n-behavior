@@ -20,6 +20,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <link rel="import" href="../../i18n-behavior.html">
     <link rel="import" href="edge-case/empty-element.html">
     <link rel="import" href="edge-case/no-template-element.html">
+    <link rel="import" href="edge-case/complex-compound-binding-element.html">
     <style>
     .test-container.running-test {
       display: block;
@@ -50,6 +51,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </test-fixture>
 
+    <test-fixture class="test-container" id="complex-compound-binding-element-fixture">
+      <template is="dom-template">
+        <complex-compound-binding-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}"></complex-compound-binding-element>
+      </template>
+    </test-fixture>
+
     <script>
 suite('I18nBehavior with ' + 
   (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM'), 
@@ -61,6 +68,89 @@ suite('I18nBehavior with ' +
   var lang3 = 'ja';
   var lang4 = 'fr-CA';
   var lang5 = 'zh-Hans-CN';
+  var text_complex_compound_binding = {
+    'model': {},
+    'item-update': [
+      'updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ',
+      '{{text.updated}}',
+      '  {{item.name}}  ',
+      'IF CONTENT',
+      'abc',
+      'IF CONTENT 2'
+    ],
+    'item-update2:text': [
+      'updated: {1}, by: ',
+      '{{text.updated}}'
+    ],
+    'item-update2:text_2': ' xxx ',
+    'item-update2:template_3:span:b': 'IF CONTENT',
+    'item-update2:b_4': 'abc',
+    'item-update2:template_5:text': 'IF CONTENT 2',
+    'item-update2:text_6': ' hello ',
+    'item-update3:text': [
+      'updated: {1}, by: ',
+      '{{text.updated}}'
+    ],
+    'item-update3:text_2': ' xxx ',
+    'item-update3:template_3:b': 'IF',
+    'item-update3:template_3:b_1': 'CONTENT',
+    'item-update3:b_4': 'abc',
+    'item-update3:template_5:text': 'IF CONTENT 2',
+    'item-update3:text_6': ' hello ',
+    'item-update4:text': [
+      'updated: {1}, by: ',
+      '{{text.updated}}'
+    ],
+    'item-update4:template_1:text': [
+      ' {1} = {2} ',
+      '{{item.name}}',
+      '{{text.updated}}'
+    ],
+    'item-update4:text_2': ' xxx ',
+    'item-update4:template_3:b': 'IF CONTENT',
+    'item-update4:b_4': 'abc',
+    'item-update4:template_5:text': 'IF CONTENT 2',
+    'item-update4:text_6': ' hello ',
+    'paragraph': [
+      'A paragraph with \n      {1}\n      is converted to \n      {2}. ',
+      '{{item}} ',
+      '<i18n-format>'
+    ],
+    'paragraph2:text': 'A paragraph with deep ',
+    'paragraph2:text_2': ' is ',
+    'paragraph2:b_3': 'not',
+    'paragraph2:text_4': ' converted to ',
+    'paragraph2:code_5': '<i18n-format>',
+    'paragraph2:text_6': '. ',
+    'authors': [
+      {
+        'name': 'Joe'
+      },
+      {
+        'name': 'Alice'
+      }
+    ],
+    'updated': 'Jan 1st, 2016',
+    'parameters': [
+      'parameter 1',
+      'parameter 2'
+    ]
+  };
+  var localDOM_complex_compound_binding = [
+    { select: '[id="save"]',
+      'items.item-update.0.trim': text_complex_compound_binding.updated,
+      'items.item-update.1.trim': 'Joe',
+      'items.item-update.2.trim': 'Alice',
+      'items.item-update.3.trim': 'IF CONTENT',
+      'items.item-update.4.trim': 'abc',
+      'items.item-update.5.trim': 'IF CONTENT 2'
+    },
+    { select: '[id="paragraph"] i18n-format',
+      'PolymerDom.children.0.textContent': 'A paragraph with {1} is converted to {2}. ' },
+    { select: '[id="paragraph"] i18n-format',
+      'PolymerDom.children.1.tagName': 'TEMPLATE',
+      'PolymerDom.children.1.renderedItemCount': 2 }
+  ];
 
   var suites = [
     s('empty element', null, {
@@ -88,6 +178,17 @@ suite('I18nBehavior with ' +
     s('no template element', 'empty element', {
       fixture: 'no-template-element-fixture'
     }),
+    s('complex compound binding element', 'empty element', {
+      fixture: 'complex-compound-binding-element-fixture',
+      fixtureModel: { observeHtmlLang: false, lang: lang0 },
+      assign: { lang: lang1 },
+      event: 'lang-updated',
+      lang: lang1,
+      effectiveLang: lang1,
+      observeHtmlLang: false,
+      text: text_complex_compound_binding,
+      localDOM: localDOM_complex_compound_binding
+    })
   ];
 
   suitesRunner(suites);
