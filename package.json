@@ -1,6 +1,6 @@
 {
   "name": "i18n-behavior",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "Instant and Modular I18N for Polymer",
   "main": "i18n-behavior.html",
   "directories": {
