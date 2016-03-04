@@ -1554,27 +1554,84 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             // check if i18n-format is applicable
             var childStatus = Array.prototype.map.call(
               node.childNodes, function (child) {
-                return {
-                  hasText: child.nodeType === child.TEXT_NODE && 
-                           child.textContent.length > 0 && 
-                           !child.textContent.match(/^\s*$/g), 
-                  hasCompoundAnnotatedText: child.nodeType === child.TEXT_NODE &&
-                                            this._isCompoundAnnotatedText(child.textContent),
-                  hasTextChild: child.nodeType === child.ELEMENT_NODE &&
-                                child.childElementCount === 0, // including <br>
-                  hasCompoundAnnotatedChildNode: child.nodeType === child.ELEMENT_NODE &&
-                                                 child.childElementCount === 0 &&
-                                                 this._isCompoundAnnotatedText(child.textContent),
-                  hasGrandChildren: child.nodeType === child.ELEMENT_NODE &&
-                                    Array.prototype.map.call(
-                                      child.childNodes, 
-                                      function (grandChild) {
-                                        return grandChild.nodeType !== grandChild.TEXT_NODE;
-                                      }
-                                    ).reduce(function (prev, current) {
-                                      return prev || current;
-                                    }, false)
-                };
+                var result;
+                if (child.nodeType === child.ELEMENT_NODE &&
+                    child.tagName === 'TEMPLATE') {
+                  var templateNonCommentChildNodes =
+                    Array.prototype.filter.call(child.content.childNodes, function (templateChild) {
+                      switch (templateChild.nodeType) {
+                      case templateChild.COMMENT_NODE:
+                        return false;
+                      case templateChild.TEXT_NODE:
+                        return !templateChild.textContent.match(/^\s*$/g);
+                      default:
+                      case templateChild.ELEMENT_NODE:
+                        return true;
+                      }
+                    });
+                  var firstChild = templateNonCommentChildNodes.shift();
+                  // Examples:
+                  // hasText: <template>text</template>
+                  // hasCompoundAnnotatedText: <template>{{item.name}} text</template>
+                  // hasTextChild: <template><b>text</b></template> or <template><br></template>
+                  // hasCompoundAnnotatedChildNode: <template><b>{{item.name}} text</b></template>
+                  // hasGrandChildren: <template><span><b>text</b></span></template> or 
+                  //                   <template><b>A</b><i>B</i></template> or
+                  //                   hasCompoundAnnotatedText
+                  result = {
+                    hasText: templateNonCommentChildNodes.length === 0 &&
+                             firstChild &&
+                             firstChild.nodeType === firstChild.TEXT_NODE &&
+                             firstChild.textContent.length > 0 &&
+                             !firstChild.textContent.match(/^\s*$/g),
+                    hasCompoundAnnotatedText: firstChild &&
+                                              firstChild.nodeType === firstChild.TEXT_NODE &&
+                                              this._isCompoundAnnotatedText(firstChild.textContent),
+                    hasTextChild: templateNonCommentChildNodes.length === 0 &&
+                                  firstChild.nodeType === child.ELEMENT_NODE &&
+                                  firstChild.childElementCount === 0, // including <br>
+                    hasCompoundAnnotatedChildNode: firstChild.nodeType === firstChild.ELEMENT_NODE &&
+                                                   firstChild.childElementCount === 0 &&
+                                                   this._isCompoundAnnotatedText(firstChild.textContent),
+                    hasGrandChildren: templateNonCommentChildNodes.length > 0 ||
+                                      (firstChild.nodeType === firstChild.ELEMENT_NODE &&
+                                        Array.prototype.map.call(
+                                          firstChild.childNodes,
+                                          function (grandChild) {
+                                            return grandChild.nodeType !== grandChild.TEXT_NODE;
+                                          }
+                                        ).reduce(function (prev, current) {
+                                          return prev || current;
+                                        }, false)) ||
+                                      (firstChild &&
+                                       firstChild.nodeType === firstChild.TEXT_NODE &&
+                                       this._isCompoundAnnotatedText(firstChild.textContent))
+                  };
+                }
+                else {
+                  result = {
+                    hasText: child.nodeType === child.TEXT_NODE &&
+                             child.textContent.length > 0 &&
+                             !child.textContent.match(/^\s*$/g),
+                    hasCompoundAnnotatedText: child.nodeType === child.TEXT_NODE &&
+                                              this._isCompoundAnnotatedText(child.textContent),
+                    hasTextChild: child.nodeType === child.ELEMENT_NODE &&
+                                  child.childElementCount === 0, // including <br>
+                    hasCompoundAnnotatedChildNode: child.nodeType === child.ELEMENT_NODE &&
+                                                   child.childElementCount === 0 &&
+                                                   this._isCompoundAnnotatedText(child.textContent),
+                    hasGrandChildren: child.nodeType === child.ELEMENT_NODE &&
+                                      Array.prototype.map.call(
+                                        child.childNodes,
+                                        function (grandChild) {
+                                          return grandChild.nodeType !== grandChild.TEXT_NODE;
+                                        }
+                                      ).reduce(function (prev, current) {
+                                        return prev || current;
+                                      }, false)
+                  };
+                }
+                return result;
               }.bind(this)).reduce(function (prev, current) { 
                 return {
                   hasText: prev.hasText || current.hasText,
@@ -1607,12 +1664,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               messageId = this._generateMessageId(path, id);
               templateTextParams = Array.prototype.map.call(
                 node.childNodes, function (child) {
+                  var firstChild;
                   if (child.nodeType === child.TEXT_NODE &&
                       this._hasAnnotatedText(child.textContent)) {
                     return this._compoundAnnotationToSpan(child)
                       .map(function (_child) {
                         return {
                           node: _child,
+                          templateNode: null,
                           type: _child.nodeType,
                           text: _child.nodeType === _child.TEXT_NODE ? 
                                   _child.textContent : null,
@@ -1621,9 +1680,32 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                         };
                       });
                   }
+                  else if (child.nodeType === child.ELEMENT_NODE &&
+                      child.tagName === 'TEMPLATE') {
+                    firstChild =
+                      Array.prototype.filter.call(child.content.childNodes, function (templateChild) {
+                        switch (templateChild.nodeType) {
+                        case templateChild.COMMENT_NODE:
+                          return false;
+                        case templateChild.TEXT_NODE:
+                          return !templateChild.textContent.match(/^\s*$/g);
+                        default:
+                        case templateChild.ELEMENT_NODE:
+                          return true;
+                        }
+                      }).shift();
+                    return [{
+                      node: firstChild,
+                      templateNode: child,
+                      type: firstChild.nodeType,
+                      text: null,
+                      childTextNode: true
+                    }];
+                  }
                   else {
                     return [{
                       node: child,
+                      templateNode: null,
                       type: child.nodeType,
                       text: child.nodeType === child.TEXT_NODE ? 
                               child.textContent : null,
@@ -1633,6 +1715,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   }
                 }.bind(this)).reduce(function (prev, currentList) {
                   var current;
+                  var textContent;
                   for (var i = 0; i < currentList.length; i++) {
                     current = currentList[i];
                     if (current.text) {
@@ -1645,7 +1728,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                       this._traverseAttributes(current.node, path, bundle);
                       path.pop();
                       if (current.childTextNode) {
-                        var textContent = current.node.textContent;
+                        textContent = current.node.textContent;
                         if (textContent.length === 0) {
                           // tag without textContent
                           prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
@@ -1656,7 +1739,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                           prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
                           current.node.textContent = ' ';
                         }
-                        else if (textContent.match(/^({{.*}}|\[\[.*\]\])$/)) {
+                        else if (textContent.match(/^[\s]*({{.*}}|\[\[.*\]\])[\s]*$/)) {
                           // tag with annotation
                           prev.text.push(textContent);
                           // textContent is untouched
@@ -1670,7 +1753,39 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                         prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
                       }
                       current.node.setAttribute('param', n.toString());
-                      prev.params.push(current.node);
+                      prev.params.push(current.templateNode || current.node);
+                    }
+                    else if (current.type === current.node.TEXT_NODE &&
+                             current.childTextNode) {
+                      // in template node
+                      n++;
+                      prev.text[0] += '{' + n + '}';
+                      textContent = current.node.textContent;
+                      if (textContent.length === 0) {
+                        // template without textContent
+                        prev.text.push('<template>');
+                        current.node.textContent = '';
+                      }
+                      else if (textContent.match(/^\s*$/g)) {
+                        // template with whitespace textContent
+                        prev.text.push('<template>');
+                        current.node.textContent = ' ';
+                      }
+                      else if (textContent.match(/^[\s]*({{.*}}|\[\[.*\]\])[\s]*$/)) {
+                        // tag with annotation
+                        prev.text.push(textContent);
+                        // textContent is untouched
+                      }
+                      else {
+                        prev.text.push(textContent.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' '));
+                        current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
+                      }
+                      span = document.createElement('span');
+                      span.setAttribute('param', n.toString());
+                      current.templateNode.content.removeChild(current.node);
+                      span.appendChild(current.node);
+                      current.templateNode.content.appendChild(span);
+                      prev.params.push(current.templateNode);
                     }
                   }
                   return prev;
