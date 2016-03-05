@@ -168,6 +168,7 @@ Handle and judge JSON object attributes.
     <template id="standard">
       <!-- Standard HTML5 -->
       <input placeholder>
+      <any-elements title></any-elements>
 
       <!-- Standard Polymer Elements -->
       <paper-input label error-message placeholder></paper-input>
@@ -203,6 +204,10 @@ Handle and judge JSON object attributes.
       if (this.data[element]) {
         return  !!this.data[element]['any-attributes'] ||
                 !!this.data[element][attr];
+      }
+      else if (this.data['any-elements'] &&
+               this.data['any-elements'][attr]) {
+        return true;
       }
       else {
         return false;
