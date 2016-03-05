@@ -1223,6 +1223,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               case 'object':
                 // put into model
                 attrId = ['model', messageId, attribute.name].join('.');
+                debuglog(attrId + ' = ' + text);
                 this._setBundleValue(bundle, attrId, value);
                 attribute.value = '{{' + attrId + '}}';
                 break;
@@ -1239,6 +1240,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             // string attribute
             messageId = this._generateMessageId(path, id);
             attrId = ['model', messageId, attribute.name].join('.');
+            debuglog(attrId + ' = ' + text);
             this._setBundleValue(bundle, attrId, text);
             attribute.value = '{{' + attrId + '}}';
           }
