@@ -1,6 +1,6 @@
 {
   "name": "i18n-behavior",
-  "version": "0.0.41",
+  "version": "0.0.42",
   "description": "Instant and Modular I18N for Polymer",
   "main": "i18n-behavior.html",
   "directories": {
@@ -34,8 +34,8 @@
     "gulp": "^3.9.1",
     "gulp-crisper": "^1.0.0",
     "gulp-debug": "^2.1.2",
-    "gulp-i18n-leverage": "^0.0.16",
-    "gulp-i18n-preprocess": "^0.0.22",
+    "gulp-i18n-leverage": "^0.0.18",
+    "gulp-i18n-preprocess": "^0.0.24",
     "gulp-if": "^2.0.0",
     "gulp-minify-html": "^1.0.5",
     "gulp-size": "^2.0.0",
