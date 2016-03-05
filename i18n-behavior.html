@@ -44,9 +44,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   // debug log when <html debug> attribute exists
   var debuglog = html.hasAttribute('debug') ?
     function (arg) {
-      if (htmlDebug) {
-        console.log(arg);
-      }
+      console.log(arg);
     } :
     function () {}
 
