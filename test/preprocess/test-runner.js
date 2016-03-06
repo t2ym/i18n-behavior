@@ -108,6 +108,17 @@ function getProperty (target, name) {
         } while (cursor.nodeType === cursor.COMMENT_NODE ||
                  (cursor.nodeType === cursor.TEXT_NODE && cursor.data.match(/^[\s]*$/)));
       }
+      else if (p === 'effectiveChildNodes') {
+        cursor = cursor.getEffectiveChildNodes();
+      }
+      else if (p === 'nonWS') {
+        cursor = Array.prototype.filter.call(cursor, function (item) {
+          return (item.nodeType !== item.TEXT_NODE &&
+                  item.nodeType !== item.COMMENT_NODE) ||
+                 (item.nodeType === item.TEXT_NODE &&
+                  !item.data.match(/^[\s]*$/));
+        });
+      }
       else {
         cursor = cursor[p];
       }
@@ -284,7 +295,7 @@ function suitesRunner (suites) {
       var lang = params.assign && params.assign.lang ? params.assign.lang : 'en';
       var event = params.event ? params.event : 'lang-updated';
 
-      suiteSetup(function () {
+      (params.setup ? setup : suiteSetup)(function () {
         el = setupFixture(params, params.fixtureModel);
         return new Promise(function (resolve, reject) {
           if (params &&
@@ -424,7 +435,7 @@ function suitesRunner (suites) {
         });
       }
 
-      suiteTeardown(function () {
+      (params.setup ? teardown : suiteTeardown)(function () {
         restoreFixture(params.fixture);
       });
     });

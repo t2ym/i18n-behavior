@@ -5,11 +5,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
 </head><body><dom-module id="complex-compound-binding-element">
   <template localizable-text="embedded">
-    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update.0}}</span><span param="1">{{text.updated}}</span><template id="template-1" is="dom-repeat" items="{{text.authors}}">
+    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update.0}}</span><span param="1">{{text.updated}}</span><template is="dom-repeat" items="{{text.authors}}">
         <span param="2">  {{item.name}}  </span>
-      </template><template id="template-2" is="dom-if" if="true">
+      </template><template is="dom-if" if="true">
         <b param="3">{{text.item-update.3}}</b>
-      </template><b param="4">{{text.item-update.4}}</b><template id="template-3" is="dom-if" if="true"><span param="5">{{text.item-update.5}}</span></template></i18n-format></h5>
+      </template><b param="4">{{text.item-update.4}}</b><template is="dom-if" if="true"><span param="5">{{text.item-update.5}}</span></template></i18n-format></h5>
     <h5 id="item-update2"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update2:text.0}}</span><span param="1">{{text.updated}}</span></i18n-format><template is="dom-repeat" items="{{text.authors}}">
         {{item.name}}
       </template>{{text.item-update2:text_2}}<template is="dom-if" if="true">
@@ -29,13 +29,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
       <b>{{text.item-update4:b_4}}</b>
       <template is="dom-if" if="true">{{text.item-update4:template_5:text}}</template>{{text.item-update4:text_6}}</h5>
-    <p id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><template id="template-4" is="dom-repeat" items="{{text.parameters}}">
+    <p id="paragraph"><i18n-format lang="{{effectiveLang}}"><span>{{text.paragraph.0}}</span><template is="dom-repeat" items="{{text.parameters}}">
         <i param="1">{{item}} </i>
       </template><code param="2">{{text.paragraph.2}}</code></i18n-format></p>
     <p id="paragraph2">{{text.paragraph2:text}}<template is="dom-repeat" items="{{text.parameters}}">
         <span><i>{{item}}</i> </span>
       </template>{{text.paragraph2:text_2}}<b>{{text.paragraph2:b_3}}</b>{{text.paragraph2:text_4}}<code>{{text.paragraph2:code_5}}</code>{{text.paragraph2:text_6}}</p>
-    <div id="save"></div>
     <template>
       <json-data id="authors">{{text.authors}}</json-data>
       <span id="updated">{{text.updated}}</span>
@@ -130,13 +129,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       ],
 
       listeners: {
-        'lang-updated': '_langUpdated',
-        'dom-change': '_domChanged',
-        'template-1.dom-change': '_domChanged',
-        'template-2.dom-change': '_domChanged',
-        'template-3.dom-change': '_domChanged',
-        'template-4.dom-change': '_domChanged',
-        'rendered': '_childRendered'
+        'lang-updated': '_langUpdated'
       },
 
       ready: function () {
@@ -144,73 +137,31 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       },
 
       attached: function () {
+        this._isAttached = true;
+      },
+
+      detached: function () {
+        this._isAttached = false;
       },
 
       _langUpdated: function (e) {
-        if (Polymer.dom(e).rootTarget === this) {
+        if (this._isAttached &&
+            Polymer.dom(e).rootTarget === this &&
+            this.effectiveLang === this.lang) {
           this.model = deepcopy(this.text.model);
-          Array.prototype.forEach.call(Polymer.dom(this).querySelectorAll('template[is="dom-repeat"]'),
+          /*
+          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]'),
             function (node) {
               node.render();
             }
           );
-          Array.prototype.forEach.call(Polymer.dom(this).querySelectorAll('template[is="dom-if"]'),
+          */
+          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]'),
             function (node) {
               node.render();
             }
           );
-        }
-      },
-
-      _domChanged: function (e) {
-        var target = Polymer.dom(e).rootTarget;
-        var cursor;
-        var i;
-        var index;
-        var id;
-        //console.log('dom-change for ' + target.getAttribute('is'));
-        //console.log(target.id);
-        if (target.is === 'dom-repeat') {
-          i = target.renderedItemCount - 1;
-          cursor = target.previousSibling;
-          while (i >= 0 && cursor) {
-            index = target.indexForElement(cursor);
-            this.$.save.items = this.$.save.items || {};
-            id = target.parentNode.id;
-            //console.log('id = ' + id + ' textContent = ' + cursor.textContent);
-            this.$.save.items[id] = this.$.save.items[id] || [];
-            this.$.save.items[id][index] = cursor.textContent;
-            cursor = cursor.previousSibling;
-            i--;
-          }
-        }
-      },
-
-      _childRendered: function (e) {
-        var target = Polymer.dom(e).rootTarget;
-        var cursor;
-        var i;
-        var index;
-        var id;
-        //console.log('rendered for ' + target.is);
-        //console.log(target);
-        if (target.is === 'i18n-format' &&
-            target.parentNode.id &&
-            !target.parentNode.id.match(/[0-9]$/)) {
-          this.$.save.items = this.$.save.items || {};
-          id = target.parentNode.id;
-          this.$.save.items[id] = this.$.save.items[id] || [];
-          var templates = Polymer.dom(target).querySelectorAll('template');
-          Array.prototype.forEach.call(templates, function (template) {
-            this.listen(template, 'dom-change', '_domChanged');
-            template.render();
-          }.bind(this));
-
-          var params = Polymer.dom(target).querySelectorAll(':not(template)[param]');
-          Array.prototype.forEach.call(params, function (param, idx) {
-            this.$.save.items[id][idx] = param.textContent;
-            //console.log('Saving ' + id + '[' + idx + '] = ' + param.textContent);
-          }.bind(this));
+          this.fire('local-dom-ready');
         }
       }
     });
