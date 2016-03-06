@@ -143,19 +143,104 @@ suite('I18nBehavior with ' +
     ]
   };
   var localDOM_complex_compound_binding = [
-    { select: '[id="save"]',
-      'items.item-update.0.trim': text_complex_compound_binding.updated,
-      'items.item-update.1.trim': 'Joe',
-      'items.item-update.2.trim': 'Alice',
-      'items.item-update.3.trim': 'IF CONTENT',
-      'items.item-update.4.trim': 'abc',
-      'items.item-update.5.trim': 'IF CONTENT 2'
+    { select: '[id="item-update"] i18n-format',
+      'PolymerDom.childNodes.nonWS.0.textContent': text_complex_compound_binding['item-update'][0],
+      'root.PolymerDom.effectiveChildNodes.nonWS.1.textContent.trim': text_complex_compound_binding.updated,
+      'root.PolymerDom.effectiveChildNodes.nonWS.2.textContent.raw': ', by: ',
+      'root.PolymerDom.effectiveChildNodes.nonWS.3.textContent.trim': text_complex_compound_binding.authors[0].name,
+      'root.PolymerDom.effectiveChildNodes.nonWS.4.textContent.trim': text_complex_compound_binding.authors[1].name,
+      'root.PolymerDom.effectiveChildNodes.nonWS.5.tagName': 'TEMPLATE',
+      'root.PolymerDom.effectiveChildNodes.nonWS.6.textContent.raw': ' xxx ',
+      'root.PolymerDom.effectiveChildNodes.nonWS.7.textContent.trim': text_complex_compound_binding['item-update'][3],
+      'root.PolymerDom.effectiveChildNodes.nonWS.8.tagName': 'TEMPLATE',
+      'root.PolymerDom.effectiveChildNodes.nonWS.9.textContent.trim': text_complex_compound_binding['item-update'][4],
+      'root.PolymerDom.effectiveChildNodes.nonWS.10.textContent.trim': text_complex_compound_binding['item-update'][5],
+      'root.PolymerDom.effectiveChildNodes.nonWS.11.tagName': 'TEMPLATE',
+      'root.PolymerDom.effectiveChildNodes.nonWS.12.textContent.raw': ' hello '
+    },
+    { select: '[id="item-update2"] i18n-format',
+      'PolymerDom.childNodes.nonWS.0.textContent': text_complex_compound_binding['item-update2:text'][0],
+      'root.PolymerDom.effectiveChildNodes.nonWS.1.textContent.trim': text_complex_compound_binding.updated,
+      'root.PolymerDom.effectiveChildNodes.nonWS.2.textContent.raw': ', by: '
+    },
+    { select: '[id="item-update2"]',
+      'PolymerDom.childNodes.nonWS.1.data.trim': text_complex_compound_binding.authors[0].name,
+      'PolymerDom.childNodes.nonWS.2.data.trim': text_complex_compound_binding.authors[1].name,
+      'PolymerDom.childNodes.nonWS.3.tagName': 'TEMPLATE',
+      'PolymerDom.childNodes.nonWS.4.textContent': text_complex_compound_binding['item-update2:text_2'],
+      'PolymerDom.childNodes.nonWS.5.childNodes.nonWS.0.textContent.trim': text_complex_compound_binding['item-update2:template_3:span:b'],
+      'PolymerDom.childNodes.nonWS.6.tagName': 'TEMPLATE',
+      'PolymerDom.childNodes.nonWS.7.textContent.trim': text_complex_compound_binding['item-update2:b_4'],
+      'PolymerDom.childNodes.nonWS.8.data': text_complex_compound_binding['item-update2:template_5:text'],
+      'PolymerDom.childNodes.nonWS.9.tagName': 'TEMPLATE',
+      'PolymerDom.childNodes.nonWS.10.data': ' hello '
+    },
+    { select: '[id="item-update3"]',
+      'PolymerDom.childNodes.nonWS.1.data.trim': text_complex_compound_binding.authors[0].name,
+      'PolymerDom.childNodes.nonWS.2.data.trim': text_complex_compound_binding.authors[1].name,
+      'PolymerDom.childNodes.nonWS.3.tagName': 'TEMPLATE',
+      'PolymerDom.childNodes.nonWS.4.textContent': text_complex_compound_binding['item-update3:text_2'],
+      'PolymerDom.childNodes.nonWS.5.childNodes.nonWS.0.textContent.trim': text_complex_compound_binding['item-update3:template_3:b'],
+      'PolymerDom.childNodes.nonWS.6.childNodes.nonWS.0.textContent.trim': text_complex_compound_binding['item-update3:template_3:b_1'],
+      'PolymerDom.childNodes.nonWS.7.tagName': 'TEMPLATE',
+      'PolymerDom.childNodes.nonWS.8.textContent.trim': text_complex_compound_binding['item-update3:b_4'],
+      'PolymerDom.childNodes.nonWS.9.data': text_complex_compound_binding['item-update2:template_5:text'],
+      'PolymerDom.childNodes.nonWS.10.tagName': 'TEMPLATE',
+      'PolymerDom.childNodes.nonWS.11.data': ' hello '
+    },
+    { select: '[id="item-update4"] i18n-format',
+      'PolymerDom.childNodes.nonWS.0.textContent': text_complex_compound_binding['item-update4:text'][0],
+      'root.PolymerDom.effectiveChildNodes.nonWS.1.textContent.trim': text_complex_compound_binding.updated,
+      'root.PolymerDom.effectiveChildNodes.nonWS.2.textContent.raw': ', by: '
+    },
+    { select: '[id="item-update4"] i18n-format +i18n-format',
+      'PolymerDom.childNodes.nonWS.0.textContent': text_complex_compound_binding['item-update4:template_1:text'][0],
+      'PolymerDom.childNodes.nonWS.1.textContent.trim': text_complex_compound_binding.authors[0].name,
+      'PolymerDom.childNodes.nonWS.2.textContent.trim': text_complex_compound_binding.updated
+    },
+    { select: '[id="item-update4"] i18n-format +i18n-format +i18n-format',
+      'PolymerDom.childNodes.nonWS.0.textContent': text_complex_compound_binding['item-update4:template_1:text'][0],
+      'PolymerDom.childNodes.nonWS.1.textContent.trim': text_complex_compound_binding.authors[1].name,
+      'PolymerDom.childNodes.nonWS.2.textContent.trim': text_complex_compound_binding.updated
+    },
+    { select: '[id="item-update4"] template',
+      'is': [ 'dom-repeat', 'dom-if', 'dom-if' ]
+    },
+    { select: '[id="item-update4"] template[is="dom-repeat"]',
+      'nextTextSibling.data': text_complex_compound_binding['item-update4:text_2']
+    },
+    { select: '[id="item-update4"] b',
+      'PolymerDom.textContent': [ text_complex_compound_binding['item-update4:template_3:b'],
+                                  text_complex_compound_binding['item-update4:b_4'] ]
+    },
+    { select: '[id="item-update4"]',
+      'PolymerDom.childNodes.nonWS.8.data': text_complex_compound_binding['item-update4:template_5:text'],
+      'PolymerDom.childNodes.nonWS.10.data': ' hello '
     },
     { select: '[id="paragraph"] i18n-format',
-      'PolymerDom.children.0.textContent': 'A paragraph with {1} is converted to {2}. ' },
-    { select: '[id="paragraph"] i18n-format',
-      'PolymerDom.children.1.tagName': 'TEMPLATE',
-      'PolymerDom.children.1.renderedItemCount': 2 }
+      'PolymerDom.childNodes.nonWS.0.textContent': text_complex_compound_binding['paragraph'][0],
+      'root.PolymerDom.effectiveChildNodes.nonWS.1.textContent.trim': text_complex_compound_binding.parameters[0],
+      'root.PolymerDom.effectiveChildNodes.nonWS.2.textContent.trim': text_complex_compound_binding.parameters[1],
+    },
+    { select: '[id="paragraph"] i18n-format [param="2"]',
+      'tagName': 'CODE',
+      'textContent': text_complex_compound_binding['paragraph'][2]
+    },
+    { select: '[id="paragraph2"]',
+      'PolymerDom.childNodes.nonWS.0.data': text_complex_compound_binding['paragraph2:text']
+    },
+    { select: '[id="paragraph2"] span i',
+      'textContent': text_complex_compound_binding.parameters
+    },
+    { select: '[id="paragraph2"] b',
+      'textContent': text_complex_compound_binding['paragraph2:b_3'],
+      'previousTextSibling.data': text_complex_compound_binding['paragraph2:text_2'],
+      'nextTextSibling.data': text_complex_compound_binding['paragraph2:text_4']
+    },
+    { select: '[id="paragraph2"] code',
+      'textContent': text_complex_compound_binding['paragraph2:code_5'],
+      'nextTextSibling.data': text_complex_compound_binding['paragraph2:text_6']
+    },
   ];
 
   var suites = [
@@ -183,20 +268,24 @@ suite('I18nBehavior with ' +
     }),
     s('no template element', 'empty element', {
       fixture: 'no-template-element-fixture'
-    })
-    /*,
+    }),
     s('complex compound binding element', 'empty element', {
+      setup: true,
       fixture: 'complex-compound-binding-element-fixture',
       fixtureModel: { observeHtmlLang: false, lang: lang0 },
       assign: { lang: lang1 },
-      event: 'lang-updated',
+      event: 'local-dom-ready',
       lang: lang1,
       effectiveLang: lang1,
       observeHtmlLang: false,
       text: text_complex_compound_binding,
       localDOM: localDOM_complex_compound_binding
+    }),
+    s(lang2 + ' complex compound binding element', 'complex compound binding element', {
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2
     })
-    */
   ];
 
   suitesRunner(suites);
