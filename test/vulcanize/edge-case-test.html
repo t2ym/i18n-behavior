@@ -12159,7 +12159,9 @@ Polymer({
                 }
               }
               else {
-                param.textContent = '{{text.' + messageId + '.' + n + '}}';
+                if (!parsedValue) {
+                  param.textContent = '{{text.' + messageId + '.' + n + '}}';
+                }
               }
             }
             else {
