@@ -322,8 +322,17 @@ function suitesRunner (suites) {
         });
       });
 
-      test('{lang, effectiveLang, templateDefaultLang, observeHtmlLang} properties are set as {' + 
-        [ params.lang, params.effectiveLang, params.templateDefaultLang, params.observeHtmlLang].join(', ') + '}', function () {
+      test('{lang, effectiveLang, templateDefaultLang, observeHtmlLang' +
+            (params.text ? ', text' : '') +
+            (params.model ? ', model' : '') +
+            (params.localDOM ? ', local DOM' : '') +
+            '} properties are set as {' + 
+            [ params.lang, params.effectiveLang, params.templateDefaultLang, params.observeHtmlLang].join(', ') +
+            (params.text ? ', ' + JSON.stringify(params.text, null, 2) : '') +
+            (params.model ? ', ' + JSON.stringify(params.model, null, 2) : '') +
+            (!params.setup && params.localDOM ? ', ' + JSON.stringify(params.localDOM, null, 2) : '') +
+            '}' +
+            (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
         assert.isString(el.lang, 'lang property is a string');
         assert.equal(el.lang, params.lang, 'lang property is set');
         assert.isString(el.effectiveLang, 'effectiveLang property is a string');
@@ -332,8 +341,70 @@ function suitesRunner (suites) {
         assert.equal(el.templateDefaultLang, params.templateDefaultLang, 'templateDefaultLang property is set');
         assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
         assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
+        if (params.text) {
+          expected = deepMap(deepcopy(params.text), params.text, minifyText);
+          noProperties = true;
+          assert.isObject(el.text, 'text property is an object');
+          //console.log(JSON.stringify(e.detail, null, 2));
+          //console.log(JSON.stringify(el.text, null, 2));
+          for (p in expected) {
+            noProperties = false;
+            assert.deepEqual(deepMap(deepcopy(el.text[p]), el.text[p], minifyText),
+              params.rawText ? expected[p] : translate(params.effectiveLang, null, expected[p]),
+              'text.' + p + ' property is set for ' + params.effectiveLang);
+          }
+          if (noProperties) {
+            assert.deepEqual(deepMap(deepcopy(el.text), el.text, minifyText),
+              expected,
+              'text property is set');
+          }
+        }
+        if (params.model) {
+          noProperties = true;
+          assert.isObject(el.model, 'model property is an object');
+          for (p in params.model) {
+            noProperties = false;
+            //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
+            //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
+            assert.deepEqual(el.model[p],
+              params.rawText ? params.model[p] : translate(params.effectiveLang, null, params.model[p]),
+              'model.' + p + ' property is set for ' + params.effectiveLang);
+          }
+          if (noProperties) {
+            assert.deepEqual(el.model, params.model, 'model property is set');
+          }
+        }
+        if (!params.setup && params.localDOM) {
+          params.localDOM.forEach(function (childPath) {
+            var completeStatus;
+            var nodes = Polymer.dom(getLocalDomRoot(el)).querySelectorAll(childPath.select);
+            assert.ok(nodes.length > 0, childPath.select + ' is defined');
+            for (var p in childPath) {
+              if (p === 'select') {
+                continue;
+              }
+              //console.log(p + ' is set as ' + childPath[p]);
+              if (Array.isArray(childPath[p])) {
+                //console.log(nodes);
+                Array.prototype.forEach.call(childPath[p], function (path, i, a) {
+                  assert.equal(minifyText(getProperty(nodes[i], p)),
+                    minifyText(params.rawText ? path : translate(params.effectiveLang, p, path)),
+                    p + ' is set as ' + minifyText(params.rawText ? path : translate(params.effectiveLang, p, path)));
+                });
+              }
+              else {
+                //console.log(nodes[0]);
+                assert.equal(minifyText(getProperty(nodes[0], p)),
+                  minifyText(params.rawText ? childPath[p] : translate(params.effectiveLang, p, childPath[p])),
+                  p + ' is set as ' + translate(params.rawText ? childPath[p] : params.effectiveLang, p, childPath[p]));
+              }
+            }
+            //console.log(childPath);
+          });
+        }
       });
 
+/*
       if (params.text) {
         test('text' + ' property is set as ' + JSON.stringify(params.text,null,2) + 
           (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
@@ -374,8 +445,9 @@ function suitesRunner (suites) {
           }
         });
       }
+*/
 
-      if (params.localDOM) {
+      if (params.setup && params.localDOM) {
         test('local DOM ' + JSON.stringify(params.localDOM, null, 2) + ' is set' + 
               (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
           params.localDOM.forEach(function (childPath) {
