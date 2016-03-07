@@ -2146,6 +2146,41 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       return result;
     },
 
+
+    /**
+     * Translate a string by a message table.
+     *
+     * Utility method for use in annotations.
+     *
+     * ### Example Usage:
+     * ```
+     *   <span>{{tr(status,text.statusMsgs)}}</span>
+     *   <span>{{tr(errorId,text)}}</span>
+     *   <template>
+     *     <json-data text-id="statusMsgs">{
+     *       "signed-in": "Authenticated",
+     *       "signed-out": "Not Authenticated",
+     *       "error": "Error in Authentication"
+     *     }</json-data>
+     *     <span text-id="http-404">File Not Found</span>
+     *     <span text-id="http-301">Moved Permanently</span>
+     *   </template>
+     * ```
+     *
+     * Note: The second `table` parameter should always be specified in order
+     * to trigger automatic updates on `this.text` mutations, i.e., updates of `this.effectivaLang`.
+     *
+     * @param {string} key Key of the message.
+     * @param {Object} table The message table object or this.text itself if omitted
+     * @return {string} Translated string, or key string if no translations are available for the key.
+     */
+    tr: function (key, table) {
+      table = table || this.text;
+      return (typeof table === 'object') &&
+             (typeof key !== 'undefined') &&
+             (typeof table[key] !== 'undefined') ? table[key] : key;
+    },
+
     // Lifecycle callbacks
 
     /**
