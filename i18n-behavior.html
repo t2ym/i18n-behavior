@@ -2160,7 +2160,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      *     <json-data text-id="statusMsgs">{
      *       "signed-in": "Authenticated",
      *       "signed-out": "Not Authenticated",
-     *       "error": "Error in Authentication"
+     *       "error": "Error in Authentication",
+     *       "default": "Unknown Status in Authentication"
      *     }</json-data>
      *     <span text-id="http-404">File Not Found</span>
      *     <span text-id="http-301">Moved Permanently</span>
@@ -2172,13 +2173,24 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      *
      * @param {string} key Key of the message.
      * @param {Object} table The message table object or this.text itself if omitted
-     * @return {string} Translated string, or key string if no translations are available for the key.
+     * @return {string} Translated string, `table.default` if `table[key]` is undefined, or key string if table.default is undefined.
      */
     tr: function (key, table) {
       if (table) {
-        return (typeof table === 'object') &&
-               (typeof key !== 'undefined') &&
-               (typeof table[key] !== 'undefined') ? table[key] : key;
+        if (typeof table === 'object') {
+          if (typeof table[key] !== 'undefined') {
+            return table[key];
+          }
+          else if (typeof table['default'] !== 'undefined') {
+            return table['default'];
+          }
+          else {
+            return key;
+          }
+        }
+        else {
+          return key;
+        }
       }
       else {
         return (typeof this.text === 'object') &&
