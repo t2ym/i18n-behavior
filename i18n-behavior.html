@@ -2175,10 +2175,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      * @return {string} Translated string, or key string if no translations are available for the key.
      */
     tr: function (key, table) {
-      table = table || this.text;
-      return (typeof table === 'object') &&
-             (typeof key !== 'undefined') &&
-             (typeof table[key] !== 'undefined') ? table[key] : key;
+      if (table) {
+        return (typeof table === 'object') &&
+               (typeof key !== 'undefined') &&
+               (typeof table[key] !== 'undefined') ? table[key] : key;
+      }
+      else {
+        return (typeof this.text === 'object') &&
+               (typeof key !== 'undefined') &&
+               (typeof this.text[key] !== 'undefined') ? this.text[key] : key;
+      }
     },
 
     // Lifecycle callbacks
