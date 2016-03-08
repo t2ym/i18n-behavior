@@ -1182,6 +1182,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       var text;
       var messageId;
       var attrId;
+      var isLocalizable;
       // pick up element attributes
       Array.prototype.forEach.call(node.attributes, function (attribute) {
         text = attribute.value;
@@ -1200,7 +1201,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         case 'selected':
           break;
         default:
-          if (!attributesRepository.isLocalizableAttribute(name, attribute.name)) {
+          if (!(isLocalizable = attributesRepository.isLocalizableAttribute(name, attribute.name))) {
             break;
           }
           if (text.length === 0) {
@@ -1242,7 +1243,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             attrId = ['model', messageId, attribute.name].join('.');
             debuglog(attrId + ' = ' + text);
             this._setBundleValue(bundle, attrId, text);
-            attribute.value = '{{' + attrId + '}}';
+            if (isLocalizable === '$') {
+              var dummy = document.createElement('span');
+              dummy.innerHTML = '<span ' + attribute.name + '$=' + '"{{' + attrId + '}}"' + '></span>';
+              node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
+            }
+            else {
+              attribute.value = '{{' + attrId + '}}';
+            }
           }
           break;
         }
