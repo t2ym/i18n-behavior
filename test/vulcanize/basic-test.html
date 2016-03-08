@@ -10579,7 +10579,7 @@ Polymer({
     <template id="standard">
       
       <input placeholder="">
-      <any-elements title=""></any-elements>
+      <any-elements title="" aria-label="" aria-valuetext=""></any-elements>
 
       
       <paper-input label="" error-message="" placeholder=""></paper-input>
@@ -10612,13 +10612,13 @@ Polymer({
      * @return {boolean} true if the target attribute of the element requires localization.
      */
     isLocalizableAttribute: function (element, attr) {
-      if (this.data[element]) {
+      if (this.data['any-elements'] &&
+          this.data['any-elements'][attr]) {
+        return true;
+      }
+      else if (this.data[element]) {
         return  !!this.data[element]['any-attributes'] ||
                 !!this.data[element][attr];
-      }
-      else if (this.data['any-elements'] &&
-               this.data['any-elements'][attr]) {
-        return true;
       }
       else {
         return false;
@@ -12877,7 +12877,7 @@ Polymer({
      * ```
      *
      * Note: The second `table` parameter should always be specified in order
-     * to trigger automatic updates on `this.text` mutations, i.e., updates of `this.effectivaLang`.
+     * to trigger automatic updates on `this.text` mutations, i.e., updates of `this.effectiveLang`.
      *
      * @param {string} key Key of the message.
      * @param {Object} table The message table object or this.text itself if omitted
