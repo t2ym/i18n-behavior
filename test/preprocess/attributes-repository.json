@@ -3,7 +3,9 @@
     "placeholder": true
   },
   "any-elements": {
-    "title": true
+    "title": true,
+    "aria-label": true,
+    "aria-valuetext": true
   },
   "paper-input": {
     "label": true,
