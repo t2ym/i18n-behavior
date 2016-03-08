@@ -38,6 +38,7 @@ Pre-defined I18N-target attributes in the static template of `i18n-attr-repo`:
       <template>
         <template id="standard">
           <input placeholder>
+          <any-elements title></any-elements>
 
           <paper-input label error-message placeholder></paper-input>
           <paper-textarea label error-message placeholder></paper-textarea>
@@ -201,13 +202,13 @@ Handle and judge JSON object attributes.
      * @return {boolean} true if the target attribute of the element requires localization.
      */
     isLocalizableAttribute: function (element, attr) {
-      if (this.data[element]) {
+      if (this.data['any-elements'] &&
+          this.data['any-elements'][attr]) {
+        return true;
+      }
+      else if (this.data[element]) {
         return  !!this.data[element]['any-attributes'] ||
                 !!this.data[element][attr];
-      }
-      else if (this.data['any-elements'] &&
-               this.data['any-elements'][attr]) {
-        return true;
       }
       else {
         return false;
