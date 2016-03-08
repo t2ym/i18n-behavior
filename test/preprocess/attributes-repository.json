@@ -4,8 +4,8 @@
   },
   "any-elements": {
     "title": true,
-    "aria-label": true,
-    "aria-valuetext": true
+    "aria-label": "$",
+    "aria-valuetext": "$"
   },
   "paper-input": {
     "label": true,
