@@ -1,0 +1,20 @@
+{
+  "plugins": {
+    "local": {
+      "browsers": [
+        "chrome",
+        "firefox"
+      ]
+    },
+    "sauce": {
+      "disabled": false,
+      "browsers": [
+        {
+          "browserName":  "internet explorer",
+          "platform":     "Windows 7",
+          "version":      "10"
+        }
+      ]
+    }
+  }
+}
