@@ -530,12 +530,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      * @param {string} lang Target locale.
      * @return {string} Next fallback locale. `null` if there are no fallback languages.
      */
+    /*
     _getNextFallbackLanguage: function (lang) {
       var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
       fallbackLanguageList.shift();
       var nextFallbackLanguage = fallbackLanguageList.shift();
       return nextFallbackLanguage ? nextFallbackLanguage : null;
     },
+    */
 
     /**
      * Observer of `this.lang` changes.
@@ -2126,11 +2128,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      *
      * @param {Object} bundle Default bundle.
      */
+    /*
     _mergeDefaultText: function (bundle) {
       if (this.defaultText) {
         this._deepMap(bundle, this.defaultText, function (text) { return text; });
       }
     },
+    */
 
     /**
      * Return the first non-null argument.
