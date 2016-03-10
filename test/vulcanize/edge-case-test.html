@@ -11236,12 +11236,14 @@ Polymer({
      * @param {string} lang Target locale.
      * @return {string} Next fallback locale. `null` if there are no fallback languages.
      */
+    /*
     _getNextFallbackLanguage: function (lang) {
       var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
       fallbackLanguageList.shift();
       var nextFallbackLanguage = fallbackLanguageList.shift();
       return nextFallbackLanguage ? nextFallbackLanguage : null;
     },
+    */
 
     /**
      * Observer of `this.lang` changes.
@@ -12832,11 +12834,13 @@ Polymer({
      *
      * @param {Object} bundle Default bundle.
      */
+    /*
     _mergeDefaultText: function (bundle) {
       if (this.defaultText) {
         this._deepMap(bundle, this.defaultText, function (text) { return text; });
       }
     },
+    */
 
     /**
      * Return the first non-null argument.
