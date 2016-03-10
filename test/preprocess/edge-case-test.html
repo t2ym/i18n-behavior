@@ -1,7 +1,7 @@
 <!--
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
---><html lang="en" preferred=""><head>
+--><html lang="en" preferred="" locales-path="locales"><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
@@ -64,6 +64,72 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </test-fixture>
 
+    <div class="test-container">
+      <template id="edge-case-dom-bind" is="i18n-dom-bind" assetpath="/" localizable-text="embedded"><i18n-format lang="{{effectiveLang}}"><span>{{text.text.0}}</span><span param="1">{{text.name}}</span></i18n-format><i18n-number lang="{{effectiveLang}}">{{text.i18n-number_1}}</i18n-number>
+        <i18n-format lang="{{effectiveLang}}">
+          <json-data>{{serialize(text.format)}}</json-data>
+          <i18n-number offset="" param="1" lang="{{effectiveLang}}">{{text.i18n-format_2.1}}</i18n-number>
+        </i18n-format>
+        <i18n-format lang="{{effectiveLang}}">
+          <span>{{text.i18n-format_3.0}}</span>
+          <br param="1">
+        </i18n-format>
+        <span>{{tr('key')}}</span>
+        <span>{{tr('key',text.table)}}</span>
+        <span>{{tr('key','string')}}</span>
+        <input placeholder="{ invalid: json }">
+        <p><i18n-format lang="{{effectiveLang}}"><span>{{text.p_8.0}}</span><br param="1"><span param="2"></span><span param="3"> </span></i18n-format></p>
+        <p><i18n-format lang="{{effectiveLang}}"><span>{{text.p_9.0}}</span><template is="dom-repeat" items="[0,1]"><br param="1"></template></i18n-format></p>{{text.text_10}}<br><span></span> <span> </span>{{text.text_14}}<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "text": [
+    " name = {1} ",
+    "{{text.name}}"
+  ],
+  "i18n-number_1": "1",
+  "i18n-format_2": [
+    "{{text.format}}",
+    "1"
+  ],
+  "i18n-format_3": [
+    "format",
+    ""
+  ],
+  "p_8": [
+    "hello {1}{2} {3} world",
+    "&lt;br&gt;",
+    "&lt;span&gt;",
+    "&lt;span&gt;"
+  ],
+  "p_9": [
+    "hello{1}world",
+    "&lt;br&gt;"
+  ],
+  "text_10": " hello ",
+  "text_14": " world "
+}
+</json-data>
+</template>
+</template>
+        <template>
+          <json-data text-id="target" data="{}"></json-data>
+          <json-data id="func">{
+            "func": or
+          }</json-data>
+          <json-data text-id="format">{
+            "other": "other format"
+          }</json-data>
+          <json-data text-id="table">{
+            "message-id": "message 1"
+          }</json-data>
+          <span text-id="name">John</span>
+        </template>
+      
+    </div>
+    <i18n-preference></i18n-preference>
+
     <script>
 suite('I18nBehavior with ' + 
   (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM'), 
@@ -75,6 +141,10 @@ suite('I18nBehavior with ' +
   var lang3 = 'ja';
   var lang4 = 'fr-CA';
   var lang5 = 'zh-Hans-CN';
+  var lang6 = 'ru';
+  var lang7 = 'zh-yue-Hans-CN';
+  var lang8 = 'zh-CN';
+  var lang9 = 'zh-TW';
   var text_complex_compound_binding = {
     'model': {},
     'item-update': [
@@ -431,6 +501,17 @@ suite('I18nBehavior with ' +
       assign: { lang: lang2 },
       lang: lang2,
       effectiveLang: lang2
+    }),
+    s(lang7 + ' fallback', 'advanced binding element 4', {
+      assign: { lang: lang7 },
+      lang: lang0,
+      effectiveLang: lang0
+    }),
+    s(lang8 + ' fallback', lang7 + ' fallback', {
+      assign: { lang: lang8 }
+    }),
+    s(lang9 + ' fallback', lang7 + ' fallback', {
+      assign: { lang: lang9 }
     }),
   ];
 

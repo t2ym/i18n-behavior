@@ -5,7 +5,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
 </head><body><dom-module id="complex-compound-binding-element">
   <template localizable-text="embedded">
-    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update.0}}</span><span param="1">{{text.updated}}</span><template is="dom-repeat" items="{{text.authors}}">
+    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update.0}}</span><span param="1">{{text.updated}}</span><template is="dom-repeat" items="{{text.authors}}"><!-- comment node -->
         <span param="2">  {{item.name}}  </span>
       </template><template is="dom-if" if="true">
         <b param="3">{{text.item-update.3}}</b>

@@ -11067,6 +11067,8 @@ Polymer({
           // element default language for now
           resolved = bundles[this.templateDefaultLang][id]; 
         }
+        /* no more fallback should happen */
+        /* istanbul ignore else */
         else if (bundles[''][id]) {
           // fallback language for now (this should be the same as element default)
           resolved = bundles[''][id];
@@ -11812,8 +11814,10 @@ Polymer({
       if (this.is === 'i18n-dom-bind') {
         template = this;
         id = this.id;
+        /* istanbul ignore if */
         if (template.content.childNodes.length === 0) {
           // Find the real template in Internet Explorer 11 when i18n-dom-bind is concealed in a parent template
+          // This does not happen on Polymer 1.3.1 or later.  So ignore this 'if' statement in code coverage.
           template = Array.prototype.map.call(document.querySelectorAll('template'), function (parentTemplate) {
             return parentTemplate.content.querySelector('template#' + id + '[is="i18n-dom-bind"]');
           }).reduce(function (prev, current) {
@@ -12567,6 +12571,8 @@ Polymer({
             messageId = this._generateMessageId(path, id);
             templateTextParams = Array.prototype.map.call(
               [ node ], function (child) {
+                /* node is always TEXT_NODE */
+                /* istanbul ignore else */
                 if (child.nodeType === child.TEXT_NODE &&
                     this._hasAnnotatedText(child.textContent)) {
                   return this._compoundAnnotationToSpan(child)
@@ -12604,18 +12610,26 @@ Polymer({
                     path.push(n);
                     this._traverseAttributes(current.node, path, bundle);
                     path.pop();
+                    /* current.childTextNode is always true since current.node is <span>{{annotation}}</span> */
+                    /* istanbul ignore else */
                     if (current.childTextNode) {
                       var textContent = current.node.textContent;
+                      /* textContent is always {{annotation}} */
+                      /* istanbul ignore if */
                       if (textContent.length === 0) {
                         // tag without textContent
                         prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
                         current.node.textContent = '';
                       }
+                      /* textContent is always {{annotation}} */
+                      /* istanbul ignore if */
                       else if (textContent.match(/^\s*$/g)) {
                         // tag with whitespace textContent
                         prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
                         current.node.textContent = ' ';
                       }
+                      /* textContent is always {{annotation}} */
+                      /* istanbul ignore else */
                       else if (textContent.match(/^({{.*}}|\[\[.*\]\])$/)) {
                         // tag with annotation
                         prev.text.push(textContent);
@@ -13050,6 +13064,8 @@ Polymer({
   }
   Polymer.Base.extend(i18nDomBind, domBindProto);
   i18nDomBind.is = 'i18n-dom-bind';
+  /* As of Polymer 1.3.1, dom-bind does not have predefined behaviors */
+  /* istanbul ignore if */
   if (i18nDomBind.behaviors) {
     i18nDomBind.behaviors.push(BehavirosStore.I18nBehavior);
   }
