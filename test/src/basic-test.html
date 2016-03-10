@@ -336,6 +336,7 @@ suite('I18nBehavior with ' +
   var lang3 = 'ja';
   var lang4 = 'fr-CA';
   var lang5 = 'zh-Hans-CN';
+  var lang6 = 'ru';
   var text_simple = {
     'model': {},
     'text': ' outermost text at the beginning ',
@@ -1215,6 +1216,11 @@ suite('I18nBehavior with ' +
       assign: { lang: lang2 },
       lang: lang2,
       effectiveLang: lang2
+    }),
+    s(lang6 + ' simple text', 'simple text', {
+      assign: { lang: lang6 },
+      lang: lang6,
+      effectiveLang: lang6
     }),
     s('commented simple text', 'simple text', {
       fixture: 'commented-simple-text-element-fixture'

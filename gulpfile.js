@@ -143,6 +143,11 @@ gulp.task('bundles', function (callback) {
   callback();
 });
 
+gulp.task('bundle-ru', function () {
+  return gulp.src(['test/vulcanize/**/locales/bundle.ru.json'])
+    .pipe(gulp.dest('test/preprocess'));
+});
+
 gulp.task('minify', function() {
   return gulp.src(['test/vulcanize/**/*', '!test/vulcanize/bundle.json'])
     .pipe(gulpif('*.html', crisper({
@@ -188,6 +193,7 @@ gulp.task('pretest', ['clean'], function(cb) {
     'vulcanize',
     'clean-clone',
     'bundles',
+    'bundle-ru',
     'minify',
     'mini-bundles',
     /*
