@@ -7,7 +7,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <dom-module id="complex-compound-binding-element">
   <template>
     <h5 id="item-update">updated: {{text.updated}}, by: 
-      <template is="dom-repeat" items="{{text.authors}}">
+      <template is="dom-repeat" items="{{text.authors}}"><!-- comment node -->
         <span>  {{item.name}}  </span>
       </template>
       xxx
