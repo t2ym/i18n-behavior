@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/t2ym/i18n-behavior.svg?branch=master)](https://travis-ci.org/t2ym/i18n-behavior)
+[![Coverage Status](https://coveralls.io/repos/github/t2ym/i18n-behavior/badge.svg?branch=master)](https://coveralls.io/github/t2ym/i18n-behavior?branch=master)
 
 # i18n-behavior
 
