@@ -21,6 +21,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <link rel="import" href="edge-case/empty-element.html">
     <link rel="import" href="edge-case/no-template-element.html">
     <link rel="import" href="edge-case/complex-compound-binding-element.html">
+    <link rel="import" href="edge-case/advanced-binding-element.html">
     <style>
     .test-container.running-test {
       display: block;
@@ -54,6 +55,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <test-fixture class="test-container" id="complex-compound-binding-element-fixture">
       <template is="dom-template">
         <complex-compound-binding-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}"></complex-compound-binding-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture class="test-container" id="advanced-binding-element-fixture">
+      <template is="dom-template">
+        <advanced-binding-element lang="{{lang}}" observe-html-lang="{{observeHtmlLang}}" status="{{status}}" value="{{value}}" parameter="{{parameter}}"></advanced-binding-element>
       </template>
     </test-fixture>
 
@@ -236,6 +243,82 @@ suite('I18nBehavior with ' +
       'nextTextSibling.data': text_complex_compound_binding['paragraph2:text_6']
     },
   ];
+  text_advanced_binding = {
+    'meta': {},
+    'model': {
+      'aria-attributes': {
+        'title': 'tooltip text',
+        'aria-label': 'aria label text',
+        'aria-valuetext': 'aria value text'
+      }
+    },
+    'annotated-format': [
+      '{{tr(status,text.statusMessageFormats)}}',
+      '{{parameter}}',
+      'string parameter'
+    ],
+    'statusMessages': {
+      'ok': 'healthy status',
+      'busy': 'busy status',
+      'error': 'error status',
+      '': 'unknown status'
+    },
+    'defaultValue': 'default value',
+    'statusMessageFormats': {
+      'ok': 'healthy status',
+      'busy': 'busy status with {2}',
+      'error': 'error status with {1} and {2}',
+      '': 'unknown status'
+    }
+  };
+  var localDOM_advanced_binding_1 = [
+    { select: '[id="status"]', textContent: 'healthy status' },
+    { select: '[id="default"]', 'textContent.raw': 'initial value' },
+    { select: '[id="annotated-format"]',
+      'root.PolymerDom.textContent': 'healthy status' },
+    { select: '[id="aria-attributes"]',
+      'attributes.title.value.text': 'tooltip text',
+      'attributes.aria-label.value.text': 'aria label text',
+      'attributes.aria-valuetext.value.text': 'aria value text',
+      'bindValue.raw': 'initial value' }
+  ];
+  var localDOM_advanced_binding_2 = [
+    { select: '[id="status"]', textContent: 'busy status' },
+    { select: '[id="default"]', textContent: 'default value' },
+    { select: '[id="annotated-format"]',
+      'root.PolymerDom.effectiveChildNodes.nonWS.0.textContent': 'busy status with ',
+      'root.PolymerDom.effectiveChildNodes.nonWS.1.textContent': 'string parameter' },
+    { select: '[id="aria-attributes"]',
+      'attributes.title.value.text': 'tooltip text',
+      'attributes.aria-label.value.text': 'aria label text',
+      'attributes.aria-valuetext.value.text': 'aria value text',
+      'bindValue.raw': '' }
+  ];
+  var localDOM_advanced_binding_3 = [
+    { select: '[id="status"]', textContent: 'error status' },
+    { select: '[id="default"]', textContent: 'default value' },
+    { select: '[id="annotated-format"]',
+      'root.PolymerDom.effectiveChildNodes.nonWS.0.textContent': 'error status with ',
+      'root.PolymerDom.effectiveChildNodes.nonWS.1.textContent.raw': 'parameter text',
+      'root.PolymerDom.effectiveChildNodes.nonWS.2.textContent.raw': ' and ',
+      'root.PolymerDom.effectiveChildNodes.nonWS.3.textContent': 'string parameter' },
+    { select: '[id="aria-attributes"]',
+      'attributes.title.value.text': 'tooltip text',
+      'attributes.aria-label.value.text': 'aria label text',
+      'attributes.aria-valuetext.value.text': 'aria value text',
+      'bindValue.raw': null }
+  ];
+  var localDOM_advanced_binding_4 = [
+    { select: '[id="status"]', textContent: 'unknown status' },
+    { select: '[id="default"]', textContent: 'default value' },
+    { select: '[id="annotated-format"]',
+      'root.PolymerDom.effectiveChildNodes.nonWS.0.textContent': 'unknown status' },
+    { select: '[id="aria-attributes"]',
+      'attributes.title.value.text': 'tooltip text',
+      'attributes.aria-label.value.text': 'aria label text',
+      'attributes.aria-valuetext.value.text': 'aria value text',
+      'bindValue.raw': '' }
+  ];
 
   var suites = [
     s('empty element', null, {
@@ -279,7 +362,76 @@ suite('I18nBehavior with ' +
       assign: { lang: lang2 },
       lang: lang2,
       effectiveLang: lang2
-    })
+    }),
+    s('advanced binding element', 'empty element', {
+      setup: true,
+      fixture: 'advanced-binding-element-fixture',
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0,
+        status: 'ok',
+        value: 'initial value',
+        parameter: 'parameter text'
+      },
+      assign: { lang: lang1 },
+      event: 'local-dom-ready',
+      lang: lang1,
+      effectiveLang: lang1,
+      observeHtmlLang: false,
+      text: text_advanced_binding,
+      model: text_advanced_binding.model,
+      localDOM: localDOM_advanced_binding_1
+    }),
+    s('advanced binding element 2', 'advanced binding element', {
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0,
+        status: 'busy',
+        value: '',
+        parameter: 'parameter text'
+      },
+      localDOM: localDOM_advanced_binding_2
+    }),
+    s('advanced binding element 3', 'advanced binding element', {
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0,
+        status: 'error',
+        value: null,
+        parameter: 'parameter text'
+      },
+      localDOM: localDOM_advanced_binding_3
+    }),
+    s('advanced binding element 4', 'advanced binding element', {
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0,
+        status: null,
+        value: undefined,
+        parameter: 'parameter text'
+      },
+      localDOM: localDOM_advanced_binding_4
+    }),
+    s(lang2 + ' advanced binding element', 'advanced binding element', {
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2
+    }),
+    s(lang2 + ' advanced binding element 2', 'advanced binding element 2', {
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2
+    }),
+    s(lang2 + ' advanced binding element 3', 'advanced binding element 3', {
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2
+    }),
+    s(lang2 + ' advanced binding element 4', 'advanced binding element 4', {
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2
+    }),
   ];
 
   suitesRunner(suites);
