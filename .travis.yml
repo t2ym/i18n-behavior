@@ -31,3 +31,4 @@ script:
   - xvfb-run gulp test:local
   - cp -vf non-ie10.wct.conf.json wct.conf.json
   - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then gulp test:remote; fi
+  - cat test/coverage-report/lcov.info | ./node_modules/coveralls/bin/coveralls.js
