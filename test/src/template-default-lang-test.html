@@ -321,6 +321,12 @@ suite('I18nBehavior with ' +
       lang: lang0,
       effectiveLang: lang0
     }),
+    s(lang5 + ' template default lang element', 'template default lang element', { 
+      assign: { lang: lang5 },
+      lang: lang5,
+      effectiveLang: lang5,
+      localDOM: localDOM_template_default_lang
+    }),
     s('null template default lang element', null, { 
       fixture: 'null-template-default-lang-element-fixture', 
       fixtureModel: undefined, 
