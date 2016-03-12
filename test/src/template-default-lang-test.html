@@ -350,6 +350,11 @@ suite('I18nBehavior with ' +
       lang: lang5,
       effectiveLang: lang5
     }),
+    s(lang3 + ' null template default lang element', 'null template default lang element', { 
+      assign: { lang: lang3 },
+      lang: lang0,
+      effectiveLang: lang0
+    }),
   ];
 
   suitesRunner(suites);

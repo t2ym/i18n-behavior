@@ -148,6 +148,21 @@ gulp.task('bundle-ru', function () {
     .pipe(gulp.dest('test/preprocess'));
 });
 
+gulp.task('empty-ja', function () {
+  return gulp.src(['test/src/**/locales/null-template-default-lang-element.ja.json'])
+    .pipe(gulp.dest('test/preprocess'));
+});
+
+gulp.task('empty-bundle-ja', function (done) {
+  del('test/vulcanize/locales/bundle.ja.json');
+  done();
+});
+
+gulp.task('empty-mini-bundle-ja', function (done) {
+  del('test/minify/locales/bundle.ja.json');
+  done();
+});
+
 gulp.task('minify', function() {
   return gulp.src(['test/vulcanize/**/*', '!test/vulcanize/bundle.json'])
     .pipe(gulpif('*.html', crisper({
@@ -184,6 +199,28 @@ gulp.task('mini-bundles', function (callback) {
 });
  
 gulp.task('pretest', ['clean'], function(cb) {
+  runSequence(
+    'scan',
+    'preprocess',
+    'leverage',
+    'empty-ja',
+    'attributes-repository',
+    'clone',
+    'vulcanize',
+    'clean-clone',
+    'bundles',
+    'bundle-ru',
+    'empty-bundle-ja',
+    'minify',
+    'mini-bundles',
+    'empty-mini-bundle-ja',
+    /*
+    'feedback',
+    */
+    cb);
+});
+
+gulp.task('rebuild', ['clean'], function(cb) {
   runSequence(
     'scan',
     'preprocess',
