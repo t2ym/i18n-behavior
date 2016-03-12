@@ -24,6 +24,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       aria-valuetext="aria value text"
       bind-value="{{value}}">
 
+    <span>{{tr('key',text.nodefault)}}</span>
+    <span>{{text.defaultValue}} {{text.defaultValue}}</span>
+
     <template>
       <json-data text-id="statusMessages">{
         "ok": "healthy status",
@@ -37,6 +40,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         "busy": "busy status with {2}",
         "error": "error status with {1} and {2}",
         "default": "unknown status"
+      }</json-data>
+      <json-data text-id="nodefault">{
+        "ok": "ok status"
       }</json-data>
     </template>
   </template>

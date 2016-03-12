@@ -12,6 +12,11 @@
     "{{parameter}}",
     "string parameter"
   ],
+  "span_5": [
+    "{1} {2}",
+    "{{text.defaultValue}}",
+    "{{text.defaultValue}}"
+  ],
   "statusMessages": {
     "ok": "healthy status",
     "busy": "busy status",
@@ -24,5 +29,8 @@
     "busy": "busy status with {2}",
     "error": "error status with {1} and {2}",
     "default": "unknown status"
+  },
+  "nodefault": {
+    "ok": "ok status"
   }
 }
