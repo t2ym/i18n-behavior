@@ -1023,13 +1023,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             }
           }
           break;
-        case 'function':
-        case 'symbol':
-        case 'undefined':
-          if (typeof target === 'object') {
-            target[prop] = value;
-          }
-          break;
         default:
           if (typeof target === 'object') {
             target[prop] = value;
