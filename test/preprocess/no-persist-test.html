@@ -80,17 +80,11 @@ suite('I18nBehavior with ' +
   suitesRunner(suites);
 
   suite('change persist', function () {
-    setup(function () {
-      delete window.localStorage['i18n-behavior-preference'];
-    });
-
     test('persist true', function (done) {
       var p = document.querySelector('i18n-preference');
       p.persist = true;
-      setTimeout(function () {
-        assert.equal(p.persist, true, 'persist is true');
-        done();
-      }, 100);
+      assert.equal(p.persist, true, 'persist is true');
+      done();
     });
   });
 
@@ -98,10 +92,8 @@ suite('I18nBehavior with ' +
     test('detach', function (done) {
       var p = document.querySelector('i18n-preference');
       p.parentNode.removeChild(p);
-      setTimeout(function () {
-        assert.equal(p.persist, true, 'persist is true');
-        done();
-      }, 100);
+      assert.equal(p.persist, true, 'persist is true');
+      done();
     });
   });
 
