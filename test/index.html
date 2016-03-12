@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var suites = [];
       [ 'src', 'preprocess', 'vulcanize', 'minify' ].forEach(function (phase) {
         return (nativeShadow ? [ '', '?dom=shadow' ] : [ '' ]).forEach(function (dom) {
-          return [ 'basic', 'edge-case', 'multiple-case', 'template-default-lang', 'preference', 'persist', 'no-persist' ].forEach(function (type) {
+          return [ 'basic', 'edge-case', 'multiple-case', 'template-default-lang', 'preference', 'no-persist' ].forEach(function (type) {
             suites.push(phase + '/' + type + '-test.html' + dom);
           });
         });
