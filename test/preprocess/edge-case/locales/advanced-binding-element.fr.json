@@ -14,6 +14,11 @@
     "{{parameter}}",
     "fr string parameter"
   ],
+  "span_5": [
+    "fr {1} {2}",
+    "{{text.defaultValue}}",
+    "{{text.defaultValue}}"
+  ],
   "statusMessages": {
     "ok": "fr healthy status",
     "busy": "fr busy status",
@@ -26,5 +31,8 @@
     "busy": "fr busy status with {2}",
     "error": "fr error status with {1} and {2}",
     "default": "fr unknown status"
+  },
+  "nodefault": {
+    "ok": "fr ok status"
   }
 }

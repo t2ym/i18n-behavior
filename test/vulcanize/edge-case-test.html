@@ -12756,14 +12756,17 @@ Polymer({
               childNode = document.createElement('span');
               childNode.textContent = item;
             }
-            else {
+            else if (item) {
               childNode = document.createTextNode(item);
+            }
+            else {
+              childNode = null;
             }
             return childNode;
           });
         if (result.length > 0) {
           if (!result[result.length - 1]) {
-            result.pop(); // pop ''
+            result.pop(); // pop null node for ''
           }
         }
       }
@@ -13931,10 +13934,14 @@ is separate from validation, and `allowed-pattern` does not affect how the input
 
     <input is="iron-input" id="aria-attributes" title="{{model.aria-attributes.title}}" aria-label$="{{model.aria-attributes.aria-label}}" aria-valuetext$="{{model.aria-attributes.aria-valuetext}}" bind-value="{{value}}">
 
+    <span>{{tr('key',text.nodefault)}}</span>
+    <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span param="1">{{text.defaultValue}}</span><span param="2">{{text.defaultValue}}</span></i18n-format></span>
+
     <template>
       <json-data text-id="statusMessages">{{text.statusMessages}}</json-data>
       <span text-id="defaultValue">{{text.defaultValue}}</span>
       <json-data text-id="statusMessageFormats">{{text.statusMessageFormats}}</json-data>
+      <json-data text-id="nodefault">{{text.nodefault}}</json-data>
     </template>
   <template id="localizable-text">
 <json-data>
@@ -13952,6 +13959,11 @@ is separate from validation, and `allowed-pattern` does not affect how the input
     "{{parameter}}",
     "string parameter"
   ],
+  "span_5": [
+    "{1} {2}",
+    "{{text.defaultValue}}",
+    "{{text.defaultValue}}"
+  ],
   "statusMessages": {
     "ok": "healthy status",
     "busy": "busy status",
@@ -13964,6 +13976,9 @@ is separate from validation, and `allowed-pattern` does not affect how the input
     "busy": "busy status with {2}",
     "error": "error status with {1} and {2}",
     "default": "unknown status"
+  },
+  "nodefault": {
+    "ok": "ok status"
   }
 }
 </json-data>
@@ -14316,6 +14331,11 @@ suite('I18nBehavior with ' +
       '{{parameter}}',
       'string parameter'
     ],
+    'span_5': [
+      '{1} {2}',
+      '{{text.defaultValue}}',
+      '{{text.defaultValue}}'
+    ],
     'statusMessages': {
       'ok': 'healthy status',
       'busy': 'busy status',
@@ -14328,6 +14348,9 @@ suite('I18nBehavior with ' +
       'busy': 'busy status with {2}',
       'error': 'error status with {1} and {2}',
       '': 'unknown status'
+    },
+    'nodefault': {
+      'ok': 'ok status'
     }
   };
   var localDOM_advanced_binding_1 = [

@@ -18,10 +18,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
     <input is="iron-input" id="aria-attributes" title="{{model.aria-attributes.title}}" aria-label$="{{model.aria-attributes.aria-label}}" aria-valuetext$="{{model.aria-attributes.aria-valuetext}}" bind-value="{{value}}">
 
+    <span>{{tr('key',text.nodefault)}}</span>
+    <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span param="1">{{text.defaultValue}}</span><span param="2">{{text.defaultValue}}</span></i18n-format></span>
+
     <template>
       <json-data text-id="statusMessages">{{text.statusMessages}}</json-data>
       <span text-id="defaultValue">{{text.defaultValue}}</span>
       <json-data text-id="statusMessageFormats">{{text.statusMessageFormats}}</json-data>
+      <json-data text-id="nodefault">{{text.nodefault}}</json-data>
     </template>
   <template id="localizable-text">
 <json-data>
@@ -39,6 +43,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     "{{parameter}}",
     "string parameter"
   ],
+  "span_5": [
+    "{1} {2}",
+    "{{text.defaultValue}}",
+    "{{text.defaultValue}}"
+  ],
   "statusMessages": {
     "ok": "healthy status",
     "busy": "busy status",
@@ -51,6 +60,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     "busy": "busy status with {2}",
     "error": "error status with {1} and {2}",
     "default": "unknown status"
+  },
+  "nodefault": {
+    "ok": "ok status"
   }
 }
 </json-data>

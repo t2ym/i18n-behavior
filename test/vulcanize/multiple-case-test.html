@@ -12756,14 +12756,17 @@ Polymer({
               childNode = document.createElement('span');
               childNode.textContent = item;
             }
-            else {
+            else if (item) {
               childNode = document.createTextNode(item);
+            }
+            else {
+              childNode = null;
             }
             return childNode;
           });
         if (result.length > 0) {
           if (!result[result.length - 1]) {
-            result.pop(); // pop ''
+            result.pop(); // pop null node for ''
           }
         }
       }

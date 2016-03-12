@@ -327,6 +327,11 @@ suite('I18nBehavior with ' +
       '{{parameter}}',
       'string parameter'
     ],
+    'span_5': [
+      '{1} {2}',
+      '{{text.defaultValue}}',
+      '{{text.defaultValue}}'
+    ],
     'statusMessages': {
       'ok': 'healthy status',
       'busy': 'busy status',
@@ -339,6 +344,9 @@ suite('I18nBehavior with ' +
       'busy': 'busy status with {2}',
       'error': 'error status with {1} and {2}',
       '': 'unknown status'
+    },
+    'nodefault': {
+      'ok': 'ok status'
     }
   };
   var localDOM_advanced_binding_1 = [
