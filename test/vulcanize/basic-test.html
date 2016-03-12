@@ -11729,13 +11729,6 @@ Polymer({
             }
           }
           break;
-        case 'function':
-        case 'symbol':
-        case 'undefined':
-          if (typeof target === 'object') {
-            target[prop] = value;
-          }
-          break;
         default:
           if (typeof target === 'object') {
             target[prop] = value;
