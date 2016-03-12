@@ -145,6 +145,7 @@ suite('I18nBehavior with ' +
   var lang7 = 'zh-yue-Hans-CN';
   var lang8 = 'zh-CN';
   var lang9 = 'zh-TW';
+  var lang10 = 'zh-Hans-CN-x-Linux';
   var text_complex_compound_binding = {
     'model': {},
     'item-update': [
@@ -520,6 +521,9 @@ suite('I18nBehavior with ' +
     }),
     s(lang9 + ' fallback', lang7 + ' fallback', {
       assign: { lang: lang9 }
+    }),
+    s(lang10 + ' fallback', lang7 + ' fallback', {
+      assign: { lang: lang10 }
     }),
   ];
 
