@@ -12962,16 +12962,18 @@ Polymer({
      * this._fetchStatus is initialized per registration.
      */
     registered: function () {
-      this._fetchStatus = deepcopy({ // per custom element
-        fetchingInstance: null,
-        ajax: null,
-        ajaxLang: null,
-        lastLang: null,
-        fallbackLanguageList: null,
-        targetLang: null, 
-        lastResponse: {},
-        rawResponses: {}
-      });
+      if (this.is !== 'i18n-dom-bind') {
+        this._fetchStatus = deepcopy({ // per custom element
+          fetchingInstance: null,
+          ajax: null,
+          ajaxLang: null,
+          lastLang: null,
+          fallbackLanguageList: null,
+          targetLang: null,
+          lastResponse: {},
+          rawResponses: {}
+        });
+      }
     },
 
     /**
@@ -12983,7 +12985,7 @@ Polymer({
           this._templateLocalizable = this._constructDefaultBundle();
         }
         if (!this._fetchStatus) {
-          this._fetchStatus = deepcopy({ // per custom element
+          this._fetchStatus = deepcopy({ // per instance
             fetchingInstance: null,
             ajax: null,
             ajaxLang: null,
