@@ -34,7 +34,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template><code param="2">{{text.paragraph.2}}</code></i18n-format></p>
     <p id="paragraph2">{{text.paragraph2:text}}<template is="dom-repeat" items="{{text.parameters}}">
         <span><i>{{item}}</i> </span>
-      </template>{{text.paragraph2:text_2}}<b>{{text.paragraph2:b_3}}</b>{{text.paragraph2:text_4}}<code>{{text.paragraph2:code_5}}</code>{{text.paragraph2:text_6}}</p>
+      </template>{{text.paragraph2:text_2}}<b>{{text.paragraph2:b_3}}</b>{{text.paragraph2:text_4}}<code>{{text.paragraph2:code_5}}</code>{{text.paragraph2:text_6}}<template is="dom-if" if="false"></template>
+      <template is="dom-if" if="false">  </template>
+      <template is="dom-if" if="false">{{text.updated}}</template>
+    </p>
     <template>
       <json-data id="authors">{{text.authors}}</json-data>
       <span id="updated">{{text.updated}}</span>

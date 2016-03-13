@@ -12307,13 +12307,16 @@ Polymer({
                                               firstChild.nodeType === firstChild.TEXT_NODE &&
                                               this._isCompoundAnnotatedText(firstChild.textContent),
                     hasTextChild: templateNonCommentChildNodes.length === 0 &&
+                                  firstChild &&
                                   firstChild.nodeType === child.ELEMENT_NODE &&
                                   firstChild.childElementCount === 0, // including <br>
-                    hasCompoundAnnotatedChildNode: firstChild.nodeType === firstChild.ELEMENT_NODE &&
+                    hasCompoundAnnotatedChildNode: firstChild &&
+                                                   firstChild.nodeType === firstChild.ELEMENT_NODE &&
                                                    firstChild.childElementCount === 0 &&
                                                    this._isCompoundAnnotatedText(firstChild.textContent),
                     hasGrandChildren: templateNonCommentChildNodes.length > 0 ||
-                                      (firstChild.nodeType === firstChild.ELEMENT_NODE &&
+                                      (firstChild &&
+                                       firstChild.nodeType === firstChild.ELEMENT_NODE &&
                                         Array.prototype.map.call(
                                           firstChild.childNodes,
                                           function (grandChild) {
@@ -12679,6 +12682,7 @@ Polymer({
      */
     _compoundAnnotationToSpan: function (node) {
       var result;
+      /* istanbul ignore else: node is prechecked to contain annotation(s) */
       if (node.textContent.match(/({{[^{}]*}}|\[\[[^\[\]]*\]\])/)) {
         result = node.textContent
           .match(/({{[^{}]*}}|\[\[[^\[\]]*\]\]|[^{}\[\]]{1,}|[{}\[\]]{1,})/g)
