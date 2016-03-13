@@ -12416,13 +12416,29 @@ Polymer({
                           return true;
                         }
                       }).shift();
-                    return [{
-                      node: firstChild,
-                      templateNode: child,
-                      type: firstChild.nodeType,
-                      text: null,
-                      childTextNode: true
-                    }];
+                    if (!firstChild) {
+                      firstChild =
+                        Array.prototype.filter.call(child.content.childNodes, function (templateChild) {
+                          switch (templateChild.nodeType) {
+                          case templateChild.COMMENT_NODE:
+                            return false;
+                          default:
+                            return true;
+                          }
+                        }).shift();
+                    }
+                    if (firstChild) {
+                      return [{
+                        node: firstChild,
+                        templateNode: child,
+                        type: firstChild.nodeType,
+                        text: null,
+                        childTextNode: true
+                      }];
+                    }
+                    else {
+                      return [];
+                    }
                   }
                   else {
                     return [{
@@ -13071,7 +13087,7 @@ Polymer({
         <span param="2">  {{item.name}}  </span>
       </template><template is="dom-if" if="true">
         <b param="3">{{text.item-update.3}}</b>
-      </template><b param="4">{{text.item-update.4}}</b><template is="dom-if" if="true"><span param="5">{{text.item-update.5}}</span></template></i18n-format></h5>
+      </template><b param="4">{{text.item-update.4}}</b><template is="dom-if" if="true"><span param="5">{{text.item-update.5}}</span></template><template is="dom-if" if="true"><span param="6"> </span></template><template is="dom-if" if="true"><span param="7">{{text.updated}}</span></template></i18n-format></h5>
     <h5 id="item-update2"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update2:text.0}}</span><span param="1">{{text.updated}}</span></i18n-format><template is="dom-repeat" items="{{text.authors}}">
         {{item.name}}
       </template>{{text.item-update2:text_2}}<template is="dom-if" if="true">
@@ -13111,12 +13127,14 @@ Polymer({
   "meta": {},
   "model": {},
   "item-update": [
-    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ",
+    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello\n      \n      {6}\n      {7} ",
     "{{text.updated}}",
     "  {{item.name}}  ",
     "IF CONTENT",
     "abc",
-    "IF CONTENT 2"
+    "IF CONTENT 2",
+    "&lt;template&gt;",
+    "{{text.updated}}"
   ],
   "item-update2:text": [
     "updated: {1}, by: ",
@@ -14107,12 +14125,14 @@ suite('I18nBehavior with ' +
   var text_complex_compound_binding = {
     'model': {},
     'item-update': [
-      'updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ',
+      'updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello\n      \n      {6}\n      {7} ',
       '{{text.updated}}',
       '  {{item.name}}  ',
       'IF CONTENT',
       'abc',
-      'IF CONTENT 2'
+      'IF CONTENT 2',
+      '<template>',
+      '{{text.updated}}'
     ],
     'item-update2:text': [
       'updated: {1}, by: ',
