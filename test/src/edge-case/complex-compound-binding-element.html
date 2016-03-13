@@ -17,6 +17,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       <b>abc</b>
       <template is="dom-if" if="true">IF CONTENT 2</template>
       hello
+      <template is="dom-if" if="true"></template>
+      <template is="dom-if" if="true"> <!-- comment --></template>
+      <template is="dom-if" if="true">{{text.updated}}</template>
     </h5>
     <h5 id="item-update2">updated: {{text.updated}}, by: 
       <template is="dom-repeat" items="{{text.authors}}">
