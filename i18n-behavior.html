@@ -1710,13 +1710,29 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                           return true;
                         }
                       }).shift();
-                    return [{
-                      node: firstChild,
-                      templateNode: child,
-                      type: firstChild.nodeType,
-                      text: null,
-                      childTextNode: true
-                    }];
+                    if (!firstChild) {
+                      firstChild =
+                        Array.prototype.filter.call(child.content.childNodes, function (templateChild) {
+                          switch (templateChild.nodeType) {
+                          case templateChild.COMMENT_NODE:
+                            return false;
+                          default:
+                            return true;
+                          }
+                        }).shift();
+                    }
+                    if (firstChild) {
+                      return [{
+                        node: firstChild,
+                        templateNode: child,
+                        type: firstChild.nodeType,
+                        text: null,
+                        childTextNode: true
+                      }];
+                    }
+                    else {
+                      return [];
+                    }
                   }
                   else {
                     return [{
