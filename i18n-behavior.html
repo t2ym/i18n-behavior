@@ -1973,6 +1973,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      */
     _compoundAnnotationToSpan: function (node) {
       var result;
+      /* istanbul ignore else: node is prechecked to contain annotation(s) */
       if (node.textContent.match(/({{[^{}]*}}|\[\[[^\[\]]*\]\])/)) {
         result = node.textContent
           .match(/({{[^{}]*}}|\[\[[^\[\]]*\]\]|[^{}\[\]]{1,}|[{}\[\]]{1,})/g)
