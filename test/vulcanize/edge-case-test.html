@@ -12564,32 +12564,17 @@ Polymer({
             messageId = this._generateMessageId(path, id);
             templateTextParams = Array.prototype.map.call(
               [ node ], function (child) {
-                /* node is always TEXT_NODE */
-                /* istanbul ignore else */
-                if (child.nodeType === child.TEXT_NODE &&
-                    this._hasAnnotatedText(child.textContent)) {
-                  return this._compoundAnnotationToSpan(child)
-                    .map(function (_child) {
-                      return {
-                        node: _child,
-                        type: _child.nodeType,
-                        text: _child.nodeType === _child.TEXT_NODE ? 
-                                _child.textContent : null,
-                        childTextNode: _child.nodeType === _child.ELEMENT_NODE &&
-                                       _child.childNodes.length > 0
-                      };
-                    });
-                }
-                else {
-                  return [{
-                    node: child,
-                    type: child.nodeType,
-                    text: child.nodeType === child.TEXT_NODE ? 
-                            child.textContent : null,
-                    childTextNode: child.nodeType === child.ELEMENT_NODE &&
-                                   child.childNodes.length > 0
-                  }];
-                }
+                return this._compoundAnnotationToSpan(child)
+                  .map(function (_child) {
+                    return {
+                      node: _child,
+                      type: _child.nodeType,
+                      text: _child.nodeType === _child.TEXT_NODE ? 
+                              _child.textContent : null,
+                      childTextNode: _child.nodeType === _child.ELEMENT_NODE &&
+                                     _child.childNodes.length > 0
+                    };
+                  });
               }.bind(this)).reduce(function (prev, currentList) {
                 var current;
                 for (var i = 0; i < currentList.length; i++) {
@@ -12604,38 +12589,7 @@ Polymer({
                     this._traverseAttributes(current.node, path, bundle);
                     path.pop();
                     /* current.childTextNode is always true since current.node is <span>{{annotation}}</span> */
-                    /* istanbul ignore else */
-                    if (current.childTextNode) {
-                      var textContent = current.node.textContent;
-                      /* textContent is always {{annotation}} */
-                      /* istanbul ignore if */
-                      if (textContent.length === 0) {
-                        // tag without textContent
-                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                        current.node.textContent = '';
-                      }
-                      /* textContent is always {{annotation}} */
-                      /* istanbul ignore if */
-                      else if (textContent.match(/^\s*$/g)) {
-                        // tag with whitespace textContent
-                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                        current.node.textContent = ' ';
-                      }
-                      /* textContent is always {{annotation}} */
-                      /* istanbul ignore else */
-                      else if (textContent.match(/^({{.*}}|\[\[.*\]\])$/)) {
-                        // tag with annotation
-                        prev.text.push(textContent);
-                        // textContent is untouched
-                      }
-                      else {
-                        prev.text.push(current.node.textContent.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' '));
-                        current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
-                      }
-                    }
-                    else {
-                      prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                    }
+                    prev.text.push(current.node.textContent);
                     current.node.setAttribute('param', n.toString());
                     prev.params.push(current.node);
                   }
