@@ -1,14 +1,21 @@
 {
   "plugins": {
     "local": {
-      "browsers": [
-        "chrome",
-        "firefox"
-      ]
+      "browsers": []
     },
     "sauce": {
       "disabled": false,
       "browsers": [
+        {
+          "browserName":  "chrome",
+          "platform":     "Windows 10",
+          "version":      ""
+        },
+        {
+          "browserName":  "firefox",
+          "platform":     "Windows 10",
+          "version":      ""
+        },
         {
           "browserName":  "microsoftedge",
           "platform":     "Windows 10",
