@@ -28,7 +28,7 @@ addons:
       - g++-4.8
   sauce_connect: true
 script:
-  - gulp pretest
   - cp -vf travis.wct.conf.json wct.conf.json
-  - xvfb-run wct
+  - xvfb-run gulp test:local
+  - xvfb-run gulp test:remote
   - cat test/coverage-report/lcov.info | ./node_modules/coveralls/bin/coveralls.js
