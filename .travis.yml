@@ -11,8 +11,6 @@ before_script:
   - npm install
   - export PATH=$PWD/node_modules/.bin:$PATH
   - bower install
-  - npm list
-  - bower list
 env:
   global:
     - CXX=g++-4.8
