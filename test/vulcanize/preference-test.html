@@ -9274,6 +9274,7 @@ if (!window.Promise) {
       case 'loaded':
       case 'native':
       default:
+        /* istanbul ignore next: these cases are impossible */
         break;
       }
     }
@@ -9646,6 +9647,7 @@ if (!window.Promise) {
           }
           break;
         default:
+          /* istanbul ignore next: mutation.type is always characterData */
           break;
         }
       }, this);
@@ -9747,6 +9749,7 @@ if (!window.Promise) {
         catch (e) {
           return number.toString();
         }
+        /* istanbul ignore next: unreachable code due to returns in the same case */
         break;
       case 'native':
         // native
@@ -9756,6 +9759,7 @@ if (!window.Promise) {
         catch (e) {
           return number.toString();
         }
+        /* istanbul ignore next: unreachable code due to returns in the same case */
         break;
       }
     },
@@ -9949,6 +9953,7 @@ Polymer({
         }
         break;
       default:
+        /* istanbul ignore next: mutation.type is always characterData */
         break;
       }
     }, this);
@@ -10586,6 +10591,7 @@ Polymer({
       <paper-textarea label="" error-message="" placeholder=""></paper-textarea>
       <paper-dropdown-menu label=""></paper-dropdown-menu>
       <paper-toast text=""></paper-toast>
+      <paper-badge label=""></paper-badge>
       <google-chart options="" cols="" rows="" data=""></google-chart>
       <google-signin label-signin="" label-signout="" label-additional=""></google-signin>
       <platinum-push-messaging title="" message=""></platinum-push-messaging>
