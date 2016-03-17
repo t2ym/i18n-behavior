@@ -28,7 +28,7 @@ script:
   - # cp -vf nocoverage.wct.conf.json wct.conf.json
   - cp -vf test/index-src-preprocess.html test/index.html
   - gulp pretest
-  - find test
+  - # find test
   - xvfb-run wct
   - # xvfb-run gulp test:local
   - # xvfb-run gulp test:remote
