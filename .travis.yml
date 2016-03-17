@@ -31,4 +31,4 @@ script:
   - xvfb-run wct
   - # xvfb-run gulp test:local
   - # xvfb-run gulp test:remote
-  - cat test/coverage-report/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - # cat test/coverage-report/lcov.info | ./node_modules/coveralls/bin/coveralls.js
