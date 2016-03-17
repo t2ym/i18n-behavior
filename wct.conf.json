@@ -1,9 +1,7 @@
 {
   "plugins": {
     "local": {
-      "browsers": [
-        "chrome"
-      ]
+      "browsers": []
     },
     "sauce": {
       "disabled": false,
