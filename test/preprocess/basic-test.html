@@ -1632,32 +1632,6 @@ suite('I18nBehavior with ' +
       lang: lang2,
       effectiveLang: lang2
     }),
-    s(lang2 + ' default observeHtmlLang simple text dom bind', 'simple text', {
-      fixture: 'simple-text-dom-bind',
-      fixtureModel: {
-        'html.lang': lang5
-      },
-      assign: { 'html.lang': lang2 },
-      lang: lang2,
-      effectiveLang: lang2,
-      text: text_simple,
-      localDOM: localDOM_simple,
-      observeHtmlLang: true
-    }),
-    s('simple text dom bind', 'simple text', {
-      fixture: 'simple-text-dom-bind',
-      fixtureModel: {
-        observeHtmlLang: false,
-        lang: lang0
-      },
-      text: text_simple,
-      localDOM: localDOM_simple
-    }),
-    s(lang2 + ' simple text dom bind', 'simple text dom bind', {
-      assign: { lang: lang2 },
-      lang: lang2,
-      effectiveLang: lang2
-    }),
     s('simple attribute dom bind', 'simple attribute', {
       fixture: 'simple-attribute-dom-bind', 
       fixtureModel: {
@@ -1683,6 +1657,32 @@ suite('I18nBehavior with ' +
       fixture: 'compound-binding-dom-bind'
     }),
     s(lang2 + ' compound binding dom bind', 'compound binding dom bind', {
+      assign: { lang: lang2 },
+      lang: lang2,
+      effectiveLang: lang2
+    }),
+    s(lang2 + ' default observeHtmlLang simple text dom bind', 'simple text', {
+      fixture: 'simple-text-dom-bind',
+      fixtureModel: {
+        'html.lang': lang5
+      },
+      assign: { 'html.lang': lang2 },
+      lang: lang2,
+      effectiveLang: lang2,
+      text: text_simple,
+      localDOM: localDOM_simple,
+      observeHtmlLang: true
+    }),
+    s('simple text dom bind', 'simple text', {
+      fixture: 'simple-text-dom-bind',
+      fixtureModel: {
+        observeHtmlLang: false,
+        lang: lang0
+      },
+      text: text_simple,
+      localDOM: localDOM_simple
+    }),
+    s(lang2 + ' simple text dom bind', 'simple text dom bind', {
       assign: { lang: lang2 },
       lang: lang2,
       effectiveLang: lang2
