@@ -25,7 +25,7 @@ addons:
       - g++-4.8
   sauce_connect: true
 script:
-  - # cp -vf nocoverage.wct.conf.json wct.conf.json
+  - cp -vf nocoverage.wct.conf.json wct.conf.json
   - cp -vf test/index-src-preprocess.html test/index.html
   - gulp pretest
   - xvfb-run wct
