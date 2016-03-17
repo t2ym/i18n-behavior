@@ -23,6 +23,9 @@
   "paper-toast": {
     "text": true
   },
+  "paper-badge": {
+    "label": true
+  },
   "google-chart": {
     "options": true,
     "cols": true,

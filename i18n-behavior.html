@@ -1601,13 +1601,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                                               firstChild.nodeType === firstChild.TEXT_NODE &&
                                               this._isCompoundAnnotatedText(firstChild.textContent),
                     hasTextChild: templateNonCommentChildNodes.length === 0 &&
+                                  firstChild &&
                                   firstChild.nodeType === child.ELEMENT_NODE &&
                                   firstChild.childElementCount === 0, // including <br>
-                    hasCompoundAnnotatedChildNode: firstChild.nodeType === firstChild.ELEMENT_NODE &&
+                    hasCompoundAnnotatedChildNode: firstChild &&
+                                                   firstChild.nodeType === firstChild.ELEMENT_NODE &&
                                                    firstChild.childElementCount === 0 &&
                                                    this._isCompoundAnnotatedText(firstChild.textContent),
                     hasGrandChildren: templateNonCommentChildNodes.length > 0 ||
-                                      (firstChild.nodeType === firstChild.ELEMENT_NODE &&
+                                      (firstChild &&
+                                       firstChild.nodeType === firstChild.ELEMENT_NODE &&
                                         Array.prototype.map.call(
                                           firstChild.childNodes,
                                           function (grandChild) {
@@ -1707,13 +1710,29 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                           return true;
                         }
                       }).shift();
-                    return [{
-                      node: firstChild,
-                      templateNode: child,
-                      type: firstChild.nodeType,
-                      text: null,
-                      childTextNode: true
-                    }];
+                    if (!firstChild) {
+                      firstChild =
+                        Array.prototype.filter.call(child.content.childNodes, function (templateChild) {
+                          switch (templateChild.nodeType) {
+                          case templateChild.COMMENT_NODE:
+                            return false;
+                          default:
+                            return true;
+                          }
+                        }).shift();
+                    }
+                    if (firstChild) {
+                      return [{
+                        node: firstChild,
+                        templateNode: child,
+                        type: firstChild.nodeType,
+                        text: null,
+                        childTextNode: true
+                      }];
+                    }
+                    else {
+                      return [];
+                    }
                   }
                   else {
                     return [{
@@ -1858,32 +1877,17 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             messageId = this._generateMessageId(path, id);
             templateTextParams = Array.prototype.map.call(
               [ node ], function (child) {
-                /* node is always TEXT_NODE */
-                /* istanbul ignore else */
-                if (child.nodeType === child.TEXT_NODE &&
-                    this._hasAnnotatedText(child.textContent)) {
-                  return this._compoundAnnotationToSpan(child)
-                    .map(function (_child) {
-                      return {
-                        node: _child,
-                        type: _child.nodeType,
-                        text: _child.nodeType === _child.TEXT_NODE ? 
-                                _child.textContent : null,
-                        childTextNode: _child.nodeType === _child.ELEMENT_NODE &&
-                                       _child.childNodes.length > 0
-                      };
-                    });
-                }
-                else {
-                  return [{
-                    node: child,
-                    type: child.nodeType,
-                    text: child.nodeType === child.TEXT_NODE ? 
-                            child.textContent : null,
-                    childTextNode: child.nodeType === child.ELEMENT_NODE &&
-                                   child.childNodes.length > 0
-                  }];
-                }
+                return this._compoundAnnotationToSpan(child)
+                  .map(function (_child) {
+                    return {
+                      node: _child,
+                      type: _child.nodeType,
+                      text: _child.nodeType === _child.TEXT_NODE ? 
+                              _child.textContent : null,
+                      childTextNode: _child.nodeType === _child.ELEMENT_NODE &&
+                                     _child.childNodes.length > 0
+                    };
+                  });
               }.bind(this)).reduce(function (prev, currentList) {
                 var current;
                 for (var i = 0; i < currentList.length; i++) {
@@ -1898,38 +1902,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                     this._traverseAttributes(current.node, path, bundle);
                     path.pop();
                     /* current.childTextNode is always true since current.node is <span>{{annotation}}</span> */
-                    /* istanbul ignore else */
-                    if (current.childTextNode) {
-                      var textContent = current.node.textContent;
-                      /* textContent is always {{annotation}} */
-                      /* istanbul ignore if */
-                      if (textContent.length === 0) {
-                        // tag without textContent
-                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                        current.node.textContent = '';
-                      }
-                      /* textContent is always {{annotation}} */
-                      /* istanbul ignore if */
-                      else if (textContent.match(/^\s*$/g)) {
-                        // tag with whitespace textContent
-                        prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                        current.node.textContent = ' ';
-                      }
-                      /* textContent is always {{annotation}} */
-                      /* istanbul ignore else */
-                      else if (textContent.match(/^({{.*}}|\[\[.*\]\])$/)) {
-                        // tag with annotation
-                        prev.text.push(textContent);
-                        // textContent is untouched
-                      }
-                      else {
-                        prev.text.push(current.node.textContent.replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' '));
-                        current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
-                      }
-                    }
-                    else {
-                      prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
-                    }
+                    prev.text.push(current.node.textContent);
                     current.node.setAttribute('param', n.toString());
                     prev.params.push(current.node);
                   }
@@ -2019,6 +1992,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      */
     _compoundAnnotationToSpan: function (node) {
       var result;
+      /* istanbul ignore else: node is prechecked to contain annotation(s) */
       if (node.textContent.match(/({{[^{}]*}}|\[\[[^\[\]]*\]\])/)) {
         result = node.textContent
           .match(/({{[^{}]*}}|\[\[[^\[\]]*\]\]|[^{}\[\]]{1,}|[{}\[\]]{1,})/g)

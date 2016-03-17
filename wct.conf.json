@@ -1,14 +1,21 @@
 {
   "plugins": {
     "local": {
-      "browsers": [
-        "chrome",
-        "firefox"
-      ]
+      "browsers": []
     },
     "sauce": {
       "disabled": false,
       "browsers": [
+        {
+          "browserName":  "chrome",
+          "platform":     "Windows 10",
+          "version":      ""
+        },
+        {
+          "browserName":  "firefox",
+          "platform":     "Windows 10",
+          "version":      ""
+        },
         {
           "browserName":  "microsoftedge",
           "platform":     "Windows 10",
@@ -20,11 +27,6 @@
           "version":      "11"
         },
         {
-          "browserName":  "internet explorer",
-          "platform":     "Windows 7",
-          "version":      "10"
-        },
-        {
           "browserName":  "safari",
           "platform":     "OS X 10.11",
           "version":      "9"
@@ -33,11 +35,6 @@
           "browserName":  "safari",
           "platform":     "OS X 10.10",
           "version":      "8"
-        },
-        {
-          "browserName":  "safari",
-          "platform":     "OS X 10.9",
-          "version":      "7"
         }
       ]
     },

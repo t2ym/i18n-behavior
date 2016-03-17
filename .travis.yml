@@ -21,14 +21,13 @@ addons:
   firefox: latest
   apt:
     sources:
-      - google-chrome
       - ubuntu-toolchain-r-test
     packages:
-      - google-chrome-stable
       - g++-4.8
   sauce_connect: true
 script:
-  - xvfb-run gulp test:local
-  - cp -vf non-ie10.wct.conf.json wct.conf.json
-  - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then gulp test:remote; fi
-  - cat test/coverage-report/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - cp -vf nocoverage.wct.conf.json wct.conf.json
+  - cp -vf test/index-src-preprocess.html test/index.html
+  - # xvfb-run gulp test:local
+  - xvfb-run gulp test:remote
+  - # cat test/coverage-report/lcov.info | ./node_modules/coveralls/bin/coveralls.js

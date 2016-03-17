@@ -1,14 +1,21 @@
 {
   "plugins": {
     "local": {
-      "browsers": [
-        "chrome",
-        "firefox"
-      ]
+      "browsers": []
     },
     "sauce": {
       "disabled": false,
       "browsers": [
+        {
+          "browserName":  "chrome",
+          "platform":     "Windows 10",
+          "version":      ""
+        },
+        {
+          "browserName":  "firefox",
+          "platform":     "Windows 10",
+          "version":      ""
+        },
         {
           "browserName":  "microsoftedge",
           "platform":     "Windows 10",
@@ -28,25 +35,7 @@
           "browserName":  "safari",
           "platform":     "OS X 10.10",
           "version":      "8"
-        },
-        {
-          "browserName":  "safari",
-          "platform":     "OS X 10.9",
-          "version":      "7"
         }
-      ]
-    },
-    "istanbul": {
-      "dir": "test/coverage-report",
-      "reporters": ["text-summary", "lcov"],
-      "include": [
-        "**/i18n-behavior.html",
-        "**/i18n-attr-repo.html",
-        "**/i18n-preference.html"
-      ],
-      "exclude": [
-        "/bower_components/**/*",
-        "/test/**/*"
       ]
     }
   }

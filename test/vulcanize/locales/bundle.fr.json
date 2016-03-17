@@ -545,12 +545,14 @@
     },
     "model": {},
     "item-update": [
-      "fr updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ",
+      "fr updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello\n      \n      {6}\n      {7} ",
       "{{text.updated}}",
       "  {{item.name}}  ",
       "fr IF CONTENT",
       "fr abc",
-      "fr IF CONTENT 2"
+      "fr IF CONTENT 2",
+      "<template>",
+      "{{text.updated}}"
     ],
     "item-update2:text": [
       "fr updated: {1}, by: ",

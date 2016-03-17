@@ -1,12 +1,14 @@
 {
   "model": {},
   "item-update": [
-    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ",
+    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello\n      \n      {6}\n      {7} ",
     "{{text.updated}}",
     "  {{item.name}}  ",
     "IF CONTENT",
     "abc",
-    "IF CONTENT 2"
+    "IF CONTENT 2",
+    "<template>",
+    "{{text.updated}}"
   ],
   "item-update2:text": [
     "updated: {1}, by: ",
