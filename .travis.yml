@@ -25,10 +25,8 @@ addons:
       - g++-4.8
   sauce_connect: true
 script:
+  - xvfb-run gulp test:local
+  - cat test/coverage-report/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - # cp -vf test/index-src-preprocess.html test/index.html
   - cp -vf nocoverage.wct.conf.json wct.conf.json
-  - cp -vf test/index-src-preprocess.html test/index.html
-  - gulp pretest
-  - xvfb-run wct
-  - # xvfb-run gulp test:local
-  - # xvfb-run gulp test:remote
-  - # cat test/coverage-report/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - gulp test:remote
