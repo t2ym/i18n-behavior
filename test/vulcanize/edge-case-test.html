@@ -321,6 +321,8 @@ function suitesRunner (suites) {
       var noProperties;
       var lang = params.assign && params.assign.lang ? params.assign.lang : 'en';
       var event = params.event ? params.event : 'lang-updated';
+      var timeout = params.timeout || 10000;
+      this.timeout(timeout);
 
       (params.setup ? setup : suiteSetup)(function () {
         el = setupFixture(params, params.fixtureModel);
@@ -14496,6 +14498,7 @@ suite('I18nBehavior with ' +
       effectiveLang: lang2
     }),
     s(lang7 + ' fallback', 'advanced binding element 4', {
+      timeout: 60000,
       assign: { lang: lang7 },
       lang: lang0,
       effectiveLang: lang0
