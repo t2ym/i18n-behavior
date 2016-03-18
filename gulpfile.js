@@ -227,24 +227,5 @@ gulp.task('pretest', ['clean'], function(cb) {
     cb);
 });
 
-gulp.task('rebuild', ['clean'], function(cb) {
-  runSequence(
-    'scan',
-    'preprocess',
-    'leverage',
-    'attributes-repository',
-    'clone',
-    'vulcanize',
-    'clean-clone',
-    'bundles',
-    'bundle-ru',
-    'minify',
-    'mini-bundles',
-    /*
-    'feedback',
-    */
-    cb);
-});
-
 require('web-component-tester').gulp.init(gulp, [ 'pretest' ]);
 
