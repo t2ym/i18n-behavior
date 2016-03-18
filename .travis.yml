@@ -26,8 +26,5 @@ addons:
       - g++-4.8
   sauce_connect: true
 script:
-  - cp -vf test/plugin.js node_modules/web-component-tester-istanbul/lib/plugin.js
-  - # cp -vf coverage.wct.conf.json wct.conf.json
+  - cp -vf test/patched-web-component-tester-istanbul-0.10.0-plugin.js node_modules/web-component-tester-istanbul/lib/plugin.js
   - wct && ./node_modules/coveralls/bin/coveralls.js <./test/coverage-report/lcov.info
-  - # cp -vf nocoverage.wct.conf.json wct.conf.json
-  - # wct
