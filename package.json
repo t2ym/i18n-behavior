@@ -46,6 +46,6 @@
     "merge-stream": "^1.0.0",
     "run-sequence": "^1.1.5",
     "web-component-tester": "^4.2.2",
-    "web-component-tester-istanbul": "^0.10.0"
+    "web-component-tester-istanbul": "0.10.0"
   }
 }
