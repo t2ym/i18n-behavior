@@ -95,6 +95,12 @@ gulp.task('attributes-repository', function (callback) {
   callback();
 });
 
+gulp.task('preprocess-raw', function () {
+  return gulp.src([ 'test/preprocess/**/*' ])
+    //.pipe(debug())
+    .pipe(gulp.dest('test/preprocess-raw'));
+});
+
 gulp.task('clone', function () {
   return gulp.src([ '*.html', 'test/preprocess/**/*' ], { base: '.' })
     //.pipe(debug())
@@ -203,8 +209,9 @@ gulp.task('pretest', ['clean'], function(cb) {
     'scan',
     'preprocess',
     'leverage',
-    'empty-ja',
     'attributes-repository',
+    'preprocess-raw',
+    'empty-ja',
     'clone',
     'vulcanize',
     'clean-clone',
