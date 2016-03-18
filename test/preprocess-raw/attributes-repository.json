@@ -1,0 +1,52 @@
+{
+  "input": {
+    "placeholder": true
+  },
+  "any-elements": {
+    "title": true,
+    "aria-label": "$",
+    "aria-valuetext": "$"
+  },
+  "paper-input": {
+    "label": true,
+    "error-message": true,
+    "placeholder": true
+  },
+  "paper-textarea": {
+    "label": true,
+    "error-message": true,
+    "placeholder": true
+  },
+  "paper-dropdown-menu": {
+    "label": true
+  },
+  "paper-toast": {
+    "text": true
+  },
+  "paper-badge": {
+    "label": true
+  },
+  "google-chart": {
+    "options": true,
+    "cols": true,
+    "rows": true,
+    "data": true
+  },
+  "google-signin": {
+    "label-signin": true,
+    "label-signout": true,
+    "label-additional": true
+  },
+  "platinum-push-messaging": {
+    "title": true,
+    "message": true
+  },
+  "json-data": {
+    "any-attributes": true
+  },
+  "text-attribute-element": {
+    "custom-text-attr1": true,
+    "custom-text-attr2": true,
+    "custom-text-attr3": true
+  }
+}
