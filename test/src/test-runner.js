@@ -294,6 +294,8 @@ function suitesRunner (suites) {
       var noProperties;
       var lang = params.assign && params.assign.lang ? params.assign.lang : 'en';
       var event = params.event ? params.event : 'lang-updated';
+      var timeout = params.timeout || 10000;
+      this.timeout(timeout);
 
       (params.setup ? setup : suiteSetup)(function () {
         el = setupFixture(params, params.fixtureModel);
