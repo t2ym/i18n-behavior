@@ -497,6 +497,7 @@ suite('I18nBehavior with ' +
       effectiveLang: lang2
     }),
     s(lang7 + ' fallback', 'advanced binding element 4', {
+      timeout: 60000,
       assign: { lang: lang7 },
       lang: lang0,
       effectiveLang: lang0
