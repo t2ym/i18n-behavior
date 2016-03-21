@@ -2241,6 +2241,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     },
 
     /**
+     * Lifecycle callback on instance creation
+     */
+    created: function () {
+      // Fix #34. [Polymer 1.4.0] _propertyEffects have to be maintained per instance
+      if (this.is === 'i18n-dom-bind') {
+        this._propertyEffects = deepcopy(this._propertyEffects);
+      }
+    },
+
+    /**
      * Lifecycle callback when the template children are ready.
      */
     ready: function () {
@@ -2262,6 +2272,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         }
         this._onDomChangeBindThis = this._onDomChange.bind(this);
         this.addEventListener('dom-change', this._onDomChangeBindThis);
+        // Fix #34. [Polymer 1.4.0] Supply an empty object if this.__data__ is undefined
+        this.__data__ = this.__data__ || Object.create(null);
       }
       else {
         // model per instance
@@ -2286,9 +2298,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     _onDomChange: function () {
       // Fix #16: [IE11][Polymer 1.3.0] On IE11, i18n-dom-bind does not work with Polymer 1.3.0
       // Patch the broken lang property accessors manually if it is missing
-      if (this._propertyEffects.lang &&
-          !Object.getOwnPropertyDescriptor(this, 'lang')) {
-        Polymer.Bind._createAccessors(this, 'lang', this._propertyEffects.lang);
+      // Fix #34: [IE11][Polymer 1.4.0] Create missing property accessors including lang
+      for (var p in this._propertyEffects) {
+        if (this._propertyEffects[p] &&
+            !Object.getOwnPropertyDescriptor(this, p)) {
+          console.log('_onDomChange: patching accessors for ' + p);
+          Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
+        }
       }
       this.removeEventListener('dom-change', this._onDomChangeBindThis);
       if (this.text && this.text.model) {
