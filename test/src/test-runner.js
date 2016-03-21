@@ -227,12 +227,27 @@ function setupFixture (params, fixtureModel) {
         node.classList.remove('running-test');
       }
     });
-    for (var p in fixtureModel) {
-      e[p] = fixtureModel[p];
-    }
-    e.params = params;
-    e.render();
-    return e;
+    return new Promise(function (resolve, reject) {
+      e.addEventListener('dom-change', function setupFixtureDomChange (ev) {
+        if (Polymer.dom(ev).rootTarget === e) {
+          e.removeEventListener('dom-change', setupFixtureDomChange);
+          try {
+            for (var p in fixtureModel) {
+              e[p] = fixtureModel[p];
+            }
+            e.params = params;
+            e.render();
+            resolve(e);
+          }
+          catch (ex) {
+            reject(ex);
+          }
+        }
+      });
+      if (e._children) {
+        e.render();
+      }
+    });
   }
   else {
     e.classList.add('running-test');
@@ -241,7 +256,16 @@ function setupFixture (params, fixtureModel) {
         node.classList.remove('running-test');
       }
     });
-    return fixture(fixtureName, fixtureModel);
+    return new Promise(function (resolve, reject) {
+      var element = fixture(fixtureName, fixtureModel);
+      if (element) {
+        resolve(element);
+      }
+      else {
+        reject(new Error('setupFixture returns null for ' +
+                          fixtureName + ' ' + JSON.stringify(fixtureModel,null,2)));
+      }
+    });
   }
 }
 
@@ -298,30 +322,35 @@ function suitesRunner (suites) {
       this.timeout(timeout);
 
       (params.setup ? setup : suiteSetup)(function () {
-        el = setupFixture(params, params.fixtureModel);
-        return new Promise(function (resolve, reject) {
-          if (params &&
-              (params.event || 
-              params.assign && (params.assign.lang || params.assign['html.lang']))) {
-            el.addEventListener(event, function fixtureSetup (e) {
-              if (el === Polymer.dom(e).rootTarget &&
-                  el.lang === params.lang &&
-                  el.effectiveLang === params.effectiveLang) {
-                el.removeEventListener(event, fixtureSetup);
-                resolve(el);
+        return setupFixture(params, params.fixtureModel)
+          .then(function (element) {
+            el = element;
+            return new Promise(function (resolve, reject) {
+              if (params &&
+                  (params.event ||
+                  params.assign && (params.assign.lang || params.assign['html.lang']))) {
+                el.addEventListener(event, function fixtureSetup (e) {
+                  if (el === Polymer.dom(e).rootTarget &&
+                      el.lang === params.lang &&
+                      el.effectiveLang === params.effectiveLang) {
+                    el.removeEventListener(event, fixtureSetup);
+                    resolve(el);
+                  }
+                  else {
+                    console.log(params.suite + ' skipping uninteresting event ' + event +
+                      ' "' + el.lang + '" "' + params.lang + '" "' + el.effectiveLang + '" "' + params.effectiveLang + '"');
+                  }
+                });
+                updateProperty(el, params.assign);
               }
               else {
-                console.log(params.suite + ' skipping uninteresting event ' + event + 
-                  ' "' + el.lang + '" "' + params.lang + '" "' + el.effectiveLang + '" "' + params.effectiveLang + '"');
+                updateProperty(el, params.assign);
+                resolve(el);
               }
             });
-            updateProperty(el, params.assign);
-          }
-          else {
-            updateProperty(el, params.assign);
-            resolve(el);
-          }
-        });
+          }, function (error) {
+            throw new Error(error);
+          });
       });
 
       test('{lang, effectiveLang, templateDefaultLang, observeHtmlLang' +
