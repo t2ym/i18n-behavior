@@ -91,7 +91,7 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
       }
       else {
         if (!html.hasAttribute('preferred')) {
-          html.setAttribute('lang', navigator.language);
+          html.setAttribute('lang', navigator.language || navigator.browserLanguage);
         }
       }
     },
@@ -118,7 +118,7 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
               this.$.storage.value = html.getAttribute('lang');
             }
             else {
-              this.$.storage.value = navigator.language;
+              this.$.storage.value = navigator.language || navigator.browserLanguage;
               if (html.getAttribute('lang') !== this.$.storage.value) {
                 html.setAttribute('lang', this.$.storage.value);
               }
