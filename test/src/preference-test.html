@@ -57,8 +57,8 @@ suite('I18nBehavior with ' +
   var lang8 = 'zh-CN';
   var lang9 = 'zh-TW';
   var lang10 = 'zh-Hans-CN-x-Linux';
-  var navigatorLanguage = navigator.language;
-  var isNavigatorLanguageEn = navigator.language.match(/^en/);
+  var navigatorLanguage = navigator.language || navigator.browserLanguage;
+  var isNavigatorLanguageEn = navigatorLanguage.match(/^en/);
 
   var suites = [
     s('preference', null, {
