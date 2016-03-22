@@ -1349,26 +1349,31 @@ suite('I18nBehavior with ' +
       effectiveLang: lang2
     }),
     s(lang4 + ' simple text default with fallback to ' + lang2, 'simple text default', {
+      timeout: 60000,
       assign: { lang: lang4 },
       lang: lang2,
       effectiveLang: lang2
     }),
     s(lang4 + ' simple text with fallback to ' + lang2, 'simple text', {
+      timeout: 60000,
       assign: { lang: lang4 },
       lang: lang2,
       effectiveLang: lang2
     }),
     s(lang5 + ' simple text with fallback to default', 'simple text', {
+      timeout: 60000,
       assign: { lang: lang5 },
       lang: lang0,
       effectiveLang: lang0
     }),
     s(lang3 + ' simple text with fallback to default', 'simple text', {
+      timeout: 60000,
       assign: { lang: lang3 },
       lang: lang0,
       effectiveLang: lang0
     }),
     s(lang4 + ' fallback text', 'simple text', {
+      timeout: 60000,
       fixture: 'fallback-text-element-fixture', 
       assign: { lang: lang4 },
       lang: lang4,
