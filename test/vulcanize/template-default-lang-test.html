@@ -345,7 +345,7 @@ function suitesRunner (suites) {
       var noProperties;
       var lang = params.assign && params.assign.lang ? params.assign.lang : 'en';
       var event = params.event ? params.event : 'lang-updated';
-      var timeout = params.timeout || 10000;
+      var timeout = params.timeout || 30000;
       this.timeout(timeout);
 
       (params.setup ? setup : suiteSetup)(function () {
@@ -10511,7 +10511,7 @@ Polymer({
       }
       else {
         if (!html.hasAttribute('preferred')) {
-          html.setAttribute('lang', navigator.language);
+          html.setAttribute('lang', navigator.language || navigator.browserLanguage);
         }
       }
     },
@@ -10538,7 +10538,7 @@ Polymer({
               this.$.storage.value = html.getAttribute('lang');
             }
             else {
-              this.$.storage.value = navigator.language;
+              this.$.storage.value = navigator.language || navigator.browserLanguage;
               if (html.getAttribute('lang') !== this.$.storage.value) {
                 html.setAttribute('lang', this.$.storage.value);
               }
@@ -13095,6 +13095,13 @@ Polymer({
      * attached lifecycle callback.
      */
     attached: function () {
+      if (this.is === 'i18n-dom-bind') {
+        if (this._properties) {
+          // Fix #35. [IE10] Restore properties for use in rendering
+          this.properties = this._properties;
+          delete this._properties;
+        }
+      }
       if (this.observeHtmlLang) {
         this.lang = html.lang;
         // TODO: this call is redundant
@@ -13112,7 +13119,6 @@ Polymer({
       for (var p in this._propertyEffects) {
         if (this._propertyEffects[p] &&
             !Object.getOwnPropertyDescriptor(this, p)) {
-          console.log('_onDomChange: patching accessors for ' + p);
           Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
         }
       }
@@ -13148,6 +13154,8 @@ Polymer({
    * @group I18nBehavior
    * @element i18n-dom-bind
    */
+  var i18nBehaviorDomBind = {};
+  Polymer.Base.extend(i18nBehaviorDomBind, BehaviorsStore.I18nBehavior);
   var i18nDomBind = {};
   var domBind = document.createElement('template', 'dom-bind');
   var domBindProto = Object.getPrototypeOf(domBind);
@@ -13156,13 +13164,19 @@ Polymer({
   }
   Polymer.Base.extend(i18nDomBind, domBindProto);
   i18nDomBind.is = 'i18n-dom-bind';
+  if (!navigator.language && navigator.browserLanguage) { // Detect IE10
+    // Fix #35. [IE10] Hide properties until attached phase in IE10
+    // to avoid exceptions in overriding unconfigurable properties in Object.defineProperty
+    i18nBehaviorDomBind._properties = i18nBehaviorDomBind.properties;
+    i18nBehaviorDomBind.properties = Object.create(null);
+  }
   /* As of Polymer 1.3.1, dom-bind does not have predefined behaviors */
   /* istanbul ignore if */
   if (i18nDomBind.behaviors) {
-    i18nDomBind.behaviors.push(BehavirosStore.I18nBehavior);
+    i18nDomBind.behaviors.push(i18nBehaviorDomBind);
   }
   else {
-    i18nDomBind.behaviors = [ BehaviorsStore.I18nBehavior ];
+    i18nDomBind.behaviors = [ i18nBehaviorDomBind ];
   }
   var _Polymer = Polymer;
   _Polymer(i18nDomBind);
@@ -13685,11 +13699,13 @@ suite('I18nBehavior with ' +
       lightDOM: undefined
     }),
     s(lang6 + ' template default lang element', 'template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang6 },
       lang: lang0,
       effectiveLang: lang0
     }),
     s(lang5 + ' template default lang element', 'template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang5 },
       lang: lang5,
       effectiveLang: lang5,
@@ -13709,16 +13725,19 @@ suite('I18nBehavior with ' +
       lightDOM: undefined
     }),
     s(lang6 + ' null template default lang element', 'null template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang6 },
       lang: lang0,
       effectiveLang: lang0
     }),
     s(lang5 + ' null template default lang element', 'null template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang5 },
       lang: lang5,
       effectiveLang: lang5
     }),
     s(lang3 + ' null template default lang element', 'null template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang3 },
       lang: lang0,
       effectiveLang: lang0
