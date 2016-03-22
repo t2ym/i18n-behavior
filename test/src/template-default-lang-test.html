@@ -317,11 +317,13 @@ suite('I18nBehavior with ' +
       lightDOM: undefined
     }),
     s(lang6 + ' template default lang element', 'template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang6 },
       lang: lang0,
       effectiveLang: lang0
     }),
     s(lang5 + ' template default lang element', 'template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang5 },
       lang: lang5,
       effectiveLang: lang5,
@@ -341,16 +343,19 @@ suite('I18nBehavior with ' +
       lightDOM: undefined
     }),
     s(lang6 + ' null template default lang element', 'null template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang6 },
       lang: lang0,
       effectiveLang: lang0
     }),
     s(lang5 + ' null template default lang element', 'null template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang5 },
       lang: lang5,
       effectiveLang: lang5
     }),
     s(lang3 + ' null template default lang element', 'null template default lang element', { 
+      timeout: 60000,
       assign: { lang: lang3 },
       lang: lang0,
       effectiveLang: lang0
