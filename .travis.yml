@@ -26,6 +26,4 @@ addons:
       - g++-4.8
   sauce_connect: true
 script:
-  - cp -vf test/patched-web-component-tester-istanbul-0.10.0-plugin.js node_modules/web-component-tester-istanbul/lib/plugin.js
-  - cp -vf travis.wct.conf.json wct.conf.json
   - wct && if [ "${TRAVIS_BRANCH}" != "master" ]; then ./node_modules/coveralls/bin/coveralls.js <./test/coverage-report/lcov.info; fi
