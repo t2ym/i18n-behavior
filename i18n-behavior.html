@@ -17,6 +17,19 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   'use strict';
 
   var html = document.querySelector('html');
+  if (window.ShadowDOMPolyfill) {
+    // Fix #38. Add reflectToAttribute effect on html.lang property
+    // for supplementing Shadow DOM MutationObserver polyfill
+    Object.defineProperty(html, 'lang', {
+      get: function () {
+        return this.getAttribute('lang');
+      },
+      set: function (value) {
+        this.setAttribute('lang', value);
+      }
+    });
+  }
+
   // app global bundle storage
   var bundles = { '': {} }; // with an empty default bundle
   // app global default language
