@@ -1,0 +1,139 @@
+<!--
+@license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+-->
+<link rel="import" href="../../../i18n-behavior.html">
+
+<dom-module id="complex-compound-binding-element">
+  <template>
+    <h5 id="item-update">updated: {{text.updated}}, by: 
+      <template is="dom-repeat" items="{{text.authors}}"><!-- comment node -->
+        <span>  {{item.name}}  </span>
+      </template>
+      xxx
+      <template is="dom-if" if="true">
+        <b>IF CONTENT</b>
+      </template>
+      <b>abc</b>
+      <template is="dom-if" if="true">IF CONTENT 2</template>
+      hello
+      <template is="dom-if" if="true"></template>
+      <template is="dom-if" if="true"> <!-- comment --></template>
+      <template is="dom-if" if="true">{{text.updated}}</template>
+    </h5>
+    <h5 id="item-update2">updated: {{text.updated}}, by: 
+      <template is="dom-repeat" items="{{text.authors}}">
+        {{item.name}}
+      </template>
+      xxx
+      <template is="dom-if" if="true">
+        <span><b>IF CONTENT</b></span>
+      </template>
+      <b>abc</b>
+      <template is="dom-if" if="true">IF CONTENT 2</template>
+      hello
+    </h5>
+    <h5 id="item-update3">updated: {{text.updated}}, by: 
+      <template is="dom-repeat" items="{{text.authors}}">
+        {{item.name}}
+      </template>
+      xxx
+      <template is="dom-if" if="true">
+        <b>IF</b><b>CONTENT</b>
+      </template>
+      <b>abc</b>
+      <template is="dom-if" if="true">IF CONTENT 2</template>
+      hello
+    </h5>
+    <h5 id="item-update4">updated: {{text.updated}}, by: 
+      <template is="dom-repeat" items="{{text.authors}}">
+        {{item.name}} = {{text.updated}}
+      </template>
+      xxx
+      <template is="dom-if" if="true">
+        <b>IF CONTENT</b>
+      </template>
+      <b>abc</b>
+      <template is="dom-if" if="true">IF CONTENT 2</template>
+      hello
+    </h5>
+    <p id="paragraph">A paragraph with 
+      <template is="dom-repeat" items="{{text.parameters}}">
+        <i>{{item}} </i>
+      </template>
+      is converted to 
+      <code>&lt;i18n-format&gt;</code>.
+    </p>
+    <p id="paragraph2">A paragraph with deep 
+      <template is="dom-repeat" items="{{text.parameters}}">
+        <span><i>{{item}}</i> </span>
+      </template>
+      is <b>not</b> converted to 
+      <code>&lt;i18n-format&gt;</code>.
+      <template is="dom-if" if="false"></template>
+      <template is="dom-if" if="false">  </template>
+      <template is="dom-if" if="false">{{text.updated}}</template>
+    </p>
+    <template>
+      <json-data id="authors">[
+        { "name": "Joe" }, { "name": "Alice" }
+      ]</json-data>
+      <span id="updated">Jan 1st, 2016</span>
+      <json-data id="parameters">[
+        "parameter 1", "parameter 2"
+      ]</json-data>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'complex-compound-binding-element',
+
+      behaviors: [
+        BehaviorsStore.I18nBehavior
+      ],
+
+      properties: {
+      },
+
+      observers: [
+      ],
+
+      listeners: {
+        'lang-updated': '_langUpdated'
+      },
+
+      ready: function () {
+        //this.observeHtmlLang = false;
+      },
+
+      attached: function () {
+        this._isAttached = true;
+      },
+
+      detached: function () {
+        this._isAttached = false;
+      },
+
+      _langUpdated: function (e) {
+        if (this._isAttached &&
+            Polymer.dom(e).rootTarget === this &&
+            this.effectiveLang === this.lang) {
+          this.model = deepcopy(this.text.model);
+          /*
+          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]'),
+            function (node) {
+              node.render();
+            }
+          );
+          */
+          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]'),
+            function (node) {
+              node.render();
+            }
+          );
+          this.fire('local-dom-ready');
+        }
+      }
+    });
+  </script>
+</dom-module>
