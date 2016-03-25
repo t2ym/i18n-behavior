@@ -318,7 +318,8 @@ function suitesRunner (suites) {
       var noProperties;
       var lang = params.assign && params.assign.lang ? params.assign.lang : 'en';
       var event = params.event ? params.event : 'lang-updated';
-      var timeout = params.timeout || 60000;
+      var defTimeout = 120000;
+      var timeout = params.timeout ? (params.timeout < defTimeout ? defTimeout : params.timeout) : defTimeout;
       this.timeout(timeout);
 
       (params.setup ? setup : suiteSetup)(function () {
