@@ -15815,26 +15815,6 @@ if (!window.Promise) {
     */
 
     /**
-     * MutationObserver callback of `lang` attribute for Safari 7
-     *
-     * @param {Array} mutations Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
-     */
-    _handleLangAttributeChange: function (mutations) {
-      mutations.forEach(function(mutation) {
-        switch (mutation.type) {
-        case 'attributes':
-          if (mutation.attributeName === 'lang') {
-            this._langChanged(this.lang, mutation.oldValue);
-          }
-          break;
-        default:
-          /* istanbul ignore next: mutation.type is always attributes */
-          break;
-        }
-      }, this);
-    },
-
-    /**
      * Observer of `this.lang` changes.
      *
      * Update `this.text` object if the text message bundle of the new `lang` is locally available.
@@ -17541,16 +17521,6 @@ if (!window.Promise) {
       if (this.is === 'i18n-dom-bind') {
         this._propertyEffects = deepcopy(this._propertyEffects);
       }
-      var langPropertyDescriptor = Object.getOwnPropertyDescriptor(this, 'lang');
-      if (langPropertyDescriptor && typeof langPropertyDescriptor.set !== 'function') {
-        // Fix #36. Emulate lang's observer since Safari 7 overrides lang property
-        this.observer = new MutationObserver(this._handleLangAttributeChange.bind(this));
-        this.observer.observe(this, {
-          attributes: true,
-          attributeFilter: [ 'lang' ],
-          attributeOldValue: true
-        });
-      }
     },
 
     /**
@@ -17579,19 +17549,6 @@ if (!window.Promise) {
         this.__data__ = this.__data__ || Object.create(null);
       }
       else {
-        if (!this.text) {
-          for (var p in this._propertyEffects) {
-            if (p !== 'lang') {
-              if (this._propertyEffects[p] &&
-                  !Object.getOwnPropertyDescriptor(this, p)) {
-                //console.log('ready: creating accessors for ' + p);
-                Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
-              }
-            }
-          }
-          this.__setProperty('lang', defaultLang, false);
-          this._configure();
-        }
         // model per instance
         this.model = deepcopy(this.text.model);
       }
