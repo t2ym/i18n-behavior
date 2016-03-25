@@ -39,6 +39,7 @@
     "gulp-i18n-preprocess": "^0.0.35",
     "gulp-if": "^2.0.0",
     "gulp-minify-html": "^1.0.5",
+    "gulp-replace": "^0.5.4",
     "gulp-size": "^2.0.0",
     "gulp-uglify": "^1.5.3",
     "gulp-vulcanize": "^6.1.0",

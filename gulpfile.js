@@ -17,6 +17,7 @@ const crisper = require('gulp-crisper');
 const minifyHtml = require('gulp-minify-html');
 const uglify = require('gulp-uglify');
 const vulcanize = require('gulp-vulcanize');
+const replace = require('gulp-replace');
 const i18nPreprocess = require('gulp-i18n-preprocess');
 const i18nLeverage = require('gulp-i18n-leverage');
 
@@ -27,7 +28,16 @@ var attributesRepository = {};
 var bundles = {};
 
 gulp.task('clean', function() {
-  return del(['test/preprocess', 'test/preprocess-raw', 'test/vulcanize', 'test/minify']);
+  return del([ 
+    'test/src-lite',
+    'test/preprocess',
+    'test/preprocess-lite',
+    'test/preprocess-raw',
+    'test/vulcanize',
+    'test/vulcanize-lite',
+    'test/minify',
+    'test/minify-lite'
+  ]);
 });
 
 // Scan HTMLs and construct localizable attributes repository
@@ -41,6 +51,14 @@ gulp.task('scan', function () {
       dropHtml: true // drop HTMLs
     }))
     .pipe(gulp.dest('test/preprocess')); // no outputs; dummy output path
+});
+
+gulp.task('src-lite', function () {
+  return gulp.src([ 'test/src/**/*' ])
+    .pipe(gulpif('*-test.html', 
+      replace('../webcomponentsjs/webcomponents.min.js',
+              '../webcomponentsjs/webcomponents-lite.min.js')))
+    .pipe(gulp.dest('test/src-lite'));
 });
 
 // Preprocess templates and externalize JSON
@@ -101,6 +119,14 @@ gulp.task('preprocess-raw', function () {
     .pipe(gulp.dest('test/preprocess-raw'));
 });
 
+gulp.task('preprocess-lite', function () {
+  return gulp.src([ 'test/preprocess/**/*' ])
+    .pipe(gulpif('*-test.html', 
+      replace('../webcomponentsjs/webcomponents.min.js',
+              '../webcomponentsjs/webcomponents-lite.min.js')))
+    .pipe(gulp.dest('test/preprocess-lite'));
+});
+
 gulp.task('clone', function () {
   return gulp.src([ '*.html', 'test/preprocess/**/*' ], { base: '.' })
     //.pipe(debug())
@@ -111,7 +137,8 @@ gulp.task('vulcanize', function() {
   return gulp.src(['bower_components/i18n-behavior/test/preprocess/*-test.html'])
     .pipe(vulcanize({
       excludes: [
-        'bower_components/webcomponentsjs/webcomponents.js',
+        'bower_components/webcomponentsjs/webcomponents.min.js',
+        'bower_components/webcomponentsjs/webcomponents-lite.min.js',
         'bower_components/web-component-tester/browser.js'
       ],
       stripComments: true,
@@ -126,12 +153,41 @@ gulp.task('clean-clone', function() {
   return del(['bower_components/i18n-behavior']);
 });
 
+gulp.task('clone-lite', function () {
+  return gulp.src([ '*.html', 'test/preprocess-lite/**/*' ], { base: '.' })
+    //.pipe(debug())
+    .pipe(gulp.dest('bower_components/i18n-behavior'));
+});
+
+gulp.task('vulcanize-lite', function() {
+  return gulp.src(['bower_components/i18n-behavior/test/preprocess-lite/*-test.html'])
+    .pipe(vulcanize({
+      excludes: [
+        'bower_components/webcomponentsjs/webcomponents.min.js',
+        'bower_components/webcomponentsjs/webcomponents-lite.min.js',
+        'bower_components/web-component-tester/browser.js'
+      ],
+      stripComments: true,
+      inlineCss: true,
+      inlineScripts: true
+    }))
+    .pipe(gulp.dest('test/vulcanize-lite'))
+    .pipe(size({title: 'vulcanize-lite'}));
+});
+
+gulp.task('clean-clone-lite', function() {
+  return del(['bower_components/i18n-behavior']);
+});
+
 gulp.task('bundles', function (callback) {
   var DEST_DIR = 'test' + path.sep + 'vulcanize';
+  var DEST_DIR_LITE = 'test' + path.sep + 'vulcanize-lite';
   var localesPath = DEST_DIR + path.sep + 'locales';
+  var localesPathLite = DEST_DIR_LITE + path.sep + 'locales';
 
   try {
     fs.mkdirSync(localesPath);
+    fs.mkdirSync(localesPathLite);
   }
   catch (e) {}
   for (var lang in bundles) {
@@ -139,10 +195,14 @@ gulp.task('bundles', function (callback) {
     if (lang) {
       fs.writeFileSync(localesPath + path.sep + 'bundle.' + lang + '.json', 
                         JSONstringify(bundles[lang], null, 2));
+      fs.writeFileSync(localesPathLite + path.sep + 'bundle.' + lang + '.json', 
+                        JSONstringify(bundles[lang], null, 2));
     }
     else {
       // This is not required for deployment
       fs.writeFileSync(DEST_DIR + path.sep + 'bundle.json', 
+                        JSONstringify(bundles[lang], null, 2));
+      fs.writeFileSync(DEST_DIR_LITE + path.sep + 'bundle.json', 
                         JSONstringify(bundles[lang], null, 2));
     }
   }
@@ -154,6 +214,11 @@ gulp.task('bundle-ru', function () {
     .pipe(gulp.dest('test/preprocess'));
 });
 
+gulp.task('bundle-ru-lite', function () {
+  return gulp.src(['test/vulcanize-lite/**/locales/bundle.ru.json'])
+    .pipe(gulp.dest('test/preprocess-lite'));
+});
+
 gulp.task('empty-ja', function () {
   return gulp.src(['test/src/**/locales/null-template-default-lang-element.ja.json'])
     .pipe(gulp.dest('test/preprocess'));
@@ -161,11 +226,13 @@ gulp.task('empty-ja', function () {
 
 gulp.task('empty-bundle-ja', function (done) {
   del('test/vulcanize/locales/bundle.ja.json');
+  del('test/vulcanize-lite/locales/bundle.ja.json');
   done();
 });
 
 gulp.task('empty-mini-bundle-ja', function (done) {
   del('test/minify/locales/bundle.ja.json');
+  del('test/minify-lite/locales/bundle.ja.json');
   done();
 });
 
@@ -186,18 +253,40 @@ gulp.task('minify', function() {
     .pipe(size({title: 'minify'}));
 });
 
+gulp.task('minify-lite', function() {
+  return gulp.src(['test/vulcanize-lite/**/*', '!test/vulcanize-lite/bundle.json'])
+    .pipe(gulpif('*.html', crisper({
+      scriptInHead: false
+    })))
+    .pipe(gulpif('*.html', minifyHtml({
+      quotes: true,
+      empty: true,
+      spare: true
+    })))
+    .pipe(gulpif('*.js', uglify({
+      preserveComments: 'some'
+    })))
+    .pipe(gulp.dest('test/minify-lite'))
+    .pipe(size({title: 'minify-lite'}));
+});
+
 gulp.task('mini-bundles', function (callback) {
   var DEST_DIR = 'test' + path.sep + 'minify';
+  var DEST_DIR_LITE = 'test' + path.sep + 'minify-lite';
   var localesPath = DEST_DIR + path.sep + 'locales';
+  var localesPathLite = DEST_DIR_LITE + path.sep + 'locales';
 
   try {
     fs.mkdirSync(localesPath);
+    fs.mkdirSync(localesPathLite);
   }
   catch (e) {}
   for (var lang in bundles) {
     bundles[lang].bundle = true;
     if (lang) {
       fs.writeFileSync(localesPath + path.sep + 'bundle.' + lang + '.json', 
+                        JSONstringify(bundles[lang], null, 0));
+      fs.writeFileSync(localesPathLite + path.sep + 'bundle.' + lang + '.json', 
                         JSONstringify(bundles[lang], null, 0));
     }
   }
@@ -207,18 +296,25 @@ gulp.task('mini-bundles', function (callback) {
 gulp.task('pretest', ['clean'], function(cb) {
   runSequence(
     'scan',
+    'src-lite',
     'preprocess',
     'leverage',
     'attributes-repository',
     'preprocess-raw',
     'empty-ja',
+    'preprocess-lite',
     'clone',
     'vulcanize',
     'clean-clone',
+    'clone-lite',
+    'vulcanize-lite',
+    'clean-clone-lite',
     'bundles',
     'bundle-ru',
+    'bundle-ru-lite',
     'empty-bundle-ja',
     'minify',
+    'minify-lite',
     'mini-bundles',
     'empty-mini-bundle-ja',
     /*
