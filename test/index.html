@@ -27,29 +27,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var suites = [];
       (isPropertyOverridden
         ? [ // Safari 7
-            'src',
-            'preprocess',
-            'vulcanize',
-            'minify'
-          ]
-        : ( nativeShadow
-          ? [ // Chrome, Mobile Chrome, Opera
-              'src-lite',
-              'preprocess-lite',
-              'vulcanize-lite',
-              'minify-lite'
-            ]
-          : [ // Firefox, Edge, IE 10/11, Safari 8/9, Mobile Safari
-              'src-lite',
-              'src',
-              'preprocess-lite',
-              'preprocess',
-              'vulcanize-lite',
-              'vulcanize',
-              'minify-lite',
-              'minify'
-            ]
-          )
+          'src',
+          'preprocess',
+          'vulcanize',
+          'minify'
+        ]
+        : [
+          'src-lite',
+          'preprocess-lite',
+          'vulcanize-lite',
+          'minify-lite'
+        ]
       ).forEach(function (phase) {
         (nativeShadow ? [ '', '?dom=shadow' ] : [ '' ]).forEach(function (dom) {
           [
