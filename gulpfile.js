@@ -27,7 +27,7 @@ var attributesRepository = {};
 var bundles = {};
 
 gulp.task('clean', function() {
-  return del(['test/preprocess', 'test/vulcanize', 'test/minify']);
+  return del(['test/preprocess', 'test/preprocess-raw', 'test/vulcanize', 'test/minify']);
 });
 
 // Scan HTMLs and construct localizable attributes repository
