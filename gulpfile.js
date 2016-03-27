@@ -128,7 +128,7 @@ gulp.task('preprocess-lite', function () {
 });
 
 gulp.task('clone', function () {
-  return gulp.src([ '*.html', 'test/preprocess/**/*' ], { base: '.' })
+  return gulp.src([ '*.html', '*.js', 'test/preprocess/**/*' ], { base: '.' })
     //.pipe(debug())
     .pipe(gulp.dest('bower_components/i18n-behavior'));
 });
@@ -154,7 +154,7 @@ gulp.task('clean-clone', function() {
 });
 
 gulp.task('clone-lite', function () {
-  return gulp.src([ '*.html', 'test/preprocess-lite/**/*' ], { base: '.' })
+  return gulp.src([ '*.html', '*.js', 'test/preprocess-lite/**/*' ], { base: '.' })
     //.pipe(debug())
     .pipe(gulp.dest('bower_components/i18n-behavior'));
 });
