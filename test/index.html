@@ -17,28 +17,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
       var hasShadow = Boolean(Element.prototype.createShadowRoot);
       var nativeShadow = hasShadow && !window.ShadowDOMPolyfill;
-      var langPropertyDescriptor = Object.getOwnPropertyDescriptor(unwrap(document.createElement('span')), 'lang');
-      var isPropertyOverridden = false;
-      if (langPropertyDescriptor &&
-          typeof langPropertyDescriptor.configurable === 'boolean' &&
-          !langPropertyDescriptor.configurable) {
-        isPropertyOverridden = true;
-      }
       var suites = [];
-      (isPropertyOverridden
-        ? [ // Safari 7
-          'src',
-          'preprocess',
-          'vulcanize',
-          'minify'
-        ]
-        : [
-          'src-lite',
-          'preprocess-lite',
-          'vulcanize-lite',
-          'minify-lite'
-        ]
-      ).forEach(function (phase) {
+      [
+        'src-lite',
+        'preprocess-lite',
+        'vulcanize-lite',
+        'minify-lite'
+      ].forEach(function (phase) {
         (nativeShadow ? [ '', '?dom=shadow' ] : [ '' ]).forEach(function (dom) {
           [
             'basic',
