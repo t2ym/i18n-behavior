@@ -30,6 +30,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     });
   }
 
+  // Safari 7 predefines non-configurable standard properties
+  // Note: They become configurable with ShadowDOMPolyfill, which wraps them.
+  var isStandardPropertyConfigurable = (function () {
+    var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
+    return !langPropertyDescriptor || langPropertyDescriptor.configurable;
+  })();
+  // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
+  var extraWhiteSpaceNode = !isStandardPropertyConfigurable;
+
   // app global bundle storage
   var bundles = { '': {} }; // with an empty default bundle
   // app global default language
@@ -553,6 +562,36 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       return nextFallbackLanguage ? nextFallbackLanguage : null;
     },
     */
+
+    /**
+     * MutationObserver callback of `lang` attribute for Safari 7
+     *
+     * @param {Array} mutations Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
+     */
+    _handleLangAttributeChange: function (mutations) {
+      mutations.forEach(function(mutation) {
+        switch (mutation.type) {
+        case 'attributes':
+          if (mutation.attributeName === 'lang') {
+            //console.log('_handleLangAttributeChange lang = ' + this.lang + ' oldValue = ' + mutation.oldValue +
+            //            ' typeof oldValue = ' + typeof mutation.oldValue);
+            if (!(typeof mutation.oldValue === 'object' && !mutation.oldValue) &&
+                mutation.oldValue !== this.lang) {
+              if (this._lang !== mutation.oldValue) {
+                //console.log('assigning this._lang = ' + mutation.oldValue + ' from old value');
+                this._lang = mutation.oldValue;
+              }
+              //console.log('assigning this._lang = ' + this.lang);
+              this._lang = this.lang;
+            }
+          }
+          break;
+        default:
+          /* istanbul ignore next: mutation.type is always attributes */
+          break;
+        }
+      }, this);
+    },
 
     /**
      * Observer of `this.lang` changes.
@@ -1163,6 +1202,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }
         }
         else {
+          if (extraWhiteSpaceNode) {
+            template.setAttribute('strip-whitespace', '');
+          }
           // traverse template to generate bundle
           this._traverseTemplateTree(template.content, path, bundle, 0);
         }
@@ -1521,6 +1563,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         case 'template':
           // traverse into its content
           //console.log(path.join(':') + ':' + node.content.nodeName + ':' + 0);
+          if (extraWhiteSpaceNode) {
+            //if (node.hasAttribute('is') && node.getAttribute('is').match(/^(i18n-)?dom-/)) {
+              node.setAttribute('strip-whitespace', '');
+            //}
+          }
           this._traverseTemplateTree(node.content, path, bundle, 0);
           break;
         default:
@@ -2261,6 +2308,22 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       if (this.is === 'i18n-dom-bind') {
         this._propertyEffects = deepcopy(this._propertyEffects);
       }
+      if (!isStandardPropertyConfigurable) {
+        // Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
+        if (!isStandardPropertyConfigurable) {
+          if (typeof this.getAttribute('lang') === 'object' &&
+              !this.getAttribute('lang')) {
+            //console.log('supplying defaultLang lang = ' + defaultLang);
+            //this.setAttribute('lang', defaultLang);
+          }
+        }
+        this.observer = new MutationObserver(this._handleLangAttributeChange.bind(this));
+        this.observer.observe(this, {
+          attributes: true,
+          attributeFilter: [ 'lang' ],
+          attributeOldValue: true
+        });
+      }
     },
 
     /**
@@ -2289,6 +2352,17 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         this.__data__ = this.__data__ || Object.create(null);
       }
       else {
+        if (!isStandardPropertyConfigurable) {
+          // Fix #36. Patch missing properties except for lang
+          for (var p in this._propertyEffects) {
+            if (this._propertyEffects[p] &&
+                !Object.getOwnPropertyDescriptor(this, p)) {
+              //console.log('ready: creating accessors for ' + p);
+              Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
+            }
+          }
+        }
+        this._langChanged(this.getAttribute('lang'), undefined);
         // model per instance
         this.model = deepcopy(this.text.model);
       }
@@ -2350,6 +2424,29 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       }
     }
   };
+
+  // Fix #36. Rename lang property as _lang to avoid conflict with the predefined lang property
+  if (!isStandardPropertyConfigurable) {
+    var _properties = Object.create(null);
+    for (var p in BehaviorsStore.I18nBehavior.properties) {
+      if (p === 'lang') {
+        _properties._lang = BehaviorsStore.I18nBehavior.properties.lang;
+      }
+      else {
+        _properties[p] = BehaviorsStore.I18nBehavior.properties[p];
+      }
+    }
+    BehaviorsStore.I18nBehavior.properties = _properties;
+    BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
+    BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
+    BehaviorsStore.I18nBehavior._updateEffectiveLang = function () {
+      //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
+      this.effectiveLang = this._lang;
+    };
+    BehaviorsStore.I18nBehavior.hostAttributes = {
+      'lang': defaultLang
+    };
+  }
 
   /**
    * `<template is="i18n-dom-bind">` element extends `dom-bind` template element with `I18nBehavior`
