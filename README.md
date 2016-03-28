@@ -33,12 +33,14 @@ Instant and Modular I18N for Polymer (beta for Release 0.1.0)
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/PolymerI18nFlow.gif" width="768px">
 
-### Browser Compatibility with [`webcomponents-lite.min.js`](https://github.com/webcomponents/webcomponentsjs)
+## Browser Compatibility with [`webcomponents-lite.min.js`](https://github.com/webcomponents/webcomponentsjs)
 
-| DOM       | Chrome | Firefox | Edge | IE 11 | IE 10 | Safari 9 | Safari 8 | Safari 7 | Chrome Android | Mobile Safari |
-|:----------|:-------|:--------|:-----|:------|:------|:---------|:---------|:---------|:---------------|:--------------|
-| Shady     | ✔     | ✔       | ✔    | ✔    | ✔    | ✔        | ✔        | ✔       | ✔              | ✔            |
-| Shadow    | ✔     | -       | -    | -     | -     | -        | -        | -        | ✔              | -             |
+| DOM       | Chrome* | Firefox* | Edge 13+  | IE 10+ | Safari 7+ | Chrome Android* | Mobile Safari* | Opera* |
+|:----------|:-------:|:--------:|:---------:|:------:|:---------:|:---------------:|:--------------:|:------:|
+| Shady     | ✔       | ✔       | ✔         | ✔     | ✔         | ✔              | ✔              | ✔     |
+| Shadow    | ✔       | -        | -         | -      | -         | ✔              | -              | ✔     |
+
+ * latest versions
 
 ## Install
 
