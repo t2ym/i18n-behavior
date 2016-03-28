@@ -33,6 +33,13 @@ Instant and Modular I18N for Polymer (beta for Release 0.1.0)
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/PolymerI18nFlow.gif" width="768px">
 
+### Browser Compatibility with [`webcomponents-lite.min.js`](https://github.com/webcomponents/webcomponentsjs)
+
+| DOM       | Chrome | Firefox | Edge | IE 11 | IE 10 | Safari 9 | Safari 8 | Safari 7 | Chrome Android | Mobile Safari |
+|:----------|:-------|:--------|:-----|:------|:------|:---------|:---------|:---------|:---------------|:--------------|
+| Shady     | ✔     | ✔       | ✔    | ✔    | ✔    | ✔        | ✔        | ✔       | ✔              | ✔            |
+| Shadow    | ✔     | -       | -    | -     | -     | -        | -        | -        | ✔              | -             |
+
 ## Install
 
 ```
@@ -268,16 +275,6 @@ without overheads of run-time traversal into the whole template.
 | preprocess      | full | Shady  | Extracted  | Modular              | Modular                 | HTML Embedded                |
 | vulcanize       | full | Shady  | Extracted  | Bundled              | Vulcanized              | HTML Embedded and Vulcanized |
 | minify          | full | Shady  | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Obfuscated  |
-
-### Browsers
-
-| DOM       | Chrome | Firefox | Edge | IE 11 | IE 10 | Safari 9 | Safari 8 | Safari 7 |
-|:----------|:-------|:--------|:-----|:------|:------|:---------|:---------|:---------|
-| Shady     | ✔     | ✔       | ✔    | ✔    | ✔    | ✔        | ✔        | ✔       |
-| Shadow    | ✔     | -       | -    | -     | -     | -        | -        | -       |
-
-Chrome for Android and Mobile Safari are not included in Travis CI automated tests 
-but are showing compatibility in the test suites via manual browsing.
 
 ### Notes on Test Suites
   
