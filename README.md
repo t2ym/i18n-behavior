@@ -284,7 +284,7 @@ but are showing compatibility in the test suites via manual browsing.
 - WCjs lite = `webcomponents-lite.min.js`, full = `webcomponents.min.js`
 - Both Shady DOM and Shadow DOM are tested on Chrome browser.
 - On non-Chrome browsers, ShadowDOMPolyfill from webcomponents.min.js is functional even if Polymer uses Shady DOM.
-- On non-Chrome browsers, Shadow DOM mode with ShadowDOM Polyfill is not tested and unsupported.  Polyfill may work more than 50% overheads.
+- On non-Chrome browsers, Shadow DOM mode with ShadowDOM Polyfill is not tested and unsupported.  Polyfill may work with more than 50% overheads.
 
 ### Online Test
 
