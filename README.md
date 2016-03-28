@@ -40,7 +40,7 @@ Instant and Modular I18N for Polymer (beta for Release 0.1.0)
 | Shady     | ✔       | ✔       | ✔         | ✔     | ✔         | ✔              | ✔              | ✔     |
 | Shadow    | ✔       | -        | -         | -      | -         | ✔              | -              | ✔     |
 
- * latest versions
+ `*` latest versions
 
 ## Install
 
