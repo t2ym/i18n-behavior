@@ -292,7 +292,7 @@ Available at https://t2ym.github.io/i18n-behavior/components/i18n-behavior/test/
 
 ### Rebuild Test Suites
 
-Rebuild [preprocessed](https://github.com/t2ym/gulp-i18n-preprocess) and [vulcanized](https://github.com/Polymer/vulcanize) test suites by the following commmand.
+Rebuild [preprocessed](https://github.com/t2ym/gulp-i18n-preprocess), [vulcanized](https://github.com/Polymer/vulcanize), and minified test suites by the following commmand.
 
 ```
     gulp pretest
