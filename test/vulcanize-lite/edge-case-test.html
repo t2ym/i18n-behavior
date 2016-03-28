@@ -236,6 +236,7 @@ function setupFixture (params, fixtureModel) {
       (currentPath.length >= 1 ? '/' + currentPath[currentPath.length - 1].replace(/-test[.]html$/, '') + '/': '') +
       params.suite;
   }
+  //console.log('setupFixture: suite = ' + params.suite);
   if (e.is === 'i18n-dom-bind') {
     e.parentElement.classList.add('running-test');
     Array.prototype.forEach.call(runningTest, function (node) {
@@ -246,14 +247,37 @@ function setupFixture (params, fixtureModel) {
     return new Promise(function (resolve, reject) {
       e.addEventListener('dom-change', function setupFixtureDomChange (ev) {
         if (Polymer.dom(ev).rootTarget === e) {
+          //console.log('setupFixture dom-change');
           e.removeEventListener('dom-change', setupFixtureDomChange);
           try {
-            for (var p in fixtureModel) {
-              e[p] = fixtureModel[p];
+            if (fixtureModel &&
+                typeof fixtureModel.lang === 'string' &&
+                fixtureModel.lang !== 'en') {
+              //console.log('setupFixture: waiting for lang-updated');
+              e.addEventListener('lang-updated', function setupFixtureLangDomChange (event) {
+                //console.log('setupFixtureLangDomChange');
+                if (event.target === e &&
+                    e.effectiveLang === fixtureModel.lang) {
+                  //console.log('setupFixtureLangDomChange lang = ' + event.detail.lang + ' effectiveLang = ' + e.effectiveLang);
+                  e.removeEventListener('lang-updated', setupFixtureLangDomChange);
+                  e.render();
+                  resolve(e);
+                }
+              });
+              for (var p in fixtureModel) {
+                e[p] = fixtureModel[p];
+              }
+              e.params = params;
             }
-            e.params = params;
-            e.render();
-            resolve(e);
+            else {
+              for (var p in fixtureModel) {
+                e[p] = fixtureModel[p];
+              }
+              e.params = params;
+              //console.log('setupFixture: resolving');
+              e.render();
+              resolve(e);
+            }
           }
           catch (ex) {
             reject(ex);
@@ -273,9 +297,32 @@ function setupFixture (params, fixtureModel) {
       }
     });
     return new Promise(function (resolve, reject) {
+      //console.log('setupFixture: name = ' + fixtureName + ' model = ' + JSON.stringify(fixtureModel, null, 2));
       var element = fixture(fixtureName, fixtureModel);
+      //console.log('setupFixture: name = ' + fixtureName +
+      //            ' element.lang = ' + element.lang +
+      //            ' getAttribute("lang") = ' + element.getAttribute('lang') +
+      //            ' element._lang = ' + element._lang);
       if (element) {
-        resolve(element);
+        if (fixtureModel &&
+            typeof fixtureModel.lang === 'string' &&
+            fixtureModel.lang !== 'en' &&
+            fixtureModel.lang !== element.effectiveLang) {
+          //console.log('setupFixture: waiting for lang-updated');
+          element.addEventListener('lang-updated', function setupFixtureLangUpdated (event) {
+            //console.log('setupFixtureLangUpdated');
+            if (event.target === element &&
+                element.effectiveLang === fixtureModel.lang) {
+              //console.log('setupFixtureLangUpdated lang = ' + event.detail.lang + ' effectiveLang = ' + element.effectiveLang);
+              element.removeEventListener('lang-updated', setupFixtureLangUpdated);
+              resolve(element);
+            }
+          });
+        }
+        else {
+          //console.log('setupFixture: element ready without lang-updated');
+          resolve(element);
+        }
       }
       else {
         reject(new Error('setupFixture returns null for ' +
@@ -342,7 +389,9 @@ function suitesRunner (suites) {
         return setupFixture(params, params.fixtureModel)
           .then(function (element) {
             el = element;
+            //console.log('setup: element.lang = ' + element.lang);
             return new Promise(function (resolve, reject) {
+              //console.log(params.suite, 'waiting for ' + event);
               if (params &&
                   (params.event ||
                   params.assign && (params.assign.lang || params.assign['html.lang']))) {
@@ -351,6 +400,7 @@ function suitesRunner (suites) {
                       el.lang === params.lang &&
                       el.effectiveLang === params.effectiveLang) {
                     el.removeEventListener(event, fixtureSetup);
+                    //console.log('setup: updateProperty resolving on ' + event);
                     resolve(el);
                   }
                   else {
@@ -358,9 +408,12 @@ function suitesRunner (suites) {
                       ' "' + el.lang + '" "' + params.lang + '" "' + el.effectiveLang + '" "' + params.effectiveLang + '"');
                   }
                 });
+                //console.log('setup: updateProperty ' + JSON.stringify(params.assign, null, 2));
                 updateProperty(el, params.assign);
               }
               else {
+                //console.log('setup: updateProperty ' + JSON.stringify(params.assign, null, 2));
+                //console.log('setup: updateProperty resolving without ' + event);
                 updateProperty(el, params.assign);
                 resolve(el);
               }
@@ -10830,6 +10883,15 @@ Polymer({
     });
   }
 
+  // Safari 7 predefines non-configurable standard properties
+  // Note: They become configurable with ShadowDOMPolyfill, which wraps them.
+  var isStandardPropertyConfigurable = (function () {
+    var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
+    return !langPropertyDescriptor || langPropertyDescriptor.configurable;
+  })();
+  // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
+  var extraWhiteSpaceNode = !isStandardPropertyConfigurable;
+
   // app global bundle storage
   var bundles = { '': {} }; // with an empty default bundle
   // app global default language
@@ -11353,6 +11415,36 @@ Polymer({
       return nextFallbackLanguage ? nextFallbackLanguage : null;
     },
     */
+
+    /**
+     * MutationObserver callback of `lang` attribute for Safari 7
+     *
+     * @param {Array} mutations Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
+     */
+    _handleLangAttributeChange: function (mutations) {
+      mutations.forEach(function(mutation) {
+        switch (mutation.type) {
+        case 'attributes':
+          if (mutation.attributeName === 'lang') {
+            //console.log('_handleLangAttributeChange lang = ' + this.lang + ' oldValue = ' + mutation.oldValue +
+            //            ' typeof oldValue = ' + typeof mutation.oldValue);
+            if (!(typeof mutation.oldValue === 'object' && !mutation.oldValue) &&
+                mutation.oldValue !== this.lang) {
+              if (this._lang !== mutation.oldValue) {
+                //console.log('assigning this._lang = ' + mutation.oldValue + ' from old value');
+                this._lang = mutation.oldValue;
+              }
+              //console.log('assigning this._lang = ' + this.lang);
+              this._lang = this.lang;
+            }
+          }
+          break;
+        default:
+          /* istanbul ignore next: mutation.type is always attributes */
+          break;
+        }
+      }, this);
+    },
 
     /**
      * Observer of `this.lang` changes.
@@ -11963,6 +12055,9 @@ Polymer({
           }
         }
         else {
+          if (extraWhiteSpaceNode) {
+            template.setAttribute('strip-whitespace', '');
+          }
           // traverse template to generate bundle
           this._traverseTemplateTree(template.content, path, bundle, 0);
         }
@@ -12321,6 +12416,11 @@ Polymer({
         case 'template':
           // traverse into its content
           //console.log(path.join(':') + ':' + node.content.nodeName + ':' + 0);
+          if (extraWhiteSpaceNode) {
+            //if (node.hasAttribute('is') && node.getAttribute('is').match(/^(i18n-)?dom-/)) {
+              node.setAttribute('strip-whitespace', '');
+            //}
+          }
           this._traverseTemplateTree(node.content, path, bundle, 0);
           break;
         default:
@@ -13061,6 +13161,22 @@ Polymer({
       if (this.is === 'i18n-dom-bind') {
         this._propertyEffects = deepcopy(this._propertyEffects);
       }
+      if (!isStandardPropertyConfigurable) {
+        // Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
+        if (!isStandardPropertyConfigurable) {
+          if (typeof this.getAttribute('lang') === 'object' &&
+              !this.getAttribute('lang')) {
+            //console.log('supplying defaultLang lang = ' + defaultLang);
+            //this.setAttribute('lang', defaultLang);
+          }
+        }
+        this.observer = new MutationObserver(this._handleLangAttributeChange.bind(this));
+        this.observer.observe(this, {
+          attributes: true,
+          attributeFilter: [ 'lang' ],
+          attributeOldValue: true
+        });
+      }
     },
 
     /**
@@ -13089,6 +13205,17 @@ Polymer({
         this.__data__ = this.__data__ || Object.create(null);
       }
       else {
+        if (!isStandardPropertyConfigurable) {
+          // Fix #36. Patch missing properties except for lang
+          for (var p in this._propertyEffects) {
+            if (this._propertyEffects[p] &&
+                !Object.getOwnPropertyDescriptor(this, p)) {
+              //console.log('ready: creating accessors for ' + p);
+              Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
+            }
+          }
+        }
+        this._langChanged(this.getAttribute('lang'), undefined);
         // model per instance
         this.model = deepcopy(this.text.model);
       }
@@ -13150,6 +13277,29 @@ Polymer({
       }
     }
   };
+
+  // Fix #36. Rename lang property as _lang to avoid conflict with the predefined lang property
+  if (!isStandardPropertyConfigurable) {
+    var _properties = Object.create(null);
+    for (var p in BehaviorsStore.I18nBehavior.properties) {
+      if (p === 'lang') {
+        _properties._lang = BehaviorsStore.I18nBehavior.properties.lang;
+      }
+      else {
+        _properties[p] = BehaviorsStore.I18nBehavior.properties[p];
+      }
+    }
+    BehaviorsStore.I18nBehavior.properties = _properties;
+    BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
+    BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
+    BehaviorsStore.I18nBehavior._updateEffectiveLang = function () {
+      //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
+      this.effectiveLang = this._lang;
+    };
+    BehaviorsStore.I18nBehavior.hostAttributes = {
+      'lang': defaultLang
+    };
+  }
 
   /**
    * `<template is="i18n-dom-bind">` element extends `dom-bind` template element with `I18nBehavior`
@@ -13220,11 +13370,6 @@ Polymer({
 </dom-module>
 <dom-module id="complex-compound-binding-element" assetpath="edge-case/">
   <template localizable-text="embedded">
-    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update.0}}</span><span param="1">{{text.updated}}</span><template is="dom-repeat" items="{{text.authors}}">
-        <span param="2">  {{item.name}}  </span>
-      </template><template is="dom-if" if="true">
-        <b param="3">{{text.item-update.3}}</b>
-      </template><b param="4">{{text.item-update.4}}</b><template is="dom-if" if="true"><span param="5">{{text.item-update.5}}</span></template><template is="dom-if" if="true"><span param="6"> </span></template><template is="dom-if" if="true"><span param="7">{{text.updated}}</span></template></i18n-format></h5>
     <h5 id="item-update2"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update2:text.0}}</span><span param="1">{{text.updated}}</span></i18n-format><template is="dom-repeat" items="{{text.authors}}">
         {{item.name}}
       </template>{{text.item-update2:text_2}}<template is="dom-if" if="true">
@@ -13232,6 +13377,11 @@ Polymer({
       </template>
       <b>{{text.item-update2:b_4}}</b>
       <template is="dom-if" if="true">{{text.item-update2:template_5:text}}</template>{{text.item-update2:text_6}}</h5>
+    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update.0}}</span><span param="1">{{text.updated}}</span><template is="dom-repeat" items="{{text.authors}}">
+        <span param="2">  {{item.name}}  </span>
+      </template><template is="dom-if" if="true">
+        <b param="3">{{text.item-update.3}}</b>
+      </template><b param="4">{{text.item-update.4}}</b><template is="dom-if" if="true"><span param="5">{{text.item-update.5}}</span></template><template is="dom-if" if="true"><span param="6"> </span></template><template is="dom-if" if="true"><span param="7">{{text.updated}}</span></template></i18n-format></h5>
     <h5 id="item-update3"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update3:text.0}}</span><span param="1">{{text.updated}}</span></i18n-format><template is="dom-repeat" items="{{text.authors}}">
         {{item.name}}
       </template>{{text.item-update3:text_2}}<template is="dom-if" if="true">
@@ -13263,6 +13413,15 @@ Polymer({
 {
   "meta": {},
   "model": {},
+  "item-update2:text": [
+    "updated: {1}, by: ",
+    "{{text.updated}}"
+  ],
+  "item-update2:text_2": " xxx ",
+  "item-update2:template_3:span:b": "IF CONTENT",
+  "item-update2:b_4": "abc",
+  "item-update2:template_5:text": "IF CONTENT 2",
+  "item-update2:text_6": " hello ",
   "item-update": [
     "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello\n      \n      {6}\n      {7} ",
     "{{text.updated}}",
@@ -13273,15 +13432,6 @@ Polymer({
     "&lt;template&gt;",
     "{{text.updated}}"
   ],
-  "item-update2:text": [
-    "updated: {1}, by: ",
-    "{{text.updated}}"
-  ],
-  "item-update2:text_2": " xxx ",
-  "item-update2:template_3:span:b": "IF CONTENT",
-  "item-update2:b_4": "abc",
-  "item-update2:template_5:text": "IF CONTENT 2",
-  "item-update2:text_6": " hello ",
   "item-update3:text": [
     "updated: {1}, by: ",
     "{{text.updated}}"
@@ -13354,34 +13504,116 @@ Polymer({
 
       ready: function () {
         //this.observeHtmlLang = false;
+        //console.log('complex-compound-binding-element addEventLister rendered');
+        this.addEventListener('rendered', this._rendered.bind(this));
+        this.addEventListener('dom-change', this._domChange.bind(this));
       },
 
       attached: function () {
+        //console.log('complex-compound-binding-element attached');
         this._isAttached = true;
       },
 
       detached: function () {
+        //console.log('complex-compound-binding-element detached');
         this._isAttached = false;
       },
 
       _langUpdated: function (e) {
+        //console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
         if (this._isAttached &&
             Polymer.dom(e).rootTarget === this &&
             this.effectiveLang === this.lang) {
           this.model = deepcopy(this.text.model);
-          /*
           Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]'),
             function (node) {
               node.render();
             }
           );
-          */
           Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]'),
             function (node) {
               node.render();
             }
           );
-          this.fire('local-dom-ready');
+          this._updateRenderStatus();
+          //console.log('complex-compound-binding-element renderStatus = ' + JSON.stringify(this._renderStatus));
+          if (this._renderStatus &&
+              this._renderStatus['item-update'] === this.effectiveLang &&
+              this._renderStatus['item-update2'] === this.effectiveLang &&
+              this._renderStatus['item-update3'] === this.effectiveLang &&
+              this._renderStatus['item-update4'] === this.effectiveLang &&
+              this._renderStatus['paragraph'] === this.effectiveLang) {
+            window.setTimeout(function () {
+              console.log('complex-compound-binding-element: ', this);
+              console.log('complex-compound-binding-element: local-dom-ready');
+              this.fire('local-dom-ready');
+            }.bind(this), 1);
+          }
+        }
+      },
+
+      _updateRenderStatus: function () {
+        Polymer.dom(this.root).querySelectorAll('i18n-format').forEach(function (fmt) {
+          var id = Polymer.dom(fmt).parentNode.id;
+          if (fmt.lang === this.effectiveLang &&
+              fmt.lastTemplateText) {
+            Polymer.dom(fmt.root).querySelectorAll('template[is="dom-if"]').forEach(function (node) {
+              node.render();
+            }.bind(this));
+            Polymer.dom(fmt.root).querySelectorAll('template[is="dom-repeat"]').forEach(function (node) {
+              node.render();
+            }.bind(this));
+            this._renderStatus = this._renderStatus || {};
+            this._renderStatus[id] = fmt.lang;
+          }
+        }.bind(this));
+        Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]').forEach(function (node) {
+          node.render();
+        }.bind(this));
+        Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]').forEach(function (node) {
+          node.render();
+        }.bind(this));
+      },
+
+      _rendered: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        this._renderStatus = this._renderStatus || {};
+        var id = Polymer.dom(target).parentNode.id;
+        //console.log('complex-compound-binding-element: _rendered id = ' + id + ' lang = ' + target.lang);
+        this._renderStatus[id] = target.lang;
+        this._updateRenderStatus();
+        if (this._renderStatus['item-update'] === this.effectiveLang &&
+            this._renderStatus['item-update2'] === this.effectiveLang &&
+            this._renderStatus['item-update3'] === this.effectiveLang &&
+            this._renderStatus['item-update4'] === this.effectiveLang &&
+            this._renderStatus['paragraph'] === this.effectiveLang) {
+          window.setTimeout(function () {
+            //console.log('complex-compound-binding-element: ', this);
+            //console.log('complex-compound-binding-element: local-dom-ready');
+            this.fire('local-dom-ready');
+          }.bind(this), 1);
+        }
+      },
+
+      _domChange: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        this._renderStatus = this._renderStatus || {};
+        var id = Polymer.dom(target).parentNode.id;
+        if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
+          //console.log('complex-compound-binding-element: _domChange id = ' + id + ' is = ' + target.is + ' items = ' +
+          //  (target.items ? JSON.stringify(target.items) : '') +
+          //  ' renderedItemCount = ' + target.renderedItemCount);
+        }
+        if (target.items && target.renderedItemCount === target.items.length) {
+          var i;
+          var cursor = target;
+          for (i = 0; i < target.items.length; i++) {
+            cursor = cursor.previousElementSibling ? cursor.previousElementSibling : cursor.previousSibling;
+            if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
+              //console.log('complex-compound-binding-element: _domChange: i = ' + i + ' ' + (cursor ? cursor.textContent : '') +
+              //  'itemForElement(cursor) = ', target.itemForElement(cursor) ? JSON.stringify(target.itemForElement(cursor)) : '');
+            }
+          }
         }
       }
     });
@@ -14259,19 +14491,33 @@ is separate from validation, and `allowed-pattern` does not affect how the input
       },
 
       attached: function () {
+        //console.log('advanced-binding-element: attached');
         this._isAttached = true;
+        if (this._langReady) {
+          //console.log('advanced-binding-element: local-dom-ready');
+          this.fire('local-dom-ready');
+        }
       },
 
       detached: function () {
+        //console.log('advanced-binding-element: detached');
         this._isAttached = false;
       },
 
       _langUpdated: function (e) {
-        if (this._isAttached &&
-            Polymer.dom(e).rootTarget === this &&
+        //console.log('advanced-binding-element: lang-updated lang = ' + this.lang +
+        //            ' effectiveLang = ' + this.effectiveLang +
+        //            ' attached = ' + this._isAttached);
+        if (Polymer.dom(e).rootTarget === this &&
             this.effectiveLang === this.lang) {
           this.model = deepcopy(this.text.model);
-          this.fire('local-dom-ready');
+          if (this._isAttached) {
+            //console.log('advanced-binding-element: local-dom-ready');
+            this.fire('local-dom-ready');
+          }
+          else {
+            this._langReady = true;
+          }
         }
       }
     });

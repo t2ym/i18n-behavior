@@ -5,11 +5,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
 </head><body><dom-module id="complex-compound-binding-element">
   <template localizable-text="embedded">
-    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update.0}}</span><span param="1">{{text.updated}}</span><template is="dom-repeat" items="{{text.authors}}"><!-- comment node -->
-        <span param="2">  {{item.name}}  </span>
-      </template><template is="dom-if" if="true">
-        <b param="3">{{text.item-update.3}}</b>
-      </template><b param="4">{{text.item-update.4}}</b><template is="dom-if" if="true"><span param="5">{{text.item-update.5}}</span></template><template is="dom-if" if="true"><!-- comment --><span param="6"> </span></template><template is="dom-if" if="true"><span param="7">{{text.updated}}</span></template></i18n-format></h5>
     <h5 id="item-update2"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update2:text.0}}</span><span param="1">{{text.updated}}</span></i18n-format><template is="dom-repeat" items="{{text.authors}}">
         {{item.name}}
       </template>{{text.item-update2:text_2}}<template is="dom-if" if="true">
@@ -17,6 +12,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
       <b>{{text.item-update2:b_4}}</b>
       <template is="dom-if" if="true">{{text.item-update2:template_5:text}}</template>{{text.item-update2:text_6}}</h5>
+    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update.0}}</span><span param="1">{{text.updated}}</span><template is="dom-repeat" items="{{text.authors}}"><!-- comment node -->
+        <span param="2">  {{item.name}}  </span>
+      </template><template is="dom-if" if="true">
+        <b param="3">{{text.item-update.3}}</b>
+      </template><b param="4">{{text.item-update.4}}</b><template is="dom-if" if="true"><span param="5">{{text.item-update.5}}</span></template><template is="dom-if" if="true"><!-- comment --><span param="6"> </span></template><template is="dom-if" if="true"><span param="7">{{text.updated}}</span></template></i18n-format></h5>
     <h5 id="item-update3"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update3:text.0}}</span><span param="1">{{text.updated}}</span></i18n-format><template is="dom-repeat" items="{{text.authors}}">
         {{item.name}}
       </template>{{text.item-update3:text_2}}<template is="dom-if" if="true">
@@ -48,6 +48,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 {
   "meta": {},
   "model": {},
+  "item-update2:text": [
+    "updated: {1}, by: ",
+    "{{text.updated}}"
+  ],
+  "item-update2:text_2": " xxx ",
+  "item-update2:template_3:span:b": "IF CONTENT",
+  "item-update2:b_4": "abc",
+  "item-update2:template_5:text": "IF CONTENT 2",
+  "item-update2:text_6": " hello ",
   "item-update": [
     "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello\n      \n      {6}\n      {7} ",
     "{{text.updated}}",
@@ -58,15 +67,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     "&lt;template&gt;",
     "{{text.updated}}"
   ],
-  "item-update2:text": [
-    "updated: {1}, by: ",
-    "{{text.updated}}"
-  ],
-  "item-update2:text_2": " xxx ",
-  "item-update2:template_3:span:b": "IF CONTENT",
-  "item-update2:b_4": "abc",
-  "item-update2:template_5:text": "IF CONTENT 2",
-  "item-update2:text_6": " hello ",
   "item-update3:text": [
     "updated: {1}, by: ",
     "{{text.updated}}"
@@ -139,34 +139,116 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
       ready: function () {
         //this.observeHtmlLang = false;
+        //console.log('complex-compound-binding-element addEventLister rendered');
+        this.addEventListener('rendered', this._rendered.bind(this));
+        this.addEventListener('dom-change', this._domChange.bind(this));
       },
 
       attached: function () {
+        //console.log('complex-compound-binding-element attached');
         this._isAttached = true;
       },
 
       detached: function () {
+        //console.log('complex-compound-binding-element detached');
         this._isAttached = false;
       },
 
       _langUpdated: function (e) {
+        //console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
         if (this._isAttached &&
             Polymer.dom(e).rootTarget === this &&
             this.effectiveLang === this.lang) {
           this.model = deepcopy(this.text.model);
-          /*
           Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]'),
             function (node) {
               node.render();
             }
           );
-          */
           Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]'),
             function (node) {
               node.render();
             }
           );
-          this.fire('local-dom-ready');
+          this._updateRenderStatus();
+          //console.log('complex-compound-binding-element renderStatus = ' + JSON.stringify(this._renderStatus));
+          if (this._renderStatus &&
+              this._renderStatus['item-update'] === this.effectiveLang &&
+              this._renderStatus['item-update2'] === this.effectiveLang &&
+              this._renderStatus['item-update3'] === this.effectiveLang &&
+              this._renderStatus['item-update4'] === this.effectiveLang &&
+              this._renderStatus['paragraph'] === this.effectiveLang) {
+            window.setTimeout(function () {
+              console.log('complex-compound-binding-element: ', this);
+              console.log('complex-compound-binding-element: local-dom-ready');
+              this.fire('local-dom-ready');
+            }.bind(this), 1);
+          }
+        }
+      },
+
+      _updateRenderStatus: function () {
+        Polymer.dom(this.root).querySelectorAll('i18n-format').forEach(function (fmt) {
+          var id = Polymer.dom(fmt).parentNode.id;
+          if (fmt.lang === this.effectiveLang &&
+              fmt.lastTemplateText) {
+            Polymer.dom(fmt.root).querySelectorAll('template[is="dom-if"]').forEach(function (node) {
+              node.render();
+            }.bind(this));
+            Polymer.dom(fmt.root).querySelectorAll('template[is="dom-repeat"]').forEach(function (node) {
+              node.render();
+            }.bind(this));
+            this._renderStatus = this._renderStatus || {};
+            this._renderStatus[id] = fmt.lang;
+          }
+        }.bind(this));
+        Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]').forEach(function (node) {
+          node.render();
+        }.bind(this));
+        Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]').forEach(function (node) {
+          node.render();
+        }.bind(this));
+      },
+
+      _rendered: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        this._renderStatus = this._renderStatus || {};
+        var id = Polymer.dom(target).parentNode.id;
+        //console.log('complex-compound-binding-element: _rendered id = ' + id + ' lang = ' + target.lang);
+        this._renderStatus[id] = target.lang;
+        this._updateRenderStatus();
+        if (this._renderStatus['item-update'] === this.effectiveLang &&
+            this._renderStatus['item-update2'] === this.effectiveLang &&
+            this._renderStatus['item-update3'] === this.effectiveLang &&
+            this._renderStatus['item-update4'] === this.effectiveLang &&
+            this._renderStatus['paragraph'] === this.effectiveLang) {
+          window.setTimeout(function () {
+            //console.log('complex-compound-binding-element: ', this);
+            //console.log('complex-compound-binding-element: local-dom-ready');
+            this.fire('local-dom-ready');
+          }.bind(this), 1);
+        }
+      },
+
+      _domChange: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        this._renderStatus = this._renderStatus || {};
+        var id = Polymer.dom(target).parentNode.id;
+        if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
+          //console.log('complex-compound-binding-element: _domChange id = ' + id + ' is = ' + target.is + ' items = ' +
+          //  (target.items ? JSON.stringify(target.items) : '') +
+          //  ' renderedItemCount = ' + target.renderedItemCount);
+        }
+        if (target.items && target.renderedItemCount === target.items.length) {
+          var i;
+          var cursor = target;
+          for (i = 0; i < target.items.length; i++) {
+            cursor = cursor.previousElementSibling ? cursor.previousElementSibling : cursor.previousSibling;
+            if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
+              //console.log('complex-compound-binding-element: _domChange: i = ' + i + ' ' + (cursor ? cursor.textContent : '') +
+              //  'itemForElement(cursor) = ', target.itemForElement(cursor) ? JSON.stringify(target.itemForElement(cursor)) : '');
+            }
+          }
         }
       }
     });

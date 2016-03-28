@@ -530,6 +530,15 @@
   "complex-compound-binding-element": {
     "meta": {},
     "model": {},
+    "item-update2:text": [
+      "updated: {1}, by: ",
+      "{{text.updated}}"
+    ],
+    "item-update2:text_2": " xxx ",
+    "item-update2:template_3:span:b": "IF CONTENT",
+    "item-update2:b_4": "abc",
+    "item-update2:template_5:text": "IF CONTENT 2",
+    "item-update2:text_6": " hello ",
     "item-update": [
       "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello\n      \n      {6}\n      {7} ",
       "{{text.updated}}",
@@ -540,15 +549,6 @@
       "<template>",
       "{{text.updated}}"
     ],
-    "item-update2:text": [
-      "updated: {1}, by: ",
-      "{{text.updated}}"
-    ],
-    "item-update2:text_2": " xxx ",
-    "item-update2:template_3:span:b": "IF CONTENT",
-    "item-update2:b_4": "abc",
-    "item-update2:template_5:text": "IF CONTENT 2",
-    "item-update2:text_6": " hello ",
     "item-update3:text": [
       "updated: {1}, by: ",
       "{{text.updated}}"
