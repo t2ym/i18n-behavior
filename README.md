@@ -247,12 +247,44 @@ without overheads of run-time traversal into the whole template.
 
 ### Test Suites
 
-| Test Suites      | UI Strings | L10N JSON            | HTML                    | JavaScript                   |
-|:-----------------|:-----------|:---------------------|:------------------------|:-----------------------------|
-| test/src         | Hard-coded | Modular              | Modular                 | HTML Embedded                |
-| test/preprocess  | Extracted  | Modular              | Modular                 | HTML Embedded                |
-| test/vulcanize   | Extracted  | Bundled              | Vulcanized              | HTML Embedded and Vulcanized |
-| test/minify      | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Obfuscated  |
+| Test Suites (`*-test.html`) | Description                 |
+|:----------------------------|:----------------------------|
+| basic                       | Basic functionalities       |
+| edge-case                   | Edge cases                  |
+| multiple-case               | Multiple element cases      |
+| template-default-lang       | `templateDefaultLang` tests |
+| preference                  | `i18n-preference` tests     |
+| no-persist                  | `i18n-preference` tests     |
+
+### Test on Build Phases
+
+| Build Phases    | WCjs | DOM    | UI Strings | L10N JSON            | HTML                    | JavaScript                   |
+|:----------------|:-----|:-------|:-----------|:---------------------|:------------------------|:-----------------------------|
+| src-lite        | lite | Shady  | Hard-coded | Modular              | Modular                 | HTML Embedded                |
+| preprocess-lite | lite | Shady  | Extracted  | Modular              | Modular                 | HTML Embedded                |
+| vulcanize-lite  | lite | Shady  | Extracted  | Bundled              | Vulcanized              | HTML Embedded and Vulcanized |
+| minify-lite     | lite | Shady  | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Obfuscated  |
+| src             | full | Shady  | Hard-coded | Modular              | Modular                 | HTML Embedded                |
+| preprocess      | full | Shady  | Extracted  | Modular              | Modular                 | HTML Embedded                |
+| vulcanize       | full | Shady  | Extracted  | Bundled              | Vulcanized              | HTML Embedded and Vulcanized |
+| minify          | full | Shady  | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Obfuscated  |
+
+### Browsers
+
+| DOM       | Chrome | Firefox | Edge | IE 11 | IE 10 | Safari 9 | Safari 8 | Safari 7 |
+|:----------|:-------|:--------|:-----|:------|:------|:---------|:---------|:---------|
+| Shady     | ✔     | ✔       | ✔    | ✔    | ✔    | ✔        | ✔        | ✔       |
+| Shadow    | ✔     | -       | -    | -     | -     | -        | -        | -       |
+
+Chrome for Android and Mobile Safari are not included in Travis CI automated tests 
+but are showing compatibility in the test suites via manual browsing.
+
+### Notes on Test Suites
+  
+- WCjs lite = `webcomponents-lite.min.js`, full = `webcomponents.min.js`
+- Both Shady DOM and Shadow DOM are tested on Chrome browser.
+- On non-Chrome browsers, ShadowDOMPolyfill from webcomponents.min.js is functional even if Polymer uses Shady DOM.
+- On non-Chrome browsers, Shadow DOM mode with ShadowDOM Polyfill is not tested and unsupported.  Polyfill may work more than 50% overheads.
 
 ### Online Test
 
