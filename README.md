@@ -230,7 +230,7 @@ without overheads of run-time traversal into the whole template.
 
 ##### Highlights
 
-  * [Shown above](#stable-release-1-0-0)
+  * [Shown above](#stable-release-100)
 
 ##### Known Limitation
 
