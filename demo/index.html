@@ -166,12 +166,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               <ul>
                 <li id="label">UI Text Label</li>
                 <li><input id="input" placeholder="Placeholder Label"></li>
-                <li>lang = {{lang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
+                <li>lang = {{effectiveLang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
                 <li><pre>text = {{serialize(text)}}</pre></li>
                 <li id="fallback"><i18n-format><json-data>{
                   "en": "The last 2 items are missing in non-{1} and fall back to English",
                   "other": "The last 2 items are missing in {1} and fall back to English" 
-                }</json-data><i>{{lang}}</i></i18n-format></li>
+                }</json-data><i>{{effectiveLang}}</i></i18n-format></li>
               </ul>
             </template>
           </template>
@@ -181,12 +181,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               <ul>
                 <li id="label">UI Text Label</li>
                 <li><input id="input" placeholder="Placeholder Label"></li>
-                <li>lang = {{lang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
+                <li>lang = {{effectiveLang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
                 <li><pre>text = {{serialize(text)}}</pre></li>
                 <li id="fallback"><i18n-format><json-data>{
                   "en": "The last 2 items are missing in non-{1} and fall back to English",
                   "other": "The last 2 items are missing in {1} and fall back to English" 
-                }</json-data><i>{{lang}}</i></i18n-format></li>
+                }</json-data><i>{{effectiveLang}}</i></i18n-format></li>
               </ul>
             </template>
             <﻿script>
@@ -226,7 +226,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               var langList = [ 'en', 'fr', 'ja' ];
               var langIndex = 0;
               window.addEventListener('dom-change', function onDomChange (e) {
-                if (e.target === window.bind) {
+                if (unwrap(Polymer.dom(e).rootTarget) === window.bind) {
                   bind.observeHtmlLang = false;
                   bind.langList = [ 'en', 'fr', 'ja' ];
                   bind.langIndex = 0;
