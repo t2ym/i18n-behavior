@@ -3,13 +3,13 @@
 
 # i18n-behavior
 
-Instant and Modular I18N for Polymer (beta for Release 0.1.0)
+Instant and Modular I18N for Polymer
 
 [API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/), [Demo](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/demo/), and [Test](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/test/) on GitHub Pages (https://t2ym.github.io/i18n-behavior)
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/i18n-behavior.gif" width="768px">
 
-## Features
+## Stable Release 1.0.0
 
 - Instant I18N by one line addition of `I18nBehavior`
 - Minimal or no overhead for development: Run-time automatic extraction of hard-coded UI text strings from HTML templates
@@ -33,7 +33,9 @@ Instant and Modular I18N for Polymer (beta for Release 0.1.0)
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/PolymerI18nFlow.gif" width="768px">
 
-## Browser Compatibility with [`webcomponents-lite.min.js`](https://github.com/webcomponents/webcomponentsjs)
+## Browser Compatibility
+
+Polyfilled by [`webcomponents-lite.min.js`](https://github.com/webcomponents/webcomponentsjs)
 
 | DOM       | Chrome* | Firefox* | Edge 13+  | IE 10+ | Safari 7+ | Chrome Android* | Mobile Safari* | Opera* |
 |:----------|:-------:|:--------:|:---------:|:------:|:---------:|:---------------:|:--------------:|:------:|
@@ -109,7 +111,7 @@ for robustness. When attaching `id` attribute is too much for the containing ele
 
 `this.text` dynamic object property represents an object with UI text strings for the current locale.
 
-```
+```javascript
     this.text = {
       "label": "UI Text Label"
     }
@@ -119,10 +121,25 @@ for robustness. When attaching `id` attribute is too much for the containing ele
 
 #### `model` dynamic property:
 
-`this.model` is deepcopied from `this.text.model` per instance to store I18N target attributes.
+`this.model` is deepcopied from `this.text.model` per instance to store I18N target attribute values.
 UI text strings in I18N target attributes are automatically extracted and replaced with annotations
 according to the shared repository (`i18n-attr-repo`) of I18N target attributes per elements 
 (like `placeholder` attribute of `input` element).
+
+On `lang-updated` event, `this.text.model` is updated but `this.model` is NOT automatically updated
+and needs explicit update like this.
+
+```javascript
+    listeners: {
+      'lang-updated': '_langUpdated'
+    },
+
+    _langUpdated: function (event) {
+      if (Polymer.dom(event).rootTarget === this) {
+        this.model = deepcopy(this.text.model);
+      }
+    }
+```
 
 #### `<json-data>` for manual text definitions
 
@@ -169,9 +186,9 @@ localized text strings are asynchronously fetched from JSON files under `locales
                      /locales/my-list.ja.json
                              /my-list.zh-Hans.json
     
-    /google-chart-demo/google-chart-demo.json
-                      /locales/google-chart-demo.ja.json
-                              /google-chart-demo.fr.json
+             /google-chart-demo/google-chart-demo.json
+                               /locales/google-chart-demo.ja.json
+                                       /google-chart-demo.fr.json
 ```
 
 ### Build-time Automatic I18N (for production)
@@ -196,9 +213,35 @@ I18N-ready Source Code preprocessed by [`gulp-i18n-preprocess`](https://github.c
 Default text values are immediately extracted from the embedded JSON 
 without overheads of run-time traversal into the whole template.
 
-## TODOs
+## Changelogs
 
-- (In Progress) Comprehensive tests with Web Component Tester
+#### Stable Release 1.0.0
+
+##### Modules
+
+| Module        | Packager | Version | Description |
+|:--------------|:---------|:--------|:------------|
+| [i18n-behavior](https://github.com/t2ym/i18n-behavior) | bower | [1.0.0](https://github.com/t2ym/i18n-behavior/releases/tag/1.0.0) | Run-time I18N handler |
+| [i18n-format](https://github.com/t2ym/i18n-format) | bower | [1.0.0](https://github.com/t2ym/i18n-format/releases/tag/1.0.0) | I18N text formatter |
+| [i18n-number](https://github.com/t2ym/i18n-number) | bower | [1.0.0](https://github.com/t2ym/i18n-number/releases/tag/1.0.0) | I18N number formatter |
+| [gulp-i18n-preprocess](https://github.com/t2ym/gulp-i18n-preprocess) | npm | [1.0.0](https://github.com/t2ym/gulp-i18n-preproces/releases/tag/1.0.0) | Build-time I18N preprocessor |
+| [gulp-i18n-leverage](https://github.com/t2ym/gulp-i18n-leverage) | npm | [1.0.0](https://github.com/t2ym/gulp-i18n-leverage/releases/tag/1.0.0) | L10N JSON updater |
+| [gulp-i18n-add-locales](https://github.com/t2ym/gulp-i18n-add-locales) | npm | [0.1.0](https://github.com/t2ym/gulp-i18n-add-locales/releases/tag/0.1.0) | L10N JSON placeholder generator |
+
+##### Highlights
+
+  * [Shown above](#stable-release-1-0-0)
+
+##### Known Limitation
+
+  * On Safari 7, `lang` property cannot be bound as `{{lang}}` or `{{f(lang)}}` due to the root cause of [Issue #36](https://github.com/t2ym/i18n-behavior/issues/36). The property `effectiveLang` can be safely used instead.
+
+#### Pre-Release 0.0.1 - 0.0.60
+
+  * Implement core features
+  * Bug fixes
+  * Comprehensive test suites
+  * Basic demos
 
 ## Quick Tour
 
@@ -225,7 +268,7 @@ without overheads of run-time traversal into the whole template.
 
 ##### 3. Change `lang` attribute of `html` element from "en" to "ja" or "fr"
 
-```
+```html
     <html lang="ja">
 ```
 
@@ -241,14 +284,14 @@ without overheads of run-time traversal into the whole template.
 
 ##### 2. Merge changes into JSON files
 
-```
+```sh
     cd polymer-starter-kit-i18n
     gulp --dev
 ```
 
 ##### 3. Check diffs
 
-```
+```sh
     git diff app
 ```
 
@@ -267,23 +310,17 @@ without overheads of run-time traversal into the whole template.
 
 ### Test on Build Phases
 
-| Build Phases    | WCjs | DOM    | UI Strings | L10N JSON            | HTML                    | JavaScript                   |
-|:----------------|:-----|:-------|:-----------|:---------------------|:------------------------|:-----------------------------|
-| src-lite        | lite | Shady  | Hard-coded | Modular              | Modular                 | HTML Embedded                |
-| preprocess-lite | lite | Shady  | Extracted  | Modular              | Modular                 | HTML Embedded                |
-| vulcanize-lite  | lite | Shady  | Extracted  | Bundled              | Vulcanized              | HTML Embedded and Vulcanized |
-| minify-lite     | lite | Shady  | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Obfuscated  |
-| src             | full | Shady  | Hard-coded | Modular              | Modular                 | HTML Embedded                |
-| preprocess      | full | Shady  | Extracted  | Modular              | Modular                 | HTML Embedded                |
-| vulcanize       | full | Shady  | Extracted  | Bundled              | Vulcanized              | HTML Embedded and Vulcanized |
-| minify          | full | Shady  | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Obfuscated  |
+| Build Phases      | UI Strings | L10N JSON            | HTML                    | JavaScript                   |
+|:------------------|:-----------|:---------------------|:------------------------|:-----------------------------|
+| src(-lite)        | Hard-coded | Modular              | Modular                 | HTML Embedded                |
+| preprocess(-lite) | Extracted  | Modular              | Modular                 | HTML Embedded                |
+| vulcanize(-lite)  | Extracted  | Bundled              | Vulcanized              | HTML Embedded and Vulcanized |
+| minify(-lite)     | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Obfuscated  |
 
 ### Notes on Test Suites
   
-- WCjs lite = `webcomponents-lite.min.js`, full = `webcomponents.min.js`
+- lite means polyfilled by `webcomponents-lite.min.js`
 - Both Shady DOM and Shadow DOM are tested on Chrome browser.
-- On non-Chrome browsers, ShadowDOMPolyfill from webcomponents.min.js is functional even if Polymer uses Shady DOM.
-- On non-Chrome browsers, Shadow DOM mode with ShadowDOM Polyfill is not tested and unsupported.  Polyfill may work with more than 50% overheads.
 
 ### Online Test
 
@@ -293,7 +330,7 @@ Available at https://t2ym.github.io/i18n-behavior/components/i18n-behavior/test/
 
 Rebuild [preprocessed](https://github.com/t2ym/gulp-i18n-preprocess), [vulcanized](https://github.com/Polymer/vulcanize), and minified test suites by the following commmand.
 
-```
+```sh
     gulp pretest
 ```
 
@@ -301,10 +338,14 @@ Rebuild [preprocessed](https://github.com/t2ym/gulp-i18n-preprocess), [vulcanize
 
 These `test:*` tasks perform the `pretest` task as a dependency.
 
-```
+```sh
     gulp test:local  # local browsers; Chrome and Firefox are preset in wct.conf.json
     gulp test:remote # remote browsers on Sauce Labs; Edge, IE10/11, Safari 7/8/9 are preset in wct.conf.json
 ```
+
+## Contributing
+
+- Issue Reports, Feature Requests, and Pull Requests
 
 ## License
 
