@@ -13163,13 +13163,6 @@ Polymer({
       }
       if (!isStandardPropertyConfigurable) {
         // Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
-        if (!isStandardPropertyConfigurable) {
-          if (typeof this.getAttribute('lang') === 'object' &&
-              !this.getAttribute('lang')) {
-            //console.log('supplying defaultLang lang = ' + defaultLang);
-            //this.setAttribute('lang', defaultLang);
-          }
-        }
         this.observer = new MutationObserver(this._handleLangAttributeChange.bind(this));
         this.observer.observe(this, {
           attributes: true,
