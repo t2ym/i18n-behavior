@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/t2ym/i18n-behavior.svg?branch=master)](https://travis-ci.org/t2ym/i18n-behavior)
 [![Coverage Status](https://coveralls.io/repos/github/t2ym/i18n-behavior/badge.svg?branch=master&build=157)](https://coveralls.io/github/t2ym/i18n-behavior?branch=master)
+[![Bower](https://img.shields.io/bower/v/i18n-behavior.svg)](https://customelements.io/t2ym/i18n-behavior/)
 
 # i18n-behavior
 
