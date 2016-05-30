@@ -8,13 +8,13 @@
       "browsers": [
         {
           "browserName":  "internet explorer",
-          "platform":     "Windows 8.1",
-          "version":      "11"
+          "platform":     "Windows 7",
+          "version":      "10"
         }
       ]
     },
     "istanbul": {
-      "dir": "test/coverage-report-3",
+      "dir": "test/coverage-report-4",
       "reporters": ["text-summary", "lcov"],
       "include": [
         "**/i18n-behavior.html",
