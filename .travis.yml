@@ -27,5 +27,11 @@ addons:
       - g++-4.8
   sauce_connect: true
 script:
-  - for i in 1 2 3 4 5 6 7; do { cp -vf test/${i}-wct.conf.json wct.conf.json; xvfb-run wct test/index.html; } done
+  - cp -vf test/1-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
+  - cp -vf test/2-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
+  - cp -vf test/3-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
+  - cp -vf test/4-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
+  - cp -vf test/5-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
+  - cp -vf test/6-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
+  - cp -vf test/7-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
   - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report-*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js; fi
