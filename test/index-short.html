@@ -18,12 +18,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var hasShadow = Boolean(Element.prototype.createShadowRoot);
       var nativeShadow = hasShadow && !window.ShadowDOMPolyfill;
       var suites = [];
-      (nativeShadow ?
+      (true || nativeShadow ?
         [
           'src-lite',
           'preprocess-lite',
-          'vulcanize-lite',
-          'minify-lite'
+          //'vulcanize-lite',
+          //'minify-lite'
         ] :
         [
           'src-lite',
