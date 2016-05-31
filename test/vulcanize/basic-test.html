@@ -10743,11 +10743,26 @@ Polymer({
   </template>
 </dom-module>
 <script>
+(function () {
+  // shared data
+  var sharedData = {};
+
   Polymer({
     is: 'i18n-attr-repo',
 
     ready: function () {
-      this.data = {};
+      this.data = sharedData;
+
+      var customAttributes = Polymer.dom(this).querySelector('template#custom');
+      // traverse custom attributes repository
+      if (customAttributes) {
+        this._traverseTemplateTree(customAttributes._content || customAttributes.content);
+      }
+
+      if (this.data.__ready__) {
+        return; // traverse standard attributes only once
+      }
+      this.data.__ready__ = true;
       this._traverseTemplateTree(this.$.standard._content || this.$.standard.content);
     },
 
@@ -10859,6 +10874,7 @@ Polymer({
       }
     }
   });
+})();
 </script><script>/*!
  * @license deepcopy.js Copyright(c) 2013 sasa+1
  * https://github.com/sasaplus1/deepcopy.js
@@ -14093,6 +14109,10 @@ Polymer({
   })();
 </script>
 <script>
+  /**
+   * Singleton IronMeta instance.
+   */
+  Polymer.IronValidatableBehaviorMeta = null;
 
   /**
    * `Use Polymer.IronValidatableBehavior` to implement an element that validates user input.
@@ -14123,14 +14143,6 @@ Polymer({
     properties: {
 
       /**
-       * Namespace for this validator.
-       */
-      validatorType: {
-        type: String,
-        value: 'validator'
-      },
-
-      /**
        * Name of the validator to use.
        */
       validator: {
@@ -14147,22 +14159,36 @@ Polymer({
         value: false
       },
 
+      /**
+       * This property is deprecated and should not be used. Use the global
+       * validator meta singleton, `Polymer.IronValidatableBehaviorMeta` instead.
+       */
       _validatorMeta: {
         type: Object
-      }
+      },
 
+      /**
+       * Namespace for this validator. This property is deprecated and should
+       * not be used. For all intents and purposes, please consider it a
+       * read-only, config-time property.
+       */
+      validatorType: {
+        type: String,
+        value: 'validator'
+      },
+
+      _validator: {
+        type: Object,
+        computed: '__computeValidator(validator)'
+      }
     },
 
     observers: [
       '_invalidChanged(invalid)'
     ],
 
-    get _validator() {
-      return this._validatorMeta && this._validatorMeta.byKey(this.validator);
-    },
-
-    ready: function() {
-      this._validatorMeta = new Polymer.IronMeta({type: this.validatorType});
+    registered: function() {
+      Polymer.IronValidatableBehaviorMeta = new Polymer.IronMeta({type: 'validator'});
     },
 
     _invalidChanged: function() {
@@ -14209,6 +14235,11 @@ Polymer({
         return this._validator.validate(value);
       }
       return true;
+    },
+
+    __computeValidator: function() {
+      return Polymer.IronValidatableBehaviorMeta &&
+          Polymer.IronValidatableBehaviorMeta.byKey(this.validator);
     }
   };
 
@@ -15018,12 +15049,15 @@ is separate from validation, and `allowed-pattern` does not affect how the input
 
       if (event.target === this) {
         this._setFocused(event.type === 'focus');
-      } else if (!this.shadowRoot && !this.isLightDescendant(event.target)) {
-        this.fire(event.type, {sourceEvent: event}, {
-          node: this,
-          bubbles: event.bubbles,
-          cancelable: event.cancelable
-        });
+      } else if (!this.shadowRoot) {
+        var target = /** @type {Node} */(Polymer.dom(event).localTarget);
+        if (!this.isLightDescendant(target)) {
+          this.fire(event.type, {sourceEvent: event}, {
+            node: this,
+            bubbles: event.bubbles,
+            cancelable: event.cancelable
+          });
+        }
       }
     },
 
@@ -15032,7 +15066,7 @@ is separate from validation, and `allowed-pattern` does not affect how the input
       this.style.pointerEvents = disabled ? 'none' : '';
       if (disabled) {
         this._oldTabIndex = this.tabIndex;
-        this.focused = false;
+        this._setFocused(false);
         this.tabIndex = -1;
         this.blur();
       } else if (this._oldTabIndex !== undefined) {
@@ -17870,8 +17904,13 @@ is separate from validation, and `allowed-pattern` does not affect how the input
   });
 })();
 </script>
+<i18n-attr-repo>
+  <template id="custom">
+    <text-attribute-element custom-text-attr2=""></text-attribute-element>
+  </template>
+</i18n-attr-repo>
 <dom-module id="text-attribute-element" assetpath="simple-attribute-element/">
-  <template text-attr="custom-text-attr1 custom-text-attr2 custom-text-attr3" localizable-text="embedded">
+  <template text-attr="custom-text-attr1 custom-text-attr3" localizable-text="embedded">
     <span id="attr1">{{customTextAttr1}}</span>
     <span id="attr2">{{customTextAttr2}}</span>
     <span id="attr3">{{customTextAttr3}}</span>

@@ -10743,11 +10743,26 @@ Polymer({
   </template>
 </dom-module>
 <script>
+(function () {
+  // shared data
+  var sharedData = {};
+
   Polymer({
     is: 'i18n-attr-repo',
 
     ready: function () {
-      this.data = {};
+      this.data = sharedData;
+
+      var customAttributes = Polymer.dom(this).querySelector('template#custom');
+      // traverse custom attributes repository
+      if (customAttributes) {
+        this._traverseTemplateTree(customAttributes._content || customAttributes.content);
+      }
+
+      if (this.data.__ready__) {
+        return; // traverse standard attributes only once
+      }
+      this.data.__ready__ = true;
       this._traverseTemplateTree(this.$.standard._content || this.$.standard.content);
     },
 
@@ -10859,6 +10874,7 @@ Polymer({
       }
     }
   });
+})();
 </script><script>/*!
  * @license deepcopy.js Copyright(c) 2013 sasa+1
  * https://github.com/sasaplus1/deepcopy.js

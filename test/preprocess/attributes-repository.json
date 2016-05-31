@@ -45,8 +45,8 @@
     "any-attributes": true
   },
   "text-attribute-element": {
-    "custom-text-attr1": true,
     "custom-text-attr2": true,
+    "custom-text-attr1": true,
     "custom-text-attr3": true
   }
 }

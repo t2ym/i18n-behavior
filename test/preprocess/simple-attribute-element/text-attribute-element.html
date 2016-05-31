@@ -3,8 +3,13 @@
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 --><html><head><link rel="import" href="../../../i18n-behavior.html">
 
-</head><body><dom-module id="text-attribute-element">
-  <template text-attr="custom-text-attr1 custom-text-attr2 custom-text-attr3" localizable-text="embedded">
+</head><body><i18n-attr-repo>
+  <template id="custom">
+    <text-attribute-element custom-text-attr2=""></text-attribute-element>
+  </template>
+</i18n-attr-repo>
+<dom-module id="text-attribute-element">
+  <template text-attr="custom-text-attr1 custom-text-attr3" localizable-text="embedded">
     <span id="attr1">{{customTextAttr1}}</span>
     <span id="attr2">{{customTextAttr2}}</span>
     <span id="attr3">{{customTextAttr3}}</span>
