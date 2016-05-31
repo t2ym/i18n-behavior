@@ -57,7 +57,24 @@ Pre-defined I18N-target attributes in the static template of `i18n-attr-repo`:
 This static list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for
 build-time automatic I18N of hard-coded string attributes.
 
-### 2) Register localizable attributes of the newly registered elements from the `text-attr` attribute of the element's template.
+### 2) Register I18N-target attributes of custom elements from a template with id="custom" in its light DOM.
+
+I18N-target attributes for custom elements without I18nBehavior can be registered to the respository by this method. 
+
+Example I18N-target attributes in a static template in the light DOM of `i18n-attr-repo`:
+
+```
+    <i18n-attr-repo>
+      <template id="custom">
+        <shop-md-decorator error-message="$"></shop-md-decorator>
+      </template>
+    </i18n-attr-repo>
+```
+
+This list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for
+build-time automatic I18N of hard-coded string attributes.
+
+### 3) Register localizable attributes of the newly registered elements from the `text-attr` attribute of the element's template.
 
 ```
     // i18n-behavior.html, scanning custom-element template
@@ -94,7 +111,7 @@ build-time automatic I18N of hard-coded string attributes.
 `text-attr` attributes are also traversed for build-time automatic I18N of 
 hard-coded UI string attributes by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter.
 
-### 3) Judge localizability of attributes for the local DOM elements of the newly registered element.
+### 4) Judge localizability of attributes for the local DOM elements of the newly registered element.
 
 ```
     // i18n-behavior.html, scanning custom-element-user template
@@ -187,11 +204,26 @@ Handle and judge JSON object attributes.
   </template>
 </dom-module>
 <script>
+(function () {
+  // shared data
+  var sharedData = {};
+
   Polymer({
     is: 'i18n-attr-repo',
 
     ready: function () {
-      this.data = {};
+      this.data = sharedData;
+
+      var customAttributes = Polymer.dom(this).querySelector('template#custom');
+      // traverse custom attributes repository
+      if (customAttributes) {
+        this._traverseTemplateTree(customAttributes._content || customAttributes.content);
+      }
+
+      if (this.data.__ready__) {
+        return; // traverse standard attributes only once
+      }
+      this.data.__ready__ = true;
       this._traverseTemplateTree(this.$.standard._content || this.$.standard.content);
     },
 
@@ -303,4 +335,5 @@ Handle and judge JSON object attributes.
       }
     }
   });
+})();
 </script>
