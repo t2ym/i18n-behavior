@@ -6,11 +6,13 @@ const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const size = require('gulp-size');
 const debug = require('gulp-debug');
+const gutil = require('gulp-util');
 const fs = require('fs');
 const path = require('path');
 const del = require('del');
 const merge = require('merge-stream');
 const runSequence = require('run-sequence');
+const through = require('through2');
 const JSONstringify = require('json-stringify-safe');
 //const babel = require('gulp-babel');
 const crisper = require('gulp-crisper');
@@ -292,7 +294,44 @@ gulp.task('mini-bundles', function (callback) {
   }
   callback();
 });
- 
+
+gulp.task('fake-server', function() {
+  var fakeContents = {};
+  var fakeServerFiles = [];
+  var fakeServerTemplate = '"use strict";\nvar fakeServerContents =\n%%%CONTENTS%%%;\n';
+
+  return gulp.src(['test/**/*.json', '!test/*-wct.conf.json', '!test/coverage*'])
+    .pipe(through.obj(function (file, enc, callback) {
+      fakeServerFiles.push(file);
+      callback();
+    }, function (callback) {
+      var base = fakeServerFiles[0].base;
+      var cwd = fakeServerFiles[0].cwd;
+      var file;
+      var match;
+      var suite;
+      while (fakeServerFiles.length > 0) {
+        file = fakeServerFiles.shift();
+        match = file.path.substr(file.base.length).match(/^([^\/]*)(\/.*)$/);
+        fakeContents[match[1]] = fakeContents[match[1]] || {};
+        fakeContents[match[1]][match[2]] = String(file.contents);
+      }
+      for (suite in fakeContents) {
+        this.push(new gutil.File({
+          cwd: cwd,
+          base: base,
+          path: path.join(base, suite, 'fake-server.js'),
+          contents: new Buffer(fakeServerTemplate
+            .replace(/%%%CONTENTS%%%/g, JSONstringify(fakeContents[suite], null, 2)))
+        }));
+      }
+      callback();
+    }))
+    .pipe(debug({ title: 'fake-server' }))
+    .pipe(gulp.dest('test'))
+    .pipe(size({ title: 'fake-server' }));
+});
+
 gulp.task('pretest', ['clean'], function(cb) {
   runSequence(
     'scan',
@@ -317,6 +356,7 @@ gulp.task('pretest', ['clean'], function(cb) {
     'minify-lite',
     'mini-bundles',
     'empty-mini-bundle-ja',
+    'fake-server',
     /*
     'feedback',
     */
