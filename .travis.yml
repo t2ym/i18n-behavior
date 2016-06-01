@@ -27,5 +27,7 @@ addons:
       - g++-4.8
   sauce_connect: true
 script:
-  - xvfb-run wct test/index-fake.html
+  - cp -vf test/0-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
   - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js; fi
+  - # SauceConnect frequently drops test results from browsers like Microsoft Edge, Safari 8/9, while tests succeed on them.
+  - # These browsers are temporarily skipped. 
