@@ -205,6 +205,40 @@ function minifyText (text) {
   return text;
 }
 
+var isFakeServer = typeof window === 'object' &&
+  typeof window.location.href === 'string' &&
+  window.location.href.indexOf('xhr=fake') > 0 &&
+  typeof window.fakeServerContents === 'object';
+
+var isSuppressingSuiteParams = typeof window === 'object' &&
+  typeof window.location.href === 'string' &&
+  window.location.href.indexOf('suppress=true') > 0;
+
+function setupFakeServer (e) {
+  if (isFakeServer) {
+    e.server = sinon.fakeServer.create();
+    e.server.autoRespond = true;
+    //e.server.autoRespondAfter = 100;
+    e.server.respondImmediately = true;
+    e.server.respondWith(/\/test\/[-\w]+(\/.*[.]json)$/, function (xhr, urlPath) {
+      if (fakeServerContents.hasOwnProperty(urlPath)) {
+        //console.log('fake-server: 200 ' + urlPath);
+        xhr.respond(200, { 'Content-Type': 'application/json' }, fakeServerContents[urlPath])
+      }
+      else {
+        //console.log('fake-server: 404 ' + urlPath);
+        xhr.respond(404, {}, '');
+      }
+    });
+  }
+}
+
+function teardownFakeServer (e) {
+  if (isFakeServer) {
+    e.server.restore();
+  }
+}
+
 function setupFixture (params, fixtureModel) {
   var fixtureName = params.fixture;
   var e = document.querySelector('#' + fixtureName);
@@ -280,6 +314,7 @@ function setupFixture (params, fixtureModel) {
         node.classList.remove('running-test');
       }
     });
+    setupFakeServer(e);
     return new Promise(function (resolve, reject) {
       //console.log('setupFixture: name = ' + fixtureName + ' model = ' + JSON.stringify(fixtureModel, null, 2));
       var element = fixture(fixtureName, fixtureModel);
@@ -332,6 +367,7 @@ function restoreFixture (fixtureName) {
     );
   }
   else {
+    teardownFakeServer(e);
     e.restore();
   }
 }
@@ -412,10 +448,11 @@ function suitesRunner (suites) {
             (params.model ? ', model' : '') +
             (params.localDOM ? ', local DOM' : '') +
             '} properties are set as {' + 
+            (isSuppressingSuiteParams ? '' :
             [ params.lang, params.effectiveLang, params.templateDefaultLang, params.observeHtmlLang].join(', ') +
             (params.text ? ', ' + JSON.stringify(params.text, null, 2) : '') +
             (params.model ? ', ' + JSON.stringify(params.model, null, 2) : '') +
-            (!params.setup && params.localDOM ? ', ' + JSON.stringify(params.localDOM, null, 2) : '') +
+            (!params.setup && params.localDOM ? ', ' + JSON.stringify(params.localDOM, null, 2) : '')) +
             '}' +
             (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
         assert.isString(el.lang, 'lang property is a string');
@@ -533,7 +570,7 @@ function suitesRunner (suites) {
 */
 
       if (params.setup && params.localDOM) {
-        test('local DOM ' + JSON.stringify(params.localDOM, null, 2) + ' is set' + 
+        test('local DOM ' + (isSuppressingSuiteParams ? '{}' : JSON.stringify(params.localDOM, null, 2)) + ' is set' + 
               (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
           params.localDOM.forEach(function (childPath) {
             var completeStatus;
@@ -565,7 +602,7 @@ function suitesRunner (suites) {
       }
 
       if (params.lightDOM) {
-        test('light DOM ' + JSON.stringify(params.lightDOM, null, 2) + ' is set' + 
+        test('light DOM ' + (isSuppressingSuiteParams ? '{}' : JSON.stringify(params.lightDOM, null, 2)) + ' is set' + 
               (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
           params.lightDOM.forEach(function (childPath) {
             var completeStatus;
