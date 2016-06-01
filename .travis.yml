@@ -27,11 +27,11 @@ addons:
       - g++-4.8
   sauce_connect: true
 script:
-  - cp -vf test/1-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
-  - cp -vf test/2-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
-  - cp -vf test/3-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
-  - cp -vf test/4-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
-  - cp -vf test/5-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
-  - cp -vf test/6-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
-  - cp -vf test/7-wct.conf.json wct.conf.json && xvfb-run wct test/index.html
+  - cp -vf test/1-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
+  - cp -vf test/2-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
+  - cp -vf test/3-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
+  - cp -vf test/4-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
+  - cp -vf test/5-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
+  - cp -vf test/6-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
+  - cp -vf test/7-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
   - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report-*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js; fi
