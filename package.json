@@ -42,11 +42,13 @@
     "gulp-replace": "^0.5.4",
     "gulp-size": "^2.0.0",
     "gulp-uglify": "^1.5.3",
+    "gulp-util": "^3.0.7",
     "gulp-vulcanize": "^6.1.0",
     "json-stringify-safe": "^5.0.1",
     "lcov-result-merger": "^1.2.0",
     "merge-stream": "^1.0.0",
     "run-sequence": "^1.1.5",
+    "through2": "^2.0.1",
     "web-component-tester": "^4.2.2",
     "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul/tarball/0.10.1"
   }
