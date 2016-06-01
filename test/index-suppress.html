@@ -22,21 +22,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         [
           'src-lite',
           'preprocess-lite',
-          'vulcanize-lite',
-          'minify-lite'
+          //'vulcanize-lite',
+          //'minify-lite'
         ] :
         [
           'src-lite',
           'preprocess-lite',
-          'vulcanize-lite',
-          'minify-lite',
+          //'vulcanize-lite',
+          //'minify-lite',
           'src',
           'preprocess',
-          'vulcanize',
-          'minify'
+          //'vulcanize',
+          //'minify'
         ]
       ).forEach(function (phase) {
-        (nativeShadow ? [ '', '?dom=shadow' ] : [ '' ]).forEach(function (dom) {
+        (nativeShadow ? [ '?suppress=true', '?dom=shadow&suppress=true' ] : [ '?suppress=true' ]).forEach(function (dom) {
           [
             'basic',
             'edge-case',
