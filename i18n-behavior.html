@@ -1243,18 +1243,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       Array.prototype.forEach.call(node.attributes, function (attribute) {
         text = attribute.value;
         switch (attribute.name) {
-        // TODO: need more research on the list of excluded attributes
         case 'id':
         case 'text-id':
         case 'is':
         case 'lang':
-        case 'class':
-        case 'href':
-        case 'src':
-        case 'style':
-        case 'url':
-        case 'value':
-        case 'selected':
           break;
         default:
           if (!(isLocalizable = attributesRepository.isLocalizableAttribute(name, attribute.name))) {
