@@ -15,7 +15,7 @@ It judges whether a specific attribute of an element requires localization or no
       'custom-element',
       Polymer.DomModule.import('custom-element', 'template')
     );
-    attrRepository.isLocalizableAttribute('input', 'placeholder');
+    attrRepository.isLocalizableAttribute(inputElement, 'placeholder');
 
 ### Interactions with `BehaviorsStore.I18nBehavior`
 
@@ -115,9 +115,9 @@ hard-coded UI string attributes by [`gulp-i18n-preprocess`](https://github.com/t
 
 ```
     // i18n-behavior.html, scanning custom-element-user template
-    var name = 'custom-element';
+    var element; // target element
     var attr;
-    if (attrRepository.isLocalizableAttribute(name, attr.name)) {
+    if (attrRepository.isLocalizableAttribute(element, attr.name)) {
       // make localizalbe-attr1 localizable
     }
 ```
@@ -230,18 +230,19 @@ Handle and judge JSON object attributes.
     /**
      * Judge if a specific attribute of an element requires localization.
      *
-     * @param {string} element Target element name.
+     * @param {HTMLElement} element Target element.
      * @param {string} attr Target attribute name.
      * @return {string or boolean} true - property, '$' - attribute, false - not targeted
      */
     isLocalizableAttribute: function (element, attr) {
+      var tagName = element.tagName.toLowerCase();
       if (this.data['any-elements'] &&
           this.data['any-elements'][attr]) {
         return this.data['any-elements'][attr];
       }
-      else if (this.data[element]) {
-        return this.data[element]['any-attributes'] ||
-               this.data[element][attr];
+      else if (this.data[tagName]) {
+        return this.data[tagName]['any-attributes'] ||
+               this.data[tagName][attr];
       }
       else {
         return false;
