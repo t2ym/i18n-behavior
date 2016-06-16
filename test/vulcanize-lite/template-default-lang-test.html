@@ -10906,18 +10906,19 @@ Polymer({
     /**
      * Judge if a specific attribute of an element requires localization.
      *
-     * @param {string} element Target element name.
+     * @param {HTMLElement} element Target element.
      * @param {string} attr Target attribute name.
      * @return {string or boolean} true - property, '$' - attribute, false - not targeted
      */
     isLocalizableAttribute: function (element, attr) {
+      var tagName = element.tagName.toLowerCase();
       if (this.data['any-elements'] &&
           this.data['any-elements'][attr]) {
         return this.data['any-elements'][attr];
       }
-      else if (this.data[element]) {
-        return this.data[element]['any-attributes'] ||
-               this.data[element][attr];
+      else if (this.data[tagName]) {
+        return this.data[tagName]['any-attributes'] ||
+               this.data[tagName][attr];
       }
       else {
         return false;
@@ -12249,21 +12250,13 @@ Polymer({
       Array.prototype.forEach.call(node.attributes, function (attribute) {
         text = attribute.value;
         switch (attribute.name) {
-        // TODO: need more research on the list of excluded attributes
         case 'id':
         case 'text-id':
         case 'is':
         case 'lang':
-        case 'class':
-        case 'href':
-        case 'src':
-        case 'style':
-        case 'url':
-        case 'value':
-        case 'selected':
           break;
         default:
-          if (!(isLocalizable = attributesRepository.isLocalizableAttribute(name, attribute.name))) {
+          if (!(isLocalizable = attributesRepository.isLocalizableAttribute(node, attribute.name))) {
             break;
           }
           if (text.length === 0) {
