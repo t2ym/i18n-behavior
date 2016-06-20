@@ -10,7 +10,7 @@
       "browsers": [
         {
           "browserName":  "firefox",
-          "platform":     "Windows 10",
+          "platform":     "Windows 10"
         },
         {
           "browserName":  "internet explorer",
