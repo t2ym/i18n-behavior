@@ -53,15 +53,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   var attributesRepository = document.createElement('i18n-attr-repo');
 
   // set up userPreference
-  var userPreference;
-  window.addEventListener('WebComponentsReady', function () {
-    userPreference = document.querySelector('i18n-preference');
-    if (!userPreference) {
-      userPreference = document.createElement('i18n-preference');
-      // append to body
-      document.querySelector('body').appendChild(userPreference);
-    }
-  });
+  var userPreference = document.querySelector('i18n-preference');
+  if (!userPreference) {
+    userPreference = document.createElement('i18n-preference');
+    // append to body
+    document.querySelector('body').appendChild(userPreference);
+  }
 
   // debug log when <html debug> attribute exists
   var debuglog = html.hasAttribute('debug') ?
