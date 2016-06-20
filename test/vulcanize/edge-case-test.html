@@ -11060,15 +11060,12 @@ Polymer({
   var attributesRepository = document.createElement('i18n-attr-repo');
 
   // set up userPreference
-  var userPreference;
-  window.addEventListener('WebComponentsReady', function () {
-    userPreference = document.querySelector('i18n-preference');
-    if (!userPreference) {
-      userPreference = document.createElement('i18n-preference');
-      // append to body
-      document.querySelector('body').appendChild(userPreference);
-    }
-  });
+  var userPreference = document.querySelector('i18n-preference');
+  if (!userPreference) {
+    userPreference = document.createElement('i18n-preference');
+    // append to body
+    document.querySelector('body').appendChild(userPreference);
+  }
 
   // debug log when <html debug> attribute exists
   var debuglog = html.hasAttribute('debug') ?
@@ -12254,6 +12251,13 @@ Polymer({
         case 'text-id':
         case 'is':
         case 'lang':
+        case 'class':
+        // verification required before removing these attributes
+        case 'href':
+        case 'src':
+        case 'style':
+        case 'url':
+        case 'selected':
           break;
         default:
           if (!(isLocalizable = attributesRepository.isLocalizableAttribute(node, attribute.name))) {
