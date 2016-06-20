@@ -1245,6 +1245,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         case 'is':
         case 'lang':
         case 'class':
+        // verification required before removing these attributes
+        case 'href':
+        case 'src':
+        case 'style':
+        case 'url':
+        case 'selected':
           break;
         default:
           if (!(isLocalizable = attributesRepository.isLocalizableAttribute(node, attribute.name))) {
