@@ -41,6 +41,6 @@
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.1.2",
     "paper-menu": "PolymerElements/paper-menu#^1.2.2",
     "paper-item": "PolymerElements/paper-item#^1.1.3",
-    "google-chart": "GoogleWebComponents/google-chart#1.0.4"
+    "google-chart": "GoogleWebComponents/google-chart#^1.0.6"
   }
 }
