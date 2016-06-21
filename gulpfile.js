@@ -7,6 +7,7 @@ const gulpif = require('gulp-if');
 const size = require('gulp-size');
 const debug = require('gulp-debug');
 const gutil = require('gulp-util');
+const sort = require('gulp-sort');
 const fs = require('fs');
 const path = require('path');
 const del = require('del');
@@ -301,6 +302,7 @@ gulp.task('fake-server', function() {
   var fakeServerTemplate = '"use strict";\nvar fakeServerContents =\n%%%CONTENTS%%%;\n';
 
   return gulp.src(['test/**/*.json', '!test/*-wct.conf.json', '!test/coverage*'])
+    .pipe(sort())
     .pipe(through.obj(function (file, enc, callback) {
       fakeServerFiles.push(file);
       callback();

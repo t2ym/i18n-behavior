@@ -41,6 +41,7 @@
     "gulp-minify-html": "^1.0.5",
     "gulp-replace": "^0.5.4",
     "gulp-size": "^2.0.0",
+    "gulp-sort": "^2.0.0",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
     "gulp-vulcanize": "^6.1.0",
