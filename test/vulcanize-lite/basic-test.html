@@ -17,47 +17,47 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <script>"use strict";
 var fakeServerContents =
 {
-  "/compound-binding-dom-bind.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": [\n    \" outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}",
-  "/edge-case-dom-bind.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" name = {1} \",\n    \"{{text.name}}\"\n  ],\n  \"i18n-number_1\": \"1\",\n  \"i18n-format_2\": [\n    \"{{text.format}}\",\n    \"1\"\n  ],\n  \"i18n-format_3\": [\n    \"format\",\n    \"\"\n  ],\n  \"p_8\": [\n    \"hello {1}{2} {3} world\",\n    \"<br>\",\n    \"<span>\",\n    \"<span>\"\n  ],\n  \"p_9\": [\n    \"hello{1}world\",\n    \"<br>\"\n  ],\n  \"text_10\": \" hello \",\n  \"text_14\": \" world \"\n}",
-  "/simple-attribute-dom-bind.json": "{\n  \"meta\": {},\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"paper-input label\",\n      \"error-message\": \"paper-input error message\",\n      \"placeholder\": \"paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"paper-input label without id\",\n      \"error-message\": \"paper-input error message without id\",\n      \"placeholder\": \"paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"Jan\",\n          31\n        ],\n        [\n          \"Feb\",\n          28\n        ],\n        [\n          \"Mar\",\n          31\n        ],\n        [\n          \"Apr\",\n          30\n        ],\n        [\n          \"May\",\n          31\n        ],\n        [\n          \"Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"Inventory\"\n      },\n      \"data\": [\n        [\n          \"Year\",\n          \"Things\",\n          \"Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"custom text attribute 1\",\n      \"custom-text-attr2\": \"custom text attribute 2\",\n      \"custom-text-attr3\": \"custom text attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"this attr1 is extracted\",\n      \"i18n-target-attr\": \"this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"text 1\"\n}",
-  "/simple-text-dom-bind.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
   "/commented-simple-text-element/commented-simple-text-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
+  "/commented-simple-text-element/locales/commented-simple-text-element.fr.json": "{\n  \"model\": {},\n  \"text\": \"fr  outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \"fr  outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \"fr  simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \"fr  simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \"fr  simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \"fr  outermost text at the end \"\n}\n",
+  "/compound-binding-dom-bind.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": [\n    \" outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}",
   "/compound-binding-element/compound-binding-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": [\n    \" outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}",
+  "/compound-binding-element/locales/compound-binding-element.fr.json": "{\n  \"model\": {},\n  \"text\": [\n    \"fr  outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"fr outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \"fr  outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"fr simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"fr simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"fr simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"fr simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \"fr  simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \"fr  simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \"fr  simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"fr simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"fr great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"fr line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"fr line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"fr line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"fr line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"fr line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"fr line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"fr id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": [\n    \"fr  outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}\n",
+  "/edge-case-dom-bind.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" name = {1} \",\n    \"{{text.name}}\"\n  ],\n  \"i18n-number_1\": \"1\",\n  \"i18n-format_2\": [\n    \"{{text.format}}\",\n    \"1\"\n  ],\n  \"i18n-format_3\": [\n    \"format\",\n    \"\"\n  ],\n  \"p_8\": [\n    \"hello {1}{2} {3} world\",\n    \"<br>\",\n    \"<span>\",\n    \"<span>\"\n  ],\n  \"p_9\": [\n    \"hello{1}world\",\n    \"<br>\"\n  ],\n  \"text_10\": \" hello \",\n  \"text_14\": \" world \"\n}",
   "/edge-case/advanced-binding-element.json": "{\n  \"meta\": {},\n  \"model\": {\n    \"aria-attributes\": {\n      \"title\": \"tooltip text\",\n      \"aria-label\": \"aria label text\",\n      \"aria-valuetext\": \"aria value text\"\n    }\n  },\n  \"annotated-format\": [\n    \"{{tr(status,text.statusMessageFormats)}}\",\n    \"{{parameter}}\",\n    \"string parameter\"\n  ],\n  \"span_5\": [\n    \"{1} {2}\",\n    \"{{text.defaultValue}}\",\n    \"{{text.defaultValue}}\"\n  ],\n  \"statusMessages\": {\n    \"ok\": \"healthy status\",\n    \"busy\": \"busy status\",\n    \"error\": \"error status\",\n    \"default\": \"unknown status\"\n  },\n  \"defaultValue\": \"default value\",\n  \"statusMessageFormats\": {\n    \"ok\": \"healthy status\",\n    \"busy\": \"busy status with {2}\",\n    \"error\": \"error status with {1} and {2}\",\n    \"default\": \"unknown status\"\n  },\n  \"nodefault\": {\n    \"ok\": \"ok status\"\n  }\n}",
   "/edge-case/complex-compound-binding-element.json": "{\n  \"model\": {},\n  \"item-update2:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update2:text_2\": \" xxx \",\n  \"item-update2:template_3:span:b\": \"IF CONTENT\",\n  \"item-update2:b_4\": \"abc\",\n  \"item-update2:template_5:text\": \"IF CONTENT 2\",\n  \"item-update2:text_6\": \" hello \",\n  \"item-update\": [\n    \"updated: {1}, by: \\n      {2}\\n      xxx\\n      {3}\\n      {4}\\n      {5}\\n      hello\\n      \\n      {6}\\n      {7} \",\n    \"{{text.updated}}\",\n    \"  {{item.name}}  \",\n    \"IF CONTENT\",\n    \"abc\",\n    \"IF CONTENT 2\",\n    \"<template>\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text_2\": \" xxx \",\n  \"item-update3:template_3:b\": \"IF\",\n  \"item-update3:template_3:b_1\": \"CONTENT\",\n  \"item-update3:b_4\": \"abc\",\n  \"item-update3:template_5:text\": \"IF CONTENT 2\",\n  \"item-update3:text_6\": \" hello \",\n  \"item-update4:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:template_1:text\": [\n    \" {1} = {2} \",\n    \"{{item.name}}\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:text_2\": \" xxx \",\n  \"item-update4:template_3:b\": \"IF CONTENT\",\n  \"item-update4:b_4\": \"abc\",\n  \"item-update4:template_5:text\": \"IF CONTENT 2\",\n  \"item-update4:text_6\": \" hello \",\n  \"paragraph\": [\n    \"A paragraph with \\n      {1}\\n      is converted to \\n      {2}. \",\n    \"{{item}} \",\n    \"<i18n-format>\"\n  ],\n  \"paragraph2:text\": \"A paragraph with deep \",\n  \"paragraph2:text_2\": \" is \",\n  \"paragraph2:b_3\": \"not\",\n  \"paragraph2:text_4\": \" converted to \",\n  \"paragraph2:code_5\": \"<i18n-format>\",\n  \"paragraph2:text_6\": \". \",\n  \"authors\": [\n    {\n      \"name\": \"Joe\"\n    },\n    {\n      \"name\": \"Alice\"\n    }\n  ],\n  \"updated\": \"Jan 1st, 2016\",\n  \"parameters\": [\n    \"parameter 1\",\n    \"parameter 2\"\n  ]\n}",
   "/edge-case/empty-element.json": "{}",
+  "/edge-case/locales/advanced-binding-element.fr.json": "{\n  \"meta\": {},\n  \"model\": {\n    \"aria-attributes\": {\n      \"title\": \"fr tooltip text\",\n      \"aria-label\": \"fr aria label text\",\n      \"aria-valuetext\": \"fr aria value text\"\n    }\n  },\n  \"annotated-format\": [\n    \"{{tr(status,text.statusMessageFormats)}}\",\n    \"{{parameter}}\",\n    \"fr string parameter\"\n  ],\n  \"span_5\": [\n    \"fr {1} {2}\",\n    \"{{text.defaultValue}}\",\n    \"{{text.defaultValue}}\"\n  ],\n  \"statusMessages\": {\n    \"ok\": \"fr healthy status\",\n    \"busy\": \"fr busy status\",\n    \"error\": \"fr error status\",\n    \"default\": \"fr unknown status\"\n  },\n  \"defaultValue\": \"fr default value\",\n  \"statusMessageFormats\": {\n    \"ok\": \"fr healthy status\",\n    \"busy\": \"fr busy status with {2}\",\n    \"error\": \"fr error status with {1} and {2}\",\n    \"default\": \"fr unknown status\"\n  },\n  \"nodefault\": {\n    \"ok\": \"fr ok status\"\n  }\n}",
+  "/edge-case/locales/complex-compound-binding-element.fr.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"item-update2:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update2:text_2\": \"fr  xxx \",\n  \"item-update2:template_3:span:b\": \"fr IF CONTENT\",\n  \"item-update2:b_4\": \"fr abc\",\n  \"item-update2:template_5:text\": \"fr IF CONTENT 2\",\n  \"item-update2:text_6\": \"fr  hello \",\n  \"item-update\": [\n    \"fr updated: {1}, by: \\n      {2}\\n      xxx\\n      {3}\\n      {4}\\n      {5}\\n      hello\\n      \\n      {6}\\n      {7} \",\n    \"{{text.updated}}\",\n    \"  {{item.name}}  \",\n    \"fr IF CONTENT\",\n    \"fr abc\",\n    \"fr IF CONTENT 2\",\n    \"<template>\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text_2\": \"fr  xxx \",\n  \"item-update3:template_3:b\": \"fr IF\",\n  \"item-update3:template_3:b_1\": \"fr CONTENT\",\n  \"item-update3:b_4\": \"fr abc\",\n  \"item-update3:template_5:text\": \"fr IF CONTENT 2\",\n  \"item-update3:text_6\": \"fr  hello \",\n  \"item-update4:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:template_1:text\": [\n    \"fr  {1} = {2} \",\n    \"{{item.name}}\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:text_2\": \"fr  xxx \",\n  \"item-update4:template_3:b\": \"fr IF CONTENT\",\n  \"item-update4:b_4\": \"fr abc\",\n  \"item-update4:template_5:text\": \"fr IF CONTENT 2\",\n  \"item-update4:text_6\": \"fr  hello \",\n  \"paragraph\": [\n    \"fr A paragraph with \\n      {1}\\n      is converted to \\n      {2}. \",\n    \"{{item}} \",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph2:text\": \"fr A paragraph with deep \",\n  \"paragraph2:text_2\": \"fr  is \",\n  \"paragraph2:b_3\": \"fr not\",\n  \"paragraph2:text_4\": \"fr  converted to \",\n  \"paragraph2:code_5\": \"fr <i18n-format>\",\n  \"paragraph2:text_6\": \"fr . \",\n  \"authors\": [\n    {\n      \"name\": \"fr Joe\"\n    },\n    {\n      \"name\": \"fr Alice\"\n    }\n  ],\n  \"updated\": \"fr Jan 1st, 2016\",\n  \"parameters\": [\n    \"fr parameter 1\",\n    \"fr parameter 2\"\n  ]\n}",
+  "/edge-case/locales/empty-element.fr.json": "{}",
   "/fallback-text-element/fallback-text-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
+  "/fallback-text-element/locales/fallback-text-element.fr-CA.json": "{\n  \"model\": {},\n  \"text\": \"fr-CA  outermost text at the beginning \",\n  \"h1_3\": \"fr-CA outermost header 1\",\n  \"text_4\": \"fr-CA  outermost text in the middle \",\n  \"span_5\": \"fr-CA simple text without id\",\n  \"span_6\": \"fr-CA simple text without id 2\",\n  \"label-1\": \"fr-CA simple text with id\",\n  \"label-2\": \"fr-CA simple text with id 2\",\n  \"div_10:span_1\": \"fr-CA simple text within div\",\n  \"toplevel-div:span\": \"fr-CA simple text within div\",\n  \"toplevel-div:span_1\": \"fr-CA simple text within div 2\",\n  \"third-level-div\": \"fr-CA great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr-CA great grandchild text within div without id\",\n  \"p_13\": [\n    \"fr-CA A paragraph with {1} is converted to {2}.\",\n    \"fr-CA parameters\",\n    \"fr-CA <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr-CA A paragraph with {1} is converted to {2}.\",\n    \"fr-CA id\",\n    \"fr-CA <i18n-format>\"\n  ],\n  \"text_15\": \"fr-CA  outermost text at the end \"\n}\n",
+  "/fallback-text-element/locales/fallback-text-element.fr.json": "{\n  \"model\": {},\n  \"text\": \"fr  outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \"fr  outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \"fr  outermost text at the end \"\n}\n",
   "/locales/compound-binding-dom-bind.fr.json": "{\n  \"model\": {},\n  \"text\": [\n    \"fr  outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"fr outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \"fr  outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"fr simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"fr simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"fr simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"fr simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \"fr  simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \"fr  simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \"fr  simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"fr simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"fr great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"fr line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"fr line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"fr line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"fr line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"fr line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"fr line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"fr id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": [\n    \"fr  outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}\n",
   "/locales/simple-attribute-dom-bind.fr.json": "{\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"fr standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"fr standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"fr paper-input label\",\n      \"error-message\": \"fr paper-input error message\",\n      \"placeholder\": \"fr paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"fr paper-input label without id\",\n      \"error-message\": \"fr paper-input error message without id\",\n      \"placeholder\": \"fr paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"fr Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"fr Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"fr Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"fr Jan\",\n          31\n        ],\n        [\n          \"fr Feb\",\n          28\n        ],\n        [\n          \"fr Mar\",\n          31\n        ],\n        [\n          \"fr Apr\",\n          30\n        ],\n        [\n          \"fr May\",\n          31\n        ],\n        [\n          \"fr Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"fr Inventory\"\n      },\n      \"data\": [\n        [\n          \"fr Year\",\n          \"fr Things\",\n          \"fr Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"fr custom text attribute 1\",\n      \"custom-text-attr2\": \"fr custom text attribute 2\",\n      \"custom-text-attr3\": \"fr custom text attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"fr this attr1 is extracted\",\n      \"i18n-target-attr\": \"fr this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"fr this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"fr this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"fr text 1\"\n}\n",
   "/locales/simple-text-dom-bind.fr.json": "{\n  \"model\": {},\n  \"text\": \"fr  outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \"fr  outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \"fr  simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \"fr  simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \"fr  simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \"fr  outermost text at the end \"\n}\n",
   "/multiple-case/item-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"label\": \"A\"\n}",
-  "/multiple-case/multiple-element.json": "{\n  \"meta\": {},\n  \"model\": {}\n}",
-  "/plural-gender-element/plural-gender-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"compound-format-text\": [\n    {\n      \"0\": \"You ({3}) gave no gifts.\",\n      \"1\": {\n        \"male\": \"You ({3}) gave him ({4}) {5}.\",\n        \"female\": \"You ({3}) gave her ({4}) {5}.\",\n        \"other\": \"You ({3}) gave them ({4}) {5}.\"\n      },\n      \"one\": {\n        \"male\": \"You ({3}) gave him ({4}) and one other person {5}.\",\n        \"female\": \"You ({3}) gave her ({4}) and one other person {5}.\",\n        \"other\": \"You ({3}) gave them ({4}) and one other person {5}.\"\n      },\n      \"other\": \"You ({3}) gave them ({4}) and {1} other people gifts.\"\n    },\n    \"{{recipients.length - 1}}\",\n    \"{{recipients.0.gender}}\",\n    \"{{sender.name}}\",\n    \"{{recipients.0.name}}\",\n    \"a gift\"\n  ]\n}",
-  "/preference/preference-element.json": "{\n  \"meta\": {},\n  \"model\": {}\n}",
-  "/simple-attribute-element/simple-attribute-element.json": "{\n  \"meta\": {},\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"paper-input label\",\n      \"error-message\": \"paper-input error message\",\n      \"placeholder\": \"paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"paper-input label without id\",\n      \"error-message\": \"paper-input error message without id\",\n      \"placeholder\": \"paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"Jan\",\n          31\n        ],\n        [\n          \"Feb\",\n          28\n        ],\n        [\n          \"Mar\",\n          31\n        ],\n        [\n          \"Apr\",\n          30\n        ],\n        [\n          \"May\",\n          31\n        ],\n        [\n          \"Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"Inventory\"\n      },\n      \"data\": [\n        [\n          \"Year\",\n          \"Things\",\n          \"Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"custom text attribute 1\",\n      \"custom-text-attr2\": \"custom text attribute 2\",\n      \"custom-text-attr3\": \"custom text attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"this attr1 is extracted\",\n      \"i18n-target-attr\": \"this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"text 1\"\n}",
-  "/simple-attribute-element/text-attribute-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"span_4\": \"text\"\n}",
-  "/simple-text-element/simple-text-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
-  "/simple-text-id-element/simple-text-id-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"second-level-div\": [\n    \" {1}\\n        {2} \",\n    \"great grandchild text within div\",\n    \"great grandchild text within div without id\"\n  ],\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items\": [\n    \" {1}\\n        {2}\\n        {3} \",\n    \"line item with id 1\",\n    \"line item with id 2\",\n    \"line item with id 3\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
-  "/template-default-lang/null-template-default-lang-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
-  "/template-default-lang/template-default-lang-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}",
-  "/commented-simple-text-element/locales/commented-simple-text-element.fr.json": "{\n  \"model\": {},\n  \"text\": \"fr  outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \"fr  outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \"fr  simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \"fr  simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \"fr  simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \"fr  outermost text at the end \"\n}\n",
-  "/compound-binding-element/locales/compound-binding-element.fr.json": "{\n  \"model\": {},\n  \"text\": [\n    \"fr  outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"fr outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \"fr  outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"fr simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"fr simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"fr simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"fr simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \"fr  simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \"fr  simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \"fr  simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"fr simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"fr great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"fr line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"fr line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"fr line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"fr line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"fr line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"fr line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"fr id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": [\n    \"fr  outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}\n",
-  "/edge-case/locales/advanced-binding-element.fr.json": "{\n  \"meta\": {},\n  \"model\": {\n    \"aria-attributes\": {\n      \"title\": \"fr tooltip text\",\n      \"aria-label\": \"fr aria label text\",\n      \"aria-valuetext\": \"fr aria value text\"\n    }\n  },\n  \"annotated-format\": [\n    \"{{tr(status,text.statusMessageFormats)}}\",\n    \"{{parameter}}\",\n    \"fr string parameter\"\n  ],\n  \"span_5\": [\n    \"fr {1} {2}\",\n    \"{{text.defaultValue}}\",\n    \"{{text.defaultValue}}\"\n  ],\n  \"statusMessages\": {\n    \"ok\": \"fr healthy status\",\n    \"busy\": \"fr busy status\",\n    \"error\": \"fr error status\",\n    \"default\": \"fr unknown status\"\n  },\n  \"defaultValue\": \"fr default value\",\n  \"statusMessageFormats\": {\n    \"ok\": \"fr healthy status\",\n    \"busy\": \"fr busy status with {2}\",\n    \"error\": \"fr error status with {1} and {2}\",\n    \"default\": \"fr unknown status\"\n  },\n  \"nodefault\": {\n    \"ok\": \"fr ok status\"\n  }\n}",
-  "/edge-case/locales/complex-compound-binding-element.fr.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"item-update2:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update2:text_2\": \"fr  xxx \",\n  \"item-update2:template_3:span:b\": \"fr IF CONTENT\",\n  \"item-update2:b_4\": \"fr abc\",\n  \"item-update2:template_5:text\": \"fr IF CONTENT 2\",\n  \"item-update2:text_6\": \"fr  hello \",\n  \"item-update\": [\n    \"fr updated: {1}, by: \\n      {2}\\n      xxx\\n      {3}\\n      {4}\\n      {5}\\n      hello\\n      \\n      {6}\\n      {7} \",\n    \"{{text.updated}}\",\n    \"  {{item.name}}  \",\n    \"fr IF CONTENT\",\n    \"fr abc\",\n    \"fr IF CONTENT 2\",\n    \"<template>\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text_2\": \"fr  xxx \",\n  \"item-update3:template_3:b\": \"fr IF\",\n  \"item-update3:template_3:b_1\": \"fr CONTENT\",\n  \"item-update3:b_4\": \"fr abc\",\n  \"item-update3:template_5:text\": \"fr IF CONTENT 2\",\n  \"item-update3:text_6\": \"fr  hello \",\n  \"item-update4:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:template_1:text\": [\n    \"fr  {1} = {2} \",\n    \"{{item.name}}\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:text_2\": \"fr  xxx \",\n  \"item-update4:template_3:b\": \"fr IF CONTENT\",\n  \"item-update4:b_4\": \"fr abc\",\n  \"item-update4:template_5:text\": \"fr IF CONTENT 2\",\n  \"item-update4:text_6\": \"fr  hello \",\n  \"paragraph\": [\n    \"fr A paragraph with \\n      {1}\\n      is converted to \\n      {2}. \",\n    \"{{item}} \",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph2:text\": \"fr A paragraph with deep \",\n  \"paragraph2:text_2\": \"fr  is \",\n  \"paragraph2:b_3\": \"fr not\",\n  \"paragraph2:text_4\": \"fr  converted to \",\n  \"paragraph2:code_5\": \"fr <i18n-format>\",\n  \"paragraph2:text_6\": \"fr . \",\n  \"authors\": [\n    {\n      \"name\": \"fr Joe\"\n    },\n    {\n      \"name\": \"fr Alice\"\n    }\n  ],\n  \"updated\": \"fr Jan 1st, 2016\",\n  \"parameters\": [\n    \"fr parameter 1\",\n    \"fr parameter 2\"\n  ]\n}",
-  "/edge-case/locales/empty-element.fr.json": "{}",
-  "/fallback-text-element/locales/fallback-text-element.fr-CA.json": "{\n  \"model\": {},\n  \"text\": \"fr-CA  outermost text at the beginning \",\n  \"h1_3\": \"fr-CA outermost header 1\",\n  \"text_4\": \"fr-CA  outermost text in the middle \",\n  \"span_5\": \"fr-CA simple text without id\",\n  \"span_6\": \"fr-CA simple text without id 2\",\n  \"label-1\": \"fr-CA simple text with id\",\n  \"label-2\": \"fr-CA simple text with id 2\",\n  \"div_10:span_1\": \"fr-CA simple text within div\",\n  \"toplevel-div:span\": \"fr-CA simple text within div\",\n  \"toplevel-div:span_1\": \"fr-CA simple text within div 2\",\n  \"third-level-div\": \"fr-CA great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr-CA great grandchild text within div without id\",\n  \"p_13\": [\n    \"fr-CA A paragraph with {1} is converted to {2}.\",\n    \"fr-CA parameters\",\n    \"fr-CA <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr-CA A paragraph with {1} is converted to {2}.\",\n    \"fr-CA id\",\n    \"fr-CA <i18n-format>\"\n  ],\n  \"text_15\": \"fr-CA  outermost text at the end \"\n}\n",
-  "/fallback-text-element/locales/fallback-text-element.fr.json": "{\n  \"model\": {},\n  \"text\": \"fr  outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \"fr  outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \"fr  outermost text at the end \"\n}\n",
   "/multiple-case/locales/item-element.fr.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"label\": \"fr A\"\n}",
   "/multiple-case/locales/multiple-element.fr.json": "{\n  \"meta\": {},\n  \"model\": {}\n}",
+  "/multiple-case/multiple-element.json": "{\n  \"meta\": {},\n  \"model\": {}\n}",
   "/plural-gender-element/locales/plural-gender-element.fr.json": "{\n  \"model\": {},\n  \"compound-format-text\": [\n    {\n      \"0\": \"fr You ({3}) gave no gifts.\",\n      \"1\": {\n        \"male\": \"fr You ({3}) gave him ({4}) {5}.\",\n        \"female\": \"fr You ({3}) gave her ({4}) {5}.\",\n        \"other\": \"fr You ({3}) gave them ({4}) {5}.\"\n      },\n      \"one\": {\n        \"male\": \"fr You ({3}) gave him ({4}) and one other person {5}.\",\n        \"female\": \"fr You ({3}) gave her ({4}) and one other person {5}.\",\n        \"other\": \"fr You ({3}) gave them ({4}) and one other person {5}.\"\n      },\n      \"other\": \"fr You ({3}) gave them ({4}) and {1} other people gifts.\"\n    },\n    \"{{recipients.length - 1}}\",\n    \"{{recipients.0.gender}}\",\n    \"{{sender.name}}\",\n    \"{{recipients.0.name}}\",\n    \"fr a gift\"\n  ]\n}\n",
+  "/plural-gender-element/plural-gender-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"compound-format-text\": [\n    {\n      \"0\": \"You ({3}) gave no gifts.\",\n      \"1\": {\n        \"male\": \"You ({3}) gave him ({4}) {5}.\",\n        \"female\": \"You ({3}) gave her ({4}) {5}.\",\n        \"other\": \"You ({3}) gave them ({4}) {5}.\"\n      },\n      \"one\": {\n        \"male\": \"You ({3}) gave him ({4}) and one other person {5}.\",\n        \"female\": \"You ({3}) gave her ({4}) and one other person {5}.\",\n        \"other\": \"You ({3}) gave them ({4}) and one other person {5}.\"\n      },\n      \"other\": \"You ({3}) gave them ({4}) and {1} other people gifts.\"\n    },\n    \"{{recipients.length - 1}}\",\n    \"{{recipients.0.gender}}\",\n    \"{{sender.name}}\",\n    \"{{recipients.0.name}}\",\n    \"a gift\"\n  ]\n}",
+  "/preference/preference-element.json": "{\n  \"meta\": {},\n  \"model\": {}\n}",
+  "/simple-attribute-dom-bind.json": "{\n  \"meta\": {},\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"paper-input label\",\n      \"error-message\": \"paper-input error message\",\n      \"placeholder\": \"paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"paper-input label without id\",\n      \"error-message\": \"paper-input error message without id\",\n      \"placeholder\": \"paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"Jan\",\n          31\n        ],\n        [\n          \"Feb\",\n          28\n        ],\n        [\n          \"Mar\",\n          31\n        ],\n        [\n          \"Apr\",\n          30\n        ],\n        [\n          \"May\",\n          31\n        ],\n        [\n          \"Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"Inventory\"\n      },\n      \"data\": [\n        [\n          \"Year\",\n          \"Things\",\n          \"Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"custom text attribute 1\",\n      \"custom-text-attr2\": \"custom text attribute 2\",\n      \"custom-text-attr3\": \"custom text attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"this attr1 is extracted\",\n      \"i18n-target-attr\": \"this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"text 1\"\n}",
   "/simple-attribute-element/locales/simple-attribute-element.fr.json": "{\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"fr standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"fr standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"fr paper-input label\",\n      \"error-message\": \"fr paper-input error message\",\n      \"placeholder\": \"fr paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"fr paper-input label without id\",\n      \"error-message\": \"fr paper-input error message without id\",\n      \"placeholder\": \"fr paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"fr Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"fr Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"fr Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"fr Jan\",\n          31\n        ],\n        [\n          \"fr Feb\",\n          28\n        ],\n        [\n          \"fr Mar\",\n          31\n        ],\n        [\n          \"fr Apr\",\n          30\n        ],\n        [\n          \"fr May\",\n          31\n        ],\n        [\n          \"fr Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"fr Inventory\"\n      },\n      \"data\": [\n        [\n          \"fr Year\",\n          \"fr Things\",\n          \"fr Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"fr custom text attribute 1\",\n      \"custom-text-attr2\": \"fr custom text attribute 2\",\n      \"custom-text-attr3\": \"fr custom text attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"fr this attr1 is extracted\",\n      \"i18n-target-attr\": \"fr this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"fr this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"fr this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"fr text 1\"\n}\n",
   "/simple-attribute-element/locales/text-attribute-element.fr.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"span_4\": \"fr text\"\n}\n",
+  "/simple-attribute-element/simple-attribute-element.json": "{\n  \"meta\": {},\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"paper-input label\",\n      \"error-message\": \"paper-input error message\",\n      \"placeholder\": \"paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"paper-input label without id\",\n      \"error-message\": \"paper-input error message without id\",\n      \"placeholder\": \"paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"Jan\",\n          31\n        ],\n        [\n          \"Feb\",\n          28\n        ],\n        [\n          \"Mar\",\n          31\n        ],\n        [\n          \"Apr\",\n          30\n        ],\n        [\n          \"May\",\n          31\n        ],\n        [\n          \"Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"Inventory\"\n      },\n      \"data\": [\n        [\n          \"Year\",\n          \"Things\",\n          \"Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"custom text attribute 1\",\n      \"custom-text-attr2\": \"custom text attribute 2\",\n      \"custom-text-attr3\": \"custom text attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"this attr1 is extracted\",\n      \"i18n-target-attr\": \"this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"text 1\"\n}",
+  "/simple-attribute-element/text-attribute-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"span_4\": \"text\"\n}",
+  "/simple-text-dom-bind.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
   "/simple-text-element/locales/simple-text-element.fr.json": "{\n  \"model\": {},\n  \"text\": \"fr  outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \"fr  outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \"fr  simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \"fr  simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \"fr  simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \"fr  outermost text at the end \"\n}\n",
   "/simple-text-element/locales/simple-text-element.ru.json": "{\n  \"model\": {},\n  \"text\": \"ru  outermost text at the beginning \",\n  \"h1_3\": \"ru outermost header 1\",\n  \"text_4\": \"ru  outermost text in the middle \",\n  \"span_5\": \"ru simple text without id\",\n  \"span_6\": \"ru simple text without id 2\",\n  \"label-1\": \"ru simple text with id\",\n  \"label-2\": \"ru simple text with id 2\",\n  \"div_9:span\": \"ru simple text within div\",\n  \"div_9:span_1\": \"ru simple text within div 2\",\n  \"div_9:div_2:div\": \"ru great grandchild text within div\",\n  \"div_10:text\": \"ru  simple text as the first element in div \",\n  \"div_10:span_1\": \"ru simple text within div\",\n  \"div_10:text_2\": \"ru  simple text in the middle of div \",\n  \"div_10:span_3\": \"ru simple text within div 2\",\n  \"div_10:div_4:div\": \"ru great grandchild text within div\",\n  \"div_10:text_5\": \"ru  simple text at the last element in div \",\n  \"toplevel-div:span\": \"ru simple text within div\",\n  \"toplevel-div:span_1\": \"ru simple text within div 2\",\n  \"third-level-div\": \"ru great grandchild text within div\",\n  \"second-level-div:div_1\": \"ru great grandchild text within div without id\",\n  \"div_12:ul:li\": \"ru line item without id 1\",\n  \"div_12:ul:li_1\": \"ru line item without id 2\",\n  \"div_12:ul:li_2\": \"ru line item without id 3\",\n  \"line-items:li\": \"ru line item with id 1\",\n  \"line-items:li_1\": \"ru line item with id 2\",\n  \"line-items:li_2\": \"ru line item with id 3\",\n  \"p_13\": [\n    \"ru A paragraph with {1} is converted to {2}.\",\n    \"ru parameters\",\n    \"ru <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"ru A paragraph with {1} is converted to {2}.\",\n    \"ru id\",\n    \"ru <i18n-format>\"\n  ],\n  \"text_15\": \"ru  outermost text at the end \"\n}\n",
+  "/simple-text-element/simple-text-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
   "/simple-text-id-element/locales/simple-text-id-element.fr.json": "{\n  \"model\": {},\n  \"text\": \"fr  outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \"fr  outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \"fr  simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \"fr  simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \"fr  simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"second-level-div\": [\n    \"fr  {1}\\n        {2} \",\n    \"fr great grandchild text within div\",\n    \"fr great grandchild text within div without id\"\n  ],\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items\": [\n    \"fr  {1}\\n        {2}\\n        {3} \",\n    \"fr line item with id 1\",\n    \"fr line item with id 2\",\n    \"fr line item with id 3\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \"fr  outermost text at the end \"\n}\n",
+  "/simple-text-id-element/simple-text-id-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"second-level-div\": [\n    \" {1}\\n        {2} \",\n    \"great grandchild text within div\",\n    \"great grandchild text within div without id\"\n  ],\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items\": [\n    \" {1}\\n        {2}\\n        {3} \",\n    \"line item with id 1\",\n    \"line item with id 2\",\n    \"line item with id 3\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
   "/template-default-lang/locales/null-template-default-lang-element.ja.json": "",
   "/template-default-lang/locales/null-template-default-lang-element.zh-Hans-CN.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \"zh-Hans-CN  outermost text at the beginning \",\n  \"h1_3\": \"zh-Hans-CN outermost header 1\",\n  \"text_4\": \"zh-Hans-CN  outermost text in the middle \",\n  \"span_5\": \"zh-Hans-CN simple text without id\",\n  \"span_6\": \"zh-Hans-CN simple text without id 2\",\n  \"label-1\": \"zh-Hans-CN simple text with id\",\n  \"label-2\": \"zh-Hans-CN simple text with id 2\",\n  \"div_9:span\": \"zh-Hans-CN simple text within div\",\n  \"div_9:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"div_9:div_2:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text\": \"zh-Hans-CN  simple text as the first element in div \",\n  \"div_10:span_1\": \"zh-Hans-CN simple text within div\",\n  \"div_10:text_2\": \"zh-Hans-CN  simple text in the middle of div \",\n  \"div_10:span_3\": \"zh-Hans-CN simple text within div 2\",\n  \"div_10:div_4:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text_5\": \"zh-Hans-CN  simple text at the last element in div \",\n  \"toplevel-div:span\": \"zh-Hans-CN simple text within div\",\n  \"toplevel-div:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"third-level-div\": \"zh-Hans-CN great grandchild text within div\",\n  \"second-level-div:div_1\": \"zh-Hans-CN great grandchild text within div without id\",\n  \"div_12:ul:li\": \"zh-Hans-CN line item without id 1\",\n  \"div_12:ul:li_1\": \"zh-Hans-CN line item without id 2\",\n  \"div_12:ul:li_2\": \"zh-Hans-CN line item without id 3\",\n  \"line-items:li\": \"zh-Hans-CN line item with id 1\",\n  \"line-items:li_1\": \"zh-Hans-CN line item with id 2\",\n  \"line-items:li_2\": \"zh-Hans-CN line item with id 3\",\n  \"p_13\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN parameters\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN id\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"text_15\": \"zh-Hans-CN  outermost text at the end \"\n}",
-  "/template-default-lang/locales/template-default-lang-element.zh-Hans-CN.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" zh-Hans-CN outermost text at the beginning \",\n  \"h1_3\": \"zh-Hans-CN outermost header 1\",\n  \"text_4\": \" zh-Hans-CN outermost text in the middle \",\n  \"span_5\": \"zh-Hans-CN simple text without id\",\n  \"span_6\": \"zh-Hans-CN simple text without id 2\",\n  \"label-1\": \"zh-Hans-CN simple text with id\",\n  \"label-2\": \"zh-Hans-CN simple text with id 2\",\n  \"div_9:span\": \"zh-Hans-CN simple text within div\",\n  \"div_9:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"div_9:div_2:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text\": \" zh-Hans-CN simple text as the first element in div \",\n  \"div_10:span_1\": \"zh-Hans-CN simple text within div\",\n  \"div_10:text_2\": \" zh-Hans-CN simple text in the middle of div \",\n  \"div_10:span_3\": \"zh-Hans-CN simple text within div 2\",\n  \"div_10:div_4:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text_5\": \" zh-Hans-CN simple text at the last element in div \",\n  \"toplevel-div:span\": \"zh-Hans-CN simple text within div\",\n  \"toplevel-div:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"third-level-div\": \"zh-Hans-CN great grandchild text within div\",\n  \"second-level-div:div_1\": \"zh-Hans-CN great grandchild text within div without id\",\n  \"div_12:ul:li\": \"zh-Hans-CN line item without id 1\",\n  \"div_12:ul:li_1\": \"zh-Hans-CN line item without id 2\",\n  \"div_12:ul:li_2\": \"zh-Hans-CN line item without id 3\",\n  \"line-items:li\": \"zh-Hans-CN line item with id 1\",\n  \"line-items:li_1\": \"zh-Hans-CN line item with id 2\",\n  \"line-items:li_2\": \"zh-Hans-CN line item with id 3\",\n  \"p_13\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN parameters\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN id\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"text_15\": \" zh-Hans-CN outermost text at the end \"\n}"
+  "/template-default-lang/locales/template-default-lang-element.zh-Hans-CN.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" zh-Hans-CN outermost text at the beginning \",\n  \"h1_3\": \"zh-Hans-CN outermost header 1\",\n  \"text_4\": \" zh-Hans-CN outermost text in the middle \",\n  \"span_5\": \"zh-Hans-CN simple text without id\",\n  \"span_6\": \"zh-Hans-CN simple text without id 2\",\n  \"label-1\": \"zh-Hans-CN simple text with id\",\n  \"label-2\": \"zh-Hans-CN simple text with id 2\",\n  \"div_9:span\": \"zh-Hans-CN simple text within div\",\n  \"div_9:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"div_9:div_2:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text\": \" zh-Hans-CN simple text as the first element in div \",\n  \"div_10:span_1\": \"zh-Hans-CN simple text within div\",\n  \"div_10:text_2\": \" zh-Hans-CN simple text in the middle of div \",\n  \"div_10:span_3\": \"zh-Hans-CN simple text within div 2\",\n  \"div_10:div_4:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text_5\": \" zh-Hans-CN simple text at the last element in div \",\n  \"toplevel-div:span\": \"zh-Hans-CN simple text within div\",\n  \"toplevel-div:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"third-level-div\": \"zh-Hans-CN great grandchild text within div\",\n  \"second-level-div:div_1\": \"zh-Hans-CN great grandchild text within div without id\",\n  \"div_12:ul:li\": \"zh-Hans-CN line item without id 1\",\n  \"div_12:ul:li_1\": \"zh-Hans-CN line item without id 2\",\n  \"div_12:ul:li_2\": \"zh-Hans-CN line item without id 3\",\n  \"line-items:li\": \"zh-Hans-CN line item with id 1\",\n  \"line-items:li_1\": \"zh-Hans-CN line item with id 2\",\n  \"line-items:li_2\": \"zh-Hans-CN line item with id 3\",\n  \"p_13\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN parameters\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN id\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"text_15\": \" zh-Hans-CN outermost text at the end \"\n}",
+  "/template-default-lang/null-template-default-lang-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}",
+  "/template-default-lang/template-default-lang-element.json": "{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}"
 };
 </script>
     <script>/*!
@@ -8517,6 +8517,44 @@ if (!window.Promise) {
 }
 </script>
 
+<script>Promise.all = Promise.all || function () {
+  var args = Array.prototype.slice.call(arguments.length === 1 && Array.isArray(arguments[0]) ? arguments[0] : arguments);
+
+  return new Promise(function (resolve, reject) {
+    if (args.length === 0) return resolve([]);
+    var remaining = args.length;
+    function res(i, val) {
+      try {
+        if (val && (typeof val === 'object' || typeof val === 'function')) {
+          var then = val.then;
+          if (typeof then === 'function') {
+            then.call(val, function (val) { res(i, val) }, reject);
+            return;
+          }
+        }
+        args[i] = val;
+        if (--remaining === 0) {
+          resolve(args);
+        }
+      } catch (ex) {
+        reject(ex);
+      }
+    }
+    for (var i = 0; i < args.length; i++) {
+      res(i, args[i]);
+    }
+  });
+};
+
+Promise.race = Promise.race || function (values) {
+  return new Promise(function (resolve, reject) {
+    for(var i = 0, len = values.length; i < len; i++) {
+      values[i].then(resolve, reject);
+    }
+  });
+};
+
+</script>
 <script>
 (function () {
   var _bindingRegex_patch = {
@@ -17376,289 +17414,7 @@ is separate from validation, and `allowed-pattern` does not affect how the input
     ]
   });
 </script>
-<script>
-(function() {
-  "use strict";
-  /**
-    `Polymer.IronJsonpLibraryBehavior` loads a jsonp library.
-    Multiple components can request same library, only one copy will load.
-
-    Some libraries require a specific global function be defined.
-    If this is the case, specify the `callbackName` property.
-
-    You should use an HTML Import to load library dependencies
-    when possible instead of using this element.
-
-    @hero hero.svg
-    @demo demo/index.html
-    @polymerBehavior
-   */
-  Polymer.IronJsonpLibraryBehavior = {
-
-    properties: {
-      /**
-       * True if library has been successfully loaded
-       */
-      libraryLoaded: {
-        type: Boolean,
-        value: false,
-        notify: true,
-        readOnly: true
-      },
-      /**
-       * Not null if library has failed to load
-       */
-      libraryErrorMessage: {
-        type: String,
-        value: null,
-        notify: true,
-        readOnly: true
-      }
-      // Following properties are to be set by behavior users
-      /**
-       * Library url. Must contain string `%%callback%%`.
-       *
-       * `%%callback%%` is a placeholder for jsonp wrapper function name
-       *
-       * Ex: https://maps.googleapis.com/maps/api/js?callback=%%callback%%
-       * @property libraryUrl
-       */
-      /**
-       * Set if library requires specific callback name.
-       * Name will be automatically generated if not set.
-       * @property callbackName
-       */
-      /**
-       * name of event to be emitted when library loads. Standard is `api-load`
-       * @property notifyEvent
-       */
-      /**
-       * event with name specified in `notifyEvent` attribute
-       * will fire upon successful load2
-       * @event `notifyEvent`
-       */
-    },
-
-    observers: [
-      '_libraryUrlChanged(libraryUrl)'
-    ],
-
-    _libraryUrlChanged: function(libraryUrl) {
-      // can't load before ready because notifyEvent might not be set
-      if (this._isReady && this.libraryUrl)
-        this._loadLibrary();
-    },
-
-    _libraryLoadCallback: function(err, result) {
-      if (err) {
-        console.warn("Library load failed:", err.message);
-        this._setLibraryErrorMessage(err.message);
-      }
-      else {
-        this._setLibraryErrorMessage(null);
-        this._setLibraryLoaded(true);
-        if (this.notifyEvent)
-          this.fire(this.notifyEvent, result);
-      }
-    },
-
-    /** loads the library, and fires this.notifyEvent upon completion */
-    _loadLibrary: function() {
-      LoaderMap.require(
-        this.libraryUrl,
-        this._libraryLoadCallback.bind(this),
-        this.callbackName
-      );
-    },
-
-    ready: function() {
-      this._isReady = true;
-      if (this.libraryUrl)
-        this._loadLibrary();
-    }
-  };
-
-  /**
-   * LoaderMap keeps track of all Loaders
-   */
-  var LoaderMap = {
-    apiMap: {}, // { hash -> Loader }
-
-    /**
-     * @param {Function} notifyCallback loaded callback fn(result)
-     * @param {string} jsonpCallbackName name of jsonpcallback. If API does not provide it, leave empty. Optional.
-     */
-    require: function(url, notifyCallback, jsonpCallbackName) {
-
-      // make hashable string form url
-      var name = this.nameFromUrl(url);
-
-      // create a loader as needed
-      if (!this.apiMap[name])
-        this.apiMap[name] = new Loader(name, url, jsonpCallbackName);
-
-      // ask for notification
-      this.apiMap[name].requestNotify(notifyCallback);
-    },
-
-    nameFromUrl: function(url) {
-      return url.replace(/[\:\/\%\?\&\.\=\-\,]/g, '_') + '_api';
-    }
-  };
-
-  /** @constructor */
-  var Loader = function(name, url, callbackName) {
-    this.notifiers = [];  // array of notifyFn [ notifyFn* ]
-
-    // callback is specified either as callback name
-    // or computed dynamically if url has callbackMacro in it
-    if (!callbackName) {
-      if (url.indexOf(this.callbackMacro) >= 0) {
-        callbackName = name + '_loaded';
-        url = url.replace(this.callbackMacro, callbackName);
-      } else {
-        this.error = new Error('IronJsonpLibraryBehavior a %%callback%% parameter is required in libraryUrl');
-        // TODO(sjmiles): we should probably fallback to listening to script.load
-        return;
-      }
-    }
-    this.callbackName = callbackName;
-    window[this.callbackName] = this.success.bind(this);
-    this.addScript(url);
-  };
-
-  Loader.prototype = {
-
-    callbackMacro: '%%callback%%',
-    loaded: false,
-
-    addScript: function(src) {
-      var script = document.createElement('script');
-      script.src = src;
-      script.onerror = this.handleError.bind(this);
-      var s = document.querySelector('script') || document.body;
-      s.parentNode.insertBefore(script, s);
-      this.script = script;
-    },
-
-    removeScript: function() {
-      if (this.script.parentNode) {
-        this.script.parentNode.removeChild(this.script);
-      }
-      this.script = null;
-    },
-
-    handleError: function(ev) {
-      this.error = new Error("Library failed to load");
-      this.notifyAll();
-      this.cleanup();
-    },
-
-    success: function() {
-      this.loaded = true;
-      this.result = Array.prototype.slice.call(arguments);
-      this.notifyAll();
-      this.cleanup();
-    },
-
-    cleanup: function() {
-      delete window[this.callbackName];
-    },
-
-    notifyAll: function() {
-      this.notifiers.forEach( function(notifyCallback) {
-        notifyCallback(this.error, this.result);
-      }.bind(this));
-      this.notifiers = [];
-    },
-
-    requestNotify: function(notifyCallback) {
-      if (this.loaded || this.error) {
-        notifyCallback( this.error, this.result);
-      } else {
-        this.notifiers.push(notifyCallback);
-      }
-    }
-  };
-})();
-</script>
-
-
-<script>
-  Polymer({
-
-    is: 'iron-jsonp-library',
-
-    behaviors: [ Polymer.IronJsonpLibraryBehavior ],
-
-    properties: {
-      /**
-       * Library url. Must contain string `%%callback%%`.
-       *
-       * `%%callback%%` is a placeholder for jsonp wrapper function name
-       *
-       * Ex: https://maps.googleapis.com/maps/api/js?callback=%%callback%%
-       */
-      libraryUrl: String,
-      /**
-       * Set if library requires specific callback name.
-       * Name will be automatically generated if not set.
-       */
-      callbackName: String,
-      /**
-       * event with name specified in 'notifyEvent' attribute
-       * will fire upon successful load
-       */
-      notifyEvent: String
-      /**
-       * event with name specified in 'notifyEvent' attribute
-       * will fire upon successful load
-       * @event `notifyEvent`
-       */
-
-    }
-  });
-
-</script>
-<script>
-  Polymer({
-
-    is: 'google-legacy-loader',
-
-    behaviors: [
-      Polymer.IronJsonpLibraryBehavior
-    ],
-
-    properties: {
-
-      /** @private */
-      libraryUrl: {
-        type: String,
-        value: 'https://www.google.com/jsapi?callback=%%callback%%'
-      },
-
-      /**
-       * Fired when the API library is loaded and available.
-       * @event js-api-load
-       */
-      /**
-       * Name of event fired when library is loaded and available.
-       */
-      notifyEvent: {
-        type: String,
-        value: 'api-load'
-      }
-    },
-
-    /**
-     * Wrapper for `google` API namespace.
-     */
-    get api() {
-      return google;
-    }
-  });
-</script>
-
+<script src="https://www.gstatic.com/charts/loader.js"></script>
 
 <dom-module id="google-chart" assetpath="../../../google-chart/">
   
@@ -17683,9 +17439,7 @@ is separate from validation, and `allowed-pattern` does not affect how the input
 }
 
 </style>
-    <iron-ajax id="ajax" handle-as="json" url="{{data}}" on-response="_externalDataLoaded"></iron-ajax>
     <div id="chartdiv"></div>
-    <google-legacy-loader on-api-load="_readyForAction"></google-legacy-loader>
   </template>
 </dom-module>
 
@@ -17693,12 +17447,103 @@ is separate from validation, and `allowed-pattern` does not affect how the input
 (function() {
   "use strict";
 
+  // Most charts use this package.
+  var DEFACTO_CHART_PACKAGE = 'corechart';
+
+  // Loads a chart package and then calls the callback.
+  var chartConstructor = function(callback, opt_pkg) {
+    return function(chartElement) {
+      return getChartPackage(opt_pkg).then(callback).then(function(ctor) {
+        return new ctor(chartElement);
+      });
+    };
+  };
+
+  // A collection of chart types associated with a function that returns a
+  // Promise for the chart type's constructor.
+  var CHART_CONSTRUCTORS = {
+    'area': chartConstructor(function(pkg) {
+      return pkg.AreaChart;
+    }),
+    'bar': chartConstructor(function(pkg) {
+      return pkg.BarChart;
+    }),
+    'bubble': chartConstructor(function(pkg) {
+      return pkg.BubbleChart;
+    }),
+    'candlestick': chartConstructor(function(pkg) {
+      return pkg.CandlestickChart;
+    }),
+    'column': chartConstructor(function(pkg) {
+      return pkg.ColumnChart;
+    }),
+    'combo': chartConstructor(function(pkg) {
+      return pkg.ComboChart;
+    }),
+    'geo': chartConstructor(function(pkg) {
+      return pkg.GeoChart;
+    }),
+    'histogram': chartConstructor(function(pkg) {
+      return pkg.Histogram;
+    }),
+    'line': chartConstructor(function(pkg) {
+      return pkg.LineChart;
+    }),
+    'pie': chartConstructor(function(pkg) {
+      return pkg.PieChart;
+    }),
+    'scatter': chartConstructor(function(pkg) {
+      return pkg.ScatterChart;
+    }),
+    'stepped-area': chartConstructor(function(pkg) {
+      return pkg.SteppedAreaChart;
+    }),
+    'table': chartConstructor(function(pkg) {
+      return pkg.Table;
+    }, 'table'),
+    'timeline': chartConstructor(function(pkg) {
+      return pkg.Timeline;
+    }, 'timeline'),
+    'gauge': chartConstructor(function(pkg) {
+      return pkg.Gauge;
+    }, 'gauge'),
+    'treemap': chartConstructor(function(pkg) {
+      return pkg.TreeMap;
+    }, 'treemap')
+  };
+
+  // A cache of Package Promises so we can re-use them between charts.
+  var pkgPromises = {};
+
+  // Returns a Promise for a Chart package.
+  var getChartPackage = function(opt_pkg) {
+    var pkg = opt_pkg || DEFACTO_CHART_PACKAGE;
+    if (pkgPromises[pkg]) return pkgPromises[pkg];
+    pkgPromises[pkg] = new Promise(function(resolve) {
+      google.charts.load('current', {packages: [pkg]});
+      google.charts.setOnLoadCallback(function() {
+        resolve(google.visualization);
+      });
+    });
+    return pkgPromises[pkg];
+  };
+
+  // Creates a chart of type on the chartElement.
+  // Returns a Promise for the new chart.
+  var createChart = function(type, chartElement) {
+    return CHART_CONSTRUCTORS[type](chartElement);
+  };
+
+  // We can go ahead and load the defacto package because we'll need it to do
+  // anything (e.g. creating the DataTable to render).
+  var vizPkg = getChartPackage();
+
   Polymer({
 
     is: 'google-chart',
 
     /**
-     * Fired when the graph is displayed.
+     * Fired when a new chart type is created and rendered.
      *
      * @event google-chart-render
      */
@@ -17744,7 +17589,23 @@ is separate from validation, and `allowed-pattern` does not affect how the input
        */
       options: {
         type: Object,
-        value: function() { return {}; }
+        observer: 'drawChart'
+      },
+
+      /**
+       * A Promise for the Google Visualization library.
+       *
+       * Example:
+       * <pre>myChart.pkg.then(function(viz) {
+       *   // `viz` is equivalent to `google.visualization`
+       *   myChart.view = new viz.DataView(myData);
+       * });</pre>
+       *
+       */
+      pkg: {
+        type: Object,
+        value: vizPkg,
+        readOnly: true
       },
 
       /**
@@ -17764,7 +17625,7 @@ is separate from validation, and `allowed-pattern` does not affect how the input
        */
       cols: {
         type: Array,
-        value: function() { return []; }
+        observer: '_rowsOrColumnsChanged',
       },
       /**
        * Sets the data rows for this object.
@@ -17783,7 +17644,7 @@ is separate from validation, and `allowed-pattern` does not affect how the input
        */
       rows: {
         type: Array,
-        value: function() { return []; }
+        observer: '_rowsOrColumnsChanged',
       },
 
       /**
@@ -17804,11 +17665,27 @@ is separate from validation, and `allowed-pattern` does not affect how the input
        *  ["Category 2", 1.1]]</pre>
        *
        * @attribute data
-       * @type array, object, or string
+       * @type google.visualization.DataTable, array, object, or string
        */
       data: {
-        type: Object, // or array, or object
-        value: function() { return []; }
+        type: Object, // or array, or object, or string
+        observer: '_dataChanged'
+      },
+
+      /**
+       * Sets the entire dataset for this object to a Google DataView.
+       *
+       * See <a href="https://google-developers.appspot.com/chart/interactive/docs/reference#dataview-class">Google Visualization API reference (DataView)</a>
+       * for details.
+       *
+       * When specifying data with `view` you must not specify `data`, `cols` or `rows`.
+       *
+       * @attribute view
+       * @type google.visualization.DataView
+       */
+      view: {
+        type: Object,
+        observer: '_viewChanged'
       },
 
       /**
@@ -17831,96 +17708,98 @@ is separate from validation, and `allowed-pattern` does not affect how the input
        */
       selection: {
         type: Array,
-        value: function() { return []; },
-        observer: '_selectionChanged'
+        notify: true,
+        observer: '_setSelection'
       },
     },
 
-    observers: [
-      '_loadData(rows, cols, data)'
-    ],
+    observers: [],
 
-    _packages: null,
+    // Used to get the ImageURI to maintain the old API.
+    _chartObject: null,  // not accessible before render event.
 
-    _chartObject: null,
+    // Promise for the chart object that we will draw.
+    _chart: null,
 
-    _isReady: false,
+    // Promise for the DataView with which the chart is drawn.
+    _dataView: null,
 
-    _canDraw: false,
+    // Promise for the drawn chart.
+    _chartDrawn: null,
 
-    _dataTable: null,
+    // The current selection in the chart.
+    _selection: null,
 
-    _chartTypes: null,
-
-    _readyForAction: function(e, detail, sender) {
-      this._loadPackageByChartType();
-
-      google.load("visualization", "1", {
-        packages: this._packages[this.type],
-        callback: function() {
-          this._isReady = true;
-          this._loadChartTypes();
-          this._loadData();
-        }.bind(this)
-      });
-    },
-
+    // The chart type was changed.
+    // We need to create a new chart and redraw.
     _typeChanged: function() {
-      // Invalidate current chart object.
-      this._chartObject = null;
-      this._loadData();
+      this._chart = createChart(this.type, this.$.chartdiv)
+          .then(this._setupChart.bind(this));
+      this.drawChart();
     },
 
-    _selectionChanged: function() {
-      if (this._chartObject && this.setSelection) {
-        this._chartObject.setSelection(this.selection);
+    _setSelection: function() {
+      // Note: Some charts (e.g. TreeMap) must have a selection.
+      if (!this.selection ||
+          this.selection === this._selection ||
+          !this._chartDrawn) {
+        return;
       }
+      this._selection = this.selection;
+
+      this._chartDrawn.then(function(chart) {
+        if (chart.setSelection) {
+          chart.setSelection(this.selection);
+        }
+      }.bind(this));
+    },
+
+    // Sets up a chart after construction.
+    // @return {Object} The chart.
+    _setupChart: function(chart) {
+      // Some charts (e.g. Gauge) do not support selection
+      if (chart.getSelection) {
+        google.visualization.events.addListener(chart, 'select', function() {
+          this.selection = this._selection = chart.getSelection();
+          // This should be deprecated.
+          // The value for the new selection is here:
+          // event.detail.selection
+          // with property notification, the path is:
+          // event.detail.value
+          this.fire('google-chart-select', {
+             selection: this.selection
+          });
+        }.bind(this));
+      }
+      this._chartObject = chart;
+      this._selection = null;  // Reset the internal selection value.
+      return chart;
     },
 
     /**
-     * Draws the chart.
+     * Redraws the chart.
      *
-     * Called automatically on first load and whenever one of the attributes
-     * changes. Can be called manually to handle e.g. page resizes.
+     * Called automatically when data/type/selection attributes change.
+     * Call manually to handle view updates, page resizes, etc.
      *
      * @method drawChart
-     * @return {Object} Returns null.
      */
     drawChart: function() {
-      if (this._canDraw) {
-        if (!this.options) {
-          this.options = {};
-        }
-        if (!this._chartObject) {
-          var chartClass = this._chartTypes[this.type];
-          if (chartClass) {
-            this._chartObject = new chartClass(this.$.chartdiv);
-          }
-        }
-        if (this._chartObject) {
-          google.visualization.events.addOneTimeListener(this._chartObject,
-              'ready', function() {
-                  this.fire('google-chart-render');
-              }.bind(this));
-
-          google.visualization.events.addListener(this._chartObject,
-              'select', function() {
-                  this.selection = this._chartObject.getSelection();
-                  this.fire('google-chart-select',
-                      { selection: this._chartObject.getSelection() });
-              }.bind(this));
-
-
-          this._chartObject.draw(this._dataTable, this.options);
-
-          if (this._chartObject.setSelection){
-            this._chartObject.setSelection(this.selection);
-          }
-        } else {
-          this.$.chartdiv.innerHTML = 'Undefined chart type';
-        }
-      }
-      return null;
+      if (!this._chart || !this._dataView) return;
+      this._chartDrawn = Promise.all([this._chart, this._dataView])
+          .then(function(chartAndData) {
+            var chart = chartAndData[0];
+            var data = chartAndData[1];
+            google.visualization.events.addOneTimeListener(chart, 'ready', function() {
+              this.fire('google-chart-render');
+            }.bind(this));
+            chart.draw(data, this.options || {});
+            return chart;
+          }.bind(this), function(error) {
+            this.$.chartdiv.innerHTML = error;
+            throw error;
+          }.bind(this));
+      this._setSelection();
     },
 
     /**
@@ -17934,106 +17813,67 @@ is separate from validation, and `allowed-pattern` does not affect how the input
       return this._chartObject.getImageURI();
     },
 
-    _loadChartTypes: function() {
-      this._chartTypes = {
-        'area': google.visualization.AreaChart,
-        'bar': google.visualization.BarChart,
-        'bubble': google.visualization.BubbleChart,
-        'candlestick': google.visualization.CandlestickChart,
-        'column': google.visualization.ColumnChart,
-        'combo': google.visualization.ComboChart,
-        'geo': google.visualization.GeoChart,
-        'histogram': google.visualization.Histogram,
-        'line': google.visualization.LineChart,
-        'pie': google.visualization.PieChart,
-        'scatter': google.visualization.ScatterChart,
-        'stepped-area': google.visualization.SteppedAreaChart,
-        'table': google.visualization.Table,
-        'gauge': google.visualization.Gauge,
-        'treemap': google.visualization.TreeMap
-      };
-    },
-
-    _loadPackageByChartType: function() {
-      this._packages = {
-        'area': 'corechart',
-        'bar': 'corechart',
-        'bubble': 'corechart',
-        'candlestick': 'corechart',
-        'column': 'corechart',
-        'combo': 'corechart',
-        'geo': 'corechart',
-        'histogram': 'corechart',
-        'line': 'corechart',
-        'pie': 'corechart',
-        'scatter': 'corechart',
-        'stepped-area': 'corechart',
-        'table': 'table',
-        'gauge': 'gauge',
-        'treemap': 'treemap'
-      };
-    },
-
-    _loadData: function() {
-      this._canDraw = false;
-      if (this._isReady) {
-        if (typeof this.data == 'string' || this.data instanceof String) {
-          // Load data asynchronously, from external URL.
-          this.$.ajax.generateRequest();
-        } else {
-          var dataTable = this._createDataTable();
-          this._canDraw = true;
-          if (dataTable) {
-            this._dataTable = dataTable;
-            this.drawChart();
-          }
-        }
-      }
-    },
-
-    _externalDataLoaded: function(e) {
-      var dataTable = this._createDataTable(e.detail.response);
-      this._canDraw = true;
-      this._dataTable = dataTable;
+    // Handles changes to the DataView object attribute.
+    _viewChanged: function() {
+      if (!this.view) return;
+      this._dataView = Promise.resolve(this.view);
       this.drawChart();
     },
 
-    _createDataTable: function(data) {
-      var dataTable = null;
-
-      // If a data object was not passed to this function, default to the
-      // chart's data attribute. Passing a data object is necessary for
-      // cases when the data attribute is a URL pointing to an external
-      // data source.
-      if (!data) {
-        data = this.data;
-      }
-      if (!data)
-        data = [];
-
-      if (this.rows && this.rows.length > 0 && this.cols &&
-          this.cols.length > 0) {
-        // Create the data table from cols and rows.
-        dataTable = new google.visualization.DataTable();
-        dataTable.cols = this.cols;
-
-        for (var i = 0; i < this.cols.length; i++) {
-          dataTable.addColumn(this.cols[i]);
+    // Handles changes to the rows & columns attributes.
+    _rowsOrColumnsChanged: function() {
+      var rows = this.rows, cols = this.cols;
+      if (!rows || !cols) return;
+      this._dataView = vizPkg.then(function(viz) {
+        var dataTable = new viz.DataTable();
+        for (var i = 0; i < cols.length; i++) {
+          dataTable.addColumn(cols[i]);
         }
+        dataTable.addRows(rows);
+        return new viz.DataView(dataTable);
+      });
+      this.drawChart();
+    },
 
-        dataTable.addRows(this.rows);
+    // Handles changes to the data attribute.
+    _dataChanged: function() {
+      var data = this.data;
+      if (!data) return;
+      var dataTable;
+      if (typeof data == 'string' || data instanceof String) {
+        // Load data asynchronously, from external URL.
+        var request = /** @type {!IronRequestElement} */ (document.createElement('iron-request'));
+        dataTable = request.send({url: data, handleAs: 'json'})
+            .then(function(xhr) {
+              return xhr.response;
+            });
       } else {
-        // Create dataTable from the passed data or the data attribute.
-        // Data can be in the form of raw DataTable data or a two
-        // dimensional array.
-        if (data.rows && data.cols) {
-          dataTable = new google.visualization.DataTable(data);
-        } else if (data.length > 0) {
-          dataTable = google.visualization.arrayToDataTable(data);
-        }
+        // Data is all ready to be processed.
+        dataTable = Promise.resolve(data);
       }
-
-      return dataTable;
+      if (!data.getNumberOfRows) {  // Data not already a DataTable
+        dataTable = Promise.all([vizPkg, dataTable]).then(function(vizAndData) {
+          var viz = vizAndData[0];
+          data = vizAndData[1];
+          if (data.rows && data.cols) {
+            // Data is in the form of object DataTable structure
+            return new viz.DataTable(data);
+          } else if (data.length > 0) {
+            // Data is in the form of a two dimensional array.
+            return viz.arrayToDataTable(data);
+          } else if (data.length === 0) {
+            // Chart data was empty.
+            // We return null instead of creating an empty DataTable because most
+            // (if not all) charts will render a sticky error in this situation.
+            return Promise.reject('Data was empty.');
+          }
+          return Promise.reject('Data format was not recognized.');
+        });
+      }
+      this._dataView = dataTable.then(function(dataTable) {
+        return new google.visualization.DataView(dataTable);
+      });
+      this.drawChart();
     }
   });
 })();
