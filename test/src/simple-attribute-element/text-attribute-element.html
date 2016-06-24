@@ -7,6 +7,45 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <i18n-attr-repo>
   <template id="custom">
     <text-attribute-element custom-text-attr2></text-attribute-element>
+    <text-attribute-element custom-text-attr4="$"></text-attribute-element>
+    <text-attribute-element i18n-target></text-attribute-element>
+    <text-attribute-element i18n-target="boolean-attr,!boolean-attr2,string-attr=abc|def,empty-attr=,type1"></text-attribute-element>
+    <text-attribute-element i18n-target="boolean-attr,boolean-attr2,string-attr=aaa,type2"></text-attribute-element>
+    <text-attribute-element i18n-target="string-attr=aaa,string-attr2=bbb,type3"></text-attribute-element>
+    <text-attribute-element i18n-target="boolean-attr=,type4"></text-attribute-element>
+    <text-attribute-element i18n-target2="boolean-attr,!boolean-attr2,string-attr=abc|def,empty-attr=,type1"></text-attribute-element>
+    <text-attribute-element i18n-target2="boolean-attr,boolean-attr2,,string-attr=aaa,,type2"></text-attribute-element>
+    <text-attribute-element i18n-target2="string-attr=aaa,string-attr2=bbb,type3"></text-attribute-element>
+    <text-attribute-element i18n-target2="boolean-attr=,type4"></text-attribute-element>
+    <text-attribute-element i18n-target2="type5"></text-attribute-element>
+    <text-attribute-element i18n-target3="string-attr=aaa,type1"></text-attribute-element>
+    <text-attribute-element i18n-target3></text-attribute-element>
+    <text-attribute-element i18n-target4></text-attribute-element>
+    <text-attribute-element i18n-target4="string-attr=aaa,type1"></text-attribute-element>
+    <text-attribute-element i18n-target5></text-attribute-element>
+    <text-attribute-element i18n-target5="type1"></text-attribute-element>
+    <text-attribute-element i18n-target="boolean-attr=,type4"></text-attribute-element>
+    <text-attribute-element i18n-target="string-attr=aaa,string-attr2=bbb,type3"></text-attribute-element>
+    <text-attribute-element i18n-target="boolean-attr,,boolean-attr2,,string-attr=aaa"></text-attribute-element>
+    <text-attribute-element i18n-target="boolean-attr,!boolean-attr2,string-attr=abc|def,empty-attr=,type1"></text-attribute-element>
+    <text-attribute-element i18n-target></text-attribute-element>
+    <text-attribute-element i18n-target2="type5"></text-attribute-element>
+    <text-attribute-element i18n-target2="boolean-attr="></text-attribute-element>
+    <text-attribute-element i18n-target2="string-attr=aaa,string-attr2=bbb,type3"></text-attribute-element>
+    <text-attribute-element i18n-target2="boolean-attr,!boolean-attr2,,string-attr=abc|def,,empty-attr=,type1"></text-attribute-element>
+    <text-attribute-element i18n-target2="boolean-attr,,boolean-attr2,,string-attr=aaa,type2"></text-attribute-element>
+    <text-attribute-element i18n-target3="string-attr=aaa,type1"></text-attribute-element>
+    <text-attribute-element i18n-target3></text-attribute-element>
+    <text-attribute-element i18n-target4></text-attribute-element>
+    <text-attribute-element i18n-target4="string-attr=aaa,type1"></text-attribute-element>
+    <text-attribute-element i18n-target5></text-attribute-element>
+    <text-attribute-element i18n-target5="type1"></text-attribute-element>
+    <text-attribute-element i18n-target6="type5"></text-attribute-element>
+    <text-attribute-element i18n-target6="boolean-attr="></text-attribute-element>
+    <text-attribute-element i18n-target6="boolean-attr,boolean-attr2,type1"></text-attribute-element>
+    <text-attribute-element i18n-target6="boolean-attr,boolean-attr2,string-attr=aaa,type2"></text-attribute-element>
+    <text-attribute-element i18n-target7="string-attr=aaa,type1"></text-attribute-element>
+    <text-attribute-element i18n-target7="invalid!attr=aaa,typeX"></text-attribute-element>
   </template>
 </i18n-attr-repo>
 <dom-module id="text-attribute-element">

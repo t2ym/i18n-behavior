@@ -62,6 +62,33 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         out-of-scope-attr="out of scope attr">
       </text-attribute-element>
 
+      <text-attribute-element
+        id="selective-attr"
+        boolean-attr empty-attr string-attr="abc"
+        i18n-target="i18n-target attribute"
+        i18n-target2="i18n-target2 attribute">
+      </text-attribute-element>
+      <text-attribute-element
+        id="selective-attr2"
+        boolean-attr boolean-attr2 string-attr="aaa"
+        i18n-target="i18n-target attribute 2">
+      </text-attribute-element>
+      <text-attribute-element
+        id="selective-attr3"
+        i18n-target6="i18n-target6 attribute 2">
+      </text-attribute-element>
+      <text-attribute-element
+        id="selective-attr4"
+        boolean-attr
+        i18n-target6="i18n-target6 attribute 3"
+        i18n-target7="unmatching i18n-target4 attribute">
+      </text-attribute-element>
+      <text-attribute-element
+        id="selective-attr5"
+        string-attr="xxx"
+        i18n-target7="unmatching i18n-target7 attribute">
+      </text-attribute-element>
+
       <span id="test-json-data-1">{{model.json-data-id.attr1}}</span>
       <span id="test-json-data-2">{{model.json-data-id.i18n-target-attr}}</span>
       <span id="test-json-data-3">{{model.template_2:json-data_1.attr1}}</span>
