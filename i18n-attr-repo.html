@@ -67,12 +67,19 @@ Example I18N-target attributes in a static template in the light DOM of `i18n-at
     <i18n-attr-repo>
       <template id="custom">
         <shop-md-decorator error-message="$"></shop-md-decorator>
+        <input value="type=submit|button">
+        <my-element i18n-target-attr="attr=value,boolean-attr,!boolean-attr"></my-element>
+        <my-element i18n-target-attr="attr1=value1,attr2=value2,type-name"></my-element>
+        <my-element i18n-target-attr="boolean-attr="></my-element>
+        <my-element i18n-target-attr="type-name2"></my-element>
       </template>
     </i18n-attr-repo>
 ```
 
 This list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for
 build-time automatic I18N of hard-coded string attributes.
+
+Note: Type name feature is currently ineffective and reserved for further expansion of the attribute I18N features.
 
 ### 3) Register localizable attributes of the newly registered elements from the `text-attr` attribute of the element's template.
 
@@ -225,6 +232,7 @@ Handle and judge JSON object attributes.
       }
       this.data.__ready__ = true;
       this._traverseTemplateTree(this.$.standard._content || this.$.standard.content);
+      console.log('attributesRepository = ', this.data);
     },
 
     /**
@@ -232,7 +240,7 @@ Handle and judge JSON object attributes.
      *
      * @param {HTMLElement} element Target element.
      * @param {string} attr Target attribute name.
-     * @return {string or boolean} true - property, '$' - attribute, false - not targeted
+     * @return {string or boolean} true - property, '$' - attribute, false - not targeted, 'type-name' - type name
      */
     isLocalizableAttribute: function (element, attr) {
       var tagName = element.tagName.toLowerCase();
@@ -242,7 +250,7 @@ Handle and judge JSON object attributes.
       }
       else if (this.data[tagName]) {
         return this.data[tagName]['any-attributes'] ||
-               this.data[tagName][attr];
+               this._getType(element, this.data[tagName][attr]);
       }
       else {
         return false;
@@ -250,15 +258,155 @@ Handle and judge JSON object attributes.
     },
 
     /**
+     * Get the type name or '$' for a specific attribute of an element from the attributes repository
+     *
+     * @param {HTMLElement} element Target element.
+     * @param {object} value this.data[tagName][attr]
+     * @return {string or boolean} true - property, '$' - attribute, false - not targeted, 'type-name' - type name
+     */
+    _getType: function (element, value) {
+      var selector;
+      var result;
+      if (typeof value === 'object') {
+        for (selector in value) {
+          if (selector) {
+            if (this._matchAttribute(element, selector)) {
+              result = this._getType(element, value[selector]);
+              if (result) {
+                return result;
+              }
+            }
+          }
+        }
+        if (value['']) {
+          if (this._matchAttribute(element, '')) {
+            result = this._getType(element, value['']);
+            if (result) {
+              return result;
+            }
+          }
+        }
+        return false;
+      }
+      else {
+        return value;
+      }
+    },
+
+    /**
+     * Get the type name or '$' for a specific attribute of an element from the attributes repository
+     *
+     * Format for selectors:
+     *  - `attr=value` - Value of `attr` matches Regex `^value$`
+     *  - `!boolean-attr` - Boolean attribute does not exist
+     *  - `boolean-attr` - Boolean attribute exists with empty value
+     *  - empty string `''` - Always matches
+     *
+     * @param {HTMLElement} element Target element.
+     * @param {string} selector Matching condition for target attribute.
+     * @return {boolean} true - matching, false - not matching
+     */
+    _matchAttribute: function (element, selector) {
+      var value;
+      var match;
+      // default ''
+      if (selector === '') {
+        return true;
+      }
+      // attr=value Regex ^value$
+      match = selector.match(/^([^!=]*)=(.*)$/);
+      if (match) {
+        if (element.hasAttribute(match[1])) {
+          value = element.getAttribute(match[1]);
+          return !!value.match(new RegExp('^' + match[2] + '$'));
+        }
+        else {
+          return false;
+        }
+      }
+      // !boolean-attr
+      match = selector.match(/^!([^!=]*)$/);
+      if (match) {
+        return !element.hasAttribute(match[1]);
+      }
+      // boolean-attr or empty-attr
+      match = selector.match(/^([^!=]*)$/);
+      if (match) {
+        if (element.hasAttribute(match[1])) {
+          value = element.getAttribute(match[1]);
+          return !value;
+        }
+        else {
+          return false;
+        }
+      }
+      // no matching
+      return false;
+    },
+
+    /**
+     * Comparator for attribute selectors
+     *
+     * @param {string} s1 selector 1
+     * @param {string} s2 selector 2
+     * @return {number} comparison result as -1, 0, or 1
+     */
+    _compareSelectors: function (s1, s2) {
+      var name1 = s1.replace(/^!/, '').replace(/=.*$/, '').toLowerCase();
+      var name2 = s2.replace(/^!/, '').replace(/=.*$/, '').toLowerCase();
+      return name1.localeCompare(name2);
+    },
+
+    /**
      * Add a new localizable attribute of an element to the repository.
+     *
+     * Format for selector values for defining I18N-target attributes:
+     *   - `attr1=value1,attr2=value2,boolean-attr,!boolean-attr` - Attribute value matching condition for property
+     *   - `attr1=value1,attr2=value2,$` - Attribute value matching condition for attribute
+     *   - `boolean-attr=` - Boolean attribute condition
+     *   - `attr1=value1,type` - Attribute value condition with type name (type is currently ineffective)
      *
      * @param {string} element Target element name.
      * @param {string} attr Target attribute name.
-     * @param {?*} value Optional value for JSON attributes (not used yet)
+     * @param {?*} value Selector value
      */
     setLocalizableAttribute: function (element, attr, value) {
       this.data[element] = this.data[element] || {};
-      this.data[element][attr] = value ? value : true;
+      var cursor = this.data[element];
+      var prev = attr;
+      var type = true;
+      var selectors = [];
+
+      if (typeof value === 'string' && value) {
+        selectors = value.split(',');
+        if (selectors[selectors.length - 1].match(/^[^!=][^=]*$/)) {
+          type = selectors.pop();
+        }
+        selectors = selectors.map(function (selector) {
+          return selector.replace(/=$/, '');
+        });
+        selectors.sort(this._compareSelectors);
+        while (selectors[0] === '') {
+          selectors.shift();
+        }
+      }
+
+      selectors.forEach(function (selector, index) {
+        if (typeof cursor[prev] !== 'object') {
+          cursor[prev] = cursor[prev] ? { '': cursor[prev] } : {};
+        }
+        cursor[prev][selector] = cursor[prev][selector] || {};
+        cursor = cursor[prev];
+        prev = selector;
+      });
+
+      if (typeof cursor[prev] === 'object' &&
+          cursor[prev] &&
+          Object.keys(cursor[prev]).length) {
+        cursor = cursor[prev];
+        prev = '';
+      }
+      cursor[prev] = type;
     },
 
     /**
@@ -321,12 +469,7 @@ Handle and judge JSON object attributes.
         name = node.nodeName.toLowerCase();
         Array.prototype.forEach.call(node.attributes, function (attribute) {
           this.data[name] = this.data[name] || {};
-          if (attribute.value) {
-            this.data[name][attribute.name] = attribute.value;
-          }
-          else {
-            this.data[name][attribute.name] = true;
-          }
+          this.setLocalizableAttribute(name, attribute.name, attribute.value);
         }, this);
       }
       if (node.childNodes.length > 0) {
