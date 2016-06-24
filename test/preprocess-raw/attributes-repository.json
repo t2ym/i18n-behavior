@@ -46,6 +46,64 @@
   },
   "text-attribute-element": {
     "custom-text-attr2": true,
+    "custom-text-attr4": "$",
+    "i18n-target": {
+      "": true,
+      "boolean-attr": {
+        "!boolean-attr2": {
+          "empty-attr": {
+            "string-attr=abc|def": "type1"
+          }
+        },
+        "boolean-attr2": {
+          "string-attr=aaa": true
+        },
+        "": "type4"
+      },
+      "string-attr=aaa": {
+        "string-attr2=bbb": "type3"
+      }
+    },
+    "i18n-target2": {
+      "boolean-attr": {
+        "!boolean-attr2": {
+          "empty-attr": {
+            "string-attr=abc|def": "type1"
+          }
+        },
+        "boolean-attr2": {
+          "string-attr=aaa": "type2"
+        },
+        "": true
+      },
+      "string-attr=aaa": {
+        "string-attr2=bbb": "type3"
+      },
+      "": "type5"
+    },
+    "i18n-target3": {
+      "string-attr=aaa": "type1",
+      "": true
+    },
+    "i18n-target4": {
+      "": true,
+      "string-attr=aaa": "type1"
+    },
+    "i18n-target5": "type1",
+    "i18n-target6": {
+      "": "type5",
+      "boolean-attr": {
+        "": true,
+        "boolean-attr2": {
+          "": "type1",
+          "string-attr=aaa": "type2"
+        }
+      }
+    },
+    "i18n-target7": {
+      "string-attr=aaa": "type1",
+      "invalid!attr=aaa": "typeX"
+    },
     "custom-text-attr1": true,
     "custom-text-attr3": true
   }
