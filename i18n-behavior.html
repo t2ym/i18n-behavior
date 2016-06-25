@@ -1236,6 +1236,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       var messageId;
       var attrId;
       var isLocalizable;
+      var dummy;
       // pick up element attributes
       Array.prototype.forEach.call(node.attributes, function (attribute) {
         text = attribute.value;
@@ -1259,7 +1260,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           if (text.length === 0) {
             // skip empty value attribute
           }
-          else if (text.match(/^{{.*}}$/) || text.match(/^\[\[.*\]\]$/)) {
+          else if (text.match(/^{{[^{}]*}}$/) || text.match(/^\[\[[^\[\]]*\]\]$/)) {
             // skip annotation attribute
           }
           else if (text.replace(/\n/g, ' ').match(/^{.*}$/g) || text.replace(/\n/g, ' ').match(/^\[.*\]$/g)) {
@@ -1289,6 +1290,70 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               console.warn(e, 'Invalid JSON at <' + name + ' ' + attribute.name + '> with value = ' + text);
             }
           }
+          else if (text.match(/{{[^{}]{1,}}}|\[\[[^\[\]]{1,}\]\]/)) {
+            // compound binding attribute
+            // Parameterized:
+            //   e.g., attr="Compound binding attribute has [[bound.value]] {{parameters}} in the value string"
+            //   replaced as "{{i18nFormat(attrId.0,bound.value,parameters)}}"
+            //   extracted as [ "Compound binding attribute has {1} {2} in the value string", "[[bound.value]]", "{{parameters}}" ]
+            // Concatenated: (Parameters with functions cannot be reordered in translation)
+            //   e.g., attr2="Compound binding attribute has [[f1(bound.value)]] {{f2(parameters)}} in the value string"
+            //   replaced as "{{attrId.0}}[[f1(bound.value)]]{{attrId.2}}{{f2(parameters)}}{{attrId.4}}"
+            //   extracted as [ "Compound binding attribute has ", "[[f1(bound.value)]]", " ", "{{f2(parameters)}}", " in the value string" ]
+            var parsed = text.match(/([^{}\[\]]{1,})|({{[^{}]{1,}}})|(\[\[[^\[\]]{1,}\]\])/g);
+            var parameterized;
+            var processed;
+            var n;
+            messageId = this._generateMessageId(path, id);
+            attrId = ['model', messageId, attribute.name].join('.');
+            if (text.match(/\)}}|\)\]\]/)) { // check for function parameter
+              // Concatenate
+              debuglog(attrId + ' = ' + JSON.stringify(parsed));
+              this._setBundleValue(bundle, attrId, parsed);
+              if (isLocalizable === '$') {
+                dummy = document.createElement('span');
+                dummy.innerHTML = '<span ' + attribute.name + '$=' + '"{{' + attrId + '}}"' + '></span>';
+                node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
+              }
+              processed = '';
+              for (n = 0; n < parsed.length; n++) {
+                if (parsed[n].match(/^{{[^{}]{1,}}}|\[\[[^\[\]]{1,}\]\]$/)) {
+                  processed += parsed[n];
+                }
+                else {
+                  processed += '{{' + attrId + '.' + n + '}}';
+                }
+              }
+              attribute.value = processed;
+            }
+            else {
+              // Parameterize
+              parameterized = [ '' ];
+              while (parsed.length) {
+                if (parsed[0].match(/^{{[^{}]{1,}}}|\[\[[^\[\]]{1,}\]\]$/)) {
+                  parameterized.push(parsed[0]);
+                  parameterized[0] += '{' + (parameterized.length - 1) + '}';
+                }
+                else {
+                  parameterized[0] += parsed[0];
+                }
+                parsed.shift();
+              }
+              debuglog(attrId + ' = ' + JSON.stringify(parameterized));
+              this._setBundleValue(bundle, attrId, parameterized);
+              if (isLocalizable === '$') {
+                dummy = document.createElement('span');
+                dummy.innerHTML = '<span ' + attribute.name + '$=' + '"{{' + attrId + '}}"' + '></span>';
+                node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
+              }
+              processed = '{{i18nFormat(' + attrId + '.0';
+              for (n = 1; n < parameterized.length; n++) {
+                processed += ',' + parameterized[n].replace(/^[{\[][{\[](.*)[}\]][}\]]$/, '$1');
+              }
+              processed += ')}}';
+              attribute.value = processed;
+            }
+          }
           else {
             // string attribute
             messageId = this._generateMessageId(path, id);
@@ -1296,7 +1361,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             debuglog(attrId + ' = ' + text);
             this._setBundleValue(bundle, attrId, text);
             if (isLocalizable === '$') {
-              var dummy = document.createElement('span');
+              dummy = document.createElement('span');
               dummy.innerHTML = '<span ' + attribute.name + '$=' + '"{{' + attrId + '}}"' + '></span>';
               node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
             }
@@ -2253,6 +2318,40 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                (typeof key !== 'undefined') &&
                (typeof this.text[key] !== 'undefined') ? this.text[key] : key;
       }
+    },
+
+    /**
+     * Format a parameterized string.
+     *
+     * Utility method for use in annotations.
+     *
+     * ### Example Usage:
+     * ```
+     *   <span attr="{{i18nFormat(text.param.0,text.textparam1,text.textparam2)}}"></span>
+     *   <template>
+     *     <json-data text-id="param">[
+     *       "String with {1} and {2} are formetted",
+     *       "[[text.textparam1]]",
+     *       "[[text.textparam2]]"
+     *     ]</json-data>
+     *     <span text-id="textparam1">Parameter 1</span>
+     *     <span text-id="textparam2">Parameter 2</span>
+     *   </template>
+     * ```
+     *
+     * Note: Compound bindings in attributes are automatically converted to {{i18nFormat()}} in preprocessing.
+     *
+     * @param {*} arguments List of arguments.
+     * @return {string} Formatted string
+     */
+    i18nFormat: function () {
+      if (arguments.length > 0) {
+        var formatted = arguments[0];
+        for (var n = 1; n < arguments.length; n++) {
+          formatted = formatted.replace('{' + n + '}', arguments[n]);
+        }
+      }
+      return formatted;
     },
 
     // Lifecycle callbacks
