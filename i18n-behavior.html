@@ -1310,11 +1310,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               // Concatenate
               debuglog(attrId + ' = ' + JSON.stringify(parsed));
               this._setBundleValue(bundle, attrId, parsed);
-              if (isLocalizable === '$') {
-                dummy = document.createElement('span');
-                dummy.innerHTML = '<span ' + attribute.name + '$=' + '"{{' + attrId + '}}"' + '></span>';
-                node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
-              }
               processed = '';
               for (n = 0; n < parsed.length; n++) {
                 if (parsed[n].match(/^{{[^{}]{1,}}}|\[\[[^\[\]]{1,}\]\]$/)) {
@@ -1324,7 +1319,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   processed += '{{' + attrId + '.' + n + '}}';
                 }
               }
-              attribute.value = processed;
+              if (isLocalizable === '$' && !attribute.name.match(/\$$/)) {
+                dummy = document.createElement('span');
+                dummy.innerHTML = '<span ' + attribute.name + '$="' + processed + '"></span>';
+                node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
+              }
+              else {
+                attribute.value = processed;
+              }
             }
             else {
               // Parameterize
@@ -1341,17 +1343,19 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               }
               debuglog(attrId + ' = ' + JSON.stringify(parameterized));
               this._setBundleValue(bundle, attrId, parameterized);
-              if (isLocalizable === '$') {
-                dummy = document.createElement('span');
-                dummy.innerHTML = '<span ' + attribute.name + '$=' + '"{{' + attrId + '}}"' + '></span>';
-                node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
-              }
               processed = '{{i18nFormat(' + attrId + '.0';
               for (n = 1; n < parameterized.length; n++) {
                 processed += ',' + parameterized[n].replace(/^[{\[][{\[](.*)[}\]][}\]]$/, '$1');
               }
               processed += ')}}';
-              attribute.value = processed;
+              if (isLocalizable === '$' && !attribute.name.match(/\$$/)) {
+                dummy = document.createElement('span');
+                dummy.innerHTML = '<span ' + attribute.name + '$="' + processed + '"></span>';
+                node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
+              }
+              else {
+                attribute.value = processed;
+              }
             }
           }
           else {
@@ -1360,7 +1364,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             attrId = ['model', messageId, attribute.name].join('.');
             debuglog(attrId + ' = ' + text);
             this._setBundleValue(bundle, attrId, text);
-            if (isLocalizable === '$') {
+            if (isLocalizable === '$' && !attribute.name.match(/\$$/)) {
               dummy = document.createElement('span');
               dummy.innerHTML = '<span ' + attribute.name + '$=' + '"{{' + attrId + '}}"' + '></span>';
               node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
