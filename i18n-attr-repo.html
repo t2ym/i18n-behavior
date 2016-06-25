@@ -243,7 +243,7 @@ Handle and judge JSON object attributes.
      */
     isLocalizableAttribute: function (element, attr) {
       var tagName = element.tagName.toLowerCase();
-      attr = attr.replace(/\$$/, '');
+      //attr = attr.replace(/\$$/, '');
       if (this.data['any-elements'] &&
           this.data['any-elements'][attr]) {
         return this.data['any-elements'][attr];
