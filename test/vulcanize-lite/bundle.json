@@ -248,8 +248,28 @@
         "custom-text-attr3": "custom text attribute 3"
       },
       "selective-attr": {
-        "i18n-target": "i18n-target attribute",
-        "i18n-target2": "i18n-target2 attribute"
+        "custom-text-attr4": [
+          "custom-text-attr4 attribute with param {1} and param {2}",
+          "{{text.ordinary-div}}",
+          "[[text.ordinary-div]]"
+        ],
+        "custom-text-attr5": [
+          "custom-text-attr5 attribute with param ",
+          "{{or('',text.ordinary-div)}}",
+          " and param ",
+          "[[text.ordinary-div]]"
+        ],
+        "i18n-target": [
+          "i18n-target attribute with param {1} and param {2}",
+          "{{text.ordinary-div}}",
+          "[[text.ordinary-div]]"
+        ],
+        "i18n-target2": [
+          "i18n-target2 attribute with param ",
+          "{{or('',text.ordinary-div)}}",
+          " and param ",
+          "[[text.ordinary-div]]"
+        ]
       },
       "selective-attr2": {
         "i18n-target": "i18n-target attribute 2"
@@ -788,8 +808,28 @@
         "custom-text-attr3": "custom text attribute 3"
       },
       "selective-attr": {
-        "i18n-target": "i18n-target attribute",
-        "i18n-target2": "i18n-target2 attribute"
+        "custom-text-attr4": [
+          "custom-text-attr4 attribute with param {1} and param {2}",
+          "{{text.ordinary-div}}",
+          "[[text.ordinary-div]]"
+        ],
+        "custom-text-attr5": [
+          "custom-text-attr5 attribute with param ",
+          "{{or('',text.ordinary-div)}}",
+          " and param ",
+          "[[text.ordinary-div]]"
+        ],
+        "i18n-target": [
+          "i18n-target attribute with param {1} and param {2}",
+          "{{text.ordinary-div}}",
+          "[[text.ordinary-div]]"
+        ],
+        "i18n-target2": [
+          "i18n-target2 attribute with param ",
+          "{{or('',text.ordinary-div)}}",
+          " and param ",
+          "[[text.ordinary-div]]"
+        ]
       },
       "selective-attr2": {
         "i18n-target": "i18n-target attribute 2"

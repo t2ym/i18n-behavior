@@ -50,6 +50,7 @@
   "text-attribute-element": {
     "custom-text-attr2": true,
     "custom-text-attr4": "$",
+    "custom-text-attr5": "$",
     "i18n-target": {
       "": true,
       "boolean-attr": {

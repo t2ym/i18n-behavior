@@ -95,8 +95,28 @@
       "custom-text-attr3": "fr custom text attribute 3"
     },
     "selective-attr": {
-      "i18n-target": "fr i18n-target attribute",
-      "i18n-target2": "fr i18n-target2 attribute"
+      "custom-text-attr4": [
+        "fr custom-text-attr4 attribute with param {1} and param {2}",
+        "{{text.ordinary-div}}",
+        "[[text.ordinary-div]]"
+      ],
+      "custom-text-attr5": [
+        "fr custom-text-attr5 attribute with param ",
+        "{{or('',text.ordinary-div)}}",
+        "fr  and param ",
+        "[[text.ordinary-div]]"
+      ],
+      "i18n-target": [
+        "fr i18n-target attribute with param {1} and param {2}",
+        "{{text.ordinary-div}}",
+        "[[text.ordinary-div]]"
+      ],
+      "i18n-target2": [
+        "fr i18n-target2 attribute with param ",
+        "{{or('',text.ordinary-div)}}",
+        "fr  and param ",
+        "[[text.ordinary-div]]"
+      ]
     },
     "selective-attr2": {
       "i18n-target": "fr i18n-target attribute 2"
