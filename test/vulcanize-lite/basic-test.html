@@ -10939,7 +10939,6 @@ Polymer({
       }
       this.data.__ready__ = true;
       this._traverseTemplateTree(this.$.standard._content || this.$.standard.content);
-      console.log('attributesRepository = ', this.data);
     },
 
     /**
@@ -10951,6 +10950,7 @@ Polymer({
      */
     isLocalizableAttribute: function (element, attr) {
       var tagName = element.tagName.toLowerCase();
+      attr = attr.replace(/\$$/, '');
       if (this.data['any-elements'] &&
           this.data['any-elements'][attr]) {
         return this.data['any-elements'][attr];
