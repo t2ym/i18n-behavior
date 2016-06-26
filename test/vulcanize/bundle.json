@@ -249,12 +249,15 @@
       },
       "selective-attr": {
         "custom-text-attr4": [
-          "custom-text-attr4 attribute with param {1} and param {2}",
+          "{1} custom-text-attr4 attribute with param {2} and param {3} {4}",
           "{{text.ordinary-div}}",
-          "[[text.ordinary-div]]"
+          "{{text.ordinary-div}}",
+          "[[text.ordinary-div]]",
+          "{{text.ordinary-div}}"
         ],
         "custom-text-attr5": [
-          "custom-text-attr5 attribute with param ",
+          "[[text.ordinary-div]]",
+          " custom-text-attr5 attribute with param ",
           "{{or('',text.ordinary-div)}}",
           " and param ",
           "[[text.ordinary-div]]"
@@ -809,12 +812,15 @@
       },
       "selective-attr": {
         "custom-text-attr4": [
-          "custom-text-attr4 attribute with param {1} and param {2}",
+          "{1} custom-text-attr4 attribute with param {2} and param {3} {4}",
           "{{text.ordinary-div}}",
-          "[[text.ordinary-div]]"
+          "{{text.ordinary-div}}",
+          "[[text.ordinary-div]]",
+          "{{text.ordinary-div}}"
         ],
         "custom-text-attr5": [
-          "custom-text-attr5 attribute with param ",
+          "[[text.ordinary-div]]",
+          " custom-text-attr5 attribute with param ",
           "{{or('',text.ordinary-div)}}",
           " and param ",
           "[[text.ordinary-div]]"

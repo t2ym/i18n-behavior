@@ -34,7 +34,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       <text-attribute-element id="custom-attr" custom-text-attr1="{{model.custom-attr.custom-text-attr1}}" custom-text-attr2="{{model.custom-attr.custom-text-attr2}}" custom-text-attr3="{{model.custom-attr.custom-text-attr3}}" out-of-scope-attr="out of scope attr">
       </text-attribute-element>
 
-      <text-attribute-element id="selective-attr" boolean-attr="" empty-attr="" string-attr="abc" custom-text-attr4$="{{i18nFormat(model.selective-attr.custom-text-attr4.0,text.ordinary-div,text.ordinary-div)}}" custom-text-attr5$="{{model.selective-attr.custom-text-attr5.0}}{{or('',text.ordinary-div)}}{{model.selective-attr.custom-text-attr5.2}}[[text.ordinary-div]]" i18n-target="{{i18nFormat(model.selective-attr.i18n-target.0,text.ordinary-div,text.ordinary-div)}}" i18n-target2="{{model.selective-attr.i18n-target2.0}}{{or('',text.ordinary-div)}}{{model.selective-attr.i18n-target2.2}}[[text.ordinary-div]]">
+      <text-attribute-element id="selective-attr" boolean-attr="" empty-attr="" string-attr="abc" custom-text-attr4$="{{i18nFormat(model.selective-attr.custom-text-attr4.0,text.ordinary-div,text.ordinary-div,text.ordinary-div,text.ordinary-div)}}" custom-text-attr5$="[[text.ordinary-div]]{{model.selective-attr.custom-text-attr5.1}}{{or('',text.ordinary-div)}}{{model.selective-attr.custom-text-attr5.3}}[[text.ordinary-div]]" i18n-target="{{i18nFormat(model.selective-attr.i18n-target.0,text.ordinary-div,text.ordinary-div)}}" i18n-target2="{{model.selective-attr.i18n-target2.0}}{{or('',text.ordinary-div)}}{{model.selective-attr.i18n-target2.2}}[[text.ordinary-div]]">
       </text-attribute-element>
       <text-attribute-element id="selective-attr2" boolean-attr="" boolean-attr2="" string-attr="aaa" i18n-target="{{model.selective-attr2.i18n-target}}">
       </text-attribute-element>
@@ -156,12 +156,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     },
     "selective-attr": {
       "custom-text-attr4": [
-        "custom-text-attr4 attribute with param {1} and param {2}",
+        "{1} custom-text-attr4 attribute with param {2} and param {3} {4}",
         "{{text.ordinary-div}}",
-        "[[text.ordinary-div]]"
+        "{{text.ordinary-div}}",
+        "[[text.ordinary-div]]",
+        "{{text.ordinary-div}}"
       ],
       "custom-text-attr5": [
-        "custom-text-attr5 attribute with param ",
+        "[[text.ordinary-div]]",
+        " custom-text-attr5 attribute with param ",
         "{{or('',text.ordinary-div)}}",
         " and param ",
         "[[text.ordinary-div]]"
