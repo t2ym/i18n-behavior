@@ -1171,6 +1171,21 @@ suite('I18nBehavior with ' +
     { select: 'google-chart[id="pie-chart"]', 'options.title.text': 'Distribution of days in 2001H1', 'cols.0.label.text': 'Month', 'cols.1.label.text': 'Days', 'rows.0.0.text': 'Jan', 'rows.1.0.text': 'Feb', 'rows.2.0.text': 'Mar', 'rows.3.0.text': 'Apr', 'rows.4.0.text': 'May', 'rows.5.0.text': 'Jun' },
     { select: 'google-chart[id="column-chart"]', 'options.title.text': 'Inventory', 'data.0.0.text': 'Year', 'data.0.1.text': 'Things', 'data.0.2.text': 'Stuff' },
     { select: 'text-attribute-element[id="custom-attr"]', 'customTextAttr1.text': 'custom text attribute 1', 'customTextAttr2.text': 'custom text attribute 2', 'customTextAttr3.text': 'custom text attribute 3' },
+    { select: 'text-attribute-element[id="selective-attr"]', 'i18nTarget.raw': 'i18n-target attribute with param text 1 and param text 1', 'i18nTarget2.raw': 'i18n-target2 attribute with param text 1 and param text 1' },
+    { select: 'span[id="test-json-data-1"]', 'textContent': 'this attr1 is extracted' },
+    { select: 'span[id="test-json-data-2"]', 'textContent': 'this attribute is also extracted' },
+    { select: 'span[id="test-json-data-3"]', 'textContent': 'this attr1 without id is extracted' },
+    { select: 'span[id="test-json-data-4"]', 'textContent': 'this attribute without id is also extracted' },
+  ];
+  var localDOM_simple_attribute_fr = [
+    { select: 'input[id="standard-input"]', 'placeholder.text': 'standard HTML5 attribute' },
+    { select: 'input[id="standard-input"] + input', 'placeholder.text': 'standard HTML5 attribute without id' },
+    { select: 'paper-input[id="paper-input-element"]', 'label.text': 'paper-input label', 'errorMessage.text': 'paper-input error message', 'placeholder.text': 'paper-input placeholder' },
+    { select: 'paper-input[id="paper-input-element"] + paper-input', 'label.text': 'paper-input label without id', 'errorMessage.text': 'paper-input error message without id', 'placeholder.text': 'paper-input placeholder without id' },
+    { select: 'google-chart[id="pie-chart"]', 'options.title.text': 'Distribution of days in 2001H1', 'cols.0.label.text': 'Month', 'cols.1.label.text': 'Days', 'rows.0.0.text': 'Jan', 'rows.1.0.text': 'Feb', 'rows.2.0.text': 'Mar', 'rows.3.0.text': 'Apr', 'rows.4.0.text': 'May', 'rows.5.0.text': 'Jun' },
+    { select: 'google-chart[id="column-chart"]', 'options.title.text': 'Inventory', 'data.0.0.text': 'Year', 'data.0.1.text': 'Things', 'data.0.2.text': 'Stuff' },
+    { select: 'text-attribute-element[id="custom-attr"]', 'customTextAttr1.text': 'custom text attribute 1', 'customTextAttr2.text': 'custom text attribute 2', 'customTextAttr3.text': 'custom text attribute 3' },
+    { select: 'text-attribute-element[id="selective-attr"]', 'i18nTarget.raw': 'fr i18n-target attribute with param fr text 1 and param fr text 1', 'i18nTarget2.raw': 'fr i18n-target2 attribute with param fr text 1fr and param fr text 1' },
     { select: 'span[id="test-json-data-1"]', 'textContent': 'this attr1 is extracted' },
     { select: 'span[id="test-json-data-2"]', 'textContent': 'this attribute is also extracted' },
     { select: 'span[id="test-json-data-3"]', 'textContent': 'this attr1 without id is extracted' },
@@ -1699,7 +1714,8 @@ suite('I18nBehavior with ' +
     s(lang2 + ' simple attribute', 'simple attribute', {
       assign: { lang: lang2 },
       lang: lang2,
-      effectiveLang: lang2
+      effectiveLang: lang2,
+      localDOM: localDOM_simple_attribute_fr
     }),
     s(lang4 + ' simple text default with fallback to ' + lang2, 'simple text default', {
       timeout: 60000,
@@ -1776,7 +1792,8 @@ suite('I18nBehavior with ' +
       },
       assign: { lang: lang2 },
       lang: lang2,
-      effectiveLang: lang2
+      effectiveLang: lang2,
+      localDOM: localDOM_simple_attribute_fr
     }),
     s('compound binding dom bind', 'compound binding', {
       fixture: 'compound-binding-dom-bind'
