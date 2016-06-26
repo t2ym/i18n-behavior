@@ -1263,7 +1263,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           else if (text.match(/^{{[^{}]*}}$/) || text.match(/^\[\[[^\[\]]*\]\]$/)) {
             // skip annotation attribute
           }
-          else if (text.replace(/\n/g, ' ').match(/^{.*}$/g) || text.replace(/\n/g, ' ').match(/^\[.*\]$/g)) {
+          else if (text.replace(/\n/g, ' ').match(/^{.*}|\[.*\]$/g) &&
+                  !text.match(/^{{[^{}]*}}|\[\[[^\[\]]*\]\]/) &&
+                  !text.match(/{{[^{}]*}}|\[\[[^\[\]]*\]\]$/)) {
             // generate message id
             messageId = this._generateMessageId(path, id);
             try {
