@@ -10,6 +10,13 @@ Instant and Modular I18N for Polymer
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/i18n-behavior.gif" width="768px">
 
+## Stable Release 1.1.0
+
+- XLIFF import/export support with [xliff-conv](https://github.com/t2ym/xliff-conv) converter
+- Experimental [Polymer CLI pre-release 0.11.1](https://www.polymer-project.org/1.0/docs/tools/polymer-cli) support with [I18N task integration](https://github.com/t2ym/gulp-i18n-preprocess#integrate-with-polymer-cli-project-templates-highly-experimental), based on a private API
+- [Selective I18N-target attribute](https://github.com/t2ym/i18n-behavior/issues/42) support via [`<i18n-attr-repo>` element](https://github.com/t2ym/i18n-behavior/issues/40)
+- [Compound bindings](https://github.com/t2ym/i18n-behavior/issues/46) support for I18N-target attributes
+
 ## Stable Release 1.0.0
 
 - Instant I18N by one line addition of `I18nBehavior`
@@ -215,6 +222,24 @@ Default text values are immediately extracted from the embedded JSON
 without overheads of run-time traversal into the whole template.
 
 ## Changelogs
+
+#### Stable Release 1.1.0
+
+##### Modules
+
+| Module        | Packager | Version | Description |
+|:--------------|:---------|:--------|:------------|
+| [i18n-behavior](https://github.com/t2ym/i18n-behavior) | bower | [1.1.0](https://github.com/t2ym/i18n-behavior/releases/tag/1.1.0) | Run-time I18N handler |
+| [i18n-format](https://github.com/t2ym/i18n-format) | bower | [1.0.0](https://github.com/t2ym/i18n-format/releases/tag/1.0.0) | I18N text formatter |
+| [i18n-number](https://github.com/t2ym/i18n-number) | bower | [1.0.1](https://github.com/t2ym/i18n-number/releases/tag/1.0.1) | I18N number formatter |
+| [gulp-i18n-preprocess](https://github.com/t2ym/gulp-i18n-preprocess) | npm | [1.1.0](https://github.com/t2ym/gulp-i18n-preprocess/releases/tag/1.1.0) | Build-time I18N preprocessor |
+| [gulp-i18n-leverage](https://github.com/t2ym/gulp-i18n-leverage) | npm | [1.0.13](https://github.com/t2ym/gulp-i18n-leverage/releases/tag/1.0.13) | L10N JSON updater |
+| [gulp-i18n-add-locales](https://github.com/t2ym/gulp-i18n-add-locales) | npm | [0.1.0](https://github.com/t2ym/gulp-i18n-add-locales/releases/tag/0.1.0) | L10N JSON placeholder generator |
+| [xliff-conv](https://github.com/t2ym/xliff-conv) | npm/bower | [1.0.1](https://github.com/t2ym/xliff-conv/releases/tag/1.0.1) | XLIFF/JSON converter |
+
+##### Highlights
+
+  * [Shown above](#stable-release-110)
 
 #### Stable Release 1.0.0
 
