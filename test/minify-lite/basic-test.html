@@ -175,6 +175,10 @@
         @apply(--paper-input-char-counter);
       }
 
+      :host([hidden]) {
+        display: none !important;
+      }
+
       :host-context([dir="rtl"]) {
         float: left;
       }
@@ -910,7 +914,7 @@
         @apply(--paper-input-container);
       }
 
-      :host[inline] {
+      :host([inline]) {
         display: inline-block;
       }
 
@@ -919,6 +923,10 @@
         opacity: 0.33;
 
         @apply(--paper-input-container-disabled);
+      }
+
+      :host([hidden]) {
+        display: none !important;
       }
 
       .floated-label-placeholder {
@@ -1107,7 +1115,7 @@
       .add-on-content.is-highlighted ::content * {
         color: var(--paper-input-container-focus-color, --primary-color);
       }
-    </style><template is="dom-if" if="[[!noLabelFloat]]"><div class="floated-label-placeholder">&nbsp;</div></template><div class$="[[_computeInputContentClass(noLabelFloat,alwaysFloatLabel,focused,invalid,_inputHasContent)]]"><content select="[prefix]" id="prefix"></content><div class="label-and-input-container" id="labelAndInputContainer"><content select=":not([add-on]):not([prefix]):not([suffix])"></content></div><content select="[suffix]"></content></div><div class$="[[_computeUnderlineClass(focused,invalid)]]"><div class="unfocused-line"></div><div class="focused-line"></div></div><div class$="[[_computeAddOnContentClass(focused,invalid)]]"><content id="addOnContent" select="[add-on]"></content></div></template></dom-module><dom-module id="paper-input-error" assetpath="../../../paper-input/"><template><style>
+    </style><template is="dom-if" if="[[!noLabelFloat]]"><div class="floated-label-placeholder" aria-hidden="true">&nbsp;</div></template><div class$="[[_computeInputContentClass(noLabelFloat,alwaysFloatLabel,focused,invalid,_inputHasContent)]]"><content select="[prefix]" id="prefix"></content><div class="label-and-input-container" id="labelAndInputContainer"><content select=":not([add-on]):not([prefix]):not([suffix])"></content></div><content select="[suffix]"></content></div><div class$="[[_computeUnderlineClass(focused,invalid)]]"><div class="unfocused-line"></div><div class="focused-line"></div></div><div class$="[[_computeAddOnContentClass(focused,invalid)]]"><content id="addOnContent" select="[add-on]"></content></div></template></dom-module><dom-module id="paper-input-error" assetpath="../../../paper-input/"><template><style>
       :host {
         display: inline-block;
         visibility: hidden;
@@ -1129,6 +1137,10 @@
         display: block;
       }
 
+      :host([hidden]) {
+        display: none !important;
+      }
+
       input::-webkit-input-placeholder {
         color: var(--paper-input-container-color, --secondary-text-color);
       }
@@ -1144,7 +1156,7 @@
       input:-ms-input-placeholder {
         color: var(--paper-input-container-color, --secondary-text-color);
       }
-    </style><paper-input-container no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" auto-validate$="[[autoValidate]]" disabled$="[[disabled]]" invalid="[[invalid]]"><content select="[prefix]"></content><label hidden$="[[!label]]">[[label]]</label> <input is="iron-input" id="input" aria-labelledby$="[[_ariaLabelledBy]]" aria-describedby$="[[_ariaDescribedBy]]" disabled$="[[disabled]]" title$="[[title]]" bind-value="{{value}}" invalid="{{invalid}}" prevent-invalid-input="[[preventInvalidInput]]" allowed-pattern="[[allowedPattern]]" validator="[[validator]]" type$="[[type]]" pattern$="[[pattern]]" required$="[[required]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]" inputmode$="[[inputmode]]" minlength$="[[minlength]]" maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" step$="[[step]]" name$="[[name]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" list$="[[list]]" size$="[[size]]" autocapitalize$="[[autocapitalize]]" autocorrect$="[[autocorrect]]" on-change="_onChange" tabindex$="[[tabindex]]" autosave$="[[autosave]]" results$="[[results]]" accept$="[[accept]]" multiple$="[[multiple]]"><content select="[suffix]"></content><template is="dom-if" if="[[errorMessage]]"><paper-input-error>[[errorMessage]]</paper-input-error></template><template is="dom-if" if="[[charCounter]]"><paper-input-char-counter></paper-input-char-counter></template></paper-input-container></template></dom-module><script src="https://www.gstatic.com/charts/loader.js"></script><dom-module id="google-chart" assetpath="../../../google-chart/"><template><style>
+    </style><paper-input-container no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" auto-validate$="[[autoValidate]]" disabled$="[[disabled]]" invalid="[[invalid]]"><content select="[prefix]"></content><label hidden$="[[!label]]" aria-hidden="true">[[label]]</label> <input is="iron-input" id="input" aria-labelledby$="[[_ariaLabelledBy]]" aria-describedby$="[[_ariaDescribedBy]]" disabled$="[[disabled]]" title$="[[title]]" bind-value="{{value}}" invalid="{{invalid}}" prevent-invalid-input="[[preventInvalidInput]]" allowed-pattern="[[allowedPattern]]" validator="[[validator]]" type$="[[type]]" pattern$="[[pattern]]" required$="[[required]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]" inputmode$="[[inputmode]]" minlength$="[[minlength]]" maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" step$="[[step]]" name$="[[name]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" list$="[[list]]" size$="[[size]]" autocapitalize$="[[autocapitalize]]" autocorrect$="[[autocorrect]]" on-change="_onChange" tabindex$="[[tabindex]]" autosave$="[[autosave]]" results$="[[results]]" accept$="[[accept]]" multiple$="[[multiple]]"><content select="[suffix]"></content><template is="dom-if" if="[[errorMessage]]"><paper-input-error>[[errorMessage]]</paper-input-error></template><template is="dom-if" if="[[charCounter]]"><paper-input-char-counter></paper-input-char-counter></template></paper-input-container></template></dom-module><script src="https://www.gstatic.com/charts/loader.js"></script><dom-module id="google-chart" assetpath="../../../google-chart/"><template><style>
 :host {
   display: -webkit-flex;
   display: -ms-flex;
