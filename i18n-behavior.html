@@ -46,6 +46,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   // shared fetching instances for bundles
   var bundleFetchingInstances = {};
 
+  // path for start URL
+  var startUrl = window.location.pathname.replace(/\/[^\/]*$/,'/');
+
   // path for locales from <html locales-path="locales">
   var localesPath = html.hasAttribute('locales-path') ? 
                       html.getAttribute('locales-path') : 'locales';
@@ -798,7 +801,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           else {
             // fetch the bundle
             bundleFetchingInstances[lang] = this;
-            url = this.resolveUrl(window.location.pathname.replace(/\/[^\/]*$/,'/') + localesPath + '/bundle.' + lang + '.json');
+            url = this.resolveUrl(startUrl + localesPath + '/bundle.' + lang + '.json');
           }
         }
         this._fetchStatus.ajax.url = url;
