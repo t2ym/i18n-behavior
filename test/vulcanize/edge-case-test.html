@@ -11193,7 +11193,20 @@ Polymer({
   var bundleFetchingInstances = {};
 
   // path for start URL
-  var startUrl = window.location.pathname.replace(/\/[^\/]*$/,'/');
+  var startUrl = (function () {
+    var path = window.location.pathname;
+    if (document.querySelector('meta[name=app-root]') &&
+        document.querySelector('meta[name=app-root]').getAttribute('content')) {
+      // <meta name="app-root" content="/"> to customize application root
+      path = document.querySelector('meta[name=app-root]').getAttribute('content');
+    }
+    else if (document.querySelector('link[rel=manifest]') &&
+             document.querySelector('link[rel=manifest]').getAttribute('href')) {
+      // assume manifest is located at the application root folder
+      path = document.querySelector('link[rel=manifest]').getAttribute('href');
+    }
+    return path.replace(/\/[^\/]*$/,'/');
+  })();
 
   // path for locales from <html locales-path="locales">
   var localesPath = html.hasAttribute('locales-path') ? 
