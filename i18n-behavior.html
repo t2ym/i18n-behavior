@@ -55,7 +55,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       path = document.querySelector('meta[name=app-root]').getAttribute('content');
     }
     else if (document.querySelector('link[rel=manifest]') &&
-             document.querySelector('link[rel=manifest]').getAttribute('href')) {
+             document.querySelector('link[rel=manifest]').getAttribute('href') &&
+             document.querySelector('link[rel=manifest]').getAttribute('href').match(/^\//)) {
       // assume manifest is located at the application root folder
       path = document.querySelector('link[rel=manifest]').getAttribute('href');
     }
