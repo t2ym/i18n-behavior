@@ -86,6 +86,99 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
   window.BehaviorsStore = window.BehaviorsStore || {};
   /**
+   * Apply `BehaviorsStore.I18nControllerBehavior` to manipulate internal variables for I18N
+   *
+   * Note: This behavior is not for normal custom elements to apply I18N. UI is not expected.
+   */
+  BehaviorsStore.I18nControllerBehavior = {
+    properties: {
+
+      /**
+       * Flag for detection of `I18nControllerBehavior`
+       *
+       * `true` if I18nControllerBehavior is applied
+       *
+       * Note: Module-specific JSON resources are NOT fetched for `I18nControllerBehavior`
+       */
+      isI18nController: {
+        type: Boolean,
+        value: true,
+        readOnly: true
+      },
+
+      /**
+       * HTML element object for the current document
+       */
+      html: {
+        type: Object,
+        value: html
+      },
+
+      /**
+       * Master bundles object for storing all the localized and default resources
+       */
+      masterBundles: {
+        type: Object,
+        value: bundles
+      },
+
+      /**
+       * Default lang for the document, i.e., the initial value of `<html lang>` attribute
+       */
+      defaultLang: {
+        type: String,
+        value: defaultLang,
+        readOnly: true
+      },
+
+      /**
+       * List of elements which are fetching bundles
+       */
+      bundleFetchingInstances: {
+        type: Object,
+        value: bundleFetchingInstances
+      },
+
+      /**
+       * Root URL path of the application ends with '/' to fetch bundles
+       */
+      startUrl: {
+        type: String,
+        value: startUrl,
+        readOnly: true
+      },
+
+      /**
+       * Path for locales
+       *
+       * Default value is `'locales'`
+       */
+      localesPath: {
+        type: String,
+        value: localesPath,
+        readOnly: true
+      },
+
+      /**
+       * <i18n-attr-repo> element to store attributes repository
+       */
+      attributesRepository: {
+        type: Object,
+        value: attributesRepository,
+        readOnly: true
+      },
+
+      /**
+       * <i18n-preference> element
+       */
+      userPreference: {
+        type: Object,
+        value: userPreference,
+        readOnly: true
+      }
+    }
+  };
+  /**
    * Apply `BehaviorsStore.I18nBehavior` to implement localizable elements.
    *
    *     <dom-module id="custom-element">
@@ -803,6 +896,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         }
         // TODO: app global bundles have to be handled
         var url;
+        var skipFetching = false;
 
         if (lang === '') {
           url = this.resolveUrl(id + '.json');
@@ -811,6 +905,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           if (bundles[lang] && bundles[lang].bundle) {
             // missing in the bundle
             url = this.resolveUrl(localesPath + '/' + id + '.' + lang + '.json');
+            skipFetching = !!this.isI18nController;
           }
           else {
             // fetch the bundle
@@ -822,7 +917,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         this._fetchStatus.ajaxLang = lang;
         try {
           this._fetchStatus.error = null;
-          this._fetchStatus.ajax.generateRequest();
+          if (skipFetching) {
+            this._handleError({ detail: { error: 'skip fetching for I18nController' }});
+          }
+          else {
+            this._fetchStatus.ajax.generateRequest();
+          }
         }
         catch (e) {
           // TODO: extract error message from the exception e
