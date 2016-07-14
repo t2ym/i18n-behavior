@@ -44,32 +44,32 @@
       {
         "op": "add",
         "path": "/div_12:ul:li",
-        "value": "fr line item without id 1"
+        "value": "line item without id 1"
       },
       {
         "op": "add",
         "path": "/div_12:ul:li_1",
-        "value": "fr line item without id 2"
+        "value": "line item without id 2"
       },
       {
         "op": "add",
         "path": "/div_12:ul:li_2",
-        "value": "fr line item without id 3"
+        "value": "line item without id 3"
       },
       {
         "op": "add",
         "path": "/line-items:li",
-        "value": "fr line item with id 1"
+        "value": "line item with id 1"
       },
       {
         "op": "add",
         "path": "/line-items:li_1",
-        "value": "fr line item with id 2"
+        "value": "line item with id 2"
       },
       {
         "op": "add",
         "path": "/line-items:li_2",
-        "value": "fr line item with id 3"
+        "value": "line item with id 3"
       }
     ]
   },

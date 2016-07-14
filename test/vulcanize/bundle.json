@@ -1,6 +1,10 @@
 {
   "compound-binding-dom-bind": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {},
     "text": [
       " outermost text at the beginning with compound {1} and {2} variables ",
@@ -151,7 +155,11 @@
     ]
   },
   "simple-attribute-dom-bind": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {
       "standard-input": {
         "placeholder": "standard HTML5 attribute"
@@ -295,7 +303,11 @@
     "ordinary-div": "text 1"
   },
   "simple-text-dom-bind": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {},
     "text": " outermost text at the beginning ",
     "h1_3": "outermost header 1",
@@ -336,7 +348,11 @@
     "text_15": " outermost text at the end "
   },
   "commented-simple-text-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {},
     "text": " outermost text at the beginning ",
     "h1_3": "outermost header 1",
@@ -377,7 +393,11 @@
     "text_15": " outermost text at the end "
   },
   "compound-binding-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {},
     "text": [
       " outermost text at the beginning with compound {1} and {2} variables ",
@@ -528,7 +548,11 @@
     ]
   },
   "advanced-binding-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {
       "aria-attributes": {
         "title": "tooltip text",
@@ -564,7 +588,11 @@
     }
   },
   "complex-compound-binding-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {},
     "item-update2:text": [
       "updated: {1}, by: ",
@@ -635,11 +663,20 @@
     ]
   },
   "empty-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {}
   },
   "fallback-text-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr",
+        "fr-CA"
+      ]
+    },
     "model": {},
     "text": " outermost text at the beginning ",
     "h1_3": "outermost header 1",
@@ -680,16 +717,28 @@
     "text_15": " outermost text at the end "
   },
   "item-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {},
     "label": "A"
   },
   "multiple-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {}
   },
   "plural-gender-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {},
     "compound-format-text": [
       {
@@ -714,7 +763,11 @@
     ]
   },
   "simple-attribute-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {
       "standard-input": {
         "placeholder": "standard HTML5 attribute"
@@ -858,12 +911,21 @@
     "ordinary-div": "text 1"
   },
   "text-attribute-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {},
     "span_4": "text"
   },
   "simple-text-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr",
+        "ru"
+      ]
+    },
     "model": {},
     "text": " outermost text at the beginning ",
     "h1_3": "outermost header 1",
@@ -904,7 +966,11 @@
     "text_15": " outermost text at the end "
   },
   "simple-text-id-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "fr"
+      ]
+    },
     "model": {},
     "text": " outermost text at the beginning ",
     "h1_3": "outermost header 1",
@@ -951,7 +1017,12 @@
     "text_15": " outermost text at the end "
   },
   "null-template-default-lang-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "ja",
+        "zh-Hans-CN"
+      ]
+    },
     "model": {},
     "text": " outermost text at the beginning ",
     "h1_3": "outermost header 1",
@@ -992,7 +1063,11 @@
     "text_15": " outermost text at the end "
   },
   "template-default-lang-element": {
-    "meta": {},
+    "meta": {
+      "locales": [
+        "zh-Hans-CN"
+      ]
+    },
     "model": {},
     "text": " fr outermost text at the beginning ",
     "h1_3": "fr outermost header 1",
