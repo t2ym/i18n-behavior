@@ -184,6 +184,29 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               this.fire('local-dom-ready');
             }.bind(this), 1);
           }
+          else {
+            var isStandardPropertyConfigurable = (function () {
+              var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
+              return !langPropertyDescriptor || langPropertyDescriptor.configurable;
+            })();
+            if (!isStandardPropertyConfigurable) {
+              // Safari 7
+              var en = 'en';
+              if (this._renderStatus &&
+                this._renderStatus['item-update'] === en &&
+                this._renderStatus['item-update2'] === en &&
+                this._renderStatus['item-update3'] === en &&
+                this._renderStatus['item-update4'] === en &&
+                this._renderStatus['paragraph'] === en &&
+                this.effectiveLang === this.lang) {
+                window.setTimeout(function () {
+                  console.log('complex-compound-binding-element: ', this);
+                  console.log('complex-compound-binding-element: local-dom-ready');
+                  this.fire('local-dom-ready');
+                }.bind(this), 1);
+              }
+            }
+          }
         }
       },
 
