@@ -741,9 +741,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     /**
      * Called on `lang-updated` events and update `this.effectiveLang` with the value of `this.lang`.
      */
-    _updateEffectiveLang: function () {
-      //console.log('_updateEffectiveLang: lang = ' + this.lang);
-      this.effectiveLang = this.lang;
+    _updateEffectiveLang: function (event) {
+      if (Polymer.dom(event).rootTarget === this) {
+        //console.log('_updateEffectiveLang: lang = ' + this.lang);
+        this.effectiveLang = this.lang;
+      }
     },
 
     /**
