@@ -5,7 +5,7 @@ branches:
 sudo: required
 dist: trusty
 before_script:
-  - npm install web-component-tester
+  - npm install web-component-tester@4.2.1
   - npm install bower
   - npm install -g gulp
   - export PATH=$PWD/node_modules/.bin:$PATH
@@ -27,7 +27,7 @@ addons:
       - g++-4.8
   sauce_connect: true
 script:
-  - cp -vf test/00-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
+  - cp -vf test/0-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
   - # Skip coverage for Microsoft Edge, Safari 8/9 since POST requests from socket.io client for coverage report are responded with 500 Internal Server Error
   - cp -vf test/X-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
   - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js; fi
