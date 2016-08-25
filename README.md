@@ -271,54 +271,58 @@ without overheads of run-time traversal into the whole template.
 
 ## Quick Tour
 
-### Quick demo project deployment
+### Quick deployment of [`polymer-starter-kit-i18n`](https://github.com/t2ym/polymer-starter-kit-i18n)
 
 ```
-    git clone https://github.com/t2ym/polymer-starter-kit-i18n.git
-    cd polymer-starter-kit-i18n
-    npm install -g gulp bower # if missing
-    npm install && bower install
-    # Development build with scan/preprocess/leverage/bundle/feedback tasks
-    gulp --dev
-    # Run-time I18N demo on http://localhost:5000
-    gulp serve
-    # Build-time I18N demo on http://localhost:5001
-    gulp serve:dist --dev
+    npm install -g polymer-cli
+    npm install -g generator-polymer-init-i18n-starter-kit
+    mkdir i18n-starter-kit
+    cd i18n-starter-kit
+    polymer init i18n-starter-kit
+    # Add Locales
+    npm run build locales -- --targets="de es fr ja zh-Hans"
+    # Build
+    npm run build
+    # Translate XLIFF ./xliff/bundle.*.xlf
+    # Build and Merge Translation
+    npm run build
+    # App with Run-time I18N on http://localhost:8080
+    polymer serve
+    # App with Build-time I18N on http://localhost:8080
+    polymer serve build/bundled
 ```
 
-### Change language on the demo
+### Change language
 
 ##### 1. Press F12 to open debugger console on the browser
 
 ##### 2. Navigate to the elements or DOM tab in the debugger
 
-##### 3. Change `lang` attribute of `html` element from "en" to "ja" or "fr"
+##### 3. Change `lang` attribute of `html` element from "en" to other locales such as "ja"
 
 ```html
     <html lang="ja">
 ```
 
-### Update UI strings on the demo
+### Update UI strings
 
 ##### 1. Change any UI strings in the following HTMLs
 
 ```
-    polymer-starter-kit-i18n/app/index.html
-                                /elements/my-greeting/my-greeting.html
-                                /elements/my-list/my-list.html
+    polymer-starter-kit-i18n/src/*.html
 ```
 
 ##### 2. Merge changes into JSON files
 
-```sh
+```
     cd polymer-starter-kit-i18n
-    gulp --dev
+    npm run build
 ```
 
 ##### 3. Check diffs
 
-```sh
-    git diff app
+```
+    git diff
 ```
 
 ## Testing
