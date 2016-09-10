@@ -5,7 +5,7 @@
 
 I18N Base Element for Polymer 2.x (work in progress)
 
-## == ORIGINAL README of [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) on which `i18n-element` is based ==
+## == ORIGINAL README of [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) on which `i18n-element` is based
 
 [API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/), [Demo](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/demo/), and [Test](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/test/) on GitHub Pages (https://t2ym.github.io/i18n-behavior)
 
