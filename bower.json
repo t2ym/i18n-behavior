@@ -1,10 +1,10 @@
 {
-  "name": "i18n-behavior",
-  "version": "1.1.8",
+  "name": "i18n-element",
+  "version": "0.0.0",
   "authors": [
     "Tetsuya Mori <t2y3141592@gmail.com>"
   ],
-  "description": "Instant and Modular I18N for Polymer",
+  "description": "I18N Base Element for Polymer 2.x",
   "main": "i18n-behavior.html",
   "keywords": [
     "polymer",
@@ -17,7 +17,7 @@
     "format"
   ],
   "license": "BSD-2-Clause",
-  "homepage": "https://t2ym.github.io/i18n-behavior/",
+  "homepage": "https://t2ym.github.io/i18n-element/",
   "ignore": [
     "**/.*",
     "node_modules",

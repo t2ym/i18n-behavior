@@ -1,10 +1,11 @@
-[![Build Status](https://travis-ci.org/t2ym/i18n-behavior.svg?branch=master)](https://travis-ci.org/t2ym/i18n-behavior)
-[![Coverage Status](https://coveralls.io/repos/github/t2ym/i18n-behavior/badge.svg?branch=master&build=157)](https://coveralls.io/github/t2ym/i18n-behavior?branch=master)
-[![Bower](https://img.shields.io/bower/v/i18n-behavior.svg)](https://customelements.io/t2ym/i18n-behavior/)
+[![Bower](https://img.shields.io/bower/v/i18n-element.svg)](https://customelements.io/t2ym/i18n-element/)
+[![npm](https://img.shields.io/npm/v/i18n-element.svg)](https://www.npmjs.com/package/i18n-element)
 
-# i18n-behavior
+# i18n-element
 
-Instant and Modular I18N for Polymer
+I18N Base Element for Polymer 2.x (work in progress)
+
+## ======================== ORIGINAL README of [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) on which `i18n-element` is based ================================
 
 [API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/), [Demo](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/demo/), and [Test](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/test/) on GitHub Pages (https://t2ym.github.io/i18n-behavior)
 

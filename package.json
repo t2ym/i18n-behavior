@@ -1,7 +1,7 @@
 {
-  "name": "i18n-behavior",
-  "version": "1.1.8",
-  "description": "Instant and Modular I18N for Polymer",
+  "name": "i18n-element",
+  "version": "0.0.0",
+  "description": "I18N Base Element for Polymer 2.x",
   "main": "i18n-behavior.html",
   "directories": {
     "test": "test"
@@ -26,9 +26,9 @@
   "author": "Tetsuya Mori <t2y3141592@gmail.com>",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/t2ym/i18n-behavior/issues"
+    "url": "https://github.com/t2ym/i18n-element/issues"
   },
-  "homepage": "https://github.com/t2ym/i18n-behavior#readme",
+  "homepage": "https://github.com/t2ym/i18n-element#readme",
   "devDependencies": {
     "coveralls": "^2.11.8",
     "del": "^2.2.0",
