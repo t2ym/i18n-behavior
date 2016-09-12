@@ -5,7 +5,7 @@
 
 I18N Base Element for Polymer 2.x (work in progress)
 
-## Proof of Concept Demo
+## Proof of Concept Demo on [GitHub Pages](https://t2ym.github.io/i18n-element/components/i18n-element/demo/poc/index.html)
 
 [Demo Source index.html](https://github.com/t2ym/i18n-element/blob/master/demo/poc/index.html)
 
