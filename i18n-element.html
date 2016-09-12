@@ -10,7 +10,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 window.BaseElements = window.BaseElements || {};
 window.Mixins = window.Mixins || {};
 
-let bundles = { '': {} }; // Shared text bundles object
+window.bundles = window.bundles || {};
+bundles[''] = {}; // Shared text bundles object
 bundles['en'] = bundles['']; // mirror default '' to 'en'
 
 // Localizable mixin
