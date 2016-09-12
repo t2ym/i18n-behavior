@@ -12,6 +12,7 @@ I18N Base Element for Polymer 2.x (work in progress)
 ### Notes
 
 - This is just a proof-of-concept demo and not applicable to general purposes
+- Only Chrome browser is supported for now
 - The modules are currently NOT dependent upon any modules from [`i18n-behavior`](https://github.com/t2ym/i18n-behavior)
 - `Mixins.Logger` is just for logging debug information and can be omitted
 - No need to install dependent npm packages
