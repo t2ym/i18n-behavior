@@ -1,6 +1,6 @@
 {
   "name": "i18n-element",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "I18N Base Element for Polymer 2.x",
   "main": "i18n-element.html",
   "directories": {
@@ -15,13 +15,17 @@
   },
   "keywords": [
     "polymer",
+    "polymer2",
     "web-components",
     "web-component",
     "i18n",
     "internationalization",
     "l10n",
     "localization",
-    "format"
+    "format",
+    "ES6",
+    "ES2015",
+    "customElementV1"
   ],
   "author": "Tetsuya Mori <t2y3141592@gmail.com>",
   "license": "BSD-2-Clause",
