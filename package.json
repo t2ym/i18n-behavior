@@ -1,8 +1,8 @@
 {
   "name": "i18n-element",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "I18N Base Element for Polymer 2.x",
-  "main": "i18n-behavior.html",
+  "main": "i18n-element.html",
   "directories": {
     "test": "test"
   },
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/t2ym/i18n-behavior.git"
+    "url": "git+https://github.com/t2ym/i18n-element.git"
   },
   "keywords": [
     "polymer",

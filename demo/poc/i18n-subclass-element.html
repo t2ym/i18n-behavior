@@ -1,0 +1,20 @@
+<!--
+@license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+-->
+<link rel="import" href="../../../polymer/polymer-element.html">
+<link rel="import" href="../../i18n-element.html">
+
+<dom-module id="i18n-subclass-element">
+  <template>
+    <span id="label1">Subclass UI label 1</span><br>
+    <span id="label2">Subclass UI label 2</span><br>
+    <span id="label3">Subclass UI label 3</span>
+  </template>
+</dom-module>
+<script>
+class I18nSubclassElement extends Mixins.Logger(BaseElements.I18nElement) {
+  static get is() { return 'i18n-subclass-element'; }
+}
+customElements.define(I18nSubclassElement.is, I18nSubclassElement);
+</script>
