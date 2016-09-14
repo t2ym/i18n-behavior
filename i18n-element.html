@@ -32,17 +32,14 @@ Mixins.Localizable = (base) => class extends base {
     }
   }
   static get template() {
-    let template = super.template;
     let id = this.is;
-    if (!id) {
-      this.is = this._uncamelCase(this.name);
+    if (!id && this.name) {
+      id = this.is = this._uncamelCase(this.name);
     }
+    let template = super.template;
     if (id && !template) {
       let current = HTMLImports.useNative ? document.currentScript
                                           : document._currentScript;
-      if (!current) {
-        debugger;
-      }
       template = (current ? current.ownerDocument
                   .querySelector('template[id=' + id + ']') : null) || 
                  document.querySelector('template[id=' + id + ']');
