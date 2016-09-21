@@ -1,0 +1,23 @@
+{
+  "localizable-element": {
+    "label1": "zh-Hans Localizable UI label 1",
+    "label2": "zh-Hans Localizable UI label 2",
+    "label3": "zh-Hans Localizable UI label 3"
+  },
+  "i18n-subclass-element": {
+    "label1": "zh-Hans Subclass UI label 1",
+    "label2": "zh-Hans Subclass UI label 2",
+    "label3": "zh-Hans Subclass UI label 3"
+  },
+  "i18n-thin-element": {
+    "label1": "zh-Hans Thin UI label 1",
+    "label2": "zh-Hans Thin UI label 2",
+    "label3": "zh-Hans Thin UI label 3"
+  },  
+  "i18n-legacy-element": {
+    "label1": "zh-Hans Legacy UI label 1",
+    "label2": "zh-Hans Legacy UI label 2",
+    "label3": "zh-Hans Legacy UI label 3"          
+  },
+  "bundle": true
+}

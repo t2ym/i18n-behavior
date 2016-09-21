@@ -1,0 +1,23 @@
+{
+  "localizable-element": {
+    "label1": "es Localizable UI label 1",
+    "label2": "es Localizable UI label 2",
+    "label3": "es Localizable UI label 3"
+  },
+  "i18n-subclass-element": {
+    "label1": "es Subclass UI label 1",
+    "label2": "es Subclass UI label 2",
+    "label3": "es Subclass UI label 3"
+  },
+  "i18n-thin-element": {
+    "label1": "es Thin UI label 1",
+    "label2": "es Thin UI label 2",
+    "label3": "es Thin UI label 3"
+  },  
+  "i18n-legacy-element": {
+    "label1": "es Legacy UI label 1",
+    "label2": "es Legacy UI label 2",
+    "label3": "es Legacy UI label 3"          
+  },
+  "bundle": true
+}
