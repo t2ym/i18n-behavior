@@ -85,6 +85,15 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
      * Attached callback to initialize html.lang and its observation
      */
     attached: function () {
+      // TODO: create iron-localstorage appropriately for Polymer 2.x
+      if (!this.$) {
+        this.$ = {};
+        this.$.storage = document.createElement('iron-localstorage');
+        this.$.storage.setAttribute('name', 'i18n-behavior-preference');
+        this.listen(this.$.storage, 'iron-localstorage-load-empty', '_onLoadEmptyStorage');
+        this.listen(this.$.storage, 'iron-localstorage-load', '_onLoadStorage');
+        this.listen(this.$.storage, 'value-changed', '_onStorageValueChange');
+      }
       this._observe();
       if (this.persist) {
         // delay html.lang update

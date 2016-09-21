@@ -11,9 +11,12 @@ I18N Base Element for Polymer 2.x (work in progress)
 
 ### Notes
 
-- This is just a proof-of-concept demo and not applicable to general purposes
+- This is just a proof-of-concept demo and not applicable to general purposes yet
 - PoC demo supported browsers: Chrome Canary 55 (native), Chrome 53, Firefox 48, Edge 14, Safari 10
-- The modules are currently NOT dependent upon any modules from [`i18n-behavior`](https://github.com/t2ym/i18n-behavior)
+- The modules are dependent upon modules from [`i18n-behavior`](https://github.com/t2ym/i18n-behavior)
+- Some Polymer 1.x modules (`iron-ajax`, `iron-localstorage`) are running as Polymer 2.x modules without compatibility tests
+- Internal function `MixinBehaviors` is borrowed from polymer#2.0-preview src/legacy/class.html
+- Some i18n-behavior modules (`i18n-behavior`, `i18n-preference`, `i18n-attr-repo`) are slightly converted for Polymer 2.x
 - `Mixins.Logger` is just for logging debug information and can be omitted
 - No need to install dependent npm packages
 
@@ -33,6 +36,8 @@ bower install i18n-element
 
 ### `Mixins.Localizable` [Class Expressions Mixin](http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
 
+- Extend Polymer.LegacyElement for now
+
 [Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/localizable-element.html)
 
 ```html
@@ -44,7 +49,7 @@ bower install i18n-element
   </template>
 </dom-module>
 <script>
-class LocalizableElement extends Mixins.Localizable(Polymer.Element) {
+class LocalizableElement extends Mixins.Localizable(Polymer.LegacyElement) {
   static get is() { return 'localizable-element'; }
 }
 customElements.define(LocalizableElement.is, LocalizableElement);
@@ -53,7 +58,7 @@ customElements.define(LocalizableElement.is, LocalizableElement);
 
 ### `BaseElements.I18nElement` I18N Base Element Class
 
-- Equivalent to `Mixins.Localizable(Polymer.Element)`
+- Equivalent to `Mixins.Localizable(Polymer.LegacyElement)`
 
 [Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/i18n-subclass-element.html)
 
@@ -98,6 +103,29 @@ Additional Import:
 <script>
 Define = class I18nThinElement extends BaseElements.I18nElement {
 }
+</script>
+```
+
+### Modified `Polymer({ is, behaviors })` Legacy Syntax for Polymer 1.x
+
+- `Mixins.I18nBehavior({ is })` is handed to `Polymer()` function
+- `Mixins.I18nBehavior({ is })` is equivalent to `Mixins.Localizable(Polymer.Class({ is }))`
+
+[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/i18n-legacy-element.html)
+
+```html
+<dom-module id="i18n-legacy-element">
+  <template>
+    <span id="label1">Legacy UI label 1</span><br>
+    <span id="label2">Legacy UI label 2</span><br>
+    <span id="label3">Legacy UI label 3</span>
+  </template>
+</dom-module>
+<script>
+Polymer(Mixins.I18nBehavior({
+  is: 'i18n-legacy-element'
+  // BehaviorsStore.I18nBehavior is applied via Mixins.I18nBehavior
+}));
 </script>
 ```
 

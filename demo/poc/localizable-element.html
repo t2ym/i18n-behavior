@@ -13,7 +13,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   </template>
 </dom-module>
 <script>
-class LocalizableElement extends Mixins.Logger(Mixins.Localizable(Polymer.Element)) {
+class LocalizableElement extends Mixins.Logger(Mixins.Localizable(Polymer.LegacyElement)) {
   static get is() { return 'localizable-element'; }
 }
 customElements.define(LocalizableElement.is, LocalizableElement);

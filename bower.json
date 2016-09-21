@@ -27,9 +27,18 @@
     "bower_components"
   ],
   "dependencies": {
-    "polymer": "#2.0-preview"
+    "polymer": "#2.0-preview",
+    "deepcopy": "^0.6.3",
+    "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.6",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
+    "i18n-number": "^1.0.1",
+    "i18n-format": "^1.0.0"
   },
   "devDependencies": {
     "web-component-tester": "^4"
+  },
+  "resolutions": {
+    "polymer": "2.0-preview",
+    "webcomponentsjs": "v1"
   }
 }

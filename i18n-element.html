@@ -4,90 +4,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 -->
 <!-- i18n-element.html: Proof of Concept version -->
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="i18n-behavior.html">
 
 <script>
 // Globally expose base elements and mixins
 window.BaseElements = window.BaseElements || {};
 window.Mixins = window.Mixins || {};
 
-window.bundles = window.bundles || {};
-bundles[''] = {}; // Shared text bundles object
-bundles['en'] = bundles['']; // mirror default '' to 'en'
-
 // Localizable mixin
-Mixins.Localizable = (base) => class extends base {
-  static get config() {
-    return {
-      properties: {
-        lang: {
-          type: String,
-          value: 'en',
-          reflectToAttribute: true
-        },
-        text: {
-          type: Object,
-          computed: '_getBundle(lang)'
-        }
-      }
-    }
-  }
-  static get template() {
-    let id = this.is;
-    if (!id && this.name) {
-      id = this.is = this._uncamelCase(this.name);
-    }
-    let template = super.template;
-    if (id && !template) {
-      let current = HTMLImports.useNative ? document.currentScript
-                                          : document._currentScript;
-      template = (current ? current.ownerDocument
-                  .querySelector('template[id=' + id + ']') : null) || 
-                 document.querySelector('template[id=' + id + ']');
-      if (template) {
-        let domModule = document.createElement('dom-module');
-        let assetUrl = new URL(current.baseURI || window.currentImport.baseURI);
-        domModule.appendChild(template);
-        domModule.setAttribute('assetpath', 
-                                assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
-                                  assetUrl.pathname :
-                                    template.hasAttribute('assetpath') ? 
-                                    template.getAttribute('assetpath') : 
-                                    assetUrl.pathname);
-        domModule.register(id);
-        this._template = template;
-      }
-    }
-    return this._i18nPreprocess(template);
-  }
-  static _uncamelCase(name) {
-    return name
-      // insert a hyphen between lower & upper
-      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-      // space before last upper in a sequence followed by lower
-      .replace(/\b([A-Z]+)([A-Z])([a-z0-9])/, '$1 $2$3')
-      // replace spaces with hyphens
-      .replace(/ /g, '-')
-      // lowercase
-      .toLowerCase();
-  }
-  static _i18nPreprocess(template) {
-    if (this.is && template && !this._i18nPreprocessed) {
-      // Pseudo-I18N Preprocess begin
-      let bundle = {};
-      Array.prototype.forEach.call(template.content.querySelectorAll('[id]'), (el) => {
-        bundle[el.id] = el.textContent;
-        el.textContent = `{{text.${el.id}}}`;
-      });
-      bundles[''][this.is] = bundle; // store the bundle in the shared bundles object
-      // Pseudo-I18N Preprocess end
-      this._i18nPreprocessed = true;
-    }
-    return template;
-  }
-  _getBundle(lang) {
-    return bundles[lang][Object.getPrototypeOf(this).constructor.is];
-  }
-};
+Mixins.I18nBehavior = (info) => Mixins.Localizable(Polymer.Class(info));
 
 // Logger mixin
 Mixins.Logger = (base) => class extends base {
@@ -101,5 +26,9 @@ Mixins.Logger = (base) => class extends base {
 };
 
 // I18N Base Element
-BaseElements.I18nElement = Mixins.Localizable(Polymer.Element);
+Object.defineProperty(BaseElements, 'I18nElement', {
+  get: function () {
+    return Mixins.I18nBehavior(Polymer.LegacyElement);
+  }
+});
 </script>
