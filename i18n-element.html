@@ -12,6 +12,61 @@ window.BaseElements = window.BaseElements || {};
 window.Mixins = window.Mixins || {};
 
 // Localizable mixin
+Mixins.Localizable = function (base) {
+
+  return class extends Polymer.Utils.MixinBehavior(BehaviorsStore.I18nBehavior, base) {
+    static get template() {
+      let id = this.is;
+      if (!id && this.name) {
+        id = this.is = this._uncamelCase(this.name);
+      }
+      let template = super.template;
+      if (id && !template) {
+        let current = HTMLImports.useNative ? document.currentScript
+                                            : document._currentScript;
+        template = (current ? current.ownerDocument
+                    .querySelector('template[id=' + id + ']') : null) || 
+                   document.querySelector('template[id=' + id + ']');
+        if (template) {
+          let domModule = document.createElement('dom-module');
+          let assetUrl = new URL(current.baseURI || window.currentImport.baseURI);
+          domModule.appendChild(template);
+          domModule.setAttribute('assetpath', 
+                                  assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
+                                    assetUrl.pathname :
+                                      template.hasAttribute('assetpath') ? 
+                                      template.getAttribute('assetpath') : 
+                                      assetUrl.pathname);
+          domModule.register(id);
+          this._template = template;
+        }
+      }
+      return this._i18nPreprocess(template);
+    }
+    static _uncamelCase(name) {
+      return name
+        // insert a hyphen between lower & upper
+        .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+        // space before last upper in a sequence followed by lower
+        .replace(/\b([A-Z]+)([A-Z])([a-z0-9])/, '$1 $2$3')
+        // replace spaces with hyphens
+        .replace(/ /g, '-')
+        // lowercase
+        .toLowerCase();
+    }
+    static _i18nPreprocess(template) {
+      if (this.is && template && !this._i18nPreprocessed) {
+        this.prototype._constructDefaultBundle(template);
+        this._i18nPreprocessed = true;
+      }
+      return template;
+    }
+    get is () {
+      return this.constructor.is;
+    }
+  };
+}
+
 Mixins.I18nBehavior = (info) => Mixins.Localizable(Polymer.Class(info));
 
 // Logger mixin
