@@ -17,6 +17,7 @@ I18N Base Element for Polymer 2.x (work in progress)
 - Some Polymer 1.x modules (`iron-ajax`, `iron-localstorage`) are running as Polymer 2.x modules without compatibility tests
 - Internal function `MixinBehaviors` is borrowed from polymer#2.0-preview src/legacy/class.html
 - Some i18n-behavior modules (`i18n-behavior`, `i18n-preference`, `i18n-attr-repo`) are slightly converted for Polymer 2.x
+- Support ShadowDOM V1 `slot` with `i18n-format` and `i18n-number` in their `2.0-develop` branches
 - `Mixins.Logger` is just for logging debug information and can be omitted
 - No need to install dependent npm packages
 
