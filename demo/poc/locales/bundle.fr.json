@@ -7,7 +7,12 @@
   "i18n-subclass-element": {
     "label1": "fr Subclass UI label 1",
     "label2": "fr Subclass UI label 2",
-    "label3": "fr Subclass UI label 3"
+    "label3": "fr Subclass UI label 3",
+    "span_6": [
+      "fr complex {1} sentences {2}",
+      "fr parameterized",
+      "fr abc"
+    ]
   },
   "i18n-thin-element": {
     "label1": "fr Thin UI label 1",

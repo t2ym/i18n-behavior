@@ -7,7 +7,12 @@
   "i18n-subclass-element": {
     "label1": "ja Subclass UI label 1",
     "label2": "ja Subclass UI label 2",
-    "label3": "ja Subclass UI label 3"
+    "label3": "ja Subclass UI label 3",
+    "span_6": [
+      "ja complex {1} sentences {2}",
+      "ja parameterized",
+      "ja abc"
+    ]
   },
   "i18n-thin-element": {
     "label1": "ja Thin UI label 1",
