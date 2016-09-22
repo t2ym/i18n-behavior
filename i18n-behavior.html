@@ -70,6 +70,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   var localesPath = html.hasAttribute('locales-path') ? 
                       html.getAttribute('locales-path') : 'locales';
 
+  // Support ShadowDOM V1 on Polymer 2.x
+  var paramAttribute = Polymer.Element ? 'slot' : 'param';
+
   var attributesRepository = document.createElement('i18n-attr-repo');
 
   // set up userPreference
@@ -1714,8 +1717,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             else {
               // param element
               // TODO: handle localization of param nodes and attributes
-              if (!param.hasAttribute('param')) {
-                param.setAttribute('param', n);
+              if (!param.hasAttribute(paramAttribute)) {
+                param.setAttribute(paramAttribute, n);
               }
               if (param.tagName.toLowerCase() === 'i18n-number') {
                 if (!param.hasAttribute('lang')) {
@@ -2033,7 +2036,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                       else {
                         prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
                       }
-                      current.node.setAttribute('param', n.toString());
+                      current.node.setAttribute(paramAttribute, n.toString());
                       prev.params.push(current.templateNode || current.node);
                     }
                     else if (current.type === current.node.TEXT_NODE &&
@@ -2062,7 +2065,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                         current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
                       }
                       span = document.createElement('span');
-                      span.setAttribute('param', n.toString());
+                      span.setAttribute(paramAttribute, n.toString());
                       current.templateNode.content.removeChild(current.node);
                       span.appendChild(current.node);
                       current.templateNode.content.appendChild(span);
@@ -2152,7 +2155,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                     path.pop();
                     /* current.childTextNode is always true since current.node is <span>{{annotation}}</span> */
                     prev.text.push(current.node.textContent);
-                    current.node.setAttribute('param', n.toString());
+                    current.node.setAttribute(paramAttribute, n.toString());
                     prev.params.push(current.node);
                   }
                 }
