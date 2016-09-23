@@ -3,14 +3,13 @@
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 -->
 <link rel="import" href="../polymer/polymer.html">
-<script src="mixin-behavior.js"></script>
-<!--
 <link rel="import" href="patch-polymer-1.2.4-bindingRegex.html">
--->
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../i18n-format/i18n-format.html">
 <link rel="import" href="i18n-preference.html">
 <link rel="import" href="i18n-attr-repo.html">
+<!-- For earlier initialization on Polymer 2.x -->
+<i18n-attr-repo></i18n-attr-repo>
 <!-- TODO: convert to HTML import to avoid multiple deepcopy registration -->
 <script src="../deepcopy/build/deepcopy.min.js"></script>
 
@@ -73,7 +72,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   // Support ShadowDOM V1 on Polymer 2.x
   var paramAttribute = Polymer.Element ? 'slot' : 'param';
 
-  var attributesRepository = document.createElement('i18n-attr-repo');
+  var attributesRepository = (HTMLImports.hasNative ? document.currentScript : document._currentScript)
+    .ownerDocument.querySelector('i18n-attr-repo');
 
   // set up userPreference
   var userPreference = document.querySelector('i18n-preference');
@@ -748,7 +748,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      * Called on `lang-updated` events and update `this.effectiveLang` with the value of `this.lang`.
      */
     _updateEffectiveLang: function (event) {
-      if (Polymer.dom(event).rootTarget === this) {
+      if ((event.path && Polymer.dom(event).rootTarget === this) ||
+          (!event.path && event.target === this)) {
         //console.log('_updateEffectiveLang: lang = ' + this.lang);
         this.effectiveLang = this.lang;
       }
