@@ -188,8 +188,7 @@ Handle and judge JSON object attributes.
 @hero hero.svg
 @demo demo/index.html
 -->
-<dom-module id="i18n-attr-repo">
-  <template>
+<template id="i18n-attr-repo">
     <template id="standard">
       <!-- Standard HTML5 -->
       <input placeholder value="type=button|submit">
@@ -208,15 +207,25 @@ Handle and judge JSON object attributes.
       <!-- Specific to i18n-behavior -->
       <json-data any-attributes></json-data>
     </template>
-  </template>
-</dom-module>
+</template>
 <script>
 (function () {
   // shared data
   var sharedData = {};
 
+  // imperative synchronous registration of the template for Polymer 2.x
+  var template = (HTMLImports.hasNative ? document.currentScript : document._currentScript)
+    .ownerDocument.querySelector('template#i18n-attr-repo');
+  var domModule = document.createElement('dom-module');
+  domModule.appendChild(template);
+  domModule.register('i18n-attr-repo');
+
   Polymer({
     is: 'i18n-attr-repo',
+
+    created: function () {
+      console.log('i18n-attr-repo created');
+    },
 
     ready: function () {
       this.data = sharedData;
