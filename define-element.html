@@ -103,17 +103,18 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             id = UncamelCase(name);
             classId = name;
           }
-          if (!template && proto.template && !name) {
+          var rawTemplate = proto._rawTemplate || proto.template;
+          if (!template && rawTemplate && !name) {
             // Pattern g)
-            template = proto.template;
+            template = rawTemplate;
           }
-          if (!proto.template && !template) {
+          if (!rawTemplate && !template) {
             // Pattern b), c)
             template = current.ownerDocument
                         .querySelector('template[id=' + id + ']') || 
                        document.querySelector('template[id=' + id + ']');
           }
-          if (!proto.template && !template && previous && !previous.id) {
+          if (!rawTemplate && !template && previous && !previous.id) {
             // Pattern d)
             template = previous;
             template.id = id;
@@ -139,6 +140,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                                       template.getAttribute('assetpath') : 
                                       assetUrl.pathname);
           domModule.register(id);
+          proto._template = template;
+          proto.finalize();
         }
 
         // register Custom Element
