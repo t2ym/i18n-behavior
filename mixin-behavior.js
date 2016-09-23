@@ -8,6 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 // From polymer#2.0-preview src/legacy/class.html
+Polymer.Utils = Polymer.Utils || {};
 Polymer.Utils.MixinBehavior = function(behavior, Base) {
   var utils = Polymer.Utils;
   var metaProps = {
