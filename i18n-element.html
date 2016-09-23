@@ -5,6 +5,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <!-- i18n-element.html: Proof of Concept version -->
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="i18n-behavior.html">
+<script src="mixin-behavior.js"></script>
 
 <script>
 // Globally expose base elements and mixins
@@ -15,7 +16,7 @@ window.Mixins = window.Mixins || {};
 Mixins.Localizable = function (base) {
 
   return class extends Polymer.Utils.MixinBehavior(BehaviorsStore.I18nBehavior, base) {
-    static get template() {
+    static get _rawTemplate() {
       let id = this.is;
       if (!id && this.name) {
         id = this.is = this._uncamelCase(this.name);
@@ -41,7 +42,10 @@ Mixins.Localizable = function (base) {
           this._template = template;
         }
       }
-      return this._i18nPreprocess(template);
+      return template;
+    }
+    static get template() {
+      return this._i18nPreprocess(this._rawTemplate);
     }
     static _uncamelCase(name) {
       return name
