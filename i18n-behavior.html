@@ -40,6 +40,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   })();
   // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
   var extraWhiteSpaceNode = !isStandardPropertyConfigurable;
+  if (Polymer.Element) {
+    isStandardPropertyConfigurable = false;
+  }
 
   // app global bundle storage
   var bundles = { '': {} }; // with an empty default bundle
