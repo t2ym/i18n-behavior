@@ -5,6 +5,12 @@
     "label3": "ja Localizable UI label 3"
   },
   "i18n-subclass-element": {
+    "model": {
+      "input_8": {
+        "placeholder": "ja localizable attribute",
+        "i18n-attr": "ja i18n attr"
+      }
+    },
     "label1": "ja Subclass UI label 1",
     "label2": "ja Subclass UI label 2",
     "label3": "ja Subclass UI label 3",

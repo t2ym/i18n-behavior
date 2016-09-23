@@ -5,6 +5,12 @@
     "label3": "zh-Hans Localizable UI label 3"
   },
   "i18n-subclass-element": {
+    "model": {
+      "input_8": {
+        "placeholder": "zh-Hans localizable attribute",
+        "i18n-attr": "zh-Hans i18n attr"
+      }
+    },
     "label1": "zh-Hans Subclass UI label 1",
     "label2": "zh-Hans Subclass UI label 2",
     "label3": "zh-Hans Subclass UI label 3",
