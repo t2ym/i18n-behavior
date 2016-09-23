@@ -130,6 +130,29 @@ Polymer(Mixins.I18nBehavior({
 </script>
 ```
 
+## Use Native Shadow DOM v1 on Chrome 53+ and Safari 10 for PoC Demo
+
+Comment out `shadydom.min.js` and `shadycss.min.js` dependencies in `webcomponents-lite.js` to use native Shadow DOM v1
+
+`bower_components/webcomponentsjs/webcomponents-lite.js`:
+```javascript
+  // construct full dependency list
+  var modules = [
+    'URL/URL.js',
+    'WeakMap/WeakMap.js',
+    'Template/Template.js',
+    'HTMLImports/HTMLImports.js',
+    'WebComponents/pre-polyfill.js',
+    '../../custom-elements/custom-elements.min.js',
+    //'../../shadydom/shadydom.min.js',
+    //'../../shadycss/shadycss.min.js',
+    'WebComponents/post-polyfill.js',
+    // these scripts are loaded here due to polyfill timing issues
+    'WebComponents/dom.js',
+    'WebComponents/unresolved.js'
+  ];
+```
+
 ## Targeted Features follow
 ## == Original README of [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) inapplicable to `i18n-element` for now
 
