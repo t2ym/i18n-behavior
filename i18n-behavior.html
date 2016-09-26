@@ -751,8 +751,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      * Called on `lang-updated` events and update `this.effectiveLang` with the value of `this.lang`.
      */
     _updateEffectiveLang: function (event) {
-      if ((event.path && Polymer.dom(event).rootTarget === this) ||
-          (!event.path && event.target === this)) {
+      if (Polymer.dom(event).rootTarget === this) {
         //console.log('_updateEffectiveLang: lang = ' + this.lang);
         this.effectiveLang = this.lang;
       }
@@ -2663,8 +2662,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
     BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
     BehaviorsStore.I18nBehavior._updateEffectiveLang = function () {
-      //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
-      this.effectiveLang = this._lang;
+      if ((!Polymer.Element && Polymer.dom(event).rootTarget === this) ||
+          (Polymer.Element && event.composedPath()[0] === this)) {
+        //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
+        this.effectiveLang = this._lang;
+      }
     };
     BehaviorsStore.I18nBehavior.hostAttributes = {
       'lang': defaultLang
