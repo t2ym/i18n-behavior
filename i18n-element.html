@@ -22,7 +22,7 @@ Mixins.Localizable = function (base) {
     }
     static get _rawTemplate() {
       let id = this.is;
-      if (!id && this.name) {
+      if (!id && this.name && this.name !== 'Localizable') {
         id = this.is = this._uncamelCase(this.name);
       }
       let template = super.template;
@@ -62,10 +62,15 @@ Mixins.Localizable = function (base) {
         // lowercase
         .toLowerCase();
     }
+    static get _templateLocalizable () {
+      return this.hasOwnProperty('__templateLocalizable');
+    }
+    static set _templateLocalizable (value) {
+      this.__templateLocalizable = value;
+    }
     static _i18nPreprocess(template) {
-      if (this.is && template && !this._i18nPreprocessed) {
-        this.prototype._constructDefaultBundle(template);
-        this._i18nPreprocessed = true;
+      if (this.is && template && !this._templateLocalizable) {
+        this._templateLocalizable = this.prototype._constructDefaultBundle(template);
       }
       return template;
     }
