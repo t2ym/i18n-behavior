@@ -133,6 +133,28 @@ Polymer(Mixins.I18nBehavior({
 </script>
 ```
 
+### I18N-ready Bound Element `i18n-dom-bind`
+
+Additional Import:
+```html
+<link rel="import" href="bower_components/i18n-element/i18n-dom-bind.html">
+```
+
+- Based on `dom-bind` Element
+- `i18n-dom-bind` element must have `id` attribute
+
+[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/index.html)
+
+```html
+<i18n-dom-bind id="el5">
+  <template>
+    <span id="label1">Bound UI label 1</span><br>
+    <span id="label2">Bound UI label 2</span><br>
+    <span id="label3">Bound UI label 3</span>
+  </template>
+</i18n-dom-bind>
+```
+
 ## Use Native Shadow DOM v1 on Chrome 53+ and Safari 10 for PoC Demo
 
 Comment out `shadydom.min.js` and `shadycss.min.js` dependencies in `webcomponents-lite.js` to use native Shadow DOM v1
