@@ -30,5 +30,10 @@
     "label2": "es Legacy UI label 2",
     "label3": "es Legacy UI label 3"          
   },
+  "el5": {
+    "label1": "es Bound UI label 1",
+    "label2": "es Bound UI label 2",
+    "label3": "es Bound UI label 3"
+  },
   "bundle": true
 }

@@ -30,5 +30,10 @@
     "label2": "zh-Hans Legacy UI label 2",
     "label3": "zh-Hans Legacy UI label 3"          
   },
+  "el5": {
+    "label1": "zh-Hans Bound UI label 1",
+    "label2": "zh-Hans Bound UI label 2",
+    "label3": "zh-Hans Bound UI label 3"
+  },
   "bundle": true
 }
