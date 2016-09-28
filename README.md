@@ -38,7 +38,9 @@ bower install i18n-element
 
 ### `Mixins.Localizable` [Class Expressions Mixin](http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
 
+- Currently Most Stable Syntax
 - Extend Polymer.LegacyElement for now
+- Empty `static get config() { return { behaviors: [], observers: [] }; }` may do harm
 
 [Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/localizable-element.html)
 
