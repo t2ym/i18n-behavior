@@ -1276,7 +1276,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       var template;
       var id = this.is;
       if (this.is === 'i18n-dom-bind') {
-        template = this;
+        template = _template || this;
         id = this.id;
         /* istanbul ignore if */
         if (template.content.childNodes.length === 0) {
@@ -2480,7 +2480,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      */
     i18nFormat: function () {
       if (arguments.length > 0) {
-        var formatted = arguments[0];
+        var formatted = arguments[0] || '';
         for (var n = 1; n < arguments.length; n++) {
           formatted = formatted.replace('{' + n + '}', arguments[n]);
         }
