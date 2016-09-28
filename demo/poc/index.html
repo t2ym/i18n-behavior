@@ -8,6 +8,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>i18n-element Proof of Concept Demo</title>
     <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../i18n-element.html">
+    <link rel="import" href="../../i18n-dom-bind.html">
     <link rel="import" href="localizable-element.html">
     <link rel="import" href="i18n-subclass-element.html">
     <link rel="import" href="i18n-thin-element.html">
@@ -18,6 +20,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <localizable-element id="el1"></localizable-element><br>
     <i18n-subclass-element id="el2"></i18n-subclass-element><br>
     <i18n-thin-element id="el3"></i18n-thin-element><br>
-    <i18n-legacy-element id="el4"></i18n-legacy-element>
+    <i18n-legacy-element id="el4"></i18n-legacy-element><br>
+    <i18n-dom-bind id="el5">
+      <template>
+        <span id="label1">Bound UI label 1</span><br>
+        <span id="label2">Bound UI label 2</span><br>
+        <span id="label3">Bound UI label 3</span>
+      </template>
+    </i18n-dom-bind>
   </body>
 </html>
