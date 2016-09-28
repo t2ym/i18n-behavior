@@ -5,13 +5,14 @@
 
 I18N Base Element for Polymer 2.x (work in progress)
 
-## Proof of Concept Demo on [GitHub Pages](https://t2ym.github.io/i18n-element/components/i18n-element/demo/poc/index.html)
+## Proof of Concept Demo on [GitHub Pages](https://t2ym.github.io/i18n-element/components/i18n-element/demo/poc/index.html) for ES6-ready browsers
 
 [Demo Source index.html](https://github.com/t2ym/i18n-element/blob/master/demo/poc/index.html)
 
 ### Notes
 
 - This is just a proof-of-concept demo and not applicable to general purposes yet
+- Bower dependencies with their branch names have no tags, i.e., no versions, and have to be updated in sync with the branches frequently. 
 - PoC demo supported browsers: Chrome Canary 55 (native), Chrome 53, Firefox 48, Edge 14, Safari 10
 - The modules are dependent upon modules from [`i18n-behavior`](https://github.com/t2ym/i18n-behavior)
 - Some Polymer 1.x modules (`iron-ajax`, `iron-localstorage`) are running as Polymer 2.x modules without compatibility tests
