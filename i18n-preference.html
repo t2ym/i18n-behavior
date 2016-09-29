@@ -38,6 +38,7 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
     on-value-changed="_onStorageValueChange">
   </iron-localstorage>
 </template>
+<div id="dom-module-placeholder"></div>
 <script>
 (function(document) {
   'use strict';
@@ -51,6 +52,10 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
   var template = (HTMLImports.hasNative ? document.currentScript : document._currentScript)
     .ownerDocument.querySelector('template#i18n-preference');
   var domModule = document.createElement('dom-module');
+  var currentScript = HTMLImports.hasNative ? document.currentScript : document._currentScript;
+  HTMLImports.whenReady(function () {
+
+  currentScript.ownerDocument.querySelector('div#dom-module-placeholder').appendChild(domModule);
   domModule.appendChild(template);
   domModule.register('i18n-preference');
 
@@ -256,6 +261,7 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
         this._htmlLangMutationObserver.disconnect();
       }
     }
+  });
   });
 })(document);
 </script>
