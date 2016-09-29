@@ -21,6 +21,7 @@ I18N Base Element for Polymer 2.x (work in progress)
 - Support ShadowDOM V1 `slot` with `i18n-format` and `i18n-number` in their `2.0-develop` branches
 - `Mixins.Logger` is just for logging debug information and can be omitted
 - No need to install dependent npm packages
+- Incomplete Polyfill for IE11 (ShadyDOM slot does not work well): es6-shim, get-own-property-symbols, vulcanize app and polymer, and babel es-2015 in addition to webcomponents-lite.js
 
 ## Install
 
