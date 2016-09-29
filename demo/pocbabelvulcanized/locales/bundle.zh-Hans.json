@@ -1,0 +1,39 @@
+{
+  "localizable-element": {
+    "label1": "zh-Hans Localizable UI label 1",
+    "label2": "zh-Hans Localizable UI label 2",
+    "label3": "zh-Hans Localizable UI label 3"
+  },
+  "i18n-subclass-element": {
+    "model": {
+      "input_8": {
+        "placeholder": "zh-Hans localizable attribute",
+        "i18n-attr": "zh-Hans i18n attr"
+      }
+    },
+    "label1": "zh-Hans Subclass UI label 1",
+    "label2": "zh-Hans Subclass UI label 2",
+    "label3": "zh-Hans Subclass UI label 3",
+    "span_6": [
+      "zh-Hans complex {1} sentences {2}",
+      "zh-Hans parameterized",
+      "zh-Hans abc"
+    ]
+  },
+  "i18n-thin-element": {
+    "label1": "zh-Hans Thin UI label 1",
+    "label2": "zh-Hans Thin UI label 2",
+    "label3": "zh-Hans Thin UI label 3"
+  },  
+  "i18n-legacy-element": {
+    "label1": "zh-Hans Legacy UI label 1",
+    "label2": "zh-Hans Legacy UI label 2",
+    "label3": "zh-Hans Legacy UI label 3"          
+  },
+  "el5": {
+    "label1": "zh-Hans Bound UI label 1",
+    "label2": "zh-Hans Bound UI label 2",
+    "label3": "zh-Hans Bound UI label 3"
+  },
+  "bundle": true
+}
