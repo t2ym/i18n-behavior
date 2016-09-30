@@ -1,7 +1,8 @@
 <!--
 @license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
---><html><head><meta charset="UTF-8"></head><body><div hidden="" by-vulcanize=""><!--
+--><html><head><meta charset="UTF-8"><!-- <link rel="import" href="i18n-thin-element.html"> -->
+</head><body><div hidden="" by-vulcanize=""><!--
 @license
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -260,145 +261,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><script src="../../../promise-polyfill/Promise.js">/**
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-function MakePromise (asap) {
-  function Promise(fn) {
-		if (typeof this !== 'object' || typeof fn !== 'function') throw new TypeError();
-		this._state = null;
-		this._value = null;
-		this._deferreds = []
-
-		doResolve(fn, resolve.bind(this), reject.bind(this));
-	}
-
-	function handle(deferred) {
-		var me = this;
-		if (this._state === null) {
-			this._deferreds.push(deferred);
-			return
-		}
-		asap(function() {
-			var cb = me._state ? deferred.onFulfilled : deferred.onRejected
-			if (typeof cb !== 'function') {
-				(me._state ? deferred.resolve : deferred.reject)(me._value);
-				return;
-			}
-			var ret;
-			try {
-				ret = cb(me._value);
-			}
-			catch (e) {
-				deferred.reject(e);
-				return;
-			}
-			deferred.resolve(ret);
-		})
-	}
-
-	function resolve(newValue) {
-		try { //Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
-			if (newValue === this) throw new TypeError();
-			if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
-				var then = newValue.then;
-				if (typeof then === 'function') {
-					doResolve(then.bind(newValue), resolve.bind(this), reject.bind(this));
-					return;
-				}
-			}
-			this._state = true;
-			this._value = newValue;
-			finale.call(this);
-		} catch (e) { reject.call(this, e); }
-	}
-
-	function reject(newValue) {
-		this._state = false;
-		this._value = newValue;
-		finale.call(this);
-	}
-
-	function finale() {
-		for (var i = 0, len = this._deferreds.length; i < len; i++) {
-			handle.call(this, this._deferreds[i]);
-		}
-		this._deferreds = null;
-	}
-
-	/**
-	 * Take a potentially misbehaving resolver function and make sure
-	 * onFulfilled and onRejected are only called once.
-	 *
-	 * Makes no guarantees about asynchrony.
-	 */
-	function doResolve(fn, onFulfilled, onRejected) {
-		var done = false;
-		try {
-			fn(function (value) {
-				if (done) return;
-				done = true;
-				onFulfilled(value);
-			}, function (reason) {
-				if (done) return;
-				done = true;
-				onRejected(reason);
-			})
-		} catch (ex) {
-			if (done) return;
-			done = true;
-			onRejected(ex);
-		}
-	}
-
-	Promise.prototype['catch'] = function (onRejected) {
-		return this.then(null, onRejected);
-	};
-
-	Promise.prototype.then = function(onFulfilled, onRejected) {
-		var me = this;
-		return new Promise(function(resolve, reject) {
-      handle.call(me, {
-        onFulfilled: onFulfilled,
-        onRejected: onRejected,
-        resolve: resolve,
-        reject: reject
-      });
-		})
-	};
-
-	Promise.resolve = function (value) {
-		if (value && typeof value === 'object' && value.constructor === Promise) {
-			return value;
-		}
-
-		return new Promise(function (resolve) {
-			resolve(value);
-		});
-	};
-
-	Promise.reject = function (value) {
-		return new Promise(function (resolve, reject) {
-			reject(value);
-		});
-	};
-
-	
-  return Promise;
-}
-
-if (typeof module !== 'undefined') {
-  module.exports = MakePromise;
-}
-
-</script>
-<!--
+--><!--
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -475,12 +338,10 @@ This example renders the following number string.
   <template strip-whitespace="">
     <span id="number"></span>
   </template>
-  </dom-module><script src="../../../make-plural/plurals.min.js">var _cp=[function(e,t){return"other"},function(e,t){return t?"other":1==e?"one":"other"},function(e,t){return t?"other":0==e||1==e?"one":"other"},function(e,t){var r=String(e).split("."),n=!r[1];return t?"other":1==e&&n?"one":"other"}];!function(e,t){"function"==typeof define&&define.amd?define(t):"object"==typeof exports?module.exports=t:e.plurals=t}(this,{af:_cp[1],ak:_cp[2],am:function(e,t){return t?"other":e>=0&&1>=e?"one":"other"},ar:function(e,t){var r=String(e).split("."),n=Number(r[0])==e,o=n&&r[0].slice(-2);return t?"other":0==e?"zero":1==e?"one":2==e?"two":o>=3&&10>=o?"few":o>=11&&99>=o?"many":"other"},as:function(e,t){return t?1==e||5==e||7==e||8==e||9==e||10==e?"one":2==e||3==e?"two":4==e?"few":6==e?"many":"other":e>=0&&1>=e?"one":"other"},asa:_cp[1],ast:_cp[3],az:function(e,t){var r=String(e).split("."),n=r[0],o=n.slice(-1),c=n.slice(-2),i=n.slice(-3);return t?1==o||2==o||5==o||7==o||8==o||20==c||50==c||70==c||80==c?"one":3==o||4==o||100==i||200==i||300==i||400==i||500==i||600==i||700==i||800==i||900==i?"few":0==n||6==o||40==c||60==c||90==c?"many":"other":1==e?"one":"other"},be:function(e,t){var r=String(e).split("."),n=Number(r[0])==e,o=n&&r[0].slice(-1),c=n&&r[0].slice(-2);return t?2!=o&&3!=o||12==c||13==c?"other":"few":1==o&&11!=c?"one":o>=2&&4>=o&&(12>c||c>14)?"few":n&&0==o||o>=5&&9>=o||c>=11&&14>=c?"many":"other"},bem:_cp[1],bez:_cp[1],bg:_cp[1],bh:_cp[2],bm:_cp[0],bn:function(e,t){return t?1==e||5==e||7==e||8==e||9==e||10==e?"one":2==e||3==e?"two":4==e?"few":6==e?"many":"other":e>=0&&1>=e?"one":"other"},bo:_cp[0],br:function(e,t){var r=String(e).split("."),n=Number(r[0])==e,o=n&&r[0].slice(-1),c=n&&r[0].slice(-2),i=n&&r[0].slice(-6);return t?"other":1==o&&11!=c&&71!=c&&91!=c?"one":2==o&&12!=c&&72!=c&&92!=c?"two":(3==o||4==o||9==o)&&(10>c||c>19)&&(70>c||c>79)&&(90>c||c>99)?"few":0!=e&&n&&0==i?"many":"other"},brx:_cp[1],bs:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"",c=!r[1],i=n.slice(-1),u=n.slice(-2),p=o.slice(-1),h=o.slice(-2);return t?"other":c&&1==i&&11!=u||1==p&&11!=h?"one":c&&i>=2&&4>=i&&(12>u||u>14)||p>=2&&4>=p&&(12>h||h>14)?"few":"other"},ca:function(e,t){var r=String(e).split("."),n=!r[1];return t?1==e||3==e?"one":2==e?"two":4==e?"few":"other":1==e&&n?"one":"other"},ce:_cp[1],cgg:_cp[1],chr:_cp[1],ckb:_cp[1],cs:function(e,t){var r=String(e).split("."),n=r[0],o=!r[1];return t?"other":1==e&&o?"one":n>=2&&4>=n&&o?"few":o?"other":"many"},cy:function(e,t){return t?0==e||7==e||8==e||9==e?"zero":1==e?"one":2==e?"two":3==e||4==e?"few":5==e||6==e?"many":"other":0==e?"zero":1==e?"one":2==e?"two":3==e?"few":6==e?"many":"other"},da:function(e,t){var r=String(e).split("."),n=r[0],o=Number(r[0])==e;return t?"other":1!=e&&(o||0!=n&&1!=n)?"other":"one"},de:_cp[3],dsb:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"",c=!r[1],i=n.slice(-2),u=o.slice(-2);return t?"other":c&&1==i||1==u?"one":c&&2==i||2==u?"two":c&&(3==i||4==i)||3==u||4==u?"few":"other"},dv:_cp[1],dz:_cp[0],ee:_cp[1],el:_cp[1],en:function(e,t){var r=String(e).split("."),n=!r[1],o=Number(r[0])==e,c=o&&r[0].slice(-1),i=o&&r[0].slice(-2);return t?1==c&&11!=i?"one":2==c&&12!=i?"two":3==c&&13!=i?"few":"other":1==e&&n?"one":"other"},eo:_cp[1],es:_cp[1],et:_cp[3],eu:_cp[1],fa:function(e,t){return t?"other":e>=0&&1>=e?"one":"other"},ff:function(e,t){return t?"other":e>=0&&2>e?"one":"other"},fi:_cp[3],fil:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"",c=!r[1],i=n.slice(-1),u=o.slice(-1);return t?1==e?"one":"other":c&&(1==n||2==n||3==n)||c&&4!=i&&6!=i&&9!=i||!c&&4!=u&&6!=u&&9!=u?"one":"other"},fo:_cp[1],fr:function(e,t){return t?1==e?"one":"other":e>=0&&2>e?"one":"other"},fur:_cp[1],fy:_cp[3],ga:function(e,t){var r=String(e).split("."),n=Number(r[0])==e;return t?1==e?"one":"other":1==e?"one":2==e?"two":n&&e>=3&&6>=e?"few":n&&e>=7&&10>=e?"many":"other"},gd:function(e,t){var r=String(e).split("."),n=Number(r[0])==e;return t?"other":1==e||11==e?"one":2==e||12==e?"two":n&&e>=3&&10>=e||n&&e>=13&&19>=e?"few":"other"},gl:_cp[3],gsw:_cp[1],gu:function(e,t){return t?1==e?"one":2==e||3==e?"two":4==e?"few":6==e?"many":"other":e>=0&&1>=e?"one":"other"},guw:_cp[2],gv:function(e,t){var r=String(e).split("."),n=r[0],o=!r[1],c=n.slice(-1),i=n.slice(-2);return t?"other":o&&1==c?"one":o&&2==c?"two":!o||0!=i&&20!=i&&40!=i&&60!=i&&80!=i?o?"other":"many":"few"},ha:_cp[1],haw:_cp[1],he:function(e,t){var r=String(e).split("."),n=r[0],o=!r[1],c=Number(r[0])==e,i=c&&r[0].slice(-1);return t?"other":1==e&&o?"one":2==n&&o?"two":o&&(0>e||e>10)&&c&&0==i?"many":"other"},hi:function(e,t){return t?1==e?"one":2==e||3==e?"two":4==e?"few":6==e?"many":"other":e>=0&&1>=e?"one":"other"},hr:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"",c=!r[1],i=n.slice(-1),u=n.slice(-2),p=o.slice(-1),h=o.slice(-2);return t?"other":c&&1==i&&11!=u||1==p&&11!=h?"one":c&&i>=2&&4>=i&&(12>u||u>14)||p>=2&&4>=p&&(12>h||h>14)?"few":"other"},hsb:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"",c=!r[1],i=n.slice(-2),u=o.slice(-2);return t?"other":c&&1==i||1==u?"one":c&&2==i||2==u?"two":c&&(3==i||4==i)||3==u||4==u?"few":"other"},hu:function(e,t){return t?1==e||5==e?"one":"other":1==e?"one":"other"},hy:function(e,t){return t?1==e?"one":"other":e>=0&&2>e?"one":"other"},id:_cp[0],ig:_cp[0],ii:_cp[0],"in":_cp[0],is:function(e,t){var r=String(e).split("."),n=r[0],o=Number(r[0])==e,c=n.slice(-1),i=n.slice(-2);return t?"other":o&&1==c&&11!=i||!o?"one":"other"},it:function(e,t){var r=String(e).split("."),n=!r[1];return t?11==e||8==e||80==e||800==e?"many":"other":1==e&&n?"one":"other"},iu:function(e,t){return t?"other":1==e?"one":2==e?"two":"other"},iw:function(e,t){var r=String(e).split("."),n=r[0],o=!r[1],c=Number(r[0])==e,i=c&&r[0].slice(-1);return t?"other":1==e&&o?"one":2==n&&o?"two":o&&(0>e||e>10)&&c&&0==i?"many":"other"},ja:_cp[0],jbo:_cp[0],jgo:_cp[1],ji:_cp[3],jmc:_cp[1],jv:_cp[0],jw:_cp[0],ka:function(e,t){var r=String(e).split("."),n=r[0],o=n.slice(-2);return t?1==n?"one":0==n||o>=2&&20>=o||40==o||60==o||80==o?"many":"other":1==e?"one":"other"},kab:function(e,t){return t?"other":e>=0&&2>e?"one":"other"},kaj:_cp[1],kcg:_cp[1],kde:_cp[0],kea:_cp[0],kk:function(e,t){var r=String(e).split("."),n=Number(r[0])==e,o=n&&r[0].slice(-1);return t?6==o||9==o||n&&0==o&&0!=e?"many":"other":1==e?"one":"other"},kkj:_cp[1],kl:_cp[1],km:_cp[0],kn:function(e,t){return t?"other":e>=0&&1>=e?"one":"other"},ko:_cp[0],ks:_cp[1],ksb:_cp[1],ksh:function(e,t){return t?"other":0==e?"zero":1==e?"one":"other"},ku:_cp[1],kw:function(e,t){return t?"other":1==e?"one":2==e?"two":"other"},ky:_cp[1],lag:function(e,t){var r=String(e).split("."),n=r[0];return t?"other":0==e?"zero":0!=n&&1!=n||0==e?"other":"one"},lb:_cp[1],lg:_cp[1],lkt:_cp[0],ln:_cp[2],lo:function(e,t){return t&&1==e?"one":"other"},lt:function(e,t){var r=String(e).split("."),n=r[1]||"",o=Number(r[0])==e,c=o&&r[0].slice(-1),i=o&&r[0].slice(-2);return t?"other":1==c&&(11>i||i>19)?"one":c>=2&&9>=c&&(11>i||i>19)?"few":0!=n?"many":"other"},lv:function(e,t){var r=String(e).split("."),n=r[1]||"",o=n.length,c=Number(r[0])==e,i=c&&r[0].slice(-1),u=c&&r[0].slice(-2),p=n.slice(-2),h=n.slice(-1);return t?"other":c&&0==i||u>=11&&19>=u||2==o&&p>=11&&19>=p?"zero":1==i&&11!=u||2==o&&1==h&&11!=p||2!=o&&1==h?"one":"other"},mas:_cp[1],mg:_cp[2],mgo:_cp[1],mk:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"",c=!r[1],i=n.slice(-1),u=n.slice(-2),p=o.slice(-1);return t?1==i&&11!=u?"one":2==i&&12!=u?"two":7!=i&&8!=i||17==u||18==u?"other":"many":c&&1==i||1==p?"one":"other"},ml:_cp[1],mn:_cp[1],mo:function(e,t){var r=String(e).split("."),n=!r[1],o=Number(r[0])==e,c=o&&r[0].slice(-2);return t?1==e?"one":"other":1==e&&n?"one":!n||0==e||1!=e&&c>=1&&19>=c?"few":"other"},mr:function(e,t){return t?1==e?"one":2==e||3==e?"two":4==e?"few":"other":e>=0&&1>=e?"one":"other"},ms:function(e,t){return t&&1==e?"one":"other"},mt:function(e,t){var r=String(e).split("."),n=Number(r[0])==e,o=n&&r[0].slice(-2);return t?"other":1==e?"one":0==e||o>=2&&10>=o?"few":o>=11&&19>=o?"many":"other"},my:_cp[0],nah:_cp[1],naq:function(e,t){return t?"other":1==e?"one":2==e?"two":"other"},nb:_cp[1],nd:_cp[1],ne:function(e,t){var r=String(e).split("."),n=Number(r[0])==e;return t?n&&e>=1&&4>=e?"one":"other":1==e?"one":"other"},nl:_cp[3],nn:_cp[1],nnh:_cp[1],no:_cp[1],nqo:_cp[0],nr:_cp[1],nso:_cp[2],ny:_cp[1],nyn:_cp[1],om:_cp[1],or:_cp[1],os:_cp[1],pa:_cp[2],pap:_cp[1],pl:function(e,t){var r=String(e).split("."),n=r[0],o=!r[1],c=n.slice(-1),i=n.slice(-2);return t?"other":1==e&&o?"one":o&&c>=2&&4>=c&&(12>i||i>14)?"few":o&&1!=n&&(0==c||1==c)||o&&c>=5&&9>=c||o&&i>=12&&14>=i?"many":"other"},prg:function(e,t){var r=String(e).split("."),n=r[1]||"",o=n.length,c=Number(r[0])==e,i=c&&r[0].slice(-1),u=c&&r[0].slice(-2),p=n.slice(-2),h=n.slice(-1);return t?"other":c&&0==i||u>=11&&19>=u||2==o&&p>=11&&19>=p?"zero":1==i&&11!=u||2==o&&1==h&&11!=p||2!=o&&1==h?"one":"other"},ps:_cp[1],pt:function(e,t){var r=String(e).split("."),n=Number(r[0])==e;return t?"other":n&&e>=0&&2>=e&&2!=e?"one":"other"},"pt-PT":_cp[3],rm:_cp[1],ro:function(e,t){var r=String(e).split("."),n=!r[1],o=Number(r[0])==e,c=o&&r[0].slice(-2);return t?1==e?"one":"other":1==e&&n?"one":!n||0==e||1!=e&&c>=1&&19>=c?"few":"other"},rof:_cp[1],root:_cp[0],ru:function(e,t){var r=String(e).split("."),n=r[0],o=!r[1],c=n.slice(-1),i=n.slice(-2);return t?"other":o&&1==c&&11!=i?"one":o&&c>=2&&4>=c&&(12>i||i>14)?"few":o&&0==c||o&&c>=5&&9>=c||o&&i>=11&&14>=i?"many":"other"},rwk:_cp[1],sah:_cp[0],saq:_cp[1],sdh:_cp[1],se:function(e,t){return t?"other":1==e?"one":2==e?"two":"other"},seh:_cp[1],ses:_cp[0],sg:_cp[0],sh:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"",c=!r[1],i=n.slice(-1),u=n.slice(-2),p=o.slice(-1),h=o.slice(-2);return t?"other":c&&1==i&&11!=u||1==p&&11!=h?"one":c&&i>=2&&4>=i&&(12>u||u>14)||p>=2&&4>=p&&(12>h||h>14)?"few":"other"},shi:function(e,t){var r=String(e).split("."),n=Number(r[0])==e;return t?"other":e>=0&&1>=e?"one":n&&e>=2&&10>=e?"few":"other"},si:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"";return t?"other":0==e||1==e||0==n&&1==o?"one":"other"},sk:function(e,t){var r=String(e).split("."),n=r[0],o=!r[1];return t?"other":1==e&&o?"one":n>=2&&4>=n&&o?"few":o?"other":"many"},sl:function(e,t){var r=String(e).split("."),n=r[0],o=!r[1],c=n.slice(-2);return t?"other":o&&1==c?"one":o&&2==c?"two":o&&(3==c||4==c)||!o?"few":"other"},sma:function(e,t){return t?"other":1==e?"one":2==e?"two":"other"},smi:function(e,t){return t?"other":1==e?"one":2==e?"two":"other"},smj:function(e,t){return t?"other":1==e?"one":2==e?"two":"other"},smn:function(e,t){return t?"other":1==e?"one":2==e?"two":"other"},sms:function(e,t){return t?"other":1==e?"one":2==e?"two":"other"},sn:_cp[1],so:_cp[1],sq:function(e,t){var r=String(e).split("."),n=Number(r[0])==e,o=n&&r[0].slice(-1),c=n&&r[0].slice(-2);return t?1==e?"one":4==o&&14!=c?"many":"other":1==e?"one":"other"},sr:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"",c=!r[1],i=n.slice(-1),u=n.slice(-2),p=o.slice(-1),h=o.slice(-2);return t?"other":c&&1==i&&11!=u||1==p&&11!=h?"one":c&&i>=2&&4>=i&&(12>u||u>14)||p>=2&&4>=p&&(12>h||h>14)?"few":"other"},ss:_cp[1],ssy:_cp[1],st:_cp[1],sv:function(e,t){var r=String(e).split("."),n=!r[1],o=Number(r[0])==e,c=o&&r[0].slice(-1),i=o&&r[0].slice(-2);return t?1!=c&&2!=c||11==i||12==i?"other":"one":1==e&&n?"one":"other"},sw:_cp[3],syr:_cp[1],ta:_cp[1],te:_cp[1],teo:_cp[1],th:_cp[0],ti:_cp[2],tig:_cp[1],tk:_cp[1],tl:function(e,t){var r=String(e).split("."),n=r[0],o=r[1]||"",c=!r[1],i=n.slice(-1),u=o.slice(-1);return t?1==e?"one":"other":c&&(1==n||2==n||3==n)||c&&4!=i&&6!=i&&9!=i||!c&&4!=u&&6!=u&&9!=u?"one":"other"},tn:_cp[1],to:_cp[0],tr:_cp[1],ts:_cp[1],tzm:function(e,t){var r=String(e).split("."),n=Number(r[0])==e;return t?"other":0==e||1==e||n&&e>=11&&99>=e?"one":"other"},ug:_cp[1],uk:function(e,t){var r=String(e).split("."),n=r[0],o=!r[1],c=Number(r[0])==e,i=c&&r[0].slice(-1),u=c&&r[0].slice(-2),p=n.slice(-1),h=n.slice(-2);return t?3==i&&13!=u?"few":"other":o&&1==p&&11!=h?"one":o&&p>=2&&4>=p&&(12>h||h>14)?"few":o&&0==p||o&&p>=5&&9>=p||o&&h>=11&&14>=h?"many":"other"},ur:_cp[3],uz:_cp[1],ve:_cp[1],vi:function(e,t){return t&&1==e?"one":"other"},vo:_cp[1],vun:_cp[1],wa:_cp[2],wae:_cp[1],wo:_cp[0],xh:_cp[1],xog:_cp[1],yi:_cp[3],yo:_cp[0],zh:_cp[0],zu:function(e,t){return t?"other":e>=0&&1>=e?"one":"other"}});</script><!--
+  </dom-module><!--
 @license https://github.com/t2ym/i18n-format/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
--->
-
-<!--
+--><!--
 `<i18n-format>` renders a text string with parameters to make grammatical localization of parameterized sentences easier.
 The first child element (`<span>` or `<json-data>`), followed by parameter elements, provides the template for the target text with parameters.
 Its parameters can be any elements like `<span>`, `<a>`, etc. See `BehaviorsStore.I18nBehavior` (work in progress) for more details in its application.
@@ -1103,19 +964,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 --><!-- For earlier initialization on Polymer 2.x -->
 <i18n-attr-repo></i18n-attr-repo>
 <!-- TODO: convert to HTML import to avoid multiple deepcopy registration -->
-<script src="../../../deepcopy/build/deepcopy.min.js">/*!
- * @license deepcopy.js Copyright(c) 2013 sasa+1
- * https://github.com/sasaplus1/deepcopy.js
- * Released under the MIT license.
- */
-!function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.deepcopy=e():t.deepcopy=e()}(this,function(){return function(t){function e(o){if(n[o])return n[o].exports;var r=n[o]={exports:{},id:o,loaded:!1};return t[o].call(r.exports,r,r.exports,e),r.loaded=!0,r.exports}var n={};return e.m=t,e.c=n,e.p="",e(0)}([function(t,e,n){"use strict";t.exports=n(3)},function(t,e){"use strict";function n(t,e){if("[object Array]"!==o.call(t))throw new TypeError("array must be an Array");var n=void 0,r=void 0,u=void 0;for(n=0,r=t.length;r>n;++n)if(u=t[n],u===e||u!==u&&e!==e)return n;return-1}e.__esModule=!0;var o=Object.prototype.toString,r="undefined"!=typeof Buffer?function(t){return Buffer.isBuffer(t)}:function(){return!1},u="function"==typeof Object.keys?function(t){return Object.keys(t)}:function(t){var e=typeof t;if(null===t||"function"!==e&&"object"!==e)throw new TypeError("obj must be an Object");var n=[],o=void 0;for(o in t)Object.prototype.hasOwnProperty.call(t,o)&&n.push(o);return n},i="function"==typeof Symbol?function(t){return Object.getOwnPropertySymbols(t)}:function(){return[]};e.getKeys=u,e.getSymbols=i,e.indexOf=n,e.isBuffer=r},function(t,e,n){"use strict";function o(t,e){var n=u(t);return null!==n?n:r(t,e)}function r(t,e){if("function"!=typeof e)throw new TypeError("customizer is must be a Function");if("function"==typeof t){var n=String(t);return/^\s*function\s*\S*\([^\)]*\)\s*{\s*\[native code\]\s*}/.test(n)?t:new Function("return "+String(n))()}var o=c.call(t);if("[object Array]"===o)return[];if("[object Object]"===o&&t.constructor===Object)return{};if("[object Date]"===o)return new Date(t.getTime());if("[object RegExp]"===o){var r=String(t),u=r.lastIndexOf("/");return new RegExp(r.slice(1,u),r.slice(u+1))}if((0,i.isBuffer)(t)){var f=new Buffer(t.length);return t.copy(f),f}var l=e(t);return void 0!==l?l:null}function u(t){var e=typeof t;return null!==t&&"object"!==e&&"function"!==e?t:null}e.__esModule=!0,e.copyValue=e.copyCollection=e.copy=void 0;var i=n(1),c=Object.prototype.toString;e.copy=o,e.copyCollection=r,e.copyValue=u},function(t,e,n){"use strict";function o(t){}function r(t){var e=arguments.length<=1||void 0===arguments[1]?o:arguments[1];if(null===t)return null;var n=(0,i.copyValue)(t);if(null!==n)return n;var r=(0,i.copyCollection)(t,e),c=null!==r?r:t,f=[t],l=[c];return u(t,e,c,f,l)}function u(t,e,n,o,r){if(null===t)return null;var f=(0,i.copyValue)(t);if(null!==f)return f;var l=(0,c.getKeys)(t).concat((0,c.getSymbols)(t)),p=void 0,s=void 0,a=void 0,y=void 0,d=void 0,v=void 0,b=void 0,j=void 0;for(p=0,s=l.length;s>p;++p)a=l[p],y=t[a],d=(0,c.indexOf)(o,y),v=void 0,b=void 0,j=void 0,-1===d?(v=(0,i.copy)(y,e),b=null!==v?v:y,null!==y&&/^(?:function|object)$/.test(typeof y)&&(o.push(y),r.push(b))):j=r[d],n[a]=j||u(y,e,b,o,r);return n}e.__esModule=!0;var i=n(2),c=n(1);e["default"]=r,t.exports=e["default"]}])});</script>
-
 <!--
 @license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
---><!-- <script src="mixin-behavior.js"></script> -->
-
-
+-->
 <!--
 @license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
