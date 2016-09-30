@@ -1,6 +1,6 @@
 {
   "name": "i18n-element",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "authors": [
     "Tetsuya Mori <t2y3141592@gmail.com>"
   ],
@@ -35,7 +35,9 @@
     "i18n-format": "#2.0-develop"
   },
   "devDependencies": {
-    "web-component-tester": "^4"
+    "web-component-tester": "^4",
+    "es6-shim": "^0.35.1",
+    "get-own-property-symbols": "es-shims/get-own-property-symbols#^0.9.2"
   },
   "resolutions": {
     "polymer": "2.0-preview",
