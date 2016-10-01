@@ -2665,7 +2665,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     BehaviorsStore.I18nBehavior.properties = _properties;
     BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
     BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
-    BehaviorsStore.I18nBehavior._updateEffectiveLang = function () {
+    BehaviorsStore.I18nBehavior._updateEffectiveLang = function (event) {
       if ((!Polymer.Element && Polymer.dom(event).rootTarget === this) ||
           (Polymer.Element && event.composedPath()[0] === this)) {
         //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
