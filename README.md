@@ -22,7 +22,7 @@ I18N Base Element for Polymer 2.x (work in progress)
 - `Mixins.Logger` is just for logging debug information and can be omitted
 - No need to install dependent npm packages
 - Polyfill for IE11: es6-shim, get-own-property-symbols, vulcanize app and polymer, and babel es2015 in addition to webcomponents-lite.js
-- [PoC Demo with Polyfill/Vulcanize/Babel](https://t2ym.github.io/i18n-element/components/i18n-element/demo/pocbabelvulcanized/) for Safari 8+, IE 11, and ES6-ready browsers
+- [PoC Demo with Polyfill/Vulcanize/Babel](https://t2ym.github.io/i18n-element/components/i18n-element/demo/pocmin/) for Safari 8+, IE 11, and ES6-ready browsers
 
 ## Install
 
