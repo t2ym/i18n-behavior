@@ -70,7 +70,8 @@ gulp.task('vulcanize', () => {
       abspath: '',
       excludes: [],
       stripExcludes: false,
-      inlineScripts: true
+      inlineScripts: true,
+      stripComments: true
     })))
     .pipe(debug())
     .pipe(gulp.dest('vulcanized'));
