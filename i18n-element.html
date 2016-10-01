@@ -5,7 +5,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <!-- i18n-element.html: Proof of Concept version -->
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="i18n-behavior.html">
-<script src="mixin-behavior.js"></script>
+<link rel="import" href="mixin-behavior.html">
 
 <script>
 // Globally expose base elements and mixins
@@ -27,7 +27,7 @@ Mixins.Localizable = function (base) {
       }
       let template = super.template;
       if (id && !template) {
-        let current = HTMLImports.useNative ? document.currentScript
+        let current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
                                             : document._currentScript;
         template = (current ? current.ownerDocument
                     .querySelector('template[id=' + id + ']') : null) || 
