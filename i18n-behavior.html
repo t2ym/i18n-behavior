@@ -75,7 +75,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   // Support ShadowDOM V1 on Polymer 2.x
   var paramAttribute = Polymer.Element ? 'slot' : 'param';
 
-  var attributesRepository = (HTMLImports.hasNative ? document.currentScript : document._currentScript)
+  var attributesRepository = ((!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript)
     .ownerDocument.querySelector('i18n-attr-repo');
 
   // set up userPreference
@@ -485,7 +485,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       // Fallback priorities: last > app default > element default > fallback > {}
       // TODO: need more research on fallback priorities
       if (!resolved) { 
-        if (bundles[this._fetchStatus.lastLang] && bundles[this._fetchStatus.lastLang][id]) {
+        if (this._fetchStatus && bundles[this._fetchStatus.lastLang] && bundles[this._fetchStatus.lastLang][id]) {
           // old bundle for now (no changes should be shown)
           resolved = bundles[this._fetchStatus.lastLang][id]; 
         }
@@ -700,6 +700,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               //console.log('assigning this._lang = ' + this.lang);
               this._lang = this.lang;
             }
+            else if (mutation.oldValue != this.lang && this._lang !== this.lang) {
+              //console.log('assigning this._lang = ' + this.lang);
+              this._lang = this.lang;
+            }
           }
           break;
         default:
@@ -730,7 +734,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       }
       if (bundles[lang] && bundles[lang][id]) {
         // bundle available for the new language
-        if (lang !== this._fetchStatus.ajaxLang) {
+        if (this._fetchStatus && lang !== this._fetchStatus.ajaxLang) {
           // reset error status
           this._fetchStatus.error = null;
         }
@@ -1279,7 +1283,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         template = _template || this;
         id = this.id;
         /* istanbul ignore if */
-        if (template.content.childNodes.length === 0) {
+        if (template.content && template.content.childNodes.length === 0) {
           // Find the real template in Internet Explorer 11 when i18n-dom-bind is concealed in a parent template
           // This does not happen on Polymer 1.3.1 or later.  So ignore this 'if' statement in code coverage.
           template = Array.prototype.map.call(document.querySelectorAll('template'), function (parentTemplate) {
@@ -2673,7 +2677,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     };
   }
 
-  if (Polymer.Element && Polymer.Element.name === 'PolymerElement') {
+  if (Polymer.Element) {
     // Polymer 2.x
   }
   else {
