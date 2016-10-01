@@ -49,11 +49,11 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
   var defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
 
   // imperative synchronous registration of the template for Polymer 2.x
-  var template = (HTMLImports.hasNative ? document.currentScript : document._currentScript)
+  var template = ((!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript)
     .ownerDocument.querySelector('template#i18n-preference');
   var domModule = document.createElement('dom-module');
-  var currentScript = HTMLImports.hasNative ? document.currentScript : document._currentScript;
-  HTMLImports.whenReady(function () {
+  var currentScript = (!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript;
+  var registerI18nPreference = function () {
 
   currentScript.ownerDocument.querySelector('div#dom-module-placeholder').appendChild(domModule);
   domModule.appendChild(template);
@@ -262,6 +262,12 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
       }
     }
   });
-  });
+  }
+  if ((!window.HTMLImports || HTMLImports.hasNative)) {
+    registerI18nPreference();
+  }
+  else {
+    HTMLImports.whenReady(registerI18nPreference);
+  }
 })(document);
 </script>
