@@ -214,7 +214,7 @@ Handle and judge JSON object attributes.
   var sharedData = {};
 
   // imperative synchronous registration of the template for Polymer 2.x
-  var template = (HTMLImports.hasNative ? document.currentScript : document._currentScript)
+  var template = ((!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript)
     .ownerDocument.querySelector('template#i18n-attr-repo');
   var domModule = document.createElement('dom-module');
   domModule.appendChild(template);
