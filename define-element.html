@@ -50,7 +50,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         var previous; // previousSibling template
         var cousin; // dom5.serialize output support
 
-        current = HTMLImports.useNative ? document.currentScript
+        current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
                                         : document._currentScript;
 
         previous = current.previousSibling;
@@ -131,7 +131,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         // register dom-module
         if (template) {
           var domModule = document.createElement('dom-module');
-          var assetUrl = new URL(current.baseURI || window.currentImport.baseURI);
+          let assetUrl = new URL(current.baseURI ||
+            (window.currentImport ? window.currentImport.baseURI : null) ||
+            current.ownerDocument.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
                                   assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
