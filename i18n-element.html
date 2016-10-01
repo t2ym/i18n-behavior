@@ -26,10 +26,11 @@ Mixins.Localizable = function (base) {
         (typeof this === 'function' ?
                 this.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "") :
                 undefined);
-      if (!id && name && name !== 'Localizable' && name != '_class') {
+      if (!id && name && name !== 'Localizable' && name != 'class' && name != '_class') {
         id = this.is = this._uncamelCase(name);
       }
-      let template = super.template;
+      // TODO: template fetching should be flexible to detect super.template
+      let template = Polymer.DomModule.import(id, 'template');
       if (id && !template) {
         let current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
                                             : document._currentScript;
