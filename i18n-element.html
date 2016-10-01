@@ -22,8 +22,12 @@ Mixins.Localizable = function (base) {
     }
     static get _rawTemplate() {
       let id = this.is;
-      if (!id && this.name && this.name !== 'Localizable') {
-        id = this.is = this._uncamelCase(this.name);
+      let name = this.name ||
+        (typeof this === 'function' ?
+                this.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "") :
+                undefined);
+      if (!id && name && name !== 'Localizable' && name != '_class') {
+        id = this.is = this._uncamelCase(name);
       }
       let template = super.template;
       if (id && !template) {
@@ -34,7 +38,9 @@ Mixins.Localizable = function (base) {
                    document.querySelector('template[id=' + id + ']');
         if (template) {
           let domModule = document.createElement('dom-module');
-          let assetUrl = new URL(current.baseURI || window.currentImport.baseURI);
+          let assetUrl = new URL(current.baseURI ||
+            (window.currentImport ? window.currentImport.baseURI : null) ||
+            current.ownerDocument.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
                                   assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
