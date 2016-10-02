@@ -13,16 +13,19 @@ I18N Base Element for Polymer 2.x (work in progress)
 
 - This is just a proof-of-concept demo and not applicable to general purposes yet
 - Bower dependencies with their branch names have no tags, i.e., no versions, and have to be updated in sync with the branches frequently. 
-- PoC demo supported browsers: Chrome Canary 55 (native), Chrome 53, Firefox 48, Edge 14, Safari 10
+- Raw PoC demo supported browsers: Chrome Canary 55 (native), Chrome 53, Firefox 48, Edge 14, Safari 10
 - The modules are dependent upon modules from [`i18n-behavior`](https://github.com/t2ym/i18n-behavior)
 - Some Polymer 1.x modules (`iron-ajax`, `iron-localstorage`) are running as Polymer 2.x modules without compatibility tests
-- Internal function `MixinBehaviors` is borrowed from polymer#2.0-preview src/legacy/class.html
+- Internal function `MixinBehavior` is borrowed from [`polymer#2.0-preview src/legacy/class.html`](https://github.com/Polymer/polymer/blob/2.0-preview/src/legacy/class.html)
 - Some i18n-behavior modules (`i18n-behavior`, `i18n-preference`, `i18n-attr-repo`) are slightly converted for Polymer 2.x
-- Support ShadowDOM V1 `slot` with `i18n-format` and `i18n-number` in their `2.0-develop` branches
+- Support ShadowDOM V1 `slot` with [`i18n-format`](https://github.com/t2ym/i18n-format/tree/2.0-develop) and [`i18n-number`](https://github.com/t2ym/i18n-number/tree/2.0-develop) in their `2.0-develop` branches
 - `Mixins.Logger` is just for logging debug information and can be omitted
-- No need to install dependent npm packages
-- Polyfill for IE11: es6-shim, get-own-property-symbols, vulcanize app and polymer, and babel es2015 in addition to webcomponents-lite.js
+- Polyfill for IE11: [`es6-shim`](https://github.com/paulmillr/es6-shim), [`get-own-property-symbols`](https://github.com/es-shims/get-own-property-symbols), vulcanize app and polymer, and babel es2015 in addition to webcomponents-lite.js
 - [PoC Demo with Polyfill/Vulcanize/Babel](https://t2ym.github.io/i18n-element/components/i18n-element/demo/pocmin/) for Safari 8+, IE 11, and ES6-ready browsers
+- [`demo/gulpfile.js`](https://github.com/t2ym/i18n-element/blob/master/demo/gulpfile.js) to build PoC Demo with Polyfill/Vulcanize/Babel
+- [`Transpiled Polymer 2.0-preview`](https://github.com/Polymer/polymer/commit/fb70b870656442f3766a8d055f27ab541dc0c978) has not been supported yet
+- Missing `webcomponents-lite.min.js` in [`v1` branch](https://github.com/webcomponents/webcomponentsjs/tree/v1) is generated in the gulp tasks
+- [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
 
 ## Install
 
@@ -44,7 +47,7 @@ bower install i18n-element
 - Extend Polymer.LegacyElement for now
 - Empty `static get config() { return { behaviors: [], observers: [] }; }` may do harm
 
-[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/localizable-element.html)
+[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/localizable-element.html)
 
 ```html
 <dom-module id="localizable-element">
@@ -66,7 +69,7 @@ customElements.define(LocalizableElement.is, LocalizableElement);
 
 - Equivalent to `Mixins.Localizable(Polymer.LegacyElement)`
 
-[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/i18n-subclass-element.html)
+[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-subclass-element.html)
 
 ```html
 <dom-module id="i18n-subclass-element">
@@ -98,7 +101,7 @@ Additional Import:
 - Applicable to both Class Expressions Mixin and I18N Base Element Class
 - Applicable to non-I18N element classes as well
 
-[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/i18n-thin-element.html)
+[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-thin-element.html)
 
 ```html
 <template id="i18n-thin-element">
@@ -117,7 +120,7 @@ Define = class I18nThinElement extends BaseElements.I18nElement {
 - `Mixins.I18nBehavior({ is })` is handed to `Polymer()` function
 - `Mixins.I18nBehavior({ is })` is equivalent to `Mixins.Localizable(Polymer.Class({ is }))`
 
-[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/i18n-legacy-element.html)
+[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-legacy-element.html)
 
 ```html
 <dom-module id="i18n-legacy-element">
