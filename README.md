@@ -23,7 +23,7 @@ I18N Base Element for Polymer 2.x (work in progress)
 - Polyfill for IE11: [`es6-shim`](https://github.com/paulmillr/es6-shim), [`get-own-property-symbols`](https://github.com/es-shims/get-own-property-symbols), vulcanize app and polymer, and babel es2015 in addition to webcomponents-lite.js
 - [PoC Demo with Polyfill/Vulcanize/Babel](https://t2ym.github.io/i18n-element/components/i18n-element/demo/pocmin/) for Safari 8+, IE 11, and ES6-ready browsers
 - [`demo/gulpfile.js`](https://github.com/t2ym/i18n-element/blob/master/demo/gulpfile.js) to build PoC Demo with Polyfill/Vulcanize/Babel
-- [`Transpiled Polymer 2.0-preview`](https://github.com/Polymer/polymer/commit/fb70b870656442f3766a8d055f27ab541dc0c978) has not been supported yet
+- [`Pre-Transpiled Polymer 2.0-preview`](https://github.com/Polymer/polymer/commit/fb70b870656442f3766a8d055f27ab541dc0c978) has not been supported yet
 - Missing `webcomponents-lite.min.js` in [`v1` branch](https://github.com/webcomponents/webcomponentsjs/tree/v1) is generated in the gulp tasks
 - [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
 
@@ -115,12 +115,40 @@ Define = class I18nThinElement extends BaseElements.I18nElement {
 </script>
 ```
 
+### `Polymer({ is, behaviors })` Legacy Syntax for Polymer 1.x Compatibility
+
+Import:
+```html
+<!-- DO NOT IMPORT i18n-element.html -->
+<link rel="import" href="bower_components/i18n-element/i18n-behavior.html">
+```
+
+- Polymer 1.x Compatible Legacy Syntax
+- Import `i18n-behavior.html`, and not `i18n-element.html`
+- [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) 1.2.1 or later is required for vulcanized applications
+
+[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-legacy-element.html)
+
+```html
+<dom-module id="i18n-legacy-element">
+  <template>
+    <span id="label1">Legacy UI label 1</span><br>
+    <span id="label2">Legacy UI label 2</span><br>
+    <span id="label3">Legacy UI label 3</span>
+  </template>
+</dom-module>
+<script>
+Polymer({
+  is: 'i18n-legacy-element',
+  behaviors: [ BehaviorsStore.I18nBehavior ]
+});
+</script>
+```
+
 ### Modified `Polymer({ is, behaviors })` Legacy Syntax for Polymer 1.x
 
 - `Mixins.I18nBehavior({ is })` is handed to `Polymer()` function
 - `Mixins.I18nBehavior({ is })` is equivalent to `Mixins.Localizable(Polymer.Class({ is }))`
-
-[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-legacy-element.html)
 
 ```html
 <dom-module id="i18n-legacy-element">
