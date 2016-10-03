@@ -42,12 +42,17 @@
     "gulp-babel": "^6.1.2",
     "gulp-crisper": "^1.0.0",
     "gulp-debug": "^2.1.2",
-    "gulp-i18n-leverage": "^1.1.1",
-    "gulp-i18n-preprocess": "^1.1.1",
-    "gulp-if": "^2.0.0",
+    "gulp-grep-contents": "0.0.1",
+    "gulp-i18n-add-locales": "^0.1.1",
+    "gulp-i18n-leverage": "^1.1.4",
+    "gulp-i18n-preprocess": "^1.2.1",
+    "gulp-if": "^2.0.1",
+    "gulp-ignore": "^2.0.1",
+    "gulp-match": "^1.0.2",
+    "gulp-merge": "^0.1.1",
     "gulp-minify-html": "^1.0.5",
     "gulp-replace": "^0.5.4",
-    "gulp-size": "^2.0.0",
+    "gulp-size": "^2.1.0",
     "gulp-sort": "^2.0.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
@@ -57,8 +62,10 @@
     "lcov-result-merger": "^1.2.0",
     "merge-stream": "^1.0.0",
     "run-sequence": "^1.1.5",
+    "strip-bom": "^3.0.0",
     "through2": "^2.0.1",
     "web-component-tester": "^4.2.2",
-    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul/tarball/0.10.1"
+    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul/tarball/0.10.1",
+    "xliff-conv": "^1.0.10"
   }
 }
