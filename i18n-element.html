@@ -15,7 +15,7 @@ window.Mixins = window.Mixins || {};
 // Localizable mixin
 Mixins.Localizable = function (base) {
 
-  return class Localizable extends Polymer.Utils.MixinBehavior(BehaviorsStore.I18nBehavior, base) {
+  return class Localizable extends Polymer.Utils.MixinBehavior(BehaviorsStore._I18nBehavior, base) {
     constructor () {
       Localizable.template;
       super();

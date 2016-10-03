@@ -1276,9 +1276,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      *   </dom-module>
      * ```
      */
-    _constructDefaultBundle: function (_template) {
+    _constructDefaultBundle: function (_template, _id) {
       var template;
-      var id = this.is;
+      var id = _id || this.is;
       if (this.is === 'i18n-dom-bind') {
         template = _template || this;
         id = this.id;
@@ -1313,7 +1313,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
       if (template) {
         // register localizable attributes of the element itself
-        attributesRepository.registerLocalizableAttributes(id, template);
+        if (attributesRepository.registerLocalizableAttributes) {
+          attributesRepository.registerLocalizableAttributes(id, template);
+        }
+        else {
+          BehaviorsStore._I18nAttrRepo._created();
+          BehaviorsStore._I18nAttrRepo.registerLocalizableAttributes(id, template);
+        }
         if (template.getAttribute('localizable-text') === 'embedded') {
           // pick up embedded JSON from the template
           localizableText = template.content.querySelector('#localizable-text');
@@ -1386,7 +1392,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         case 'selected':
           break;
         default:
-          if (!(isLocalizable = attributesRepository.isLocalizableAttribute(node, attribute.name))) {
+          if (!(isLocalizable = BehaviorsStore._I18nAttrRepo.isLocalizableAttribute(node, attribute.name))) {
             break;
           }
           if (text.length === 0) {
@@ -2679,6 +2685,31 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
   if (Polymer.Element) {
     // Polymer 2.x
+    BehaviorsStore._I18nBehavior = BehaviorsStore.I18nBehavior;
+    BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
+    Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
+      get: function() {
+        var current = (!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript;
+        var domModules = current.ownerDocument.querySelectorAll('dom-module[legacy]');
+        if (domModules.length === 0) {
+          domModules = current.ownerDocument.querySelectorAll('dom-module');
+          if (domModules.length !== 1) {
+            domModules = [];
+          }
+        }
+        BehaviorsStore._I18nAttrRepo._created();
+        Array.prototype.forEach.call(domModules, function (domModule) {
+          if (domModule && domModule.id) {
+            var template = domModule.querySelector('template');
+            if (template) {
+              BehaviorsStore._I18nBehavior._constructDefaultBundle(template, domModule.id);
+              domModule.removeAttribute('legacy');
+            }
+          }
+        });
+        return BehaviorsStore._I18nBehavior;
+      }
+    });
   }
   else {
     // Polymer 1.x

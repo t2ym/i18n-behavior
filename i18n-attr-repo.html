@@ -219,11 +219,12 @@ Handle and judge JSON object attributes.
   var domModule = document.createElement('dom-module');
   domModule.appendChild(template);
   domModule.register('i18n-attr-repo');
+  window.BehaviorsStore = window.BehaviorsStore || {};
 
-  Polymer({
+  Polymer(window.BehaviorsStore._I18nAttrRepo = {
     is: 'i18n-attr-repo',
 
-    ready: function () {
+    created: function () {
       this.data = sharedData;
 
       var customAttributes = Polymer.dom(this).querySelector('template#custom');
@@ -232,11 +233,25 @@ Handle and judge JSON object attributes.
         this._traverseTemplateTree(customAttributes._content || customAttributes.content);
       }
 
+      this._created();
+    },
+
+    _created: function () {
+      this.data = sharedData;
+
       if (this.data.__ready__) {
         return; // traverse standard attributes only once
       }
       this.data.__ready__ = true;
-      this._traverseTemplateTree(this.$.standard._content || this.$.standard.content);
+      var standardTemplate;
+      if (!this.$) {
+        var t = Polymer.DomModule.import(this.is, 'template');
+        standardTemplate = (t._content || t.content).querySelector('template#standard');
+      }
+      else {
+        standardTemplate = this.$.standard;
+      }
+      this._traverseTemplateTree(standardTemplate._content || standardTemplate.content);
     },
 
     /**
@@ -248,6 +263,10 @@ Handle and judge JSON object attributes.
      */
     isLocalizableAttribute: function (element, attr) {
       var tagName = element.tagName.toLowerCase();
+      if (!this.data) {
+        this._created();
+        this.data = sharedData;
+      }
       attr = attr.replace(/\$$/, '');
       if (this.data['any-elements'] &&
           this.data['any-elements'][attr]) {
@@ -430,6 +449,10 @@ Handle and judge JSON object attributes.
      * @param {HTMLTemplateElement} template Template of the element.
      */
     registerLocalizableAttributes: function (element, template) {
+      if (!this.data) {
+        this._created();
+        this.data = sharedData;
+      }
       if (!element) {
         element = template.getAttribute('id');
       }
