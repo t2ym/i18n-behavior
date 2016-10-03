@@ -1,10 +1,32 @@
 {
-  "localizable-element": {
-    "label1": "es Localizable UI label 1",
-    "label2": "es Localizable UI label 2",
-    "label3": "es Localizable UI label 3"
+  "el5": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label1": "es Bound UI label 1",
+    "label2": "es Bound UI label 2",
+    "label3": "es Bound UI label 3"
+  },
+  "i18n-legacy-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label1": "es Legacy UI label 1",
+    "label2": "es Legacy UI label 2",
+    "label3": "es Legacy UI label 3"
   },
   "i18n-subclass-element": {
+    "meta": {
+      "todo": [
+        {
+          "op": "replace",
+          "path": "/model/input_8/placeholder",
+          "value": "localizable attribute"
+        }
+      ]
+    },
     "model": {
       "input_8": {
         "placeholder": "es localizable attribute",
@@ -21,19 +43,22 @@
     ]
   },
   "i18n-thin-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
     "label1": "es Thin UI label 1",
     "label2": "es Thin UI label 2",
     "label3": "es Thin UI label 3"
-  },  
-  "i18n-legacy-element": {
-    "label1": "es Legacy UI label 1",
-    "label2": "es Legacy UI label 2",
-    "label3": "es Legacy UI label 3"          
   },
-  "el5": {
-    "label1": "es Bound UI label 1",
-    "label2": "es Bound UI label 2",
-    "label3": "es Bound UI label 3"
+  "localizable-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label1": "es Localizable UI label 1",
+    "label2": "es Localizable UI label 2",
+    "label3": "es Localizable UI label 3"
   },
   "bundle": true
 }

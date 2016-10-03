@@ -1,13 +1,41 @@
 {
-  "localizable-element": {
-    "label1": "de Localizable UI label 1",
-    "label2": "de Localizable UI label 2",
-    "label3": "de Localizable UI label 3"
+  "el5": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label1": "de Bound UI label 1",
+    "label2": "de Bound UI label 2",
+    "label3": "de Bound UI label 3"
+  },
+  "i18n-legacy-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label1": "de Legacy UI label 1",
+    "label2": "de Legacy UI label 2",
+    "label3": "de Legacy UI label 3"
   },
   "i18n-subclass-element": {
+    "meta": {
+      "todo": [
+        {
+          "op": "add",
+          "path": "/model/input_8/i18n-attr",
+          "value": "i18n attr"
+        },
+        {
+          "op": "replace",
+          "path": "/model/input_8/placeholder",
+          "value": "localizable attribute"
+        }
+      ]
+    },
     "model": {
       "input_8": {
         "placeholder": "de localizable attribute",
+        "i18n-attr": "de i18n attr",
         "i18n attr": "de i18n attr"
       }
     },
@@ -21,19 +49,22 @@
     ]
   },
   "i18n-thin-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
     "label1": "de Thin UI label 1",
     "label2": "de Thin UI label 2",
     "label3": "de Thin UI label 3"
-  },  
-  "i18n-legacy-element": {
-    "label1": "de Legacy UI label 1",
-    "label2": "de Legacy UI label 2",
-    "label3": "de Legacy UI label 3"          
   },
-  "el5": {
-    "label1": "de Bound UI label 1",
-    "label2": "de Bound UI label 2",
-    "label3": "de Bound UI label 3"
+  "localizable-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label1": "de Localizable UI label 1",
+    "label2": "de Localizable UI label 2",
+    "label3": "de Localizable UI label 3"
   },
   "bundle": true
 }

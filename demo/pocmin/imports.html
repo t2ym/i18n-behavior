@@ -71,11 +71,22 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <i18n-attr-repo></i18n-attr-repo>
 
 <dom-module id="localizable-element" assetpath="elements/">
-  <template>
-    <span id="label1">Localizable UI label 1</span><br>
-    <span id="label2">Localizable UI label 2</span><br>
-    <span id="label3">Localizable UI label 3</span>
-  </template>
+  <template localizable-text="embedded">
+    <span id="label1">{{text.label1}}</span><br>
+    <span id="label2">{{text.label2}}</span><br>
+    <span id="label3">{{text.label3}}</span>
+  <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "label1": "Localizable UI label 1",
+  "label2": "Localizable UI label 2",
+  "label3": "Localizable UI label 3"
+}
+</json-data>
+</template>
+</template>
 </dom-module>
 <i18n-attr-repo>
   <template id="custom">
@@ -84,26 +95,69 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 </i18n-attr-repo>
 
 <dom-module id="i18n-subclass-element" assetpath="elements/">
-  <template>
-    <span id="label1">Subclass UI label 1</span><br>
-    <span id="label2">Subclass UI label 2</span><br>
-    <span id="label3">Subclass UI label 3</span><br>
-    <span>complex <b>parameterized</b> sentences <i>abc</i></span><br>
-    <input placeholder="localizable attribute" i18n-attr="i18n attr">
-  </template>
+  <template localizable-text="embedded">
+    <span id="label1">{{text.label1}}</span><br>
+    <span id="label2">{{text.label2}}</span><br>
+    <span id="label3">{{text.label3}}</span><br>
+    <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_6.0}}</span><b slot="1">{{text.span_6.1}}</b><i slot="2">{{text.span_6.2}}</i></i18n-format></span><br>
+    <input placeholder="{{model.input_8.placeholder}}" i18n-attr$="{{model.input_8.i18n-attr}}">
+  <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {
+    "input_8": {
+      "placeholder": "localizable attribute",
+      "i18n-attr": "i18n attr"
+    }
+  },
+  "label1": "Subclass UI label 1",
+  "label2": "Subclass UI label 2",
+  "label3": "Subclass UI label 3",
+  "span_6": [
+    "complex {1} sentences {2}",
+    "parameterized",
+    "abc"
+  ]
+}
+</json-data>
+</template>
+</template>
 </dom-module>
-<template id="i18n-thin-element">
-  <span id="label1">Thin UI label 1</span><br>
-  <span id="label2">Thin UI label 2</span><br>
-  <span id="label3">Thin UI label 3</span>
+<template id="i18n-thin-element" assetpath="/" localizable-text="embedded">
+  <span id="label1">{{text.label1}}</span><br>
+  <span id="label2">{{text.label2}}</span><br>
+  <span id="label3">{{text.label3}}</span>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "label1": "Thin UI label 1",
+  "label2": "Thin UI label 2",
+  "label3": "Thin UI label 3"
+}
+</json-data>
+</template>
 </template>
 
-<dom-module id="i18n-legacy-element" assetpath="elements/">
-  <template>
-    <span id="label1">Legacy UI label 1</span><br>
-    <span id="label2">Legacy UI label 2</span><br>
-    <span id="label3">Legacy UI label 3</span>
-  </template>
+<dom-module id="i18n-legacy-element" legacy="" assetpath="elements/">
+  <template localizable-text="embedded">
+    <span id="label1">{{text.label1}}</span><br>
+    <span id="label2">{{text.label2}}</span><br>
+    <span id="label3">{{text.label3}}</span>
+  <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "label1": "Legacy UI label 1",
+  "label2": "Legacy UI label 2",
+  "label3": "Legacy UI label 3"
+}
+</json-data>
+</template>
+</template>
 </dom-module>
 </div><script>var _get=function get(object,property,receiver){if(object===null)object=Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc===undefined){var parent=Object.getPrototypeOf(object);if(parent===null){return undefined;}else{return get(parent,property,receiver);}}else if("value"in desc){return desc.value;}else{var getter=desc.get;if(getter===undefined){return undefined;}return getter.call(receiver);}};var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if("value"in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};}();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call&&(typeof call==="object"||typeof call==="function")?call:self;}function _inherits(subClass,superClass){if(typeof superClass!=="function"&&superClass!==null){throw new TypeError("Super expression must either be null or a function, not "+typeof superClass);}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass;}window.Polymer=window.Polymer||{};(function(){var modules={};var lcModules={};var findModule=function findModule(id){return modules[id]||lcModules[id.toLowerCase()];};/**
    * The `dom-module` element registers the dom it contains to the name given
@@ -2141,15 +2195,15 @@ if(!this._htmlLangMutationObserver){this._htmlLangMutationObserverCallbackBindTh
      * Disconnect html.lang mutation observer
      */_disconnect:function _disconnect(){if(this._htmlLangMutationObserver){this._htmlLangMutationObserver.disconnect();}}});};if(!window.HTMLImports||HTMLImports.hasNative){registerI18nPreference();}else{HTMLImports.whenReady(registerI18nPreference);}})(document);(function(){// shared data
 var sharedData={};// imperative synchronous registration of the template for Polymer 2.x
-var template=(!window.HTMLImports||HTMLImports.hasNative?document.currentScript:document._currentScript).ownerDocument.querySelector('template#i18n-attr-repo');var domModule=document.createElement('dom-module');domModule.appendChild(template);domModule.register('i18n-attr-repo');Polymer({is:'i18n-attr-repo',ready:function ready(){this.data=sharedData;var customAttributes=Polymer.dom(this).querySelector('template#custom');// traverse custom attributes repository
-if(customAttributes){this._traverseTemplateTree(customAttributes._content||customAttributes.content);}if(this.data.__ready__){return;// traverse standard attributes only once
-}this.data.__ready__=true;this._traverseTemplateTree(this.$.standard._content||this.$.standard.content);},/**
+var template=(!window.HTMLImports||HTMLImports.hasNative?document.currentScript:document._currentScript).ownerDocument.querySelector('template#i18n-attr-repo');var domModule=document.createElement('dom-module');domModule.appendChild(template);domModule.register('i18n-attr-repo');window.BehaviorsStore=window.BehaviorsStore||{};Polymer(window.BehaviorsStore._I18nAttrRepo={is:'i18n-attr-repo',created:function created(){this.data=sharedData;var customAttributes=Polymer.dom(this).querySelector('template#custom');// traverse custom attributes repository
+if(customAttributes){this._traverseTemplateTree(customAttributes._content||customAttributes.content);}this._created();},_created:function _created(){this.data=sharedData;if(this.data.__ready__){return;// traverse standard attributes only once
+}this.data.__ready__=true;var standardTemplate;if(!this.$){var t=Polymer.DomModule.import(this.is,'template');standardTemplate=(t._content||t.content).querySelector('template#standard');}else{standardTemplate=this.$.standard;}this._traverseTemplateTree(standardTemplate._content||standardTemplate.content);},/**
      * Judge if a specific attribute of an element requires localization.
      *
      * @param {HTMLElement} element Target element.
      * @param {string} attr Target attribute name.
      * @return {string or boolean} true - property, '$' - attribute, false - not targeted, 'type-name' - type name
-     */isLocalizableAttribute:function isLocalizableAttribute(element,attr){var tagName=element.tagName.toLowerCase();attr=attr.replace(/\$$/,'');if(this.data['any-elements']&&this.data['any-elements'][attr]){return this.data['any-elements'][attr];}else if(this.data[tagName]){return this.data[tagName]['any-attributes']||this._getType(element,this.data[tagName][attr]);}else{return false;}},/**
+     */isLocalizableAttribute:function isLocalizableAttribute(element,attr){var tagName=element.tagName.toLowerCase();if(!this.data){this._created();this.data=sharedData;}attr=attr.replace(/\$$/,'');if(this.data['any-elements']&&this.data['any-elements'][attr]){return this.data['any-elements'][attr];}else if(this.data[tagName]){return this.data[tagName]['any-attributes']||this._getType(element,this.data[tagName][attr]);}else{return false;}},/**
      * Get the type name or '$' for a specific attribute of an element from the attributes repository
      *
      * @param {HTMLElement} element Target element.
@@ -2204,7 +2258,7 @@ return false;},/**
      *
      * @param {string} element Target element name.
      * @param {HTMLTemplateElement} template Template of the element.
-     */registerLocalizableAttributes:function registerLocalizableAttributes(element,template){if(!element){element=template.getAttribute('id');}if(element){var attrs=(template.getAttribute('text-attr')||'').split(' ');var textAttr=false;attrs.forEach(function(attr){if(attr){this.setLocalizableAttribute(element,attr,true);}},this);Array.prototype.forEach.call(template.attributes,function(attr){switch(attr.name){case'id':case'lang':case'localizable-text':case'assetpath':break;case'text-attr':textAttr=true;break;default:if(textAttr){this.setLocalizableAttribute(element,attr.name,attr.value);}break;}}.bind(this));}},/**
+     */registerLocalizableAttributes:function registerLocalizableAttributes(element,template){if(!this.data){this._created();this.data=sharedData;}if(!element){element=template.getAttribute('id');}if(element){var attrs=(template.getAttribute('text-attr')||'').split(' ');var textAttr=false;attrs.forEach(function(attr){if(attr){this.setLocalizableAttribute(element,attr,true);}},this);Array.prototype.forEach.call(template.attributes,function(attr){switch(attr.name){case'id':case'lang':case'localizable-text':case'assetpath':break;case'text-attr':textAttr=true;break;default:if(textAttr){this.setLocalizableAttribute(element,attr.name,attr.value);}break;}}.bind(this));}},/**
      * Traverse the template of `i18n-attr-repo` in the ready() callback
      * and construct the localizable attributes repository object. The method calls itself
      * recursively for traversal.
@@ -2770,11 +2824,11 @@ target[prop]=target[prop]||[];this._deepMap(target[prop],value,map);}else{target
      *     </template>
      *   </dom-module>
      * ```
-     */_constructDefaultBundle:function _constructDefaultBundle(_template){var template;var id=this.is;if(this.is==='i18n-dom-bind'){template=_template||this;id=this.id;/* istanbul ignore if */if(template.content&&template.content.childNodes.length===0){// Find the real template in Internet Explorer 11 when i18n-dom-bind is concealed in a parent template
+     */_constructDefaultBundle:function _constructDefaultBundle(_template,_id){var template;var id=_id||this.is;if(this.is==='i18n-dom-bind'){template=_template||this;id=this.id;/* istanbul ignore if */if(template.content&&template.content.childNodes.length===0){// Find the real template in Internet Explorer 11 when i18n-dom-bind is concealed in a parent template
 // This does not happen on Polymer 1.3.1 or later.  So ignore this 'if' statement in code coverage.
 template=Array.prototype.map.call(document.querySelectorAll('template'),function(parentTemplate){return parentTemplate.content.querySelector('template#'+id+'[is="i18n-dom-bind"]');}).reduce(function(prev,current){return prev||current;});// Patch this.content with the real one
 if(template){this.content=template.content;}}}else{template=_template||Polymer.DomModule.import(id,'template');}if(template){this.templateDefaultLang=template.hasAttribute('lang')?template.lang:'en';}else{this.templateDefaultLang='en';}var bundle={model:{}};var path=[];var templateDefaultLang=this.templateDefaultLang;var localizableText,jsonData;if(template){// register localizable attributes of the element itself
-attributesRepository.registerLocalizableAttributes(id,template);if(template.getAttribute('localizable-text')==='embedded'){// pick up embedded JSON from the template
+if(attributesRepository.registerLocalizableAttributes){attributesRepository.registerLocalizableAttributes(id,template);}else{BehaviorsStore._I18nAttrRepo._created();BehaviorsStore._I18nAttrRepo.registerLocalizableAttributes(id,template);}if(template.getAttribute('localizable-text')==='embedded'){// pick up embedded JSON from the template
 localizableText=template.content.querySelector('#localizable-text');if(localizableText){jsonData=localizableText.content.querySelector('json-data');if(jsonData){bundle=JSON.parse(jsonData.textContent);}else{console.error('<json-data> not found in <template id=\"localizable-text\">');}}else{console.error('<template id=\"localizable-text\"> not found');}}else{if(extraWhiteSpaceNode){template.setAttribute('strip-whitespace','');}// traverse template to generate bundle
 this._traverseTemplateTree(template.content,path,bundle,0);}}bundles[''][id]=bundle;bundles[templateDefaultLang]=bundles[templateDefaultLang]||{};bundles[templateDefaultLang][id]=bundle;//console.log('text = ');
 //console.log(JSON.stringify(bundle, null, 2));
@@ -2790,7 +2844,7 @@ return true;},/**
      * @param {Object} bundle Default bundle.
      */_traverseAttributes:function _traverseAttributes(node,path,bundle){var name=node.nodeName.toLowerCase();var id=node.getAttribute?node.getAttribute('text-id')||node.getAttribute('id'):null;var text;var messageId;var attrId;var isLocalizable;var dummy;// pick up element attributes
 Array.prototype.forEach.call(node.attributes,function(attribute){text=attribute.value;switch(attribute.name){case'id':case'text-id':case'is':case'lang':case'class':// verification required before removing these attributes
-case'href':case'src':case'style':case'url':case'selected':break;default:if(!(isLocalizable=attributesRepository.isLocalizableAttribute(node,attribute.name))){break;}if(text.length===0){// skip empty value attribute
+case'href':case'src':case'style':case'url':case'selected':break;default:if(!(isLocalizable=BehaviorsStore._I18nAttrRepo.isLocalizableAttribute(node,attribute.name))){break;}if(text.length===0){// skip empty value attribute
 }else if(text.match(/^{{[^{}]*}}$/)||text.match(/^\[\[[^\[\]]*\]\]$/)){// skip annotation attribute
 }else if(text.replace(/\n/g,' ').match(/^{.*}|\[.*\]$/g)&&!text.match(/^{{[^{}]*}}|\[\[[^\[\]]*\]\]/)&&!text.match(/{{[^{}]*}}|\[\[[^\[\]]*\]\]$/)){// generate message id
 messageId=this._generateMessageId(path,id);try{//console.log(messageId + ' parsing attribute ' + attribute.name + ' = ' + text);
@@ -3186,7 +3240,7 @@ if(typeof this.observeHtmlLang==='undefined'&&!this.hasAttribute('observe-html-l
      */detached:function detached(){if(this.observeHtmlLang){this._observeHtmlLangChanged(false);}}};// Fix #36. Rename lang property as _lang to avoid conflict with the predefined lang property
 if(!isStandardPropertyConfigurable){var _properties=Object.create(null);for(var p in BehaviorsStore.I18nBehavior.properties){if(p==='lang'){_properties._lang=BehaviorsStore.I18nBehavior.properties.lang;}else{_properties[p]=BehaviorsStore.I18nBehavior.properties[p];}}BehaviorsStore.I18nBehavior.properties=_properties;BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute=false;BehaviorsStore.I18nBehavior.properties.text.computed='_getBundle(_lang)';BehaviorsStore.I18nBehavior._updateEffectiveLang=function(event){if(!Polymer.Element&&Polymer.dom(event).rootTarget===this||Polymer.Element&&event.composedPath()[0]===this){//console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
 this.effectiveLang=this._lang;}};BehaviorsStore.I18nBehavior.hostAttributes={'lang':defaultLang};}if(Polymer.Element){// Polymer 2.x
-}else{// Polymer 1.x
+BehaviorsStore._I18nBehavior=BehaviorsStore.I18nBehavior;BehaviorsStore.I18nBehavior=[BehaviorsStore._I18nBehavior];Object.defineProperty(BehaviorsStore.I18nBehavior,'0',{get:function get(){var current=!window.HTMLImports||HTMLImports.hasNative?document.currentScript:document._currentScript;var domModules=current.ownerDocument.querySelectorAll('dom-module[legacy]');if(domModules.length===0){domModules=current.ownerDocument.querySelectorAll('dom-module');if(domModules.length!==1){domModules=[];}}BehaviorsStore._I18nAttrRepo._created();Array.prototype.forEach.call(domModules,function(domModule){if(domModule&&domModule.id){var template=domModule.querySelector('template');if(template){BehaviorsStore._I18nBehavior._constructDefaultBundle(template,domModule.id);domModule.removeAttribute('legacy');}}});return BehaviorsStore._I18nBehavior;}});}else{// Polymer 1.x
 /**
    * `<template is="i18n-dom-bind">` element extends `dom-bind` template element with `I18nBehavior`
    *
@@ -3215,7 +3269,7 @@ Mixins.Localizable=function(base){return function(_Polymer$Utils$MixinB){_inheri
 .replace(/\b([A-Z]+)([A-Z])([a-z0-9])/,'$1 $2$3')// replace spaces with hyphens
 .replace(/ /g,'-')// lowercase
 .toLowerCase();}},{key:'_i18nPreprocess',value:function _i18nPreprocess(template){if(this.is&&template&&!this._templateLocalizable){this._templateLocalizable=this.prototype._constructDefaultBundle(template);}return template;}},{key:'_rawTemplate',get:function get(){var id=this.is;var name=this.name||(typeof this==='function'?this.toString().replace(/^[\S\s]*?function\s*/,"").replace(/[\s\(\/][\S\s]+$/,""):undefined);if(!id&&name&&name!=='Localizable'&&name!='class'&&name!='_class'){id=this.is=this._uncamelCase(name);}// TODO: template fetching should be flexible to detect super.template
-var template=Polymer.DomModule.import(id,'template');if(id&&!template){var current=!window.HTMLImports||HTMLImports.useNative?document.currentScript:document._currentScript;template=(current?current.ownerDocument.querySelector('template[id='+id+']'):null)||document.querySelector('template[id='+id+']');if(template){var domModule=document.createElement('dom-module');var assetUrl=new URL(current.baseURI||(window.currentImport?window.currentImport.baseURI:null)||current.ownerDocument.baseURI);domModule.appendChild(template);domModule.setAttribute('assetpath',assetUrl.pathname.indexOf('.vulcanized.')<0?assetUrl.pathname:template.hasAttribute('assetpath')?template.getAttribute('assetpath'):assetUrl.pathname);domModule.register(id);this._template=template;}}return template;}},{key:'template',get:function get(){return this._i18nPreprocess(this._rawTemplate);}},{key:'_templateLocalizable',get:function get(){return this.hasOwnProperty('__templateLocalizable');},set:function set(value){this.__templateLocalizable=value;}}]);return Localizable;}(Polymer.Utils.MixinBehavior(BehaviorsStore.I18nBehavior,base));};Mixins.I18nBehavior=function(info){return Mixins.Localizable(Polymer.Class(info));};// Logger mixin
+var template=Polymer.DomModule.import(id,'template');if(id&&!template){var current=!window.HTMLImports||HTMLImports.useNative?document.currentScript:document._currentScript;template=(current?current.ownerDocument.querySelector('template[id='+id+']'):null)||document.querySelector('template[id='+id+']');if(template){var domModule=document.createElement('dom-module');var assetUrl=new URL(current.baseURI||(window.currentImport?window.currentImport.baseURI:null)||current.ownerDocument.baseURI);domModule.appendChild(template);domModule.setAttribute('assetpath',assetUrl.pathname.indexOf('.vulcanized.')<0?assetUrl.pathname:template.hasAttribute('assetpath')?template.getAttribute('assetpath'):assetUrl.pathname);domModule.register(id);this._template=template;}}return template;}},{key:'template',get:function get(){return this._i18nPreprocess(this._rawTemplate);}},{key:'_templateLocalizable',get:function get(){return this.hasOwnProperty('__templateLocalizable');},set:function set(value){this.__templateLocalizable=value;}}]);return Localizable;}(Polymer.Utils.MixinBehavior(BehaviorsStore._I18nBehavior,base));};Mixins.I18nBehavior=function(info){return Mixins.Localizable(Polymer.Class(info));};// Logger mixin
 Mixins.Logger=function(base){return function(_base){_inherits(_class,_base);function _class(){_classCallCheck(this,_class);return _possibleConstructorReturn(this,(_class.__proto__||Object.getPrototypeOf(_class)).apply(this,arguments));}_createClass(_class,[{key:'connectedCallback',value:function connectedCallback(){_get(_class.prototype.__proto__||Object.getPrototypeOf(_class.prototype),'connectedCallback',this).call(this);console.log('<'+Object.getPrototypeOf(this).constructor.is+'>: '+'id = '+this.id+', '+'this.text = '+JSON.stringify(this.text,null,2));console.log('Preprocessed template = \n',Object.getPrototypeOf(this).constructor.template);}}]);return _class;}(base);};// I18N Base Element
 Object.defineProperty(BaseElements,'I18nElement',{get:function get(){return Mixins.I18nBehavior(Polymer.LegacyElement);}});// i18n-dom-bind based on Polymer/polymer#2.0-preview src/templatizer/dom-bind.html
 var I18nDomBind=function(_Mixins$Localizable){_inherits(I18nDomBind,_Mixins$Localizable);function I18nDomBind(){_classCallCheck(this,I18nDomBind);return _possibleConstructorReturn(this,(I18nDomBind.__proto__||Object.getPrototypeOf(I18nDomBind)).apply(this,arguments));}_createClass(I18nDomBind,[{key:'connectedCallback',value:function connectedCallback(){this._fetchStatus=deepcopy({// per custom element
@@ -3244,6 +3298,6 @@ template=current.ownerDocument.querySelector('template[id='+id+']')||document.qu
 template=previous;template.id=id;}else{// Pattern e)
 }}if(!id){throw'Custom element name is not defined';}// register dom-module
 if(template){var domModule=document.createElement('dom-module');var assetUrl=new URL(current.baseURI||(window.currentImport?window.currentImport.baseURI:null)||current.ownerDocument.baseURI);domModule.appendChild(template);domModule.setAttribute('assetpath',assetUrl.pathname.indexOf('.vulcanized.')<0?assetUrl.pathname:template.hasAttribute('assetpath')?template.getAttribute('assetpath'):assetUrl.pathname);domModule.register(id);proto._template=template;proto.finalize();}// register Custom Element
-this.PolymerElements=this.PolymerElements||{};classId=classId||id.split('-').map(function(word){return word[0].toUpperCase()+word.substr(1);}).join('');if(this.PolymerElements[id]){console.warn('Discarding duplicate regitration of custom element '+id);}else{window[classId]=proto;customElements.define(id,proto);this.PolymerElements[classId]=this.PolymerElements[id];}return this.PolymerElements[id];}});}})();Define=function(_Mixins$Logger3){_inherits(I18nThinElement,_Mixins$Logger3);function I18nThinElement(){_classCallCheck(this,I18nThinElement);return _possibleConstructorReturn(this,(I18nThinElement.__proto__||Object.getPrototypeOf(I18nThinElement)).apply(this,arguments));}return I18nThinElement;}(Mixins.Logger(BaseElements.I18nElement));Polymer(Mixins.I18nBehavior({is:'i18n-legacy-element'}));
+this.PolymerElements=this.PolymerElements||{};classId=classId||id.split('-').map(function(word){return word[0].toUpperCase()+word.substr(1);}).join('');if(this.PolymerElements[id]){console.warn('Discarding duplicate regitration of custom element '+id);}else{window[classId]=proto;customElements.define(id,proto);this.PolymerElements[classId]=this.PolymerElements[id];}return this.PolymerElements[id];}});}})();Define=function(_Mixins$Logger3){_inherits(I18nThinElement,_Mixins$Logger3);function I18nThinElement(){_classCallCheck(this,I18nThinElement);return _possibleConstructorReturn(this,(I18nThinElement.__proto__||Object.getPrototypeOf(I18nThinElement)).apply(this,arguments));}return I18nThinElement;}(Mixins.Logger(BaseElements.I18nElement));Polymer({is:'i18n-legacy-element',behaviors:[BehaviorsStore.I18nBehavior]});
 //# sourceMappingURL=sourcemaps/imports.js.map
 </script></body></html>

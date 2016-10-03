@@ -1,9 +1,7 @@
 <!--
 @license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
--->
-<html debug>
-  <head>
+--><html debug=""><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>i18n-element Proof of Concept Demo</title>
@@ -22,11 +20,23 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <i18n-thin-element id="el3"></i18n-thin-element><br>
     <i18n-legacy-element id="el4"></i18n-legacy-element><br>
     <i18n-dom-bind id="el5">
-      <template>
-        <span id="label1">Bound UI label 1</span><br>
-        <span id="label2">Bound UI label 2</span><br>
-        <span id="label3">Bound UI label 3</span>
-      </template>
+      <template localizable-text="embedded">
+        <span id="label1">{{text.label1}}</span><br>
+        <span id="label2">{{text.label2}}</span><br>
+        <span id="label3">{{text.label3}}</span>
+      <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "label1": "Bound UI label 1",
+  "label2": "Bound UI label 2",
+  "label3": "Bound UI label 3"
+}
+</json-data>
+</template>
+</template>
     </i18n-dom-bind>
-  </body>
-</html>
+  
+
+</body></html>

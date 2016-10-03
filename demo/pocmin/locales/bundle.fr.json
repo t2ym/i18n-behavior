@@ -1,10 +1,32 @@
 {
-  "localizable-element": {
-    "label1": "fr Localizable UI label 1",
-    "label2": "fr Localizable UI label 2",
-    "label3": "fr Localizable UI label 3"
+  "el5": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label1": "fr Bound UI label 1",
+    "label2": "fr Bound UI label 2",
+    "label3": "fr Bound UI label 3"
+  },
+  "i18n-legacy-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label1": "fr Legacy UI label 1",
+    "label2": "fr Legacy UI label 2",
+    "label3": "fr Legacy UI label 3"
   },
   "i18n-subclass-element": {
+    "meta": {
+      "todo": [
+        {
+          "op": "replace",
+          "path": "/model/input_8/placeholder",
+          "value": "localizable attribute"
+        }
+      ]
+    },
     "model": {
       "input_8": {
         "placeholder": "fr localizable attribute",
@@ -21,19 +43,22 @@
     ]
   },
   "i18n-thin-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
     "label1": "fr Thin UI label 1",
     "label2": "fr Thin UI label 2",
     "label3": "fr Thin UI label 3"
-  },  
-  "i18n-legacy-element": {
-    "label1": "fr Legacy UI label 1",
-    "label2": "fr Legacy UI label 2",
-    "label3": "fr Legacy UI label 3"          
   },
-  "el5": {
-    "label1": "fr Bound UI label 1",
-    "label2": "fr Bound UI label 2",
-    "label3": "fr Bound UI label 3"
+  "localizable-element": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "label1": "fr Localizable UI label 1",
+    "label2": "fr Localizable UI label 2",
+    "label3": "fr Localizable UI label 3"
   },
   "bundle": true
 }
