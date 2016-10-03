@@ -1,0 +1,17 @@
+{
+  "meta": {},
+  "model": {
+    "input_8": {
+      "placeholder": "localizable attribute",
+      "i18n-attr": "i18n attr"
+    }
+  },
+  "label1": "Subclass UI label 1",
+  "label2": "Subclass UI label 2",
+  "label3": "Subclass UI label 3",
+  "span_6": [
+    "complex {1} sentences {2}",
+    "parameterized",
+    "abc"
+  ]
+}

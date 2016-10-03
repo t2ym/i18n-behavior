@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file xml:space="default" source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-10-03T16:10:23Z" product-name="messages">
+    <header>
+      <tool tool-id="xliff-conv" tool-name="xliff-conv" tool-version="1.0.10"/>
+    </header>
+    <body>
+      <trans-unit id="el5.label1" approved="yes">
+        <source>Bound UI label 1</source>
+        <target state="translated">de Bound UI label 1</target>
+      </trans-unit>
+      <trans-unit id="el5.label2" approved="yes">
+        <source>Bound UI label 2</source>
+        <target state="translated">de Bound UI label 2</target>
+      </trans-unit>
+      <trans-unit id="el5.label3" approved="yes">
+        <source>Bound UI label 3</source>
+        <target state="translated">de Bound UI label 3</target>
+      </trans-unit>
+      <trans-unit id="i18n-legacy-element.label1" approved="yes">
+        <source>Legacy UI label 1</source>
+        <target state="translated">de Legacy UI label 1</target>
+      </trans-unit>
+      <trans-unit id="i18n-legacy-element.label2" approved="yes">
+        <source>Legacy UI label 2</source>
+        <target state="translated">de Legacy UI label 2</target>
+      </trans-unit>
+      <trans-unit id="i18n-legacy-element.label3" approved="yes">
+        <source>Legacy UI label 3</source>
+        <target state="translated">de Legacy UI label 3</target>
+      </trans-unit>
+      <trans-unit id="i18n-subclass-element.model.input_8.placeholder">
+        <source>localizable attribute</source>
+        <target state="needs-translation">de localizable attribute</target>
+      </trans-unit>
+      <trans-unit id="i18n-subclass-element.model.input_8.i18n-attr">
+        <source>i18n attr</source>
+        <target state="new">de i18n attr</target>
+      </trans-unit>
+      <trans-unit id="i18n-subclass-element.model.input_8.i18n attr" approved="yes">
+        <source/>
+        <target state="translated">de i18n attr</target>
+      </trans-unit>
+      <trans-unit id="i18n-subclass-element.label1" approved="yes">
+        <source>Subclass UI label 1</source>
+        <target state="translated">de Subclass UI label 1</target>
+      </trans-unit>
+      <trans-unit id="i18n-subclass-element.label2" approved="yes">
+        <source>Subclass UI label 2</source>
+        <target state="translated">de Subclass UI label 2</target>
+      </trans-unit>
+      <trans-unit id="i18n-subclass-element.label3" approved="yes">
+        <source>Subclass UI label 3</source>
+        <target state="translated">de Subclass UI label 3</target>
+      </trans-unit>
+      <trans-unit id="i18n-subclass-element.span_6.0" approved="yes">
+        <source>complex {1} sentences {2}</source>
+        <target state="translated">de complex {1} sentences {2}</target>
+      </trans-unit>
+      <trans-unit id="i18n-subclass-element.span_6.1" approved="yes">
+        <source>parameterized</source>
+        <target state="translated">de parameterized</target>
+      </trans-unit>
+      <trans-unit id="i18n-subclass-element.span_6.2" approved="yes">
+        <source>abc</source>
+        <target state="translated">de abc</target>
+      </trans-unit>
+      <trans-unit id="i18n-thin-element.label1" approved="yes">
+        <source>Thin UI label 1</source>
+        <target state="translated">de Thin UI label 1</target>
+      </trans-unit>
+      <trans-unit id="i18n-thin-element.label2" approved="yes">
+        <source>Thin UI label 2</source>
+        <target state="translated">de Thin UI label 2</target>
+      </trans-unit>
+      <trans-unit id="i18n-thin-element.label3" approved="yes">
+        <source>Thin UI label 3</source>
+        <target state="translated">de Thin UI label 3</target>
+      </trans-unit>
+      <trans-unit id="localizable-element.label1" approved="yes">
+        <source>Localizable UI label 1</source>
+        <target state="translated">de Localizable UI label 1</target>
+      </trans-unit>
+      <trans-unit id="localizable-element.label2" approved="yes">
+        <source>Localizable UI label 2</source>
+        <target state="translated">de Localizable UI label 2</target>
+      </trans-unit>
+      <trans-unit id="localizable-element.label3" approved="yes">
+        <source>Localizable UI label 3</source>
+        <target state="translated">de Localizable UI label 3</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

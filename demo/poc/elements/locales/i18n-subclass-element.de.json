@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "todo": [
+      {
+        "op": "add",
+        "path": "/model/input_8/i18n-attr",
+        "value": "i18n attr"
+      },
+      {
+        "op": "replace",
+        "path": "/model/input_8/placeholder",
+        "value": "localizable attribute"
+      }
+    ]
+  },
+  "model": {
+    "input_8": {
+      "placeholder": "de localizable attribute",
+      "i18n-attr": "de i18n attr",
+      "i18n attr": "de i18n attr"
+    }
+  },
+  "label1": "de Subclass UI label 1",
+  "label2": "de Subclass UI label 2",
+  "label3": "de Subclass UI label 3",
+  "span_6": [
+    "de complex {1} sentences {2}",
+    "de parameterized",
+    "de abc"
+  ]
+}

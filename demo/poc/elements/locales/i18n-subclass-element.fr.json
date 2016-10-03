@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "todo": [
+      {
+        "op": "replace",
+        "path": "/model/input_8/placeholder",
+        "value": "localizable attribute"
+      }
+    ]
+  },
+  "model": {
+    "input_8": {
+      "placeholder": "fr localizable attribute",
+      "i18n-attr": "fr i18n attr"
+    }
+  },
+  "label1": "fr Subclass UI label 1",
+  "label2": "fr Subclass UI label 2",
+  "label3": "fr Subclass UI label 3",
+  "span_6": [
+    "fr complex {1} sentences {2}",
+    "fr parameterized",
+    "fr abc"
+  ]
+}

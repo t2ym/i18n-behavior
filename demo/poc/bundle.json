@@ -1,0 +1,88 @@
+{
+  "el5": {
+    "meta": {
+      "locales": [
+        "de",
+        "es",
+        "fr",
+        "ja",
+        "zh-Hans"
+      ]
+    },
+    "model": {},
+    "label1": "Bound UI label 1",
+    "label2": "Bound UI label 2",
+    "label3": "Bound UI label 3"
+  },
+  "i18n-legacy-element": {
+    "meta": {
+      "locales": [
+        "de",
+        "es",
+        "fr",
+        "ja",
+        "zh-Hans"
+      ]
+    },
+    "model": {},
+    "label1": "Legacy UI label 1",
+    "label2": "Legacy UI label 2",
+    "label3": "Legacy UI label 3"
+  },
+  "i18n-subclass-element": {
+    "meta": {
+      "locales": [
+        "de",
+        "es",
+        "fr",
+        "ja",
+        "zh-Hans"
+      ]
+    },
+    "model": {
+      "input_8": {
+        "placeholder": "localizable attribute",
+        "i18n-attr": "i18n attr"
+      }
+    },
+    "label1": "Subclass UI label 1",
+    "label2": "Subclass UI label 2",
+    "label3": "Subclass UI label 3",
+    "span_6": [
+      "complex {1} sentences {2}",
+      "parameterized",
+      "abc"
+    ]
+  },
+  "i18n-thin-element": {
+    "meta": {
+      "locales": [
+        "de",
+        "es",
+        "fr",
+        "ja",
+        "zh-Hans"
+      ]
+    },
+    "model": {},
+    "label1": "Thin UI label 1",
+    "label2": "Thin UI label 2",
+    "label3": "Thin UI label 3"
+  },
+  "localizable-element": {
+    "meta": {
+      "locales": [
+        "de",
+        "es",
+        "fr",
+        "ja",
+        "zh-Hans"
+      ]
+    },
+    "model": {},
+    "label1": "Localizable UI label 1",
+    "label2": "Localizable UI label 2",
+    "label3": "Localizable UI label 3"
+  },
+  "bundle": true
+}
