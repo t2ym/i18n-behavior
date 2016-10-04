@@ -1,0 +1,292 @@
+{
+  "meta": {
+    "todo": [
+      {
+        "op": "add",
+        "path": "/model/simple-input/placeholder",
+        "value": "Placeholder String"
+      },
+      {
+        "op": "add",
+        "path": "/model/data/sender/name",
+        "value": "Joe"
+      },
+      {
+        "op": "add",
+        "path": "/model/data/sender/gender",
+        "value": "male"
+      },
+      {
+        "op": "add",
+        "path": "/model/data/recipients/0/name",
+        "value": "Alice"
+      },
+      {
+        "op": "add",
+        "path": "/model/data/recipients/0/gender",
+        "value": "female"
+      },
+      {
+        "op": "add",
+        "path": "/model/data/recipients/1/name",
+        "value": "Bob"
+      },
+      {
+        "op": "add",
+        "path": "/model/data/recipients/1/gender",
+        "value": "male"
+      },
+      {
+        "op": "add",
+        "path": "/model/data/recipients/2/name",
+        "value": "Yoda"
+      },
+      {
+        "op": "add",
+        "path": "/model/data/recipients/2/gender",
+        "value": "other"
+      },
+      {
+        "op": "add",
+        "path": "/h2_1",
+        "value": "Simple String"
+      },
+      {
+        "op": "add",
+        "path": "/simple",
+        "value": "UI Text String"
+      },
+      {
+        "op": "add",
+        "path": "/h2_3",
+        "value": "Simple Attribute"
+      },
+      {
+        "op": "add",
+        "path": "/h2_5",
+        "value": "Automatic Format"
+      },
+      {
+        "op": "add",
+        "path": "/example-sentence/0",
+        "value": "This {1} with {2} is automatically converted to {3} to translate it as a whole with any parameter order."
+      },
+      {
+        "op": "add",
+        "path": "/example-sentence/1",
+        "value": "example sentence"
+      },
+      {
+        "op": "add",
+        "path": "/example-sentence/2",
+        "value": "some parameters or embedded tags"
+      },
+      {
+        "op": "add",
+        "path": "/example-sentence/3",
+        "value": "<i18n-format>"
+      },
+      {
+        "op": "add",
+        "path": "/h2_7",
+        "value": "Compound Format with <i18n-format>"
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/0",
+        "value": "You ({3}) gave no gifts."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/1/male",
+        "value": "You ({3}) gave him ({4}) {5}."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/1/female",
+        "value": "You ({3}) gave her ({4}) {5}."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/1/other",
+        "value": "You ({3}) gave them ({4}) {5}."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/one/male",
+        "value": "You ({3}) gave him ({4}) and one other person {5}."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/one/female",
+        "value": "You ({3}) gave her ({4}) and one other person {5}."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/one/other",
+        "value": "You ({3}) gave them ({4}) and one other person {5}."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/other",
+        "value": "You ({3}) gave them ({4}) and {1} other people gifts."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/1",
+        "value": "{{recipients.length - 1}}"
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/2",
+        "value": "{{recipients.0.gender}}"
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/3",
+        "value": "{{model.data.sender.name}}"
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/4",
+        "value": "{{recipients.0.name}}"
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/5",
+        "value": "a gift"
+      },
+      {
+        "op": "add",
+        "path": "/h2_9",
+        "value": "Parameters"
+      },
+      {
+        "op": "add",
+        "path": "/pre_10/0",
+        "value": "lang = {1} ({2})"
+      },
+      {
+        "op": "add",
+        "path": "/pre_10/1",
+        "value": "{{effectiveLang}}"
+      },
+      {
+        "op": "add",
+        "path": "/pre_10/2",
+        "value": "{{langName}}"
+      },
+      {
+        "op": "add",
+        "path": "/pre_11/0",
+        "value": "sender = {1}"
+      },
+      {
+        "op": "add",
+        "path": "/pre_11/1",
+        "value": "{{stringifiedUser}}"
+      },
+      {
+        "op": "add",
+        "path": "/pre_12/0",
+        "value": "recipients = {1}"
+      },
+      {
+        "op": "add",
+        "path": "/pre_12/1",
+        "value": "{{stringifiedRecipients}}"
+      },
+      {
+        "op": "add",
+        "path": "/langNames/en",
+        "value": "English"
+      },
+      {
+        "op": "add",
+        "path": "/langNames/ja",
+        "value": "Japanese"
+      },
+      {
+        "op": "add",
+        "path": "/langNames/fr",
+        "value": "French"
+      }
+    ]
+  },
+  "model": {
+    "simple-input": {
+      "placeholder": "Placeholder String"
+    },
+    "data": {
+      "sender": {
+        "name": "Joe",
+        "gender": "male"
+      },
+      "recipients": [
+        {
+          "name": "Alice",
+          "gender": "female"
+        },
+        {
+          "name": "Bob",
+          "gender": "male"
+        },
+        {
+          "name": "Yoda",
+          "gender": "other"
+        }
+      ]
+    }
+  },
+  "h2_1": "Simple String",
+  "simple": "UI Text String",
+  "h2_3": "Simple Attribute",
+  "h2_5": "Automatic Format",
+  "example-sentence": [
+    "This {1} with {2} is automatically converted to {3} to translate it as a whole with any parameter order.",
+    "example sentence",
+    "some parameters or embedded tags",
+    "<i18n-format>"
+  ],
+  "h2_7": "Compound Format with <i18n-format>",
+  "compound-format-text": [
+    {
+      "0": "You ({3}) gave no gifts.",
+      "1": {
+        "male": "You ({3}) gave him ({4}) {5}.",
+        "female": "You ({3}) gave her ({4}) {5}.",
+        "other": "You ({3}) gave them ({4}) {5}."
+      },
+      "one": {
+        "male": "You ({3}) gave him ({4}) and one other person {5}.",
+        "female": "You ({3}) gave her ({4}) and one other person {5}.",
+        "other": "You ({3}) gave them ({4}) and one other person {5}."
+      },
+      "other": "You ({3}) gave them ({4}) and {1} other people gifts."
+    },
+    "{{recipients.length - 1}}",
+    "{{recipients.0.gender}}",
+    "{{model.data.sender.name}}",
+    "{{recipients.0.name}}",
+    "a gift"
+  ],
+  "h2_9": "Parameters",
+  "pre_10": [
+    "lang = {1} ({2})",
+    "{{effectiveLang}}",
+    "{{langName}}"
+  ],
+  "pre_11": [
+    "sender = {1}",
+    "{{stringifiedUser}}"
+  ],
+  "pre_12": [
+    "recipients = {1}",
+    "{{stringifiedRecipients}}"
+  ],
+  "langNames": {
+    "en": "English",
+    "ja": "Japanese",
+    "fr": "French"
+  }
+}
