@@ -221,7 +221,7 @@ Handle and judge JSON object attributes.
   domModule.register('i18n-attr-repo');
   window.BehaviorsStore = window.BehaviorsStore || {};
 
-  Polymer(window.BehaviorsStore._I18nAttrRepo = {
+  window.BehaviorsStore._I18nAttrRepo = {
     is: 'i18n-attr-repo',
 
     created: function () {
@@ -506,6 +506,8 @@ Handle and judge JSON object attributes.
         }
       }
     }
-  });
+  };
+  BehaviorsStore._I18nAttrRepo._created();
+  Polymer(BehaviorsStore._I18nAttrRepo);
 })();
 </script>
