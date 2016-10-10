@@ -58,13 +58,16 @@ class I18nDomBind extends Mixins.Localizable(Polymer.LegacyElement) {
       if (!template) {
         throw new Error('i18n-dom-bind requires a <template> child');
       }
-      this._templateLocalizable = this._constructDefaultBundle(this.querySelector('template'));
+      this._templateLocalizable = this._constructDefaultBundle(template);
       this._bindTemplate(template);
       this.root = this._stampTemplate(template);
       this.stamped = this.root;
       this._children = [];
       for (var n=this.root.firstChild; n; n=n.nextSibling) {
         this._children[this._children.length] = n;
+      }
+      for (var prop in this.__dataProto) {
+        this[prop] = this.__dataProto[prop];
       }
       this._flushProperties(this);
     }
