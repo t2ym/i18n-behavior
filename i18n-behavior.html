@@ -459,7 +459,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       //console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
 
       var resolved;
-      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (Polymer.Element && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (lang && lang.length > 0) {
         var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
@@ -825,7 +825,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
       // set up an empty bundle if inexistent
       bundles[lang] = bundles[lang] || {};
-      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (Polymer.Element && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (bundles[lang][id]) {
         // bundle is available; no need to fetch
