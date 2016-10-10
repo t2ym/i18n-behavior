@@ -310,7 +310,7 @@ gulp.task('babel', () => {
         'transform-regenerator'
       ]
     })))
-    //.pipe(gulpif('imports.js', uglify()))
+    .pipe(gulpif('imports.js', uglify({ mangle: false })))
     .pipe(sourcemaps.write('sourcemaps'))
     .pipe(debug())
     .pipe(gulp.dest('pocbabelvulcanized'));
