@@ -2179,6 +2179,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
             templateText = document.createElement('i18n-format');
             templateText.setAttribute('lang', '{{effectiveLang}}');
+            // insert i18n-format
+            Polymer.dom(parent).insertBefore(templateText, node);
+            Polymer.dom(parent).removeChild(node);
             span = document.createElement('span');
             // span.innerText does not set an effective value in Firefox
             span.textContent = templateTextParams.params.shift();
@@ -2191,9 +2194,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             // store the text message
             templateTextParams.text[0] = templateTextParams.text[0].replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
             this._setBundleValue(bundle, messageId, templateTextParams.text);
-            // insert i18n-format
-            Polymer.dom(parent).insertBefore(templateText, node);
-            Polymer.dom(parent).removeChild(node);
             debuglog(messageId + ' = ' + templateTextParams.text);
           }
           else {
