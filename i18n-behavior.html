@@ -2089,6 +2089,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   }
                   return prev;
                 }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
+              // clear original childNodes before implicit removals by appendChild to i18n-format for ShadyDOM compatibility
+              node.innerHTML = '';
               templateText = document.createElement('i18n-format');
               templateText.setAttribute('lang', '{{effectiveLang}}');
               span = document.createElement('span');
@@ -2104,7 +2106,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               templateTextParams.text[0] = templateTextParams.text[0].replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
               this._setBundleValue(bundle, messageId, templateTextParams.text);
               // insert i18n-format
-              node.innerHTML = '';
               Polymer.dom(node).appendChild(templateText);
               if (!id) {
                 //node.id = messageId;
