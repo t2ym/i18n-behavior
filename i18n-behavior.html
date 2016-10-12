@@ -2550,6 +2550,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       if (this.is === 'i18n-dom-bind') {
         this._propertyEffects = deepcopy(this._propertyEffects);
       }
+      else {
+        var template = Polymer.DomModule.import(this.is, 'template');
+        if (template && template.hasAttribute('lang')) {
+          this.templateDefaultLang = template.getAttribute('lang') || '';
+        }
+      }
       if (!isStandardPropertyConfigurable) {
         // Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
         this.observer = new MutationObserver(this._handleLangAttributeChange.bind(this));
@@ -2599,7 +2605,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         }
         this._langChanged(this.getAttribute('lang'), undefined);
         // model per instance
-        this.model = deepcopy(this.text.model);
+        if (this.text) {
+          this.model = deepcopy(this.text.model);
+        }
       }
     },
 
@@ -2678,6 +2686,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       if ((!Polymer.Element && Polymer.dom(event).rootTarget === this) ||
           (Polymer.Element && event.composedPath()[0] === this)) {
         //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
+        this.__data = this.__data || {};
         this.effectiveLang = this._lang;
       }
     };
