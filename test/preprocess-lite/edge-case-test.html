@@ -317,7 +317,7 @@ suite('I18nBehavior with ' +
       'nextTextSibling.data': text_complex_compound_binding['paragraph2:text_6']
     },
   ];
-  text_advanced_binding = {
+  var text_advanced_binding = {
     'meta': {},
     'model': {
       'aria-attributes': {
@@ -340,14 +340,14 @@ suite('I18nBehavior with ' +
       'ok': 'healthy status',
       'busy': 'busy status',
       'error': 'error status',
-      '': 'unknown status'
+      'default': 'unknown status'
     },
     'defaultValue': 'default value',
     'statusMessageFormats': {
       'ok': 'healthy status',
       'busy': 'busy status with {2}',
       'error': 'error status with {1} and {2}',
-      '': 'unknown status'
+      'default': 'unknown status'
     },
     'nodefault': {
       'ok': 'ok status'

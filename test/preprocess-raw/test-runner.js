@@ -129,6 +129,7 @@ function getProperty (target, name) {
 
 function deepMap (target, source, map) {
   var value;
+  if (typeof source === 'object') {
   for (var prop in source) {
     value = source[prop];
     switch (typeof value) {
@@ -165,6 +166,13 @@ function deepMap (target, source, map) {
       break;
     }
   }
+  }
+  else {
+    if (typeof target === 'string') {
+      target = map(source, '');
+    }
+  }
+  return target;
 }
 
 function translate (lang, path, text) {
@@ -181,12 +189,13 @@ function translate (lang, path, text) {
       result = {};
       deepMap(result, { text: text }, function (value, prop) {
         if (typeof value === 'string' &&
-            !value.match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/) &&
+            !value.match(/^\s*({{[^{}]*}}|\[\[[^\[\]]*\]\])\s*$/) &&
+            (!value.match(/^\s*<[a-zA-Z0-9- ]*>\s*$/) || value.match(/^\s*<i18n-format>\s*$/)) &&
             !value.match(/^[0-9]{1,}$/) &&
             prop !== 'type') {
-          return path && path.match(/[.]trim$/) ? (lang + ' ' + value).trim() : lang + ' ' + value;
+          return minifyText(path && path.match(/[.]trim$/) ? (lang + ' ' + value).trim() : lang + ' ' + value);
         }
-        return value;
+        return minifyText(value);
       });
       result = result.text;
     }
@@ -470,6 +479,9 @@ function suitesRunner (suites) {
           //console.log(JSON.stringify(e.detail, null, 2));
           //console.log(JSON.stringify(el.text, null, 2));
           for (p in expected) {
+            if (p === 'meta') {
+              continue;
+            }
             noProperties = false;
             assert.deepEqual(deepMap(deepcopy(el.text[p]), el.text[p], minifyText),
               params.rawText ? expected[p] : translate(params.effectiveLang, null, expected[p]),
@@ -488,7 +500,7 @@ function suitesRunner (suites) {
             noProperties = false;
             //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
             //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
-            assert.deepEqual(el.model[p],
+            assert.deepEqual(deepMap(deepcopy(el.model[p]), el.model[p], minifyText),
               params.rawText ? params.model[p] : translate(params.effectiveLang, null, params.model[p]),
               'model.' + p + ' property is set for ' + params.effectiveLang);
           }
