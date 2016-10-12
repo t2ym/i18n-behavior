@@ -1,0 +1,56 @@
+{
+  "name": "i18n-behavior",
+  "version": "1.1.9",
+  "description": "Instant and Modular I18N for Polymer",
+  "main": "i18n-behavior.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test:local"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t2ym/i18n-behavior.git"
+  },
+  "keywords": [
+    "polymer",
+    "web-components",
+    "web-component",
+    "i18n",
+    "internationalization",
+    "l10n",
+    "localization",
+    "format"
+  ],
+  "author": "Tetsuya Mori <t2y3141592@gmail.com>",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/t2ym/i18n-behavior/issues"
+  },
+  "homepage": "https://github.com/t2ym/i18n-behavior#readme",
+  "devDependencies": {
+    "coveralls": "^2.11.8",
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-crisper": "^1.0.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-i18n-leverage": "^1.1.1",
+    "gulp-i18n-preprocess": "^1.1.1",
+    "gulp-if": "^2.0.0",
+    "gulp-minify-html": "^1.0.5",
+    "gulp-replace": "^0.5.4",
+    "gulp-size": "^2.0.0",
+    "gulp-sort": "^2.0.0",
+    "gulp-uglify": "^1.5.3",
+    "gulp-util": "^3.0.7",
+    "gulp-vulcanize": "^6.1.0",
+    "json-stringify-safe": "^5.0.1",
+    "lcov-result-merger": "^1.2.0",
+    "merge-stream": "^1.0.0",
+    "run-sequence": "^1.1.5",
+    "through2": "^2.0.1",
+    "web-component-tester": "^4.2.2",
+    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul/tarball/0.10.1"
+  }
+}

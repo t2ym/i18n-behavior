@@ -1,0 +1,41 @@
+{
+  "name": "i18n-format",
+  "version": "1.0.0",
+  "description": "Text formatter with Unicode CLDR Plural Rules and choices support",
+  "main": "i18n-format.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "wct && if [ \"${TRAVIS_BRANCH}\" != \"\" ]; then coveralls <./test/coverage-report/lcov.info; fi",
+    "clean": "rm -rvf ./test/coverage-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t2ym/i18n-format.git"
+  },
+  "keywords": [
+    "polymer",
+    "web-component",
+    "web-components",
+    "polymer",
+    "i18n",
+    "internationalization",
+    "l10n",
+    "localization",
+    "format",
+    "pluralization",
+    "cldr"
+  ],
+  "author": "Tetsuya Mori <t2y3141592@gmail.com>",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/t2ym/i18n-format/issues"
+  },
+  "homepage": "https://github.com/t2ym/i18n-format#readme",
+  "devDependencies": {
+    "coveralls": "^2.11.8",
+    "web-component-tester": "^4.2.2",
+    "web-component-tester-istanbul": "^0.10.0"
+  }
+}
