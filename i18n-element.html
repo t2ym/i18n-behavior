@@ -103,7 +103,7 @@ Mixins.Logger = (base) => class extends base {
 // I18N Base Element
 Object.defineProperty(BaseElements, 'I18nElement', {
   get: function () {
-    return Mixins.I18nBehavior(Polymer.LegacyElement);
+    return Mixins.Localizable(Polymer.LegacyElement);
   }
 });
 </script>
