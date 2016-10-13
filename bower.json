@@ -46,7 +46,8 @@
     "paper-styles": "PolymerElements/paper-styles#2.0-preview",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#2.0-preview",
     "paper-menu": "PolymerElements/paper-menu#^1.2.2",
-    "paper-item": "PolymerElements/paper-item#2.0-preview"
+    "paper-item": "PolymerElements/paper-item#2.0-preview",
+    "test-fixture": "PolymerElements/test-fixture#ce-v1"
   },
   "resolutions": {
     "polymer": "2.0-preview",
