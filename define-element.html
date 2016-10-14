@@ -23,12 +23,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "") :
             undefined;
   }
+  var _Define = function (id) {
+    return customElements.get(id);
+  };
   if (!window.Define) {
     Object.defineProperty(window, 'Define', {
       get: function () {
-        return function (id) {
-          return this.PolymerElements ? this.PolymerElements[id] : undefined;
-        };
+        return _Define;
       },
       set: function (proto) {
         /*
@@ -151,15 +152,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         classId = classId || id.split('-').map(function (word) {
           return word[0].toUpperCase() + word.substr(1);
         }).join('');
-        if (this.PolymerElements[id]) {
-          console.warn('Discarding duplicate regitration of custom element ' + id);
+        if (customElements.get(id)) {
+          console.warn('Discarding duplicate definition of custom element ' + id);
         }
         else {
-          window[classId] = proto;
           customElements.define(id, proto);
-          this.PolymerElements[classId] = this.PolymerElements[id];
+          _Define[classId] = customElements.get(id);
         }
-        return this.PolymerElements[id];
+        return customElements.get(id);
       }
     });
   }
