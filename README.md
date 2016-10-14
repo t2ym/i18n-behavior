@@ -145,7 +145,7 @@ Polymer({
 </script>
 ```
 
-### Modified `Polymer({ is, behaviors })` Legacy Syntax for Polymer 1.x
+### TO BE DISCARDED: Modified `Polymer({ is, behaviors })` Legacy Syntax for Polymer 1.x
 
 - Unstable and to be discarded due to architectural inconsistencies
 - `Mixins.I18nBehavior({ is })` is handed to `Polymer()` function
