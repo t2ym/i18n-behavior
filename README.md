@@ -147,6 +147,7 @@ Polymer({
 
 ### Modified `Polymer({ is, behaviors })` Legacy Syntax for Polymer 1.x
 
+- Unstable and to be discarded due to architectural inconsistencies
 - `Mixins.I18nBehavior({ is })` is handed to `Polymer()` function
 - `Mixins.I18nBehavior({ is })` is equivalent to `Mixins.Localizable(Polymer.Class({ is }))`
 
