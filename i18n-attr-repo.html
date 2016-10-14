@@ -229,8 +229,9 @@ Handle and judge JSON object attributes.
 
       var customAttributes = Polymer.dom(this).querySelector('template#custom');
       // traverse custom attributes repository
-      if (customAttributes) {
+      if (customAttributes && !this.hasAttribute('processed')) {
         this._traverseTemplateTree(customAttributes._content || customAttributes.content);
+        this.setAttribute('processed', '');
       }
 
       this._created();

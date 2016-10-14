@@ -2716,6 +2716,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       get: function() {
         var current = (!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript;
+        var i18nAttrRepos = current.ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
         var domModules = current.ownerDocument.querySelectorAll('dom-module[legacy]');
         if (domModules.length === 0) {
           domModules = current.ownerDocument.querySelectorAll('dom-module');
@@ -2724,6 +2725,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }
         }
         BehaviorsStore._I18nAttrRepo._created();
+        Array.prototype.forEach.call(i18nAttrRepos, function (repo) {
+          if (!repo.hasAttribute('processed')) {
+            var customAttributes = repo.querySelector('template#custom');
+            if (customAttributes) {
+              BehaviorsStore._I18nAttrRepo._traverseTemplateTree(customAttributes.content || customAttributes._content);
+            }
+            repo.setAttribute('processed', '');
+          }
+        });
         Array.prototype.forEach.call(domModules, function (domModule) {
           if (domModule && domModule.id) {
             var template = domModule.querySelector('template');
