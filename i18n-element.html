@@ -37,11 +37,17 @@ Mixins.Localizable = function (base) {
         template = (current ? current.ownerDocument
                     .querySelector('template[id=' + id + ']') : null) || 
                    document.querySelector('template[id=' + id + ']');
+        if (!template && id !== 'i18n-dom-bind') {
+          template = document.createElement('template');
+          template.setAttribute('id', id);
+          console.warn('Localizable._rawTemplate: ' + id + ' has no template. Supplying an empty template');
+        }
         if (template) {
           let domModule = document.createElement('dom-module');
-          let assetUrl = new URL(current.baseURI ||
+          let assetUrl = new URL((current ? current.baseURI : null) ||
             (window.currentImport ? window.currentImport.baseURI : null) ||
-            current.ownerDocument.baseURI);
+            (current && current.ownerDocument ? current.ownerDocument.baseURI : null) ||
+            document.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
                                   assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
