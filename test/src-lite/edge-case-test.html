@@ -14,13 +14,26 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
  */
     </script>
 
-    <script src="../../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../../web-component-tester/browser.js"></script>
     <script src="fake-server.js"></script>
     <script src="test-runner.js"></script>
-
+    <script>
+      function patchInsertBefore() {
+        Node.prototype._insertBefore = Node.prototype.insertBefore;
+        Node.prototype.insertBefore = function (node, beforeNode) {
+          if (node.nodeType === Node.DOCUMENT_FRAGMENT_NODE &&
+              beforeNode.__$CE_attached) {
+            node.host = beforeNode.parentNode;
+          }
+          return Node.prototype._insertBefore.call(this, node, beforeNode);
+        };
+      }
+      patchInsertBefore();
+    </script>
     <link rel="import" href="../../../promise-polyfill/promise-polyfill-lite.html">
-    <link rel="import" href="../../i18n-behavior.html">
+    <link rel="import" href="../../i18n-element.html">
+    <link rel="import" href="../../define-element.html">
     <link rel="import" href="edge-case/empty-element.html">
     <link rel="import" href="edge-case/no-template-element.html">
     <link rel="import" href="edge-case/complex-compound-binding-element.html">
@@ -115,8 +128,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <i18n-preference></i18n-preference>
 
     <script>
-suite('I18nBehavior with ' + 
-  (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM'), 
+suite('I18nElement with ' + 
+  (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM') +
+  (' in ' + syntax + ' syntax'), 
   function () {
 
   var lang0 = '';
@@ -323,14 +337,14 @@ suite('I18nBehavior with ' +
       'ok': 'healthy status',
       'busy': 'busy status',
       'error': 'error status',
-      '': 'unknown status'
+      'default': 'unknown status'
     },
     'defaultValue': 'default value',
     'statusMessageFormats': {
       'ok': 'healthy status',
       'busy': 'busy status with {2}',
       'error': 'error status with {1} and {2}',
-      '': 'unknown status'
+      'default': 'unknown status'
     },
     'nodefault': {
       'ok': 'ok status'
@@ -382,7 +396,7 @@ suite('I18nBehavior with ' +
       'attributes.title.value.text': 'tooltip text',
       'attributes.aria-label.value.text': 'aria label text',
       'attributes.aria-valuetext.value.text': 'aria value text',
-      'bindValue.raw': '' }
+      'bindValue.raw': undefined }
   ];
 
   var suites = [
@@ -411,6 +425,7 @@ suite('I18nBehavior with ' +
     s('no template element', 'empty element', {
       fixture: 'no-template-element-fixture'
     }),
+    /*
     s('complex compound binding element', 'empty element', {
       setup: true,
       fixture: 'complex-compound-binding-element-fixture',
@@ -428,6 +443,7 @@ suite('I18nBehavior with ' +
       lang: lang2,
       effectiveLang: lang2
     }),
+    */
     s('advanced binding element', 'empty element', {
       setup: true,
       fixture: 'advanced-binding-element-fixture',

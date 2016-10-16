@@ -1,7 +1,7 @@
 {
   "model": {},
   "text": [
-    "fr  outermost text at the beginning with compound {1} and {2} variables ",
+    " fr outermost text at the beginning with compound {1} and {2} variables ",
     "{{param1}}",
     "{{param2}}"
   ],
@@ -11,7 +11,7 @@
     "{{param2}}"
   ],
   "text_4": [
-    "fr  outermost text in the middle with {1} and {2} variables ",
+    " fr outermost text in the middle with {1} and {2} variables ",
     "{{param1}}",
     "{{param2}}"
   ],
@@ -51,7 +51,7 @@
     "{{param2}}"
   ],
   "div_10:text": [
-    "fr  simple text as the first element in div with {1} and {2} variables ",
+    " fr simple text as the first element in div with {1} and {2} variables ",
     "{{param1}}",
     "{{param2}}"
   ],
@@ -61,7 +61,7 @@
     "{{param2}}"
   ],
   "div_10:text_2": [
-    "fr  simple text in the middle of div with {1} and {2} variables ",
+    " fr simple text in the middle of div with {1} and {2} variables ",
     "{{param1}}",
     "{{param2}}"
   ],
@@ -76,7 +76,7 @@
     "{{param2}}"
   ],
   "div_10:text_5": [
-    "fr  simple text at the last element in div with {1} and {2} variables ",
+    " fr simple text at the last element in div with {1} and {2} variables ",
     "{{param1}}",
     "{{param2}}"
   ],
@@ -143,7 +143,7 @@
     "fr <i18n-format>"
   ],
   "text_15": [
-    "fr  outermost text at the end with {1} and {2} variables ",
+    " fr outermost text at the end with {1} and {2} variables ",
     "{{param1}}",
     "{{param2}}"
   ]

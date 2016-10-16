@@ -14,13 +14,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
  */
     </script>
 
-    <script src="../../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../../web-component-tester/browser.js"></script>
     <script src="fake-server.js"></script>
     <script src="test-runner.js"></script>
 
     <link rel="import" href="../../../promise-polyfill/promise-polyfill-lite.html">
-    <link rel="import" href="../../i18n-behavior.html">
+    <link rel="import" href="../../i18n-element.html">
+    <link rel="import" href="../../define-element.html">
     <link rel="import" href="preference/preference-element.html">
     <style>
     .test-container.running-test {
@@ -43,8 +44,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <i18n-preference></i18n-preference>
 
     <script>
-suite('I18nBehavior with ' + 
-  (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM'), 
+suite('I18nElement with ' + 
+  (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM') +
+  (' in ' + syntax + ' syntax'), 
   function () {
 
   var lang0 = '';

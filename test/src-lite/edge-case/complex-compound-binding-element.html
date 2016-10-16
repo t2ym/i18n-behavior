@@ -5,74 +5,74 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <link rel="import" href="../../../i18n-behavior.html">
 
 <dom-module id="complex-compound-binding-element">
-  <template>
+  <template id="complex-compound-binding-element">
     <h5 id="item-update2">updated: {{text.updated}}, by: 
-      <template is="dom-repeat" items="{{text.authors}}">
+      <dom-repeat items="{{text.authors}}"><template>
         {{item.name}}
-      </template>
+      </template></dom-repeat>
       xxx
-      <template is="dom-if" if="true">
+      <dom-if if="true"><template>
         <span><b>IF CONTENT</b></span>
-      </template>
+      </template></dom-if>
       <b>abc</b>
-      <template is="dom-if" if="true">IF CONTENT 2</template>
+      <dom-if if="true"><template>IF CONTENT 2</template></dom-if>
       hello
     </h5>
     <h5 id="item-update">updated: {{text.updated}}, by: 
-      <template is="dom-repeat" items="{{text.authors}}"><!-- comment node -->
+      <dom-repeat items="{{text.authors}}"><template><!-- comment node -->
         <span>  {{item.name}}  </span>
-      </template>
+      </template></dom-repeat>
       xxx
-      <template is="dom-if" if="true">
+      <dom-if if="true"><template>
         <b>IF CONTENT</b>
-      </template>
+      </template></dom-if>
       <b>abc</b>
-      <template is="dom-if" if="true">IF CONTENT 2</template>
+      <dom-if if="true"><template>IF CONTENT 2</template></dom-if>
       hello
-      <template is="dom-if" if="true"></template>
-      <template is="dom-if" if="true"> <!-- comment --></template>
-      <template is="dom-if" if="true">{{text.updated}}</template>
+      <dom-if if="true"><template></template></dom-if>
+      <dom-if if="true"><template> <!-- comment --></template></dom-if>
+      <dom-if if="true"><template>{{text.updated}}</template></dom-if>
     </h5>
     <h5 id="item-update3">updated: {{text.updated}}, by: 
-      <template is="dom-repeat" items="{{text.authors}}">
+      <dom-repeat items="{{text.authors}}"><<template>
         {{item.name}}
-      </template>
+      </template></dom-repeat>
       xxx
-      <template is="dom-if" if="true">
+      <dom-if if="true"><template>
         <b>IF</b><b>CONTENT</b>
-      </template>
+      </template></dom-if>
       <b>abc</b>
-      <template is="dom-if" if="true">IF CONTENT 2</template>
+      <dom-if if="true"><template>IF CONTENT 2</template></dom-if>
       hello
     </h5>
     <h5 id="item-update4">updated: {{text.updated}}, by: 
-      <template is="dom-repeat" items="{{text.authors}}">
+      <dom-repeat items="{{text.authors}}"><template>
         {{item.name}} = {{text.updated}}
-      </template>
+      </template></dom-repeat>
       xxx
-      <template is="dom-if" if="true">
+      <dom-if if="true"><template>
         <b>IF CONTENT</b>
-      </template>
+      </template></dom-if>
       <b>abc</b>
-      <template is="dom-if" if="true">IF CONTENT 2</template>
+      <dom-if if="true"><template>IF CONTENT 2</template></dom-if>
       hello
     </h5>
     <p id="paragraph">A paragraph with 
-      <template is="dom-repeat" items="{{text.parameters}}">
+      <dom-repeat items="{{text.parameters}}"><template>
         <i>{{item}} </i>
-      </template>
+      </template></dom-repeat>
       is converted to 
       <code>&lt;i18n-format&gt;</code>.
     </p>
     <p id="paragraph2">A paragraph with deep 
-      <template is="dom-repeat" items="{{text.parameters}}">
+      <dom-repeat items="{{text.parameters}}"><template>
         <span><i>{{item}}</i> </span>
-      </template>
+      </template></dom-repeat>
       is <b>not</b> converted to 
       <code>&lt;i18n-format&gt;</code>.
-      <template is="dom-if" if="false"></template>
-      <template is="dom-if" if="false">  </template>
-      <template is="dom-if" if="false">{{text.updated}}</template>
+      <dom-if if="false"><template></template></dom-if>
+      <dom-if if="false"><template>  </template></dom-if>
+      <dom-if if="false"><template>{{text.updated}}</template></dom-if>
     </p>
     <template>
       <json-data id="authors">[
@@ -90,12 +90,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
       behaviors: [
         BehaviorsStore.I18nBehavior
-      ],
-
-      properties: {
-      },
-
-      observers: [
       ],
 
       listeners: {
@@ -173,6 +167,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             }
           }
         }
+        window.setTimeout(function () {
+          console.log('complex-compound-binding-element: ', this);
+          console.log('complex-compound-binding-element: local-dom-ready');
+          this.fire('local-dom-ready');
+        }.bind(this), 500);
       },
 
       _updateRenderStatus: function () {

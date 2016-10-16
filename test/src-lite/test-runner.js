@@ -165,6 +165,7 @@ function deepMap (target, source, map) {
       break;
     }
   }
+  return target;
 }
 
 function translate (lang, path, text) {
@@ -184,9 +185,19 @@ function translate (lang, path, text) {
             !value.match(/^({{[^{}]*}}|\[\[[^\[\]]*\]\])$/) &&
             !value.match(/^[0-9]{1,}$/) &&
             prop !== 'type') {
-          return path && path.match(/[.]trim$/) ? (lang + ' ' + value).trim() : lang + ' ' + value;
+          if (path && path.match(/[.]trim$/)) {
+            return minifyText((lang + ' ' + value).trim());
+          }
+          else {
+            if (value.match(/^ /)) {
+              return minifyText(' ' + lang + ' ' + value);
+            }
+            else {
+              return minifyText(lang + ' ' + value);
+            }
+          }
         }
-        return value;
+        return minifyText(value);
       });
       result = result.text;
     }
@@ -213,6 +224,19 @@ var isFakeServer = typeof window === 'object' &&
 var isSuppressingSuiteParams = typeof window === 'object' &&
   typeof window.location.href === 'string' &&
   window.location.href.indexOf('suppress=true') > 0;
+
+var syntax = 'mixin';
+(function () {
+  var href = typeof window === 'object' && typeof window.location.href === 'string'
+    ? window.location.href : ''
+  if (href) {
+    [ 'mixin', 'base-element', 'thin', 'legacy', 'modified-legacy' ].forEach(function (_syntax) {
+      if (href.indexOf('syntax=' + _syntax) > 0) {
+        syntax = _syntax;
+      }
+    });
+  }
+})();
 
 function setupFakeServer (e) {
   if (isFakeServer) {
@@ -317,6 +341,31 @@ function setupFixture (params, fixtureModel) {
     setupFakeServer(e);
     return new Promise(function (resolve, reject) {
       //console.log('setupFixture: name = ' + fixtureName + ' model = ' + JSON.stringify(fixtureModel, null, 2));
+      if (fixtureModel) {
+        var f = document.querySelector('test-fixture[id=' + fixtureName + ']');
+        var t = f.querySelector('template[is=dom-template]');
+        if (t) {
+          var templatizer = new Polymer.Templatizer();
+          var instanceProps = {};
+          var p;
+          for (p in fixtureModel) {
+            instanceProps[p] = true;
+          }
+          var self = t;
+          t._ctor = templatizer.templatize(t, {
+            instanceProps: instanceProps,
+            fwdHostPropToInstance: function(host, prop, value) {
+              if (self._instance) {
+                self._instance.forwardProperty(prop, value, host);
+              }
+            }
+          });
+          t.stamp = function (model) {
+            this._instance = new this._ctor(this, model);
+            return this._instance.root;
+          }.bind(t);
+        }
+      }
       var element = fixture(fixtureName, fixtureModel);
       //console.log('setupFixture: name = ' + fixtureName +
       //            ' element.lang = ' + element.lang +
@@ -326,7 +375,7 @@ function setupFixture (params, fixtureModel) {
         if (fixtureModel &&
             typeof fixtureModel.lang === 'string' &&
             fixtureModel.lang !== 'en' &&
-            fixtureModel.lang !== element.effectiveLang) {
+            fixtureModel.lang !== element.effectiveLang && element.effectiveLang !== 'en') {
           //console.log('setupFixture: waiting for lang-updated');
           element.addEventListener('lang-updated', function setupFixtureLangUpdated (event) {
             //console.log('setupFixtureLangUpdated');
@@ -340,6 +389,11 @@ function setupFixture (params, fixtureModel) {
         }
         else {
           //console.log('setupFixture: element ready without lang-updated');
+          setTimeout(function () {
+            if (params.lang === '' || params.lang === 'en') {
+              element.fire('lang-updated');
+            }
+          }, 10);
           resolve(element);
         }
       }
@@ -360,7 +414,7 @@ function restoreFixture (fixtureName) {
     if (e._intervalId) {
       clearInterval(e._intervalId);
     }
-    Array.prototype.forEach.call(document.querySelectorAll('[is="i18n-dom-bind"]'),
+    Array.prototype.forEach.call(document.querySelectorAll('i18n-dom-bind'),
       function (node) {
         node.observeHtmlLang = true;
       }
@@ -464,14 +518,19 @@ function suitesRunner (suites) {
         assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
         assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
         if (params.text) {
+          var actual;
           expected = deepMap(deepcopy(params.text), params.text, minifyText);
+          actual = deepMap(deepcopy(el.text), el.text, minifyText);
           noProperties = true;
           assert.isObject(el.text, 'text property is an object');
           //console.log(JSON.stringify(e.detail, null, 2));
           //console.log(JSON.stringify(el.text, null, 2));
           for (p in expected) {
+            if (p === 'meta') {
+              continue;
+            }
             noProperties = false;
-            assert.deepEqual(deepMap(deepcopy(el.text[p]), el.text[p], minifyText),
+            assert.deepEqual(actual[p],
               params.rawText ? expected[p] : translate(params.effectiveLang, null, expected[p]),
               'text.' + p + ' property is set for ' + params.effectiveLang);
           }
@@ -484,11 +543,11 @@ function suitesRunner (suites) {
         if (params.model) {
           noProperties = true;
           assert.isObject(el.model, 'model property is an object');
-          for (p in params.model) {
+          for (p in expected) {
             noProperties = false;
             //console.log('model.' + p + ' = ' + JSON.stringify(el.model[p]));
             //console.log('expected model.' + p + ' = ' + JSON.stringify(translate(el.effectiveLang, null, params.model[p])));
-            assert.deepEqual(el.model[p],
+            assert.deepEqual(minifyText(el.model[p]),
               params.rawText ? params.model[p] : translate(params.effectiveLang, null, params.model[p]),
               'model.' + p + ' property is set for ' + params.effectiveLang);
           }

@@ -104,9 +104,9 @@
       ],
       "custom-text-attr5": [
         "[[text.ordinary-div]]",
-        "fr  custom-text-attr5 attribute with param ",
+        " fr custom-text-attr5 attribute with param ",
         "{{or('',text.ordinary-div)}}",
-        "fr  and param ",
+        " fr and param ",
         "[[text.ordinary-div]]"
       ],
       "i18n-target": [
@@ -117,7 +117,7 @@
       "i18n-target2": [
         "fr i18n-target2 attribute with param ",
         "{{or('',text.ordinary-div)}}",
-        "fr  and param ",
+        " fr and param ",
         "[[text.ordinary-div]]"
       ]
     },
