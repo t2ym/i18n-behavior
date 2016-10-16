@@ -36,7 +36,6 @@ I18N Base Element for Polymer 2.x (work in progress)
 
 - 4 syntax variants (`Mixins.Localizable`, `BaseElements.I18nElement`, `Define = class`, `Polymer({ is, behaviors })`) are tested
 - 2 test suites for `complex-compound-binding-element` are skipped due to a remaining design issue originating from the modified syntax for Polymer 2.x
-- Only raw tests are ported.  Preprocessed tests, etc. are still missing.
 
 ## Install
 
