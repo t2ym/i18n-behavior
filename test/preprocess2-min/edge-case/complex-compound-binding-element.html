@@ -1,0 +1,283 @@
+<!--
+@license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+--><html><head><link rel="import" href="../../../i18n-behavior.html">
+
+</head><body><dom-module id="complex-compound-binding-element" legacy="">
+  <template id="complex-compound-binding-element" assetpath="/" localizable-text="embedded">
+    <h5 id="item-update2"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update2:text.0}}</span><span slot="1">{{text.updated}}</span></i18n-format><dom-repeat items="{{text.authors}}"><template>
+        {{item.name}}
+      </template></dom-repeat>{{text.item-update2:text_2}}<dom-if if="true"><template>
+        <span><b>{{text.item-update2:dom-if_3:template:span:b}}</b></span>
+      </template></dom-if>
+      <b>{{text.item-update2:b_4}}</b>
+      <dom-if if="true"><template>{{text.item-update2:dom-if_5:template:text}}</template></dom-if>{{text.item-update2:text_6}}</h5>
+    <h5 id="item-update"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update:text.0}}</span><span slot="1">{{text.updated}}</span></i18n-format><dom-repeat items="{{text.authors}}"><template><!-- comment node -->
+        <span>  {{item.name}}  </span>
+      </template></dom-repeat>{{text.item-update:text_2}}<dom-if if="true"><template>
+        <b>{{text.item-update:dom-if_3:template:b}}</b>
+      </template></dom-if>
+      <b>{{text.item-update:b_4}}</b>
+      <dom-if if="true"><template>{{text.item-update:dom-if_5:template:text}}</template></dom-if>{{text.item-update:text_6}}<dom-if if="true"><template></template></dom-if>
+      <dom-if if="true"><template> <!-- comment --></template></dom-if>
+      <dom-if if="true"><template>{{text.updated}}</template></dom-if>
+    </h5>
+    <h5 id="item-update3"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update3:text.0}}</span><span slot="1">{{text.updated}}</span></i18n-format><dom-repeat items="{{text.authors}}">{{text.item-update3:dom-repeat_1:text}}<template>
+        {{item.name}}
+      </template></dom-repeat>{{text.item-update3:text_2}}<dom-if if="true"><template>
+        <b>{{text.item-update3:dom-if_3:template:b}}</b><b>{{text.item-update3:dom-if_3:template:b_1}}</b>
+      </template></dom-if>
+      <b>{{text.item-update3:b_4}}</b>
+      <dom-if if="true"><template>{{text.item-update3:dom-if_5:template:text}}</template></dom-if>{{text.item-update3:text_6}}</h5>
+    <h5 id="item-update4"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update4:text.0}}</span><span slot="1">{{text.updated}}</span></i18n-format><dom-repeat items="{{text.authors}}"><template><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update4:dom-repeat_1:template:text.0}}</span><span slot="1">{{item.name}}</span><span slot="2">{{text.updated}}</span></i18n-format></template></dom-repeat>{{text.item-update4:text_2}}<dom-if if="true"><template>
+        <b>{{text.item-update4:dom-if_3:template:b}}</b>
+      </template></dom-if>
+      <b>{{text.item-update4:b_4}}</b>
+      <dom-if if="true"><template>{{text.item-update4:dom-if_5:template:text}}</template></dom-if>{{text.item-update4:text_6}}</h5>
+    <p id="paragraph">{{text.paragraph:text}}<dom-repeat items="{{text.parameters}}"><template>
+        <i>{{item}} </i>
+      </template></dom-repeat>{{text.paragraph:text_2}}<code>{{text.paragraph:code_3}}</code>{{text.paragraph:text_4}}</p>
+    <p id="paragraph2">{{text.paragraph2:text}}<dom-repeat items="{{text.parameters}}"><template>
+        <span><i>{{item}}</i> </span>
+      </template></dom-repeat>{{text.paragraph2:text_2}}<b>{{text.paragraph2:b_3}}</b>{{text.paragraph2:text_4}}<code>{{text.paragraph2:code_5}}</code>{{text.paragraph2:text_6}}<dom-if if="false"><template></template></dom-if>
+      <dom-if if="false"><template>  </template></dom-if>
+      <dom-if if="false"><template>{{text.updated}}</template></dom-if>
+    </p>
+    <template>
+      <json-data id="authors">{{text.authors}}</json-data>
+      <span id="updated">{{text.updated}}</span>
+      <json-data id="parameters">{{text.parameters}}</json-data>
+    </template>
+  <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "item-update2:text": [
+    "updated: {1}, by: ",
+    "{{text.updated}}"
+  ],
+  "item-update2:text_2": " xxx ",
+  "item-update2:dom-if_3:template:span:b": "IF CONTENT",
+  "item-update2:b_4": "abc",
+  "item-update2:dom-if_5:template:text": "IF CONTENT 2",
+  "item-update2:text_6": " hello ",
+  "item-update:text": [
+    "updated: {1}, by: ",
+    "{{text.updated}}"
+  ],
+  "item-update:text_2": " xxx ",
+  "item-update:dom-if_3:template:b": "IF CONTENT",
+  "item-update:b_4": "abc",
+  "item-update:dom-if_5:template:text": "IF CONTENT 2",
+  "item-update:text_6": " hello ",
+  "item-update3:text": [
+    "updated: {1}, by: ",
+    "{{text.updated}}"
+  ],
+  "item-update3:dom-repeat_1:text": "&lt;",
+  "item-update3:text_2": " xxx ",
+  "item-update3:dom-if_3:template:b": "IF",
+  "item-update3:dom-if_3:template:b_1": "CONTENT",
+  "item-update3:b_4": "abc",
+  "item-update3:dom-if_5:template:text": "IF CONTENT 2",
+  "item-update3:text_6": " hello ",
+  "item-update4:text": [
+    "updated: {1}, by: ",
+    "{{text.updated}}"
+  ],
+  "item-update4:dom-repeat_1:template:text": [
+    " {1} = {2} ",
+    "{{item.name}}",
+    "{{text.updated}}"
+  ],
+  "item-update4:text_2": " xxx ",
+  "item-update4:dom-if_3:template:b": "IF CONTENT",
+  "item-update4:b_4": "abc",
+  "item-update4:dom-if_5:template:text": "IF CONTENT 2",
+  "item-update4:text_6": " hello ",
+  "paragraph:text": "A paragraph with ",
+  "paragraph:text_2": " is converted to ",
+  "paragraph:code_3": "&lt;i18n-format&gt;",
+  "paragraph:text_4": ". ",
+  "paragraph2:text": "A paragraph with deep ",
+  "paragraph2:text_2": " is ",
+  "paragraph2:b_3": "not",
+  "paragraph2:text_4": " converted to ",
+  "paragraph2:code_5": "&lt;i18n-format&gt;",
+  "paragraph2:text_6": ". ",
+  "authors": [
+    {
+      "name": "Joe"
+    },
+    {
+      "name": "Alice"
+    }
+  ],
+  "updated": "Jan 1st, 2016",
+  "parameters": [
+    "parameter 1",
+    "parameter 2"
+  ]
+}
+</json-data>
+</template>
+</template>
+  <script>
+    Polymer({
+      is: 'complex-compound-binding-element',
+
+      behaviors: [
+        BehaviorsStore.I18nBehavior
+      ],
+
+      listeners: {
+        'lang-updated': '_langUpdated'
+      },
+
+      ready: function () {
+        //this.observeHtmlLang = false;
+        //console.log('complex-compound-binding-element addEventLister rendered');
+        this.addEventListener('rendered', this._rendered.bind(this));
+        this.addEventListener('dom-change', this._domChange.bind(this));
+      },
+
+      attached: function () {
+        //console.log('complex-compound-binding-element attached');
+        this._isAttached = true;
+      },
+
+      detached: function () {
+        //console.log('complex-compound-binding-element detached');
+        this._isAttached = false;
+      },
+
+      _langUpdated: function (e) {
+        //console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
+        if (this._isAttached &&
+            Polymer.dom(e).rootTarget === this &&
+            this.effectiveLang === this.lang) {
+          this.model = deepcopy(this.text.model);
+          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]'),
+            function (node) {
+              node.render();
+            }
+          );
+          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]'),
+            function (node) {
+              node.render();
+            }
+          );
+          this._updateRenderStatus();
+          //console.log('complex-compound-binding-element renderStatus = ' + JSON.stringify(this._renderStatus));
+          if (this._renderStatus &&
+              this._renderStatus['item-update'] === this.effectiveLang &&
+              this._renderStatus['item-update2'] === this.effectiveLang &&
+              this._renderStatus['item-update3'] === this.effectiveLang &&
+              this._renderStatus['item-update4'] === this.effectiveLang &&
+              this._renderStatus['paragraph'] === this.effectiveLang) {
+            window.setTimeout(function () {
+              console.log('complex-compound-binding-element: ', this);
+              console.log('complex-compound-binding-element: local-dom-ready');
+              this.fire('local-dom-ready');
+            }.bind(this), 1);
+          }
+          else {
+            var isStandardPropertyConfigurable = (function () {
+              var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
+              return !langPropertyDescriptor || langPropertyDescriptor.configurable;
+            })();
+            if (!isStandardPropertyConfigurable) {
+              // Safari 7
+              var en = 'en';
+              if (this._renderStatus &&
+                this._renderStatus['item-update'] === en &&
+                this._renderStatus['item-update2'] === en &&
+                this._renderStatus['item-update3'] === en &&
+                this._renderStatus['item-update4'] === en &&
+                this._renderStatus['paragraph'] === en &&
+                this.effectiveLang === this.lang) {
+                window.setTimeout(function () {
+                  console.log('complex-compound-binding-element: ', this);
+                  console.log('complex-compound-binding-element: local-dom-ready');
+                  this.fire('local-dom-ready');
+                }.bind(this), 1);
+              }
+            }
+          }
+        }
+        window.setTimeout(function () {
+          console.log('complex-compound-binding-element: ', this);
+          console.log('complex-compound-binding-element: local-dom-ready');
+          this.fire('local-dom-ready');
+        }.bind(this), 500);
+      },
+
+      _updateRenderStatus: function () {
+        Polymer.dom(this.root).querySelectorAll('i18n-format').forEach(function (fmt) {
+          var id = Polymer.dom(fmt).parentNode.id;
+          if (fmt.lang === this.effectiveLang &&
+              fmt.lastTemplateText) {
+            Polymer.dom(fmt.root).querySelectorAll('template[is="dom-if"]').forEach(function (node) {
+              node.render();
+            }.bind(this));
+            Polymer.dom(fmt.root).querySelectorAll('template[is="dom-repeat"]').forEach(function (node) {
+              node.render();
+            }.bind(this));
+            this._renderStatus = this._renderStatus || {};
+            this._renderStatus[id] = fmt.lang;
+          }
+        }.bind(this));
+        Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]').forEach(function (node) {
+          node.render();
+        }.bind(this));
+        Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]').forEach(function (node) {
+          node.render();
+        }.bind(this));
+      },
+
+      _rendered: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        this._renderStatus = this._renderStatus || {};
+        var id = Polymer.dom(target).parentNode.id;
+        //console.log('complex-compound-binding-element: _rendered id = ' + id + ' lang = ' + target.lang);
+        this._renderStatus[id] = target.lang;
+        this._updateRenderStatus();
+        if (this._renderStatus['item-update'] === this.effectiveLang &&
+            this._renderStatus['item-update2'] === this.effectiveLang &&
+            this._renderStatus['item-update3'] === this.effectiveLang &&
+            this._renderStatus['item-update4'] === this.effectiveLang &&
+            this._renderStatus['paragraph'] === this.effectiveLang) {
+          window.setTimeout(function () {
+            //console.log('complex-compound-binding-element: ', this);
+            //console.log('complex-compound-binding-element: local-dom-ready');
+            this.fire('local-dom-ready');
+          }.bind(this), 1);
+        }
+      },
+
+      _domChange: function (e) {
+        var target = Polymer.dom(e).rootTarget;
+        this._renderStatus = this._renderStatus || {};
+        var id = Polymer.dom(target).parentNode.id;
+        if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
+          //console.log('complex-compound-binding-element: _domChange id = ' + id + ' is = ' + target.is + ' items = ' +
+          //  (target.items ? JSON.stringify(target.items) : '') +
+          //  ' renderedItemCount = ' + target.renderedItemCount);
+        }
+        if (target.items && target.renderedItemCount === target.items.length) {
+          var i;
+          var cursor = target;
+          for (i = 0; i < target.items.length; i++) {
+            cursor = cursor.previousElementSibling ? cursor.previousElementSibling : cursor.previousSibling;
+            if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
+              //console.log('complex-compound-binding-element: _domChange: i = ' + i + ' ' + (cursor ? cursor.textContent : '') +
+              //  'itemForElement(cursor) = ', target.itemForElement(cursor) ? JSON.stringify(target.itemForElement(cursor)) : '');
+            }
+          }
+        }
+      }
+    });
+  </script>
+</dom-module>
+</body></html>
