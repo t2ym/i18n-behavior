@@ -594,6 +594,7 @@ gulp.task('minify2-min', function() {
     .pipe(gulpif('*.html', crisper({
       scriptInHead: false
     })))
+    .pipe(sourcemaps.init())
     .pipe(gulpif('*.js', babel({ 
       "presets": [ /*'es2015'*/ ],
       "plugins": [
@@ -626,6 +627,7 @@ gulp.task('minify2-min', function() {
       empty: true,
       spare: true
     })))
+    .pipe(sourcemaps.write('sourcemaps'))
     .pipe(gulp.dest('test/minify2-min'))
     .pipe(size({title: 'minify2-min'}));
 });
