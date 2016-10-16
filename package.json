@@ -1,6 +1,6 @@
 {
   "name": "i18n-element",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "I18N Base Element for Polymer 2.x",
   "main": "i18n-element.html",
   "directories": {
