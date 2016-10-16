@@ -18,6 +18,8 @@ const JSONstringify = require('json-stringify-safe');
 //const babel = require('gulp-babel');
 const crisper = require('gulp-crisper');
 const minifyHtml = require('gulp-minify-html');
+const babel = require('gulp-babel');
+const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const vulcanize = require('gulp-vulcanize');
 const replace = require('gulp-replace');
@@ -334,6 +336,323 @@ gulp.task('fake-server', function() {
     .pipe(size({ title: 'fake-server' }));
 });
 
+gulp.task('clean2', function() {
+  return del([ 
+    //'test/src-lite',
+    'test/preprocess2',
+    //'test/preprocess-lite',
+    'test/preprocess2-raw',
+    'test/vulcanize2',
+    //'test/vulcanize-lite',
+    'test/minify2',
+    //'test/minify-lite'
+  ]);
+});
+
+// Scan HTMLs and construct localizable attributes repository
+gulp.task('scan2', function () {
+  return gulp.src([ 'test/src2/**/*.html', '!test/src2/**/*-test.html' ]) // input custom element HTMLs
+    .pipe(i18nPreprocess({
+      constructAttributesRepository: true, // construct attributes repository
+      attributesRepository: attributesRepository, // output object
+      srcPath: 'test/src2', // path to source root
+      attributesRepositoryPath: 'i18n-attr-repo.html', // path to i18n-attr-repo.html
+      dropHtml: true, // drop HTMLs,
+      targetVersion: 2
+    }))
+    .pipe(gulp.dest('test/preprocess2')); // no outputs; dummy output path
+});
+
+gulp.task('src2-min', function () {
+  return gulp.src([ 'test/src2/**/*' ])
+    .pipe(gulpif('*-test.html', 
+      replace('../webcomponentsjs/webcomponents-lite.js',
+              '../webcomponentsjs/webcomponents-lite.min.js')))
+    .pipe(gulp.dest('test/src2-min'));
+});
+
+// Preprocess templates and externalize JSON
+gulp.task('preprocess2', function () {
+  console.log('attributesRepository = ' + JSON.stringify(attributesRepository, null, 2));
+  var elements = gulp.src([ 'test/src2/**/*.html', '!test/src2/**/*-test.html' ]) // input custom element HTMLs
+    .pipe(i18nPreprocess({
+      replacingText: true, // replace UI texts with {{annotations}}
+      jsonSpace: 2, // JSON format with 2 spaces
+      srcPath: 'test/src2', // path to source root
+      attributesRepository: attributesRepository, // input attributes repository
+      targetVersion: 2
+    }))
+    .pipe(gulp.dest('test/preprocess2')); // output preprocessed HTMLs and default JSON files to dist
+
+  var html = gulp.src([ 'test/src2/**/*-test.html' ]) // non-custom-element HTMLs
+    .pipe(i18nPreprocess({
+      replacingText: true, // replace UI texts with {{annotations}}
+      jsonSpace: 2, // JSON format with 2 spaces
+      srcPath: 'test/src2', // path to source root
+      force: true, // force processing even without direct i18n-behavior.html import
+      attributesRepository: attributesRepository, // input attributes repository
+      targetVersion: 2
+     }))
+    .pipe(gulp.dest('test/preprocess2'));
+
+  var js = gulp.src([ 'test/src2/**/*.js' ])
+    .pipe(gulp.dest('test/preprocess2'));
+
+  return merge(elements, html, js)
+    .pipe(size({title: 'preprocess2'}));
+});
+
+// Merge code changes into JSON
+gulp.task('leverage2', function () {
+  return gulp.src([ 'test/src2/**/locales/*.json' ]) // input localized JSON files in source
+    .pipe(i18nLeverage({
+      jsonSpace: 2, // JSON format with 2 spaces
+      srcPath: 'test/src2', // path to source root
+      distPath: 'test/preprocess2', // path to dist root to fetch next default JSON files
+      finalize: false, // leave meta
+      bundles: bundles // output bundles object
+    }))
+    //.pipe(debug())
+    .pipe(gulp.dest('test/preprocess2')); // path to output next localized JSON files
+});
+
+// Save attributes respository in test/preprocess just for testing
+gulp.task('attributes-repository2', function (callback) {
+  var DEST_DIR = 'test' + path.sep + 'preprocess2';
+
+  fs.writeFileSync(DEST_DIR + path.sep + 'attributes-repository.json', 
+                    JSONstringify(attributesRepository, null, 2));
+  callback();
+});
+
+gulp.task('preprocess2-raw', function () {
+  return gulp.src([ 'test/preprocess2/**/*' ])
+    //.pipe(debug())
+    .pipe(gulp.dest('test/preprocess2-raw'));
+});
+
+gulp.task('preprocess2-min', function () {
+  return gulp.src([ 'test/preprocess2/**/*' ])
+    .pipe(gulpif('*-test.html', 
+      replace('../webcomponentsjs/webcomponents-lite.js',
+              '../webcomponentsjs/webcomponents-lite.min.js')))
+    .pipe(gulp.dest('test/preprocess2-min'));
+});
+
+gulp.task('clone2', function () {
+  return gulp.src([ '*.html', '*.js', 'test/preprocess2/**/*' ], { base: '.' })
+    //.pipe(debug())
+    .pipe(gulp.dest('bower_components/i18n-element'));
+});
+
+gulp.task('vulcanize2', function() {
+  return gulp.src(['bower_components/i18n-element/test/preprocess2/*-test.html'])
+    .pipe(vulcanize({
+      excludes: [
+        'bower_components/webcomponentsjs/webcomponents-lite.js',
+        'bower_components/webcomponentsjs/webcomponents-lite.min.js',
+        'bower_components/web-component-tester/browser.js'
+      ],
+      stripComments: true,
+      inlineCss: true,
+      inlineScripts: true
+    }))
+    .pipe(gulp.dest('test/vulcanize2'))
+    .pipe(size({title: 'vulcanize2'}));
+});
+
+gulp.task('clean-clone2', function() {
+  return del(['bower_components/i18n-element']);
+});
+
+gulp.task('clone2-min', function () {
+  return gulp.src([ '*.html', '*.js', 'test/preprocess2-min/**/*' ], { base: '.' })
+    //.pipe(debug())
+    .pipe(gulp.dest('bower_components/i18n-element'));
+});
+
+gulp.task('vulcanize2-min', function() {
+  return gulp.src(['bower_components/i18n-element/test/preprocess2-min/*-test.html'])
+    .pipe(vulcanize({
+      excludes: [
+        'bower_components/webcomponentsjs/webcomponents-lite.js',
+        'bower_components/webcomponentsjs/webcomponents-lite.min.js',
+        'bower_components/web-component-tester/browser.js'
+      ],
+      stripComments: true,
+      inlineCss: true,
+      inlineScripts: true
+    }))
+    .pipe(gulp.dest('test/vulcanize2-min'))
+    .pipe(size({title: 'vulcanize2-min'}));
+});
+
+gulp.task('clean-clone2-min', function() {
+  return del(['bower_components/i18n-element']);
+});
+
+gulp.task('bundles2', function (callback) {
+  var DEST_DIR = 'test' + path.sep + 'vulcanize2';
+  var DEST_DIR_LITE = 'test' + path.sep + 'vulcanize2-min';
+  var localesPath = DEST_DIR + path.sep + 'locales';
+  var localesPathLite = DEST_DIR_LITE + path.sep + 'locales';
+
+  try {
+    fs.mkdirSync(localesPath);
+    fs.mkdirSync(localesPathLite);
+  }
+  catch (e) {}
+  for (var lang in bundles) {
+    bundles[lang].bundle = true;
+    if (lang) {
+      fs.writeFileSync(localesPath + path.sep + 'bundle.' + lang + '.json', 
+                        JSONstringify(bundles[lang], null, 2));
+      fs.writeFileSync(localesPathLite + path.sep + 'bundle.' + lang + '.json', 
+                        JSONstringify(bundles[lang], null, 2));
+    }
+    else {
+      // This is not required for deployment
+      fs.writeFileSync(DEST_DIR + path.sep + 'bundle.json', 
+                        JSONstringify(bundles[lang], null, 2));
+      fs.writeFileSync(DEST_DIR_LITE + path.sep + 'bundle.json', 
+                        JSONstringify(bundles[lang], null, 2));
+    }
+  }
+  callback();
+});
+
+gulp.task('bundle-ru2', function () {
+  return gulp.src(['test/vulcanize2/**/locales/bundle.ru.json'])
+    .pipe(gulp.dest('test/preprocess2'));
+});
+
+gulp.task('bundle-ru2-min', function () {
+  return gulp.src(['test/vulcanize2-min/**/locales/bundle.ru.json'])
+    .pipe(gulp.dest('test/preprocess2-min'));
+});
+
+gulp.task('empty-ja2', function () {
+  return gulp.src(['test/src2/**/locales/null-template-default-lang-element.ja.json'])
+    .pipe(gulp.dest('test/preprocess2'));
+});
+
+gulp.task('empty-bundle-ja2', function (done) {
+  del('test/vulcanize2/locales/bundle.ja.json');
+  del('test/vulcanize2-min/locales/bundle.ja.json');
+  done();
+});
+
+gulp.task('empty-mini-bundle-ja2', function (done) {
+  del('test/minify2/locales/bundle.ja.json');
+  del('test/minify2-min/locales/bundle.ja.json');
+  done();
+});
+
+gulp.task('minify2', function() {
+  return gulp.src(['test/vulcanize2/**/*', '!test/vulcanize2/bundle.json'])
+    .pipe(gulpif('*.html', crisper({
+      scriptInHead: false
+    })))
+    .pipe(gulpif('*.js', babel({ 
+      "presets": [ /*'es2015'*/ ],
+      "plugins": [
+        'check-es2015-constants',
+        'transform-es2015-arrow-functions',
+        'transform-es2015-block-scoped-functions',
+        'transform-es2015-block-scoping',
+        'transform-es2015-classes',
+        'transform-es2015-computed-properties',
+        'transform-es2015-destructuring',
+        'transform-es2015-duplicate-keys',
+        'transform-es2015-for-of',
+        'transform-es2015-function-name',
+        'transform-es2015-literals',
+        //'transform-es2015-modules-commonjs',
+        'transform-es2015-object-super',
+        'transform-es2015-parameters',
+        'transform-es2015-shorthand-properties',
+        'transform-es2015-spread',
+        'transform-es2015-sticky-regex',
+        'transform-es2015-template-literals',
+        'transform-es2015-typeof-symbol',
+        'transform-es2015-unicode-regex',
+        'transform-regenerator'
+      ]
+    })))
+    .pipe(gulpif('*.js', uglify({ mangle: false })))
+    .pipe(gulpif('*.html', minifyHtml({
+      quotes: true,
+      empty: true,
+      spare: true
+    })))
+    .pipe(gulp.dest('test/minify2'))
+    .pipe(size({title: 'minify2'}));
+});
+
+gulp.task('minify2-min', function() {
+  return gulp.src(['test/vulcanize2-min/**/*', '!test/vulcanize2-min/bundle.json'])
+    .pipe(gulpif('*.html', crisper({
+      scriptInHead: false
+    })))
+    .pipe(gulpif('*.js', babel({ 
+      "presets": [ /*'es2015'*/ ],
+      "plugins": [
+        'check-es2015-constants',
+        'transform-es2015-arrow-functions',
+        'transform-es2015-block-scoped-functions',
+        'transform-es2015-block-scoping',
+        'transform-es2015-classes',
+        'transform-es2015-computed-properties',
+        'transform-es2015-destructuring',
+        'transform-es2015-duplicate-keys',
+        'transform-es2015-for-of',
+        'transform-es2015-function-name',
+        'transform-es2015-literals',
+        //'transform-es2015-modules-commonjs',
+        'transform-es2015-object-super',
+        'transform-es2015-parameters',
+        'transform-es2015-shorthand-properties',
+        'transform-es2015-spread',
+        'transform-es2015-sticky-regex',
+        'transform-es2015-template-literals',
+        'transform-es2015-typeof-symbol',
+        'transform-es2015-unicode-regex',
+        'transform-regenerator'
+      ]
+    })))
+    .pipe(gulpif('*.js', uglify({ mangle: false })))
+    .pipe(gulpif('*.html', minifyHtml({
+      quotes: true,
+      empty: true,
+      spare: true
+    })))
+    .pipe(gulp.dest('test/minify2-min'))
+    .pipe(size({title: 'minify2-min'}));
+});
+
+gulp.task('mini-bundles2', function (callback) {
+  var DEST_DIR = 'test' + path.sep + 'minify2';
+  var DEST_DIR_LITE = 'test' + path.sep + 'minify2-min';
+  var localesPath = DEST_DIR + path.sep + 'locales';
+  var localesPathLite = DEST_DIR_LITE + path.sep + 'locales';
+
+  try {
+    fs.mkdirSync(localesPath);
+    fs.mkdirSync(localesPathLite);
+  }
+  catch (e) {}
+  for (var lang in bundles) {
+    bundles[lang].bundle = true;
+    if (lang) {
+      fs.writeFileSync(localesPath + path.sep + 'bundle.' + lang + '.json', 
+                        JSONstringify(bundles[lang], null, 0));
+      fs.writeFileSync(localesPathLite + path.sep + 'bundle.' + lang + '.json', 
+                        JSONstringify(bundles[lang], null, 0));
+    }
+  }
+  callback();
+});
+
 gulp.task('pretest', ['clean'], function(cb) {
   runSequence(
     'scan',
@@ -365,5 +684,36 @@ gulp.task('pretest', ['clean'], function(cb) {
     cb);
 });
 
-require('web-component-tester').gulp.init(gulp, [ 'pretest' ]);
+gulp.task('pretest2', ['clean2'], function(cb) {
+  runSequence(
+    'scan2',
+    'src2-min',
+    'preprocess2',
+    'leverage2',
+    'attributes-repository2',
+    'preprocess2-raw',
+    'empty-ja2',
+    'preprocess2-min',
+    'clone2',
+    'vulcanize2',
+    'clean-clone2',
+    'clone2-min',
+    'vulcanize2-min',
+    'clean-clone2-min',
+    'bundles2',
+    'bundle-ru2',
+    'bundle-ru2-min',
+    'empty-bundle-ja2',
+    'minify2',
+    'minify2-min',
+    'mini-bundles2',
+    'empty-mini-bundle-ja2',
+    'fake-server',
+    /*
+    'feedback',
+    */
+    cb);
+});
+
+require('web-component-tester').gulp.init(gulp, [ 'pretest2' ]);
 
