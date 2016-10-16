@@ -64,7 +64,7 @@
     "run-sequence": "^1.1.5",
     "strip-bom": "^3.0.0",
     "through2": "^2.0.1",
-    "web-component-tester": "^4.2.2",
+    "web-component-tester": "4.2.2",
     "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul/tarball/0.10.1",
     "xliff-conv": "^1.0.10"
   }
