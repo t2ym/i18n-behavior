@@ -5,7 +5,10 @@
 
 I18N Base Element for Polymer 2.x (work in progress)
 
-## Proof of Concept Demo on [GitHub Pages](https://t2ym.github.io/i18n-element/components/i18n-element/demo/poc/index.html) for ES6-ready browsers
+## Proof of Concept Demo on GitHub Pages
+
+### [Raw PoC Demo](https://t2ym.github.io/i18n-element/components/i18n-element/demo/poc/index.html) for ES6-ready browsers
+### [PoC Demo with Polyfill/Vulcanize/Babel/Uglify](https://t2ym.github.io/i18n-element/components/i18n-element/demo/pocmin/) for Safari 8+, IE 11, and ES6-ready browsers
 
 [Demo Source index.html](https://github.com/t2ym/i18n-element/blob/master/demo/poc/index.html)
 
@@ -21,11 +24,19 @@ I18N Base Element for Polymer 2.x (work in progress)
 - Support ShadowDOM V1 `slot` with [`i18n-format`](https://github.com/t2ym/i18n-format/tree/2.0-develop) and [`i18n-number`](https://github.com/t2ym/i18n-number/tree/2.0-develop) in their `2.0-develop` branches
 - `Mixins.Logger` is just for logging debug information and can be omitted
 - Polyfill for IE11: [`es6-shim`](https://github.com/paulmillr/es6-shim), [`get-own-property-symbols`](https://github.com/es-shims/get-own-property-symbols), vulcanize app and polymer, and babel es2015 in addition to webcomponents-lite.js
-- [PoC Demo with Polyfill/Vulcanize/Babel](https://t2ym.github.io/i18n-element/components/i18n-element/demo/pocmin/) for Safari 8+, IE 11, and ES6-ready browsers
 - [`demo/gulpfile.js`](https://github.com/t2ym/i18n-element/blob/master/demo/gulpfile.js) to build PoC Demo with Polyfill/Vulcanize/Babel
 - [`Pre-Transpiled Polymer 2.0-preview`](https://github.com/Polymer/polymer/commit/fb70b870656442f3766a8d055f27ab541dc0c978) has not been supported yet
 - Missing `webcomponents-lite.min.js` in [`v1` branch](https://github.com/webcomponents/webcomponentsjs/tree/v1) is generated in the gulp tasks
 - [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
+
+
+## [Tests](https://t2ym.github.io/i18n-element/components/i18n-element/test/index2.html) on GitHub Pages
+
+### Notes
+
+- 4 syntax variants (`Mixins.Localizable`, `BaseElements.I18nElement`, `Define = class`, `Polymer({ is, behaviors })`) are tested
+- 2 test suites for `complex-compound-binding-element` are skipped due to a remaining design issue originating from the modified syntax for Polymer 2.x
+- Only raw tests are ported.  Preprocessed tests, etc. are still missing.
 
 ## Install
 
