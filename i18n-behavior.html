@@ -741,6 +741,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         if (!Polymer.Element || (Polymer.Element && this.__data)) {
           this.notifyPath('text', this._getBundle(this.lang));
         }
+        this.effectiveLang = lang;
         this.fire('lang-updated', { 
           lang: this.lang, 
           oldLang: oldLang, 
