@@ -49,7 +49,7 @@ I18N Base Element for Polymer 2.x (work in progress)
 |:------------------|:-----------|:---------------------|:------------------------|:-----------------------------|
 | src2              | Hard-coded | Modular              | Modular                 | HTML Embedded                |
 | preprocess2       | Extracted  | Modular              | Modular                 | HTML Embedded                |
-| minify2-min       | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Minified    |
+| minify2-min       | Extracted  | Bundled and Minified | Vulcanized and Minified | Transpiled and Minified      |
 
 ### Notes
 
