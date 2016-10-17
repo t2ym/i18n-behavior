@@ -14125,7 +14125,7 @@ Mixins.Localizable = function (base) {
         (typeof this === 'function' ?
                 this.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "") :
                 undefined);
-      if (!id && name && name !== 'Localizable' && name != 'class' && name != '_class') {
+      if (!id && name && name !== 'Localizable' && name != 'class' && !name.match(/^_class/)) {
         id = this.is = this._uncamelCase(name);
       }
       // TODO: template fetching should be flexible to detect super.template
@@ -14452,7 +14452,7 @@ Object.defineProperty(BaseElements, 'I18nElement', {
 </json-data>
 </template>
 </template>
-<dom-module id="template-default-lang-element" assetpath="template-default-lang/">
+<dom-module id="template-default-lang-element" legacy="" assetpath="template-default-lang/">
   <template lang="fr" localizable-text="embedded">{{text.text}}<div><div></div></div>
     <span id="whitespace"> &nbsp; </span>
     <h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span>
