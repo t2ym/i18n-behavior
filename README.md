@@ -32,10 +32,33 @@ I18N Base Element for Polymer 2.x (work in progress)
 
 ## [Tests](https://t2ym.github.io/i18n-element/components/i18n-element/test/index2.html) on GitHub Pages
 
+### Test Suites
+
+| Test Suites (`*-test.html`) | Description                 |
+|:----------------------------|:----------------------------|
+| basic                       | Basic functionalities       |
+| edge-case                   | Edge cases                  |
+| multiple-case               | Multiple element cases      |
+| template-default-lang       | `templateDefaultLang` tests |
+| preference                  | `i18n-preference` tests     |
+| no-persist                  | `i18n-preference` tests     |
+
+### Test on Build Phases
+
+| Build Phases      | UI Strings | L10N JSON            | HTML                    | JavaScript                   |
+|:------------------|:-----------|:---------------------|:------------------------|:-----------------------------|
+| src2              | Hard-coded | Modular              | Modular                 | HTML Embedded                |
+| preprocess2       | Extracted  | Modular              | Modular                 | HTML Embedded                |
+| minify2-min       | Extracted  | Bundled and Minified | Vulcanized and Minified | Concatenated and Minified    |
+
 ### Notes
 
 - 4 syntax variants (`Mixins.Localizable`, `BaseElements.I18nElement`, `Define = class`, `Polymer({ is, behaviors })`) are tested
 - 2 test suites for `complex-compound-binding-element` are skipped due to a remaining design issue originating from the modified syntax for Polymer 2.x
+- Partial Tests on IE11 with Polyfill/Vulcanize/Babel/Uglify (`Define = class`, `Polymer({ is, behaviors })` are missing)
+- [test-fixture](https://github.com/t2ym/test-fixture/tree/ce-v1-babel) is transpiled to ES5 by Babel
+- [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
+- Some tests (`preference-test`, `no-persist-test`) are skipped for browsers with native Custom Elements v1
 
 ## Install
 
