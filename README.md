@@ -55,7 +55,7 @@ I18N Base Element for Polymer 2.x (work in progress)
 
 - 4 syntax variants (`Mixins.Localizable`, `BaseElements.I18nElement`, `Define = class`, `Polymer({ is, behaviors })`) are tested
 - 2 test suites for `complex-compound-binding-element` are skipped due to a remaining design issue originating from the modified syntax for Polymer 2.x
-- Partial Tests on IE11 with Polyfill/Vulcanize/Babel/Uglify (`Define = class`, `Polymer({ is, behaviors })` are missing)
+- Tests on IE11 with Polyfill/Vulcanize/Babel/Uglify
 - [test-fixture](https://github.com/t2ym/test-fixture/tree/ce-v1-babel) is transpiled to ES5 by Babel
 - [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
 - Some tests (`preference-test`, `no-persist-test`) are skipped for browsers with native Custom Elements v1
