@@ -338,16 +338,46 @@ gulp.task('fake-server', function() {
 
 gulp.task('clean2', function() {
   return del([ 
-    //'test/src-lite',
+    'test/src2-min',
     'test/preprocess2',
-    //'test/preprocess-lite',
+    'test/preprocess2-min',
     'test/preprocess2-raw',
     'test/vulcanize2',
-    //'test/vulcanize-lite',
+    'test/vulcanize2-min',
     'test/minify2',
-    //'test/minify-lite'
+    'test/minify2-min'
   ]);
 });
+
+gulp.task('patchshadycss', () => {
+  return gulp.src([ 'bower_components/shadycss/shadycss.min.js' ])
+    .pipe(replace(/\n}\)[.]call\(this\)\n/, '\n}).call(this);\n', 'g'))
+    .pipe(debug())
+    .pipe(gulp.dest('bower_components/shadycss/'));
+});
+
+gulp.task('polyfillclone', () => {
+  return gulp.src([ 'test/webcomponents-lite.min.html' ])
+    .pipe(debug())
+    .pipe(gulp.dest('bower_components/webcomponentsjs/'));
+});
+
+gulp.task('webcomponents-min', () => {
+  return gulp.src([ 'bower_components/webcomponentsjs/webcomponents-lite.min.html' ], { base: 'bower_components/webcomponentsjs/' })
+    .pipe(vulcanize({
+      abspath: '',
+      excludes: [],
+      stripExcludes: false,
+      inlineScripts: true
+    }))
+    .pipe(crisper({
+      scriptInHead: false
+    }))
+    .pipe(gulpif('*.js', uglify()))
+    .pipe(debug())
+    .pipe(gulp.dest('test/webcomponentsjs/'));
+});
+
 
 // Scan HTMLs and construct localizable attributes repository
 gulp.task('scan2', function () {
@@ -366,7 +396,7 @@ gulp.task('scan2', function () {
 gulp.task('src2-min', function () {
   return gulp.src([ 'test/src2/**/*' ])
     .pipe(gulpif('*-test.html', 
-      replace('../webcomponentsjs/webcomponents-lite.js',
+      replace('../../../webcomponentsjs/webcomponents-lite.js',
               '../webcomponentsjs/webcomponents-lite.min.js')))
     .pipe(gulp.dest('test/src2-min'));
 });
@@ -434,7 +464,7 @@ gulp.task('preprocess2-raw', function () {
 gulp.task('preprocess2-min', function () {
   return gulp.src([ 'test/preprocess2/**/*' ])
     .pipe(gulpif('*-test.html', 
-      replace('../webcomponentsjs/webcomponents-lite.js',
+      replace('../../../webcomponentsjs/webcomponents-lite.js',
               '../webcomponentsjs/webcomponents-lite.min.js')))
     .pipe(gulp.dest('test/preprocess2-min'));
 });
@@ -446,8 +476,12 @@ gulp.task('clone2', function () {
 });
 
 gulp.task('vulcanize2', function() {
-  return gulp.src(['bower_components/i18n-element/test/preprocess2/*-test.html'])
-    .pipe(vulcanize({
+  return gulp.src([
+      'bower_components/i18n-element/test/preprocess2/*-test.html',
+      'bower_components/i18n-element/test/preprocess2/*-test-imports.html',
+      'bower_components/i18n-element/test/preprocess2/**/*.json'
+    ])
+    .pipe(gulpif('*-test-imports.html', vulcanize({
       excludes: [
         'bower_components/webcomponentsjs/webcomponents-lite.js',
         'bower_components/webcomponentsjs/webcomponents-lite.min.js',
@@ -456,7 +490,7 @@ gulp.task('vulcanize2', function() {
       stripComments: true,
       inlineCss: true,
       inlineScripts: true
-    }))
+    })))
     .pipe(gulp.dest('test/vulcanize2'))
     .pipe(size({title: 'vulcanize2'}));
 });
@@ -472,8 +506,12 @@ gulp.task('clone2-min', function () {
 });
 
 gulp.task('vulcanize2-min', function() {
-  return gulp.src(['bower_components/i18n-element/test/preprocess2-min/*-test.html'])
-    .pipe(vulcanize({
+  return gulp.src([
+      'bower_components/i18n-element/test/preprocess2-min/*-test.html',
+      'bower_components/i18n-element/test/preprocess2-min/*-test-imports.html',
+      'bower_components/i18n-element/test/preprocess2-min/**/*.json'
+    ])
+    .pipe(gulpif('*-test-imports.html', vulcanize({
       excludes: [
         'bower_components/webcomponentsjs/webcomponents-lite.js',
         'bower_components/webcomponentsjs/webcomponents-lite.min.js',
@@ -482,7 +520,7 @@ gulp.task('vulcanize2-min', function() {
       stripComments: true,
       inlineCss: true,
       inlineScripts: true
-    }))
+    })))
     .pipe(gulp.dest('test/vulcanize2-min'))
     .pipe(size({title: 'vulcanize2-min'}));
 });
@@ -688,6 +726,9 @@ gulp.task('pretest', ['clean'], function(cb) {
 
 gulp.task('pretest2', ['clean2'], function(cb) {
   runSequence(
+    'patchshadycss',
+    'polyfillclone',
+    'webcomponents-min',
     'scan2',
     'src2-min',
     'preprocess2',
