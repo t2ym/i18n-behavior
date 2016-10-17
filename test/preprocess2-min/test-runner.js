@@ -393,7 +393,7 @@ function setupFixture (params, fixtureModel) {
             if (params.lang === '' || params.lang === 'en') {
               element.fire('lang-updated');
             }
-          }, 10);
+          }, 500);
           resolve(element);
         }
       }

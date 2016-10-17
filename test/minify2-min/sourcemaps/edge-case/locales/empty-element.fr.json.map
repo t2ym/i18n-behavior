@@ -1,0 +1,1 @@
+{"version":3,"names":[],"mappings":"","sources":["edge-case/locales/empty-element.fr.json"],"sourcesContent":["{\n  \"meta\": {\n    \"todo\": []\n  },\n  \"model\": {}\n}"],"file":"edge-case/locales/empty-element.fr.json","sourceRoot":"/source/"}

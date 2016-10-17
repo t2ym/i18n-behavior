@@ -14,14 +14,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
  */
     </script>
 
-    <script src="../../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../../../custom-elements/src/native-shim.js"></script>
     <script src="../../../web-component-tester/browser.js"></script>
-    <script src="fake-server.js"></script>
-    <script src="test-runner.js"></script>
-
-    <link rel="import" href="../../i18n-element.html">
-    <link rel="import" href="../../define-element.html">
-    <link rel="import" href="multiple-case/multiple-element.html">
+    <link rel="import" href="multiple-case-test-imports.html">
     <style>
     .test-container.running-test {
       display: block;
@@ -42,53 +38,5 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           count="{{count}}"></multiple-element>
       </template>
     </test-fixture>
-
-    <script>
-suite('I18nElement with ' + 
-  (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM') +
-  (' in ' + syntax + ' syntax'), 
-  function () {
-
-  var lang0 = '';
-  var lang1 = 'en';
-  var lang2 = 'fr';
-  var lang3 = 'ja';
-  var lang4 = 'fr-CA';
-  var lang5 = 'zh-Hans-CN';
-  var count1 = 100;
-
-  var localDOM_multiple_element = [
-    { select: 'div item-element', '$.label.textContent': 'A' }
-  ];
-
-  var suites = [
-    s('multiple element', null, {
-      fixture: 'multiple-element-fixture', 
-      fixtureModel: { observeHtmlLang: false, lang: lang0, count: count1 },
-      assign: { lang: lang1 },
-      lang: lang1,
-      effectiveLang: lang1,
-      templateDefaultLang: lang1,
-      observeHtmlLang: false,
-      event: 'local-dom-ready',
-      text: { model: {} },
-      model: {},
-      localDOM: localDOM_multiple_element,
-      lightDOM: undefined
-    }),
-    s(lang2 + ' multiple element', 'multiple element', {
-      assign: { lang: lang2 },
-      lang: lang2,
-      effectiveLang: lang2
-    })
-  ];
-
-  HTMLImports.whenReady(function () {
-    suitesRunner(suites);    
-  });
-
-});
-    </script>
-
   </body>
 </html>
