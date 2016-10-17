@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var nativeShadow = hasShadow && !window.ShadowDOMPolyfill;
       var nativeES6 = true;
       var nativeCustomElementsV1 = !customElements.polyfilled;
-      try { new Function('new.target'); } catch (e) { nativeES6 = false; }
+      try { new Function('class a {}'); } catch (e) { nativeES6 = false; }
       var suites = [];
       (nativeES6 ?
         [
