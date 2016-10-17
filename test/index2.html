@@ -11,50 +11,62 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../custom-elements/src/native-shim.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
   </head>
   <body>
     <script>
       var hasShadow = Boolean(Element.prototype.createShadowRoot);
       var nativeShadow = hasShadow && !window.ShadowDOMPolyfill;
+      var nativeES6 = true;
+      var nativeCustomElementsV1 = !customElements.polyfilled;
+      try { new Function('new.target'); } catch (e) { nativeES6 = false; }
       var suites = [];
-      (nativeShadow ?
+      (nativeES6 ?
         [
           'src2',
           'preprocess2',
-          //'minify2-min',
-          //'preprocess-lite',
-          ///'vulcanize-lite',
-          ///'minify-lite'
+          'minify2-min'
         ] :
         [
-          'src2',
-          'preprocess2',
-          //'minify2-min',
-          //'preprocess-lite',
-          ///'vulcanize-lite',
-          ///'minify-lite',
-          //'src',
-          //'preprocess',
-          ///'vulcanize',
-          ///'minify'
+          //'src2',
+          //'preprocess2',
+          'minify2-min'
         ]
       ).forEach(function (phase) {
         (nativeShadow ? [ '?xhr=fake&suppress=true' /*, '?dom=shadow&xhr=fake&suppress=true' */ ] : [ '?xhr=fake&suppress=true' ]).forEach(function (dom) {
-          [ 
-            'mixin',
-            'base-element',
-            'thin',
-            'legacy'
-          ].forEach(function (syntax) {
+          (nativeES6 ? 
             [
-              'basic',
-              'edge-case',
-              'multiple-case',
-              'template-default-lang',
-              'preference',
-              'no-persist'
-            ].forEach(function (type) {
+              'mixin',
+              'base-element',
+              'thin',
+              'legacy'
+            ] :
+            [
+              'mixin',
+              'base-element',
+              //'thin',
+              //'legacy'
+            ]
+          ).forEach(function (syntax) {
+            (nativeCustomElementsV1 ?
+              [
+                'basic',
+                'edge-case',
+                'multiple-case',
+                'template-default-lang',
+                //'preference',
+                //'no-persist'
+              ] :
+              [
+                'basic',
+                'edge-case',
+                'multiple-case',
+                'template-default-lang',
+                'preference',
+                'no-persist'
+              ]
+            ).forEach(function (type) {
               suites.push(phase + '/' + type + '-test.html' + (dom ? dom + '&syntax=' + syntax : '?syntax=' + syntax));
             });            
           })
