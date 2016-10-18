@@ -47,7 +47,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           if (e.composedPath()[0] === this) {
             console.log(e.detail);
             console.log('navigator.language = ' + navigator.language);
-            if (e.detail.lastLang === 'en') {
+            if (!e.detail.lastLang || e.detail.lastLang === 'en') {
               this.$.oldLang.lang = e.detail.oldLang;
               this.fire('local-dom-ready');
             }
@@ -74,7 +74,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           if (e.composedPath()[0] === this) {
             console.log(e.detail);
             console.log('navigator.language = ' + navigator.language);
-            if (e.detail.lastLang === 'en') {
+            if (!e.detail.lastLang || e.detail.lastLang === 'en') {
               this.$.oldLang.lang = e.detail.oldLang;
               this.fire('local-dom-ready');
             }
@@ -100,7 +100,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           if (e.composedPath()[0] === this) {
             console.log(e.detail);
             console.log('navigator.language = ' + navigator.language);
-            if (e.detail.lastLang === 'en') {
+            if (!e.detail.lastLang || e.detail.lastLang === 'en') {
               this.$.oldLang.lang = e.detail.oldLang;
               this.fire('local-dom-ready');
             }
@@ -126,7 +126,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           if (Polymer.dom(e).rootTarget === this) {
             console.log(e.detail);
             console.log('navigator.language = ' + navigator.language);
-            if (e.detail.lastLang === 'en') {
+            if (!e.detail.lastLang || e.detail.lastLang === 'en') {
               this.$.oldLang.lang = e.detail.oldLang;
               this.fire('local-dom-ready');
             }
