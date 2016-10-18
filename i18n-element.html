@@ -93,8 +93,6 @@ Mixins.Localizable = function (base) {
   };
 }
 
-Mixins.I18nBehavior = (info) => Mixins.Localizable(Polymer.Class(info));
-
 // Logger mixin
 Mixins.Logger = (base) => class extends base {
   connectedCallback() {
