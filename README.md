@@ -177,28 +177,6 @@ Polymer({
 </script>
 ```
 
-### TO BE DISCARDED: Modified `Polymer({ is, behaviors })` Legacy Syntax for Polymer 1.x
-
-- Unstable and to be discarded due to architectural inconsistencies
-- `Mixins.I18nBehavior({ is })` is handed to `Polymer()` function
-- `Mixins.I18nBehavior({ is })` is equivalent to `Mixins.Localizable(Polymer.Class({ is }))`
-
-```html
-<dom-module id="i18n-legacy-element">
-  <template>
-    <span id="label1">Legacy UI label 1</span><br>
-    <span id="label2">Legacy UI label 2</span><br>
-    <span id="label3">Legacy UI label 3</span>
-  </template>
-</dom-module>
-<script>
-Polymer(Mixins.I18nBehavior({
-  is: 'i18n-legacy-element'
-  // BehaviorsStore.I18nBehavior is applied via Mixins.I18nBehavior
-}));
-</script>
-```
-
 ### I18N-ready Bound Element `i18n-dom-bind`
 
 Additional Import:
