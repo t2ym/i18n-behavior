@@ -16,7 +16,7 @@ I18N Base Element for Polymer 2.x (work in progress)
 
 - This is just a proof-of-concept demo and not applicable to general purposes yet
 - Bower dependencies with their branch names have no tags, i.e., no versions, and have to be updated in sync with the branches frequently. 
-- Raw PoC demo supported browsers: Chrome Canary 55 (native), Chrome 53, Firefox 48, Edge 14, Safari 10
+- Raw PoC demo supported browsers: Chrome 54+ (native), Firefox 49, Edge 14, Safari 10
 - The modules are dependent upon modules from [`i18n-behavior`](https://github.com/t2ym/i18n-behavior)
 - Some Polymer 1.x modules (`iron-ajax`, `iron-localstorage`) are running as Polymer 2.x modules without compatibility tests
 - Internal function `MixinBehavior` is borrowed from [`polymer#2.0-preview src/legacy/class.html`](https://github.com/Polymer/polymer/blob/2.0-preview/src/legacy/class.html)
@@ -58,7 +58,6 @@ I18N Base Element for Polymer 2.x (work in progress)
 - Tests on IE11 with Polyfill/Vulcanize/Babel/Uglify
 - [test-fixture](https://github.com/t2ym/test-fixture/tree/ce-v1-babel) is transpiled to ES5 by Babel
 - [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
-- Some tests (`preference-test`, `no-persist-test`) are skipped for browsers with native Custom Elements v1
 
 ## Install
 
@@ -222,7 +221,7 @@ Additional Import:
 </i18n-dom-bind>
 ```
 
-## Use Native Shadow DOM v1 on Chrome 53+ and Safari 10 for PoC Demo
+## Use Native Shadow DOM v1 on Safari 10 for PoC Demo
 
 Comment out `shadydom.min.js` and `shadycss.min.js` dependencies in `webcomponents-lite.js` to use native Shadow DOM v1
 
