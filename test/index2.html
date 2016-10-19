@@ -34,7 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           'minify2-min'
         ]
       ).forEach(function (phase) {
-        (nativeShadow ? [ '?xhr2=fake&suppress=true' /*, '?dom=shadow&xhr=fake&suppress=true' */ ] : [ '?xhr2=fake&suppress=true' ]).forEach(function (dom) {
+        (nativeShadow ? [ '?xhr=fake&suppress=true' /*, '?dom=shadow&xhr=fake&suppress=true' */ ] : [ '?xhr=fake&suppress=true' ]).forEach(function (dom) {
           (nativeES6 ? 
             [
               'mixin',
