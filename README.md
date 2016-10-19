@@ -29,36 +29,6 @@ I18N Base Element for Polymer 2.x (work in progress)
 - Missing `webcomponents-lite.min.js` in [`v1` branch](https://github.com/webcomponents/webcomponentsjs/tree/v1) is generated in the gulp tasks
 - [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
 
-
-## [Tests](https://t2ym.github.io/i18n-element/components/i18n-element/test/index2.html) on GitHub Pages
-
-### Test Suites
-
-| Test Suites (`*-test.html`) | Description                 |
-|:----------------------------|:----------------------------|
-| basic                       | Basic functionalities       |
-| edge-case                   | Edge cases                  |
-| multiple-case               | Multiple element cases      |
-| template-default-lang       | `templateDefaultLang` tests |
-| preference                  | `i18n-preference` tests     |
-| no-persist                  | `i18n-preference` tests     |
-
-### Test on Build Phases
-
-| Build Phases      | UI Strings | L10N JSON            | HTML                    | JavaScript                   |
-|:------------------|:-----------|:---------------------|:------------------------|:-----------------------------|
-| src2              | Hard-coded | Modular              | Modular                 | HTML Embedded                |
-| preprocess2       | Extracted  | Modular              | Modular                 | HTML Embedded                |
-| minify2-min       | Extracted  | Bundled and Minified | Vulcanized and Minified | Transpiled and Minified      |
-
-### Notes
-
-- 4 syntax variants (`Mixins.Localizable`, `BaseElements.I18nElement`, `Define = class`, `Polymer({ is, behaviors })`) are tested
-- 2 test suites for `complex-compound-binding-element` are skipped due to a remaining design issue originating from the modified syntax for Polymer 2.x
-- Tests on IE11 with Polyfill/Vulcanize/Babel/Uglify
-- [test-fixture](https://github.com/t2ym/test-fixture/tree/ce-v1-babel) is transpiled to ES5 by Babel
-- [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
-
 ## Install
 
 ```shell
@@ -222,6 +192,35 @@ Comment out `shadydom.min.js` and `shadycss.min.js` dependencies in `webcomponen
     'WebComponents/unresolved.js'
   ];
 ```
+
+## [Tests](https://t2ym.github.io/i18n-element/components/i18n-element/test/index2.html) on GitHub Pages
+
+### Test Suites
+
+| Test Suites (`*-test.html`) | Description                 |
+|:----------------------------|:----------------------------|
+| basic                       | Basic functionalities       |
+| edge-case                   | Edge cases                  |
+| multiple-case               | Multiple element cases      |
+| template-default-lang       | `templateDefaultLang` tests |
+| preference                  | `i18n-preference` tests     |
+| no-persist                  | `i18n-preference` tests     |
+
+### Test on Build Phases
+
+| Build Phases      | UI Strings | L10N JSON            | HTML                    | JavaScript                   |
+|:------------------|:-----------|:---------------------|:------------------------|:-----------------------------|
+| src2              | Hard-coded | Modular              | Modular                 | HTML Embedded                |
+| preprocess2       | Extracted  | Modular              | Modular                 | HTML Embedded                |
+| minify2-min       | Extracted  | Bundled and Minified | Vulcanized and Minified | Transpiled and Minified      |
+
+### Notes
+
+- 4 syntax variants (`Mixins.Localizable`, `BaseElements.I18nElement`, `Define = class`, `Polymer({ is, behaviors })`) are tested
+- 2 test suites for `complex-compound-binding-element` are skipped due to a remaining design issue originating from the modified syntax for Polymer 2.x
+- Tests on IE11 with Polyfill/Vulcanize/Babel/Uglify
+- [test-fixture](https://github.com/t2ym/test-fixture/tree/ce-v1-babel) is transpiled to ES5 by Babel
+- [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
 
 ## Targeted Features follow
 ## == Original README of [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) inapplicable to `i18n-element` for now
