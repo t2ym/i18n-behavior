@@ -21,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var nativeES6 = true;
       var nativeCustomElementsV1 = !customElements.polyfilled;
       try { new Function('class a {}'); } catch (e) { nativeES6 = false; }
+      if (nativeES6 && !window.Proxy) { nativeES6 = false; }
       var suites = [];
       (nativeES6 ?
         [
