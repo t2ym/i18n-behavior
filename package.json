@@ -45,7 +45,7 @@
     "gulp-grep-contents": "0.0.1",
     "gulp-i18n-add-locales": "^0.1.1",
     "gulp-i18n-leverage": "^1.1.4",
-    "gulp-i18n-preprocess": "^1.2.1",
+    "gulp-i18n-preprocess": "^1.2.2",
     "gulp-if": "^2.0.1",
     "gulp-ignore": "^2.0.1",
     "gulp-match": "^1.0.2",
