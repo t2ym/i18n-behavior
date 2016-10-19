@@ -13732,12 +13732,10 @@ Polymer({
               (current && current.ownerDocument ? current.ownerDocument.baseURI : null) ||
               document.baseURI);
             domModule.appendChild(template);
-            domModule.setAttribute('assetpath',
-                                    assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
-                                      assetUrl.pathname :
-                                        template.hasAttribute('assetpath') ?
-                                        template.getAttribute('assetpath') :
-                                        assetUrl.pathname);
+            domModule.setAttribute('assetpath', 
+                                    template.hasAttribute('assetpath') ? 
+                                      template.getAttribute('assetpath') : 
+                                      assetUrl.pathname);
             domModule.register(id);
             this._template = template;
           }
@@ -14149,11 +14147,9 @@ Mixins.Localizable = function (base) {
             document.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
-                                  assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
-                                    assetUrl.pathname :
-                                      template.hasAttribute('assetpath') ? 
-                                      template.getAttribute('assetpath') : 
-                                      assetUrl.pathname);
+                                  template.hasAttribute('assetpath') ? 
+                                    template.getAttribute('assetpath') : 
+                                    assetUrl.pathname);
           domModule.register(id);
           this._template = template;
         }
@@ -14342,11 +14338,9 @@ Object.defineProperty(BaseElements, 'I18nElement', {
             current.ownerDocument.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
-                                  assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
-                                    assetUrl.pathname :
-                                      template.hasAttribute('assetpath') ? 
-                                      template.getAttribute('assetpath') : 
-                                      assetUrl.pathname);
+                                  template.hasAttribute('assetpath') ? 
+                                    template.getAttribute('assetpath') : 
+                                    assetUrl.pathname);
           domModule.register(id);
           proto._template = template;
           proto.finalize();
@@ -14370,7 +14364,7 @@ Object.defineProperty(BaseElements, 'I18nElement', {
   }
 })();
 </script>
-<template id="empty-element" assetpath="/" localizable-text="embedded">
+<template id="empty-element" assetpath="edge-case/" localizable-text="embedded">
   <template id="localizable-text">
 <json-data>
 {
@@ -14467,7 +14461,7 @@ Object.defineProperty(BaseElements, 'I18nElement', {
     break;
   }
 </script><dom-module id="complex-compound-binding-element" legacy="" assetpath="edge-case/">
-  <template id="complex-compound-binding-element" assetpath="/" localizable-text="embedded">
+  <template id="complex-compound-binding-element" assetpath="edge-case/" localizable-text="embedded">
     <h5 id="item-update2"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update2:text.0}}</span><span slot="1">{{text.updated}}</span></i18n-format><dom-repeat items="{{text.authors}}"><template>
         {{item.name}}
       </template></dom-repeat>{{text.item-update2:text_2}}<dom-if if="true"><template>
@@ -15400,7 +15394,7 @@ Object.defineProperty(BaseElements, 'I18nElement', {
     });
   </script>
 </dom-module>
-<template id="advanced-binding-element" assetpath="/" localizable-text="embedded">
+<template id="advanced-binding-element" assetpath="edge-case/" localizable-text="embedded">
     <span id="status">{{tr(status,text.statusMessages)}}</span>
 
     <span id="default">{{or(value,text.defaultValue)}}</span>

@@ -13732,12 +13732,10 @@ Polymer({
               (current && current.ownerDocument ? current.ownerDocument.baseURI : null) ||
               document.baseURI);
             domModule.appendChild(template);
-            domModule.setAttribute('assetpath',
-                                    assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
-                                      assetUrl.pathname :
-                                        template.hasAttribute('assetpath') ?
-                                        template.getAttribute('assetpath') :
-                                        assetUrl.pathname);
+            domModule.setAttribute('assetpath', 
+                                    template.hasAttribute('assetpath') ? 
+                                      template.getAttribute('assetpath') : 
+                                      assetUrl.pathname);
             domModule.register(id);
             this._template = template;
           }
@@ -14149,11 +14147,9 @@ Mixins.Localizable = function (base) {
             document.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
-                                  assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
-                                    assetUrl.pathname :
-                                      template.hasAttribute('assetpath') ? 
-                                      template.getAttribute('assetpath') : 
-                                      assetUrl.pathname);
+                                  template.hasAttribute('assetpath') ? 
+                                    template.getAttribute('assetpath') : 
+                                    assetUrl.pathname);
           domModule.register(id);
           this._template = template;
         }
@@ -14342,11 +14338,9 @@ Object.defineProperty(BaseElements, 'I18nElement', {
             current.ownerDocument.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
-                                  assetUrl.pathname.indexOf('.vulcanized.') < 0 ?
-                                    assetUrl.pathname :
-                                      template.hasAttribute('assetpath') ? 
-                                      template.getAttribute('assetpath') : 
-                                      assetUrl.pathname);
+                                  template.hasAttribute('assetpath') ? 
+                                    template.getAttribute('assetpath') : 
+                                    assetUrl.pathname);
           domModule.register(id);
           proto._template = template;
           proto.finalize();
@@ -14370,7 +14364,7 @@ Object.defineProperty(BaseElements, 'I18nElement', {
   }
 })();
 </script>
-<template id="item-element" assetpath="/" localizable-text="embedded">
+<template id="item-element" assetpath="multiple-case/" localizable-text="embedded">
     <span id="label">{{text.label}}</span>
   <template id="localizable-text">
 <json-data>
@@ -14432,7 +14426,7 @@ Object.defineProperty(BaseElements, 'I18nElement', {
     }
     break;
   }
-</script><template id="multiple-element" assetpath="/" localizable-text="embedded">
+</script><template id="multiple-element" assetpath="multiple-case/" localizable-text="embedded">
     <div id="base">
       <dom-repeat id="items" items="{{getArray(count)}}"><template>
         <span>
