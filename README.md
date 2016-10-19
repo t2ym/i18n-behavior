@@ -132,6 +132,7 @@ Additional Import:
 - Element class is registered as `Define.ElementClass`
 - Applicable to both Class Expressions Mixin and I18N Base Element Class
 - Applicable to non-I18N element classes as well
+- [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) 1.2.2 or later is required for vulcanized applications
 
 [Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-thin-element.html)
 
@@ -157,7 +158,7 @@ Import:
 
 - Polymer 1.x Compatible Legacy Syntax
 - Import `i18n-behavior.html`, and not `i18n-element.html`
-- [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) 1.2.1 or later is required for vulcanized applications
+- [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) 1.2.2 or later is required for vulcanized applications
 
 [Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-legacy-element.html)
 
