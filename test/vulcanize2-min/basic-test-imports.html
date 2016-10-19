@@ -15281,7 +15281,7 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     <text-attribute-element i18n-target7="invalid!attr=aaa,typeX"></text-attribute-element>
   </template>
 </i18n-attr-repo>
-  <template id="text-attribute-element" text-attr="custom-text-attr1 custom-text-attr3" assetpath="/" localizable-text="embedded">
+  <template id="text-attribute-element" text-attr="custom-text-attr1 custom-text-attr3" assetpath="simple-attribute-element/" localizable-text="embedded">
     <span id="attr1">{{customTextAttr1}}</span>
     <span id="attr2">{{customTextAttr2}}</span>
     <span id="attr3">{{customTextAttr3}}</span>
@@ -15497,7 +15497,9 @@ customElements.define(I18nDomBind.is, I18nDomBind);
   }
 </script>
 
-<template id="simple-attribute-element" assetpath="simple-attribute-element/" localizable-text="embedded">
+
+
+  <template id="simple-attribute-element" assetpath="simple-attribute-element/" localizable-text="embedded">
     <style attr="This is not extracted">
     google-chart {
       width: 300px;
