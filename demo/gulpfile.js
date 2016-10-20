@@ -27,7 +27,7 @@ const i18nLeverage = require('gulp-i18n-leverage');
 const XliffConv = require('xliff-conv');
 const i18nAddLocales = require('gulp-i18n-add-locales');
 
-const logging = require('plylog');
+//const logging = require('plylog');
 const mergeStream = require('merge-stream');
 
 gulp.task('clean', function() {
