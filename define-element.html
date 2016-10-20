@@ -137,9 +137,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             current.ownerDocument.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
-                                  template.hasAttribute('assetpath') ? 
-                                    template.getAttribute('assetpath') : 
-                                    assetUrl.pathname);
+                                  template.hasAttribute('basepath') ?
+                                    template.getAttribute('basepath') :
+                                    template.hasAttribute('assetpath') ? 
+                                      template.getAttribute('assetpath') : 
+                                      assetUrl.pathname);
           domModule.register(id);
           proto._template = template;
           proto.finalize();
