@@ -13733,9 +13733,11 @@ Polymer({
               document.baseURI);
             domModule.appendChild(template);
             domModule.setAttribute('assetpath', 
-                                    template.hasAttribute('assetpath') ? 
-                                      template.getAttribute('assetpath') : 
-                                      assetUrl.pathname);
+                                    template.hasAttribute('basepath') ?
+                                      template.getAttribute('basepath') :
+                                      template.hasAttribute('assetpath') ? 
+                                        template.getAttribute('assetpath') : 
+                                        assetUrl.pathname);
             domModule.register(id);
             this._template = template;
           }
@@ -14147,9 +14149,11 @@ Mixins.Localizable = function (base) {
             document.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
-                                  template.hasAttribute('assetpath') ? 
-                                    template.getAttribute('assetpath') : 
-                                    assetUrl.pathname);
+                                  template.hasAttribute('basepath') ?
+                                    template.getAttribute('basepath') :
+                                    template.hasAttribute('assetpath') ? 
+                                      template.getAttribute('assetpath') : 
+                                      assetUrl.pathname);
           domModule.register(id);
           this._template = template;
         }
@@ -14338,9 +14342,11 @@ Object.defineProperty(BaseElements, 'I18nElement', {
             current.ownerDocument.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
-                                  template.hasAttribute('assetpath') ? 
-                                    template.getAttribute('assetpath') : 
-                                    assetUrl.pathname);
+                                  template.hasAttribute('basepath') ?
+                                    template.getAttribute('basepath') :
+                                    template.hasAttribute('assetpath') ? 
+                                      template.getAttribute('assetpath') : 
+                                      assetUrl.pathname);
           domModule.register(id);
           proto._template = template;
           proto.finalize();
@@ -14428,7 +14434,7 @@ class I18nDomBind extends Mixins.Localizable(Polymer.LegacyElement) {
 
 }
 customElements.define(I18nDomBind.is, I18nDomBind);
-</script><template id="simple-text-element" assetpath="simple-text-element/" localizable-text="embedded">{{text.text}}<div><div></div></div>
+</script><template id="simple-text-element" basepath="simple-text-element/" localizable-text="embedded">{{text.text}}<div><div></div></div>
     <span id="whitespace"> &nbsp; </span>
     <h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span>
     <span>{{text.span_6}}</span>
@@ -14688,7 +14694,7 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     break;
   }
 </script>
-<template id="commented-simple-text-element" assetpath="commented-simple-text-element/" localizable-text="embedded">{{text.text}}
+<template id="commented-simple-text-element" basepath="commented-simple-text-element/" localizable-text="embedded">{{text.text}}
     <div><div></div></div>
     <span id="whitespace"> &nbsp; </span>
     <h1>{{text.h1_3}}</h1>{{text.text_4}}
@@ -14971,7 +14977,7 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     }
     break;
   }
-</script><template id="plural-gender-element" assetpath="plural-gender-element/" localizable-text="embedded">
+</script><template id="plural-gender-element" basepath="plural-gender-element/" localizable-text="embedded">
     <p>
       <i18n-format id="compound-format-text" on-rendered="_rendered" lang="{{effectiveLang}}">
         <json-data>{{serialize(text.compound-format-text.0)}}</json-data>
@@ -15281,7 +15287,7 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     <text-attribute-element i18n-target7="invalid!attr=aaa,typeX"></text-attribute-element>
   </template>
 </i18n-attr-repo>
-  <template id="text-attribute-element" text-attr="custom-text-attr1 custom-text-attr3" assetpath="simple-attribute-element/" localizable-text="embedded">
+  <template id="text-attribute-element" text-attr="custom-text-attr1 custom-text-attr3" basepath="simple-attribute-element/" localizable-text="embedded">
     <span id="attr1">{{customTextAttr1}}</span>
     <span id="attr2">{{customTextAttr2}}</span>
     <span id="attr3">{{customTextAttr3}}</span>
@@ -15497,9 +15503,7 @@ customElements.define(I18nDomBind.is, I18nDomBind);
   }
 </script>
 
-
-
-  <template id="simple-attribute-element" assetpath="simple-attribute-element/" localizable-text="embedded">
+<template id="simple-attribute-element" basepath="simple-attribute-element/" localizable-text="embedded">
     <style attr="This is not extracted">
     google-chart {
       width: 300px;
@@ -16177,7 +16181,7 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     }
     break;
   }
-</script><template id="fallback-text-element" assetpath="fallback-text-element/" localizable-text="embedded">{{text.text}}<div><div></div></div>
+</script><template id="fallback-text-element" basepath="fallback-text-element/" localizable-text="embedded">{{text.text}}<div><div></div></div>
     <span id="whitespace"> &nbsp; </span>
     <h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span>
     <span>{{text.span_6}}</span>
@@ -16436,7 +16440,7 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     }
     break;
   }
-</script><template id="compound-binding-element" assetpath="compound-binding-element/" localizable-text="embedded"><i18n-format lang="{{effectiveLang}}"><span>{{text.text.0}}</span><span slot="1">{{param1}}</span><span slot="2">{{param2}}</span></i18n-format><div><div></div></div>
+</script><template id="compound-binding-element" basepath="compound-binding-element/" localizable-text="embedded"><i18n-format lang="{{effectiveLang}}"><span>{{text.text.0}}</span><span slot="1">{{param1}}</span><span slot="2">{{param2}}</span></i18n-format><div><div></div></div>
     <span id="whitespace"> &nbsp; </span>
     <h1><i18n-format lang="{{effectiveLang}}"><span>{{text.h1_3.0}}</span><span slot="1">{{param1}}</span><span slot="2">{{param2}}</span></i18n-format></h1><i18n-format lang="{{effectiveLang}}"><span>{{text.text_4.0}}</span><span slot="1">{{param1}}</span><span slot="2">{{param2}}</span></i18n-format><span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span slot="1">{{param1}}</span><span slot="2">{{param2}}</span></i18n-format></span>
     <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_6.0}}</span><span slot="1">{{param1}}</span><span slot="2">{{param2}}</span></i18n-format></span>
@@ -16968,7 +16972,7 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     }
     break;
   }
-</script><template id="simple-text-id-element" assetpath="simple-text-id-element/" localizable-text="embedded">{{text.text}}<div><div></div></div>
+</script><template id="simple-text-id-element" basepath="simple-text-id-element/" localizable-text="embedded">{{text.text}}<div><div></div></div>
     <span text-id="whitespace"> &nbsp; </span>
     <h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span>
     <span>{{text.span_6}}</span>

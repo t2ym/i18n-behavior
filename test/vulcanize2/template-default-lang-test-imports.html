@@ -13733,9 +13733,11 @@ Polymer({
               document.baseURI);
             domModule.appendChild(template);
             domModule.setAttribute('assetpath', 
-                                    template.hasAttribute('assetpath') ? 
-                                      template.getAttribute('assetpath') : 
-                                      assetUrl.pathname);
+                                    template.hasAttribute('basepath') ?
+                                      template.getAttribute('basepath') :
+                                      template.hasAttribute('assetpath') ? 
+                                        template.getAttribute('assetpath') : 
+                                        assetUrl.pathname);
             domModule.register(id);
             this._template = template;
           }
@@ -14147,9 +14149,11 @@ Mixins.Localizable = function (base) {
             document.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
-                                  template.hasAttribute('assetpath') ? 
-                                    template.getAttribute('assetpath') : 
-                                    assetUrl.pathname);
+                                  template.hasAttribute('basepath') ?
+                                    template.getAttribute('basepath') :
+                                    template.hasAttribute('assetpath') ? 
+                                      template.getAttribute('assetpath') : 
+                                      assetUrl.pathname);
           domModule.register(id);
           this._template = template;
         }
@@ -14338,9 +14342,11 @@ Object.defineProperty(BaseElements, 'I18nElement', {
             current.ownerDocument.baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
-                                  template.hasAttribute('assetpath') ? 
-                                    template.getAttribute('assetpath') : 
-                                    assetUrl.pathname);
+                                  template.hasAttribute('basepath') ?
+                                    template.getAttribute('basepath') :
+                                    template.hasAttribute('assetpath') ? 
+                                      template.getAttribute('assetpath') : 
+                                      assetUrl.pathname);
           domModule.register(id);
           proto._template = template;
           proto.finalize();
@@ -14364,7 +14370,7 @@ Object.defineProperty(BaseElements, 'I18nElement', {
   }
 })();
 </script>
-<template id="template-default-lang-element" lang="fr" assetpath="template-default-lang/" localizable-text="embedded">{{text.text}}<div><div></div></div>
+<template id="template-default-lang-element" lang="fr" basepath="template-default-lang/" localizable-text="embedded">{{text.text}}<div><div></div></div>
     <span id="whitespace"> &nbsp; </span>
     <h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span>
     <span>{{text.span_6}}</span>
@@ -14616,7 +14622,7 @@ Object.defineProperty(BaseElements, 'I18nElement', {
     }
     break;
   }
-</script><template id="null-template-default-lang-element" lang="" assetpath="template-default-lang/" localizable-text="embedded">{{text.text}}<div><div></div></div>
+</script><template id="null-template-default-lang-element" lang="" basepath="template-default-lang/" localizable-text="embedded">{{text.text}}<div><div></div></div>
     <span id="whitespace"> &nbsp; </span>
     <h1>{{text.h1_3}}</h1>{{text.text_4}}<span>{{text.span_5}}</span>
     <span>{{text.span_6}}</span>

@@ -59,7 +59,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     </test-fixture>
 
     <div class="test-container">
-      <template id="edge-case-dom-bind" is="i18n-dom-bind" assetpath="/" localizable-text="embedded"><i18n-format lang="{{effectiveLang}}"><span>{{text.text.0}}</span><span slot="1">{{text.name}}</span></i18n-format><i18n-number lang="{{effectiveLang}}">{{text.i18n-number_1}}</i18n-number>
+      <template id="edge-case-dom-bind" is="i18n-dom-bind" basepath="/" localizable-text="embedded"><i18n-format lang="{{effectiveLang}}"><span>{{text.text.0}}</span><span slot="1">{{text.name}}</span></i18n-format><i18n-number lang="{{effectiveLang}}">{{text.i18n-number_1}}</i18n-number>
         <i18n-format lang="{{effectiveLang}}">
           <json-data>{{serialize(text.format)}}</json-data>
           <i18n-number offset="" slot="1" lang="{{effectiveLang}}">{{text.i18n-format_2.1}}</i18n-number>

@@ -4,7 +4,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 --><html><head><link rel="import" href="../../../i18n-behavior.html">
 
 </head><body><dom-module id="complex-compound-binding-element" legacy="">
-  <template id="complex-compound-binding-element" assetpath="." localizable-text="embedded">
+  <template id="complex-compound-binding-element" basepath="edge-case/" localizable-text="embedded">
     <h5 id="item-update2"><i18n-format lang="{{effectiveLang}}"><span>{{text.item-update2:text.0}}</span><span slot="1">{{text.updated}}</span></i18n-format><dom-repeat items="{{text.authors}}"><template>
         {{item.name}}
       </template></dom-repeat>{{text.item-update2:text_2}}<dom-if if="true"><template>

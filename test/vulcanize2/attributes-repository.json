@@ -109,6 +109,7 @@
     "i18n-target7": {
       "string-attr=aaa": "type1",
       "invalid!attr=aaa": "typeX"
-    }
+    },
+    "basepath": "simple-attribute-element/"
   }
 }
