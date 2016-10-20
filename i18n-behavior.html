@@ -1345,6 +1345,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }
           // traverse template to generate bundle
           this._traverseTemplateTree(template.content, path, bundle, 0);
+          console.log('_constructDefaultBundle ' + id + ' ', Array.prototype.map.call(template.content.childNodes, function(n) { return n; }));
         }
       }
 
@@ -2091,11 +2092,17 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   return prev;
                 }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
               // clear original childNodes before implicit removals by appendChild to i18n-format for ShadyDOM compatibility
-              node.innerHTML = '';
+              if (Polymer.Element) {
+                // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
+                node.innerHTML = '';
+              }
               templateText = document.createElement('i18n-format');
               templateText.setAttribute('lang', '{{effectiveLang}}');
-              // insert i18n-format
-              Polymer.dom(node).appendChild(templateText);
+              if (Polymer.Element) {
+                // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
+                // insert i18n-format
+                Polymer.dom(node).appendChild(templateText);
+              }
               span = document.createElement('span');
               // span.innerText does not set an effective value in Firefox
               span.textContent = templateTextParams.params.shift();
@@ -2105,6 +2112,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   templateText.appendChild(param);
                 }
               );
+              if (!Polymer.Element) {
+                // Avoid ShadyDOM issue for Polymer 1.x (Clearance of innerHTML unexpectedly removes textContent of child nodes)
+                // insert i18n-format
+                node.innerHTML = '';
+                Polymer.dom(node).appendChild(templateText);
+              }
               // store the text message
               templateTextParams.text[0] = templateTextParams.text[0].replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
               this._setBundleValue(bundle, messageId, templateTextParams.text);
