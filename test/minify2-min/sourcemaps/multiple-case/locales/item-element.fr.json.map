@@ -1,1 +1,1 @@
-{"version":3,"names":[],"mappings":"","sources":["multiple-case/locales/item-element.fr.json"],"sourcesContent":["{\n  \"meta\": {\n    \"todo\": []\n  },\n  \"model\": {},\n  \"label\": \"fr A\"\n}"],"file":"multiple-case/locales/item-element.fr.json","sourceRoot":"/source/"}
+{"version":3,"names":[],"mappings":"","sources":["multiple-case/locales/item-element.fr.json"],"sourcesContent":["{\n  \"meta\": {\n    \"todo\": []\n  },\n  \"model\": {},\n  \"label\": \"fr A\"\n}"],"file":"../../../multiple-case/locales/item-element.fr.json"}
