@@ -1,139 +1,58 @@
 {
   "meta": {
-    "todo": [
-      {
-        "op": "add",
-        "path": "/item-update2:dom-if_3:template:span:b",
-        "value": "IF CONTENT"
-      },
-      {
-        "op": "add",
-        "path": "/item-update2:dom-if_5:template:text",
-        "value": "IF CONTENT 2"
-      },
-      {
-        "op": "add",
-        "path": "/item-update:text/0",
-        "value": "updated: {1}, by: "
-      },
-      {
-        "op": "add",
-        "path": "/item-update:text/1",
-        "value": "{{text.updated}}"
-      },
-      {
-        "op": "add",
-        "path": "/item-update:text_2",
-        "value": " xxx "
-      },
-      {
-        "op": "add",
-        "path": "/item-update:dom-if_3:template:b",
-        "value": "IF CONTENT"
-      },
-      {
-        "op": "add",
-        "path": "/item-update:b_4",
-        "value": "abc"
-      },
-      {
-        "op": "add",
-        "path": "/item-update:dom-if_5:template:text",
-        "value": "IF CONTENT 2"
-      },
-      {
-        "op": "add",
-        "path": "/item-update:text_6",
-        "value": " hello "
-      },
-      {
-        "op": "add",
-        "path": "/item-update3:dom-if_5:template:text",
-        "value": "IF CONTENT 2"
-      },
-      {
-        "op": "add",
-        "path": "/item-update4:dom-if_3:template:b",
-        "value": "IF CONTENT"
-      },
-      {
-        "op": "add",
-        "path": "/item-update4:dom-if_5:template:text",
-        "value": "IF CONTENT 2"
-      },
-      {
-        "op": "add",
-        "path": "/paragraph:text",
-        "value": "A paragraph with "
-      },
-      {
-        "op": "add",
-        "path": "/paragraph:text_2",
-        "value": " is converted to "
-      },
-      {
-        "op": "add",
-        "path": "/paragraph:code_3",
-        "value": "<i18n-format>"
-      },
-      {
-        "op": "add",
-        "path": "/paragraph:text_4",
-        "value": ". "
-      }
-    ]
+    "todo": []
   },
   "model": {},
   "item-update2:text": [
     "fr updated: {1}, by: ",
     "{{text.updated}}"
   ],
-  "item-update2:text_2": "fr  xxx ",
-  "item-update2:dom-if_3:template:span:b": "IF CONTENT",
+  "item-update2:text_2": " fr xxx ",
+  "item-update2:dom-if_3:template:span:b": "fr IF CONTENT",
   "item-update2:b_4": "fr abc",
-  "item-update2:dom-if_5:template:text": "IF CONTENT 2",
-  "item-update2:text_6": "fr  hello ",
+  "item-update2:dom-if_5:template:text": "fr IF CONTENT 2",
+  "item-update2:text_6": " fr hello ",
   "item-update:text": [
-    "updated: {1}, by: ",
+    "fr updated: {1}, by: ",
     "{{text.updated}}"
   ],
-  "item-update:text_2": " xxx ",
-  "item-update:dom-if_3:template:b": "IF CONTENT",
-  "item-update:b_4": "abc",
-  "item-update:dom-if_5:template:text": "IF CONTENT 2",
-  "item-update:text_6": " hello ",
+  "item-update:text_2": " fr xxx ",
+  "item-update:dom-if_3:template:b": "fr IF CONTENT",
+  "item-update:b_4": "fr abc",
+  "item-update:dom-if_5:template:text": "fr IF CONTENT 2",
+  "item-update:text_6": " fr hello ",
   "item-update3:text": [
     "fr updated: {1}, by: ",
     "{{text.updated}}"
   ],
-  "item-update3:text_2": "fr  xxx ",
+  "item-update3:text_2": " fr xxx ",
   "item-update3:dom-if_3:template:b": "fr IF",
   "item-update3:dom-if_3:template:b_1": "fr CONTENT",
   "item-update3:b_4": "fr abc",
-  "item-update3:dom-if_5:template:text": "IF CONTENT 2",
-  "item-update3:text_6": "fr  hello ",
+  "item-update3:dom-if_5:template:text": "fr IF CONTENT 2",
+  "item-update3:text_6": " fr hello ",
   "item-update4:text": [
     "fr updated: {1}, by: ",
     "{{text.updated}}"
   ],
   "item-update4:dom-repeat_1:template:text": [
-    "fr  {1} = {2} ",
+    " fr {1} = {2} ",
     "{{item.name}}",
     "{{text.updated}}"
   ],
-  "item-update4:text_2": "fr  xxx ",
-  "item-update4:dom-if_3:template:b": "IF CONTENT",
+  "item-update4:text_2": " fr xxx ",
+  "item-update4:dom-if_3:template:b": "fr IF CONTENT",
   "item-update4:b_4": "fr abc",
-  "item-update4:dom-if_5:template:text": "IF CONTENT 2",
-  "item-update4:text_6": "fr  hello ",
-  "paragraph:text": "A paragraph with ",
-  "paragraph:text_2": " is converted to ",
-  "paragraph:code_3": "<i18n-format>",
-  "paragraph:text_4": ". ",
+  "item-update4:dom-if_5:template:text": "fr IF CONTENT 2",
+  "item-update4:text_6": " fr hello ",
+  "paragraph:text": "fr A paragraph with ",
+  "paragraph:text_2": " fr is converted to ",
+  "paragraph:code_3": "fr <i18n-format>",
+  "paragraph:text_4": "fr . ",
   "paragraph2:text": "fr A paragraph with deep ",
-  "paragraph2:text_2": "fr  is ",
+  "paragraph2:text_2": " fr is ",
   "paragraph2:b_3": "fr not",
-  "paragraph2:text_4": "fr  converted to ",
+  "paragraph2:text_4": " fr converted to ",
   "paragraph2:code_5": "fr <i18n-format>",
   "paragraph2:text_6": "fr . ",
   "authors": [

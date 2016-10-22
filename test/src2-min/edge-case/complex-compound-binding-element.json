@@ -1,53 +1,52 @@
 {
+  "meta": {},
   "model": {},
   "item-update2:text": [
     "updated: {1}, by: ",
     "{{text.updated}}"
   ],
   "item-update2:text_2": " xxx ",
-  "item-update2:template_3:span:b": "IF CONTENT",
+  "item-update2:dom-if_3:template:span:b": "IF CONTENT",
   "item-update2:b_4": "abc",
-  "item-update2:template_5:text": "IF CONTENT 2",
+  "item-update2:dom-if_5:template:text": "IF CONTENT 2",
   "item-update2:text_6": " hello ",
-  "item-update": [
-    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello\n      \n      {6}\n      {7} ",
-    "{{text.updated}}",
-    "  {{item.name}}  ",
-    "IF CONTENT",
-    "abc",
-    "IF CONTENT 2",
-    "<template>",
+  "item-update:text": [
+    "updated: {1}, by: ",
     "{{text.updated}}"
   ],
+  "item-update:text_2": " xxx ",
+  "item-update:dom-if_3:template:b": "IF CONTENT",
+  "item-update:b_4": "abc",
+  "item-update:dom-if_5:template:text": "IF CONTENT 2",
+  "item-update:text_6": " hello ",
   "item-update3:text": [
     "updated: {1}, by: ",
     "{{text.updated}}"
   ],
   "item-update3:text_2": " xxx ",
-  "item-update3:template_3:b": "IF",
-  "item-update3:template_3:b_1": "CONTENT",
+  "item-update3:dom-if_3:template:b": "IF",
+  "item-update3:dom-if_3:template:b_1": "CONTENT",
   "item-update3:b_4": "abc",
-  "item-update3:template_5:text": "IF CONTENT 2",
+  "item-update3:dom-if_5:template:text": "IF CONTENT 2",
   "item-update3:text_6": " hello ",
   "item-update4:text": [
     "updated: {1}, by: ",
     "{{text.updated}}"
   ],
-  "item-update4:template_1:text": [
+  "item-update4:dom-repeat_1:template:text": [
     " {1} = {2} ",
     "{{item.name}}",
     "{{text.updated}}"
   ],
   "item-update4:text_2": " xxx ",
-  "item-update4:template_3:b": "IF CONTENT",
+  "item-update4:dom-if_3:template:b": "IF CONTENT",
   "item-update4:b_4": "abc",
-  "item-update4:template_5:text": "IF CONTENT 2",
+  "item-update4:dom-if_5:template:text": "IF CONTENT 2",
   "item-update4:text_6": " hello ",
-  "paragraph": [
-    "A paragraph with \n      {1}\n      is converted to \n      {2}. ",
-    "{{item}} ",
-    "<i18n-format>"
-  ],
+  "paragraph:text": "A paragraph with ",
+  "paragraph:text_2": " is converted to ",
+  "paragraph:code_3": "<i18n-format>",
+  "paragraph:text_4": ". ",
   "paragraph2:text": "A paragraph with deep ",
   "paragraph2:text_2": " is ",
   "paragraph2:b_3": "not",
