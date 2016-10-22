@@ -23,7 +23,6 @@
     "updated: {1}, by: ",
     "{{text.updated}}"
   ],
-  "item-update3:dom-repeat_1:text": "<",
   "item-update3:text_2": " xxx ",
   "item-update3:dom-if_3:template:b": "IF",
   "item-update3:dom-if_3:template:b_1": "CONTENT",

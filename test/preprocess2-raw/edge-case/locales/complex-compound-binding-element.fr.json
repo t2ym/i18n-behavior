@@ -48,11 +48,6 @@
       },
       {
         "op": "add",
-        "path": "/item-update3:dom-repeat_1:text",
-        "value": "<"
-      },
-      {
-        "op": "add",
         "path": "/item-update3:dom-if_5:template:text",
         "value": "IF CONTENT 2"
       },
@@ -111,7 +106,6 @@
     "fr updated: {1}, by: ",
     "{{text.updated}}"
   ],
-  "item-update3:dom-repeat_1:text": "<",
   "item-update3:text_2": "fr  xxx ",
   "item-update3:dom-if_3:template:b": "fr IF",
   "item-update3:dom-if_3:template:b_1": "fr CONTENT",
