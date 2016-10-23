@@ -30,12 +30,17 @@
       ]
     },
     "istanbul": {
-      "dir": "test/coverage-report",
+      "dir": "test/coverage-report1",
       "reporters": ["text-summary", "lcov"],
       "include": [
         "**/i18n-behavior.html",
         "**/i18n-attr-repo.html",
-        "**/i18n-preference.html"
+        "**/i18n-preference.html",
+        "**/i18n-element.html",
+        "**/i18n-dom-bind.html",
+        "**/define-element.html",
+        "**/mixin-behavior.html",
+        "**/mixin-behavior.js"
       ],
       "exclude": [
         "/bower_components/**/*",
