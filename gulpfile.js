@@ -303,7 +303,7 @@ gulp.task('fake-server', function() {
   var fakeServerFiles = [];
   var fakeServerTemplate = '"use strict";\nvar fakeServerContents =\n%%%CONTENTS%%%;\n';
 
-  return gulp.src(['test/**/*.json', '!test/*-wct.conf.json', '!test/coverage*'])
+  return gulp.src(['test/**/*.json', '!test/*-wct.conf.json', '!test/coverage*', '!test/bower*.json'])
     .pipe(sort())
     .pipe(through.obj(function (file, enc, callback) {
       fakeServerFiles.push(file);
