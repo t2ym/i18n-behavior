@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/t2ym/i18n-element.svg?branch=master)](https://travis-ci.org/t2ym/i18n-element)
+[![Coverage Status](https://coveralls.io/repos/github/t2ym/i18n-element/badge.svg?branch=master)](https://coveralls.io/github/t2ym/i18n-element?branch=master)
 [![Bower](https://img.shields.io/bower/v/i18n-element.svg)](https://customelements.io/t2ym/i18n-element/)
 [![npm](https://img.shields.io/npm/v/i18n-element.svg)](https://www.npmjs.com/package/i18n-element)
 
@@ -222,6 +224,7 @@ Comment out `shadydom.min.js` and `shadycss.min.js` dependencies in `webcomponen
 - Tests on IE11 with Polyfill/Vulcanize/Babel/Uglify
 - [test-fixture](https://github.com/t2ym/test-fixture/tree/ce-v1-babel) is transpiled to ES5 by Babel
 - [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
+- Hybrid tests for Polymer 1.x on Travis CI powered by SauceLabs
 
 ## Targeted Features follow
 ## == Original README of [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) inapplicable to `i18n-element` for now
