@@ -14732,162 +14732,19 @@ Object.defineProperty(BaseElements, 'I18nElement', {
           }
         }
 
-        ready() {
-          super.ready();
-          //this.observeHtmlLang = false;
-          //console.log('complex-compound-binding-element addEventLister rendered');
-          this.addEventListener('rendered', this._rendered.bind(this));
-          this.addEventListener('dom-change', this._domChange.bind(this));
-        }
-
-        connectedCallback() {
-          super.connectedCallback();
-          console.log('complex-compound-binding-element attached');
-          this._isAttached = true;
-        }
-
-        disconnectedCallback() {
-          super.disconnectedCallback();
-          console.log('complex-compound-binding-element detached');
-          this._isAttached = false;
-        }
-
-        _localDomReady() {
-          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('i18n-format'),
-            function (node) {
+        _langUpdated(e) {
+          console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
+          window.setTimeout(function () {
+            Array.prototype.forEach.call(this.root.querySelectorAll('i18n-format'), function (node) {
               if (!node.elements) {
+                console.log('elements are missing', node);
                 node.ready();
               }
               node.render();
-            }
-          );
-          this.fire('local-dom-ready');
-        }
-
-        _langUpdated(e) {
-          console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
-          if (this._isAttached &&
-              e.composedPath()[0] === this &&
-              this.effectiveLang === this.lang) {
-            this.model = deepcopy(this.text.model);
-            Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('xdom-repeat'),
-              function (node) {
-                node.render();
-              }
-            );
-            Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('xdom-if'),
-              function (node) {
-                node.render();
-              }
-            );
-            this._updateRenderStatus();
-            //console.log('complex-compound-binding-element renderStatus = ' + JSON.stringify(this._renderStatus));
-            if (this._renderStatus &&
-                this._renderStatus['item-update'] === this.effectiveLang &&
-                this._renderStatus['item-update2'] === this.effectiveLang &&
-                this._renderStatus['item-update3'] === this.effectiveLang &&
-                this._renderStatus['item-update4'] === this.effectiveLang &&
-                this._renderStatus['paragraph'] === this.effectiveLang) {
-              window.setTimeout(function () {
-                console.log('complex-compound-binding-element: ', this);
-                console.log('complex-compound-binding-element: local-dom-ready');
-                this._localDomReady();
-              }.bind(this), 1);
-            }
-            else {
-              var isStandardPropertyConfigurable = (function () {
-                var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
-                return !langPropertyDescriptor || langPropertyDescriptor.configurable;
-              })();
-              if (!isStandardPropertyConfigurable) {
-                // Safari 7
-                var en = 'en';
-                if (this._renderStatus &&
-                  this._renderStatus['item-update'] === en &&
-                  this._renderStatus['item-update2'] === en &&
-                  this._renderStatus['item-update3'] === en &&
-                  this._renderStatus['item-update4'] === en &&
-                  this._renderStatus['paragraph'] === en &&
-                  this.effectiveLang === this.lang) {
-                  window.setTimeout(function () {
-                    console.log('complex-compound-binding-element: ', this);
-                    console.log('complex-compound-binding-element: local-dom-ready');
-                    this._localDomReady();
-                  }.bind(this), 1);
-                }
-              }
-            }
-          }
-          window.setTimeout(function () {
-            console.log('complex-compound-binding-element: ', this);
-            console.log('complex-compound-binding-element: local-dom-ready');
-            this._localDomReady();
-          }.bind(this), 500);
-        }
-
-        _updateRenderStatus() {
-          Polymer.dom(this.root).querySelectorAll('i18n-format').forEach(function (fmt) {
-            var id = Polymer.dom(fmt).parentNode.id;
-            if (fmt.lang === this.effectiveLang &&
-                fmt.lastTemplateText) {
-              Polymer.dom(fmt.root).querySelectorAll('xdom-if').forEach(function (node) {
-                node.render();
-              }.bind(this));
-              Polymer.dom(fmt.root).querySelectorAll('xdom-repeat').forEach(function (node) {
-                node.render();
-              }.bind(this));
-              this._renderStatus = this._renderStatus || {};
-              this._renderStatus[id] = fmt.lang;
-            }
-          }.bind(this));
-          Polymer.dom(this.root).querySelectorAll('xdom-if').forEach(function (node) {
-            node.render();
-          }.bind(this));
-          Polymer.dom(this.root).querySelectorAll('xdom-repeat').forEach(function (node) {
-            node.render();
-          }.bind(this));
-        }
-
-        _rendered(e) {
-          var target = Polymer.dom(e).rootTarget;
-          this._renderStatus = this._renderStatus || {};
-          var id = Polymer.dom(target).parentNode.id;
-          //console.log('complex-compound-binding-element: _rendered id = ' + id + ' lang = ' + target.lang);
-          this._renderStatus[id] = target.lang;
-          this._updateRenderStatus();
-          if (this._renderStatus['item-update'] === this.effectiveLang &&
-              this._renderStatus['item-update2'] === this.effectiveLang &&
-              this._renderStatus['item-update3'] === this.effectiveLang &&
-              this._renderStatus['item-update4'] === this.effectiveLang &&
-              this._renderStatus['paragraph'] === this.effectiveLang) {
-            window.setTimeout(function () {
-              //console.log('complex-compound-binding-element: ', this);
-              //console.log('complex-compound-binding-element: local-dom-ready');
-              this._localDomReady();
-            }.bind(this), 1);
-          }
-        }
-
-        _domChange(e) {
-          var target = Polymer.dom(e).rootTarget;
-          this._renderStatus = this._renderStatus || {};
-          var id = Polymer.dom(target).parentNode.id;
-          if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
-            //console.log('complex-compound-binding-element: _domChange id = ' + id + ' is = ' + target.is + ' items = ' +
-            //  (target.items ? JSON.stringify(target.items) : '') +
-            //  ' renderedItemCount = ' + target.renderedItemCount);
-          }
-          if (target.items && target.renderedItemCount === target.items.length) {
-            var i;
-            var cursor = target;
-            for (i = 0; i < target.items.length; i++) {
-              cursor = cursor.previousElementSibling ? cursor.previousElementSibling : cursor.previousSibling;
-              if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
-                //console.log('complex-compound-binding-element: _domChange: i = ' + i + ' ' + (cursor ? cursor.textContent : '') +
-                //  'itemForElement(cursor) = ', target.itemForElement(cursor) ? JSON.stringify(target.itemForElement(cursor)) : '');
-              }
-            }
-          }
+            });
+            console.log(this.is + ' local-dom-ready ');
+            this.fire('local-dom-ready');
+          }.bind(this), 1);
         }
       }
       customElements.define(ComplexCompoundBindingElement.is, ComplexCompoundBindingElement);
@@ -14905,162 +14762,19 @@ Object.defineProperty(BaseElements, 'I18nElement', {
           }
         }
 
-        ready() {
-          super.ready();
-          //this.observeHtmlLang = false;
-          //console.log('complex-compound-binding-element addEventLister rendered');
-          this.addEventListener('rendered', this._rendered.bind(this));
-          this.addEventListener('dom-change', this._domChange.bind(this));
-        }
-
-        connectedCallback() {
-          super.connectedCallback();
-          console.log('complex-compound-binding-element attached');
-          this._isAttached = true;
-        }
-
-        disconnectedCallback() {
-          super.disconnectedCallback();
-          console.log('complex-compound-binding-element detached');
-          this._isAttached = false;
-        }
-
-        _localDomReady() {
-          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('i18n-format'),
-            function (node) {
+        _langUpdated(e) {
+          console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
+          window.setTimeout(function () {
+            Array.prototype.forEach.call(this.root.querySelectorAll('i18n-format'), function (node) {
               if (!node.elements) {
+                console.log('elements are missing', node);
                 node.ready();
               }
               node.render();
-            }
-          );
-          this.fire('local-dom-ready');
-        }
-
-        _langUpdated(e) {
-          console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
-          if (this._isAttached &&
-              e.composedPath()[0] === this &&
-              this.effectiveLang === this.lang) {
-            this.model = deepcopy(this.text.model);
-            Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('xdom-repeat'),
-              function (node) {
-                node.render();
-              }
-            );
-            Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('xdom-if'),
-              function (node) {
-                node.render();
-              }
-            );
-            this._updateRenderStatus();
-            //console.log('complex-compound-binding-element renderStatus = ' + JSON.stringify(this._renderStatus));
-            if (this._renderStatus &&
-                this._renderStatus['item-update'] === this.effectiveLang &&
-                this._renderStatus['item-update2'] === this.effectiveLang &&
-                this._renderStatus['item-update3'] === this.effectiveLang &&
-                this._renderStatus['item-update4'] === this.effectiveLang &&
-                this._renderStatus['paragraph'] === this.effectiveLang) {
-              window.setTimeout(function () {
-                console.log('complex-compound-binding-element: ', this);
-                console.log('complex-compound-binding-element: local-dom-ready');
-                this._localDomReady();
-              }.bind(this), 1);
-            }
-            else {
-              var isStandardPropertyConfigurable = (function () {
-                var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
-                return !langPropertyDescriptor || langPropertyDescriptor.configurable;
-              })();
-              if (!isStandardPropertyConfigurable) {
-                // Safari 7
-                var en = 'en';
-                if (this._renderStatus &&
-                  this._renderStatus['item-update'] === en &&
-                  this._renderStatus['item-update2'] === en &&
-                  this._renderStatus['item-update3'] === en &&
-                  this._renderStatus['item-update4'] === en &&
-                  this._renderStatus['paragraph'] === en &&
-                  this.effectiveLang === this.lang) {
-                  window.setTimeout(function () {
-                    console.log('complex-compound-binding-element: ', this);
-                    console.log('complex-compound-binding-element: local-dom-ready');
-                    this._localDomReady();
-                  }.bind(this), 1);
-                }
-              }
-            }
-          }
-          window.setTimeout(function () {
-            console.log('complex-compound-binding-element: ', this);
-            console.log('complex-compound-binding-element: local-dom-ready');
-            this._localDomReady();
-          }.bind(this), 500);
-        }
-
-        _updateRenderStatus() {
-          Polymer.dom(this.root).querySelectorAll('i18n-format').forEach(function (fmt) {
-            var id = Polymer.dom(fmt).parentNode.id;
-            if (fmt.lang === this.effectiveLang &&
-                fmt.lastTemplateText) {
-              Polymer.dom(fmt.root).querySelectorAll('xdom-if').forEach(function (node) {
-                node.render();
-              }.bind(this));
-              Polymer.dom(fmt.root).querySelectorAll('xdom-repeat').forEach(function (node) {
-                node.render();
-              }.bind(this));
-              this._renderStatus = this._renderStatus || {};
-              this._renderStatus[id] = fmt.lang;
-            }
-          }.bind(this));
-          Polymer.dom(this.root).querySelectorAll('xdom-if').forEach(function (node) {
-            node.render();
-          }.bind(this));
-          Polymer.dom(this.root).querySelectorAll('xdom-repeat').forEach(function (node) {
-            node.render();
-          }.bind(this));
-        }
-
-        _rendered(e) {
-          var target = Polymer.dom(e).rootTarget;
-          this._renderStatus = this._renderStatus || {};
-          var id = Polymer.dom(target).parentNode.id;
-          //console.log('complex-compound-binding-element: _rendered id = ' + id + ' lang = ' + target.lang);
-          this._renderStatus[id] = target.lang;
-          this._updateRenderStatus();
-          if (this._renderStatus['item-update'] === this.effectiveLang &&
-              this._renderStatus['item-update2'] === this.effectiveLang &&
-              this._renderStatus['item-update3'] === this.effectiveLang &&
-              this._renderStatus['item-update4'] === this.effectiveLang &&
-              this._renderStatus['paragraph'] === this.effectiveLang) {
-            window.setTimeout(function () {
-              //console.log('complex-compound-binding-element: ', this);
-              //console.log('complex-compound-binding-element: local-dom-ready');
-              this._localDomReady();
-            }.bind(this), 1);
-          }
-        }
-
-        _domChange(e) {
-          var target = Polymer.dom(e).rootTarget;
-          this._renderStatus = this._renderStatus || {};
-          var id = Polymer.dom(target).parentNode.id;
-          if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
-            //console.log('complex-compound-binding-element: _domChange id = ' + id + ' is = ' + target.is + ' items = ' +
-            //  (target.items ? JSON.stringify(target.items) : '') +
-            //  ' renderedItemCount = ' + target.renderedItemCount);
-          }
-          if (target.items && target.renderedItemCount === target.items.length) {
-            var i;
-            var cursor = target;
-            for (i = 0; i < target.items.length; i++) {
-              cursor = cursor.previousElementSibling ? cursor.previousElementSibling : cursor.previousSibling;
-              if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
-                //console.log('complex-compound-binding-element: _domChange: i = ' + i + ' ' + (cursor ? cursor.textContent : '') +
-                //  'itemForElement(cursor) = ', target.itemForElement(cursor) ? JSON.stringify(target.itemForElement(cursor)) : '');
-              }
-            }
-          }
+            });
+            console.log(this.is + ' local-dom-ready ');
+            this.fire('local-dom-ready');
+          }.bind(this), 1);
         }
       }
       customElements.define(ComplexCompoundBindingElement.is, ComplexCompoundBindingElement);
@@ -15077,162 +14791,19 @@ Object.defineProperty(BaseElements, 'I18nElement', {
           }
         }
 
-        ready() {
-          super.ready();
-          //this.observeHtmlLang = false;
-          //console.log('complex-compound-binding-element addEventLister rendered');
-          this.addEventListener('rendered', this._rendered.bind(this));
-          this.addEventListener('dom-change', this._domChange.bind(this));
-        }
-
-        connectedCallback() {
-          super.connectedCallback();
-          console.log('complex-compound-binding-element attached');
-          this._isAttached = true;
-        }
-
-        disconnectedCallback() {
-          super.disconnectedCallback();
-          console.log('complex-compound-binding-element detached');
-          this._isAttached = false;
-        }
-
-        _localDomReady() {
-          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('i18n-format'),
-            function (node) {
+        _langUpdated(e) {
+          console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
+          window.setTimeout(function () {
+            Array.prototype.forEach.call(this.root.querySelectorAll('i18n-format'), function (node) {
               if (!node.elements) {
+                console.log('elements are missing', node);
                 node.ready();
               }
               node.render();
-            }
-          );
-          this.fire('local-dom-ready');
-        }
-
-        _langUpdated(e) {
-          console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
-          if (this._isAttached &&
-              e.composedPath()[0] === this &&
-              this.effectiveLang === this.lang) {
-            this.model = deepcopy(this.text.model);
-            Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('xdom-repeat'),
-              function (node) {
-                node.render();
-              }
-            );
-            Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('xdom-if'),
-              function (node) {
-                node.render();
-              }
-            );
-            this._updateRenderStatus();
-            //console.log('complex-compound-binding-element renderStatus = ' + JSON.stringify(this._renderStatus));
-            if (this._renderStatus &&
-                this._renderStatus['item-update'] === this.effectiveLang &&
-                this._renderStatus['item-update2'] === this.effectiveLang &&
-                this._renderStatus['item-update3'] === this.effectiveLang &&
-                this._renderStatus['item-update4'] === this.effectiveLang &&
-                this._renderStatus['paragraph'] === this.effectiveLang) {
-              window.setTimeout(function () {
-                console.log('complex-compound-binding-element: ', this);
-                console.log('complex-compound-binding-element: local-dom-ready');
-                this._localDomReady();
-              }.bind(this), 1);
-            }
-            else {
-              var isStandardPropertyConfigurable = (function () {
-                var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
-                return !langPropertyDescriptor || langPropertyDescriptor.configurable;
-              })();
-              if (!isStandardPropertyConfigurable) {
-                // Safari 7
-                var en = 'en';
-                if (this._renderStatus &&
-                  this._renderStatus['item-update'] === en &&
-                  this._renderStatus['item-update2'] === en &&
-                  this._renderStatus['item-update3'] === en &&
-                  this._renderStatus['item-update4'] === en &&
-                  this._renderStatus['paragraph'] === en &&
-                  this.effectiveLang === this.lang) {
-                  window.setTimeout(function () {
-                    console.log('complex-compound-binding-element: ', this);
-                    console.log('complex-compound-binding-element: local-dom-ready');
-                    this._localDomReady();
-                  }.bind(this), 1);
-                }
-              }
-            }
-          }
-          window.setTimeout(function () {
-            console.log('complex-compound-binding-element: ', this);
-            console.log('complex-compound-binding-element: local-dom-ready');
-            this._localDomReady();
-          }.bind(this), 500);
-        }
-
-        _updateRenderStatus() {
-          Polymer.dom(this.root).querySelectorAll('i18n-format').forEach(function (fmt) {
-            var id = Polymer.dom(fmt).parentNode.id;
-            if (fmt.lang === this.effectiveLang &&
-                fmt.lastTemplateText) {
-              Polymer.dom(fmt.root).querySelectorAll('xdom-if').forEach(function (node) {
-                node.render();
-              }.bind(this));
-              Polymer.dom(fmt.root).querySelectorAll('xdom-repeat').forEach(function (node) {
-                node.render();
-              }.bind(this));
-              this._renderStatus = this._renderStatus || {};
-              this._renderStatus[id] = fmt.lang;
-            }
-          }.bind(this));
-          Polymer.dom(this.root).querySelectorAll('xdom-if').forEach(function (node) {
-            node.render();
-          }.bind(this));
-          Polymer.dom(this.root).querySelectorAll('xdom-repeat').forEach(function (node) {
-            node.render();
-          }.bind(this));
-        }
-
-        _rendered(e) {
-          var target = Polymer.dom(e).rootTarget;
-          this._renderStatus = this._renderStatus || {};
-          var id = Polymer.dom(target).parentNode.id;
-          //console.log('complex-compound-binding-element: _rendered id = ' + id + ' lang = ' + target.lang);
-          this._renderStatus[id] = target.lang;
-          this._updateRenderStatus();
-          if (this._renderStatus['item-update'] === this.effectiveLang &&
-              this._renderStatus['item-update2'] === this.effectiveLang &&
-              this._renderStatus['item-update3'] === this.effectiveLang &&
-              this._renderStatus['item-update4'] === this.effectiveLang &&
-              this._renderStatus['paragraph'] === this.effectiveLang) {
-            window.setTimeout(function () {
-              //console.log('complex-compound-binding-element: ', this);
-              //console.log('complex-compound-binding-element: local-dom-ready');
-              this._localDomReady();
-            }.bind(this), 1);
-          }
-        }
-
-        _domChange(e) {
-          var target = Polymer.dom(e).rootTarget;
-          this._renderStatus = this._renderStatus || {};
-          var id = Polymer.dom(target).parentNode.id;
-          if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
-            //console.log('complex-compound-binding-element: _domChange id = ' + id + ' is = ' + target.is + ' items = ' +
-            //  (target.items ? JSON.stringify(target.items) : '') +
-            //  ' renderedItemCount = ' + target.renderedItemCount);
-          }
-          if (target.items && target.renderedItemCount === target.items.length) {
-            var i;
-            var cursor = target;
-            for (i = 0; i < target.items.length; i++) {
-              cursor = cursor.previousElementSibling ? cursor.previousElementSibling : cursor.previousSibling;
-              if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
-                //console.log('complex-compound-binding-element: _domChange: i = ' + i + ' ' + (cursor ? cursor.textContent : '') +
-                //  'itemForElement(cursor) = ', target.itemForElement(cursor) ? JSON.stringify(target.itemForElement(cursor)) : '');
-              }
-            }
-          }
+            });
+            console.log(this.is + ' local-dom-ready ');
+            this.fire('local-dom-ready');
+          }.bind(this), 1);
         }
       };
     }
@@ -15250,159 +14821,19 @@ Object.defineProperty(BaseElements, 'I18nElement', {
           'lang-updated': '_langUpdated'
         },
 
-        ready: function () {
-          //this.observeHtmlLang = false;
-          //console.log('complex-compound-binding-element addEventLister rendered');
-          this.addEventListener('rendered', this._rendered.bind(this));
-          this.addEventListener('dom-change', this._domChange.bind(this));
-        },
-
-        attached: function () {
-          //console.log('complex-compound-binding-element attached');
-          this._isAttached = true;
-        },
-
-        detached: function () {
-          //console.log('complex-compound-binding-element detached');
-          this._isAttached = false;
-        },
-
-        _localDomReady: function () {
-          Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('i18n-format'),
-            function (node) {
+        _langUpdated: function (e) {
+          console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
+          window.setTimeout(function () {
+            Array.prototype.forEach.call(this.root.querySelectorAll('i18n-format'), function (node) {
               if (!node.elements) {
+                console.log('elements are missing', node);
                 node.ready();
               }
               node.render();
-            }
-          );
-          this.fire('local-dom-ready');
-        },
-
-        _langUpdated: function (e) {
-          //console.log('complex-compound-binding-element: lang-updated lang = ' + this.lang + ' effectiveLang = ' + this.effectiveLang);
-          if (this._isAttached &&
-              Polymer.dom(e).rootTarget === this &&
-              this.effectiveLang === this.lang) {
-            this.model = deepcopy(this.text.model);
-            Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]'),
-              function (node) {
-                node.render();
-              }
-            );
-            Array.prototype.forEach.call(Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]'),
-              function (node) {
-                node.render();
-              }
-            );
-            this._updateRenderStatus();
-            //console.log('complex-compound-binding-element renderStatus = ' + JSON.stringify(this._renderStatus));
-            if (this._renderStatus &&
-                this._renderStatus['item-update'] === this.effectiveLang &&
-                this._renderStatus['item-update2'] === this.effectiveLang &&
-                this._renderStatus['item-update3'] === this.effectiveLang &&
-                this._renderStatus['item-update4'] === this.effectiveLang &&
-                this._renderStatus['paragraph'] === this.effectiveLang) {
-              window.setTimeout(function () {
-                console.log('complex-compound-binding-element: ', this);
-                console.log('complex-compound-binding-element: local-dom-ready');
-                this._localDomReady();
-              }.bind(this), 1);
-            }
-            else {
-              var isStandardPropertyConfigurable = (function () {
-                var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
-                return !langPropertyDescriptor || langPropertyDescriptor.configurable;
-              })();
-              if (!isStandardPropertyConfigurable) {
-                // Safari 7
-                var en = 'en';
-                if (this._renderStatus &&
-                  this._renderStatus['item-update'] === en &&
-                  this._renderStatus['item-update2'] === en &&
-                  this._renderStatus['item-update3'] === en &&
-                  this._renderStatus['item-update4'] === en &&
-                  this._renderStatus['paragraph'] === en &&
-                  this.effectiveLang === this.lang) {
-                  window.setTimeout(function () {
-                    console.log('complex-compound-binding-element: ', this);
-                    console.log('complex-compound-binding-element: local-dom-ready');
-                    this._localDomReady();
-                  }.bind(this), 1);
-                }
-              }
-            }
-          }
-          window.setTimeout(function () {
-            console.log('complex-compound-binding-element: ', this);
-            console.log('complex-compound-binding-element: local-dom-ready');
-            this._localDomReady();
-          }.bind(this), 500);
-        },
-
-        _updateRenderStatus: function () {
-          Polymer.dom(this.root).querySelectorAll('i18n-format').forEach(function (fmt) {
-            var id = Polymer.dom(fmt).parentNode.id;
-            if (fmt.lang === this.effectiveLang &&
-                fmt.lastTemplateText) {
-              Polymer.dom(fmt.root).querySelectorAll('template[is="dom-if"]').forEach(function (node) {
-                node.render();
-              }.bind(this));
-              Polymer.dom(fmt.root).querySelectorAll('template[is="dom-repeat"]').forEach(function (node) {
-                node.render();
-              }.bind(this));
-              this._renderStatus = this._renderStatus || {};
-              this._renderStatus[id] = fmt.lang;
-            }
-          }.bind(this));
-          Polymer.dom(this.root).querySelectorAll('template[is="dom-if"]').forEach(function (node) {
-            node.render();
-          }.bind(this));
-          Polymer.dom(this.root).querySelectorAll('template[is="dom-repeat"]').forEach(function (node) {
-            node.render();
-          }.bind(this));
-        },
-
-        _rendered: function (e) {
-          var target = Polymer.dom(e).rootTarget;
-          this._renderStatus = this._renderStatus || {};
-          var id = Polymer.dom(target).parentNode.id;
-          //console.log('complex-compound-binding-element: _rendered id = ' + id + ' lang = ' + target.lang);
-          this._renderStatus[id] = target.lang;
-          this._updateRenderStatus();
-          if (this._renderStatus['item-update'] === this.effectiveLang &&
-              this._renderStatus['item-update2'] === this.effectiveLang &&
-              this._renderStatus['item-update3'] === this.effectiveLang &&
-              this._renderStatus['item-update4'] === this.effectiveLang &&
-              this._renderStatus['paragraph'] === this.effectiveLang) {
-            window.setTimeout(function () {
-              //console.log('complex-compound-binding-element: ', this);
-              //console.log('complex-compound-binding-element: local-dom-ready');
-              this._localDomReady();
-            }.bind(this), 1);
-          }
-        },
-
-        _domChange: function (e) {
-          var target = Polymer.dom(e).rootTarget;
-          this._renderStatus = this._renderStatus || {};
-          var id = Polymer.dom(target).parentNode.id;
-          if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
-            //console.log('complex-compound-binding-element: _domChange id = ' + id + ' is = ' + target.is + ' items = ' +
-            //  (target.items ? JSON.stringify(target.items) : '') +
-            //  ' renderedItemCount = ' + target.renderedItemCount);
-          }
-          if (target.items && target.renderedItemCount === target.items.length) {
-            var i;
-            var cursor = target;
-            for (i = 0; i < target.items.length; i++) {
-              cursor = cursor.previousElementSibling ? cursor.previousElementSibling : cursor.previousSibling;
-              if (target.parentNode && target.parentNode.parentNode && target.parentNode.parentNode.id === 'item-update') {
-                //console.log('complex-compound-binding-element: _domChange: i = ' + i + ' ' + (cursor ? cursor.textContent : '') +
-                //  'itemForElement(cursor) = ', target.itemForElement(cursor) ? JSON.stringify(target.itemForElement(cursor)) : '');
-              }
-            }
-          }
+            });
+            console.log(this.is + ' local-dom-ready ');
+            this.fire('local-dom-ready');
+          }.bind(this), 1);
         }
       });
     }
