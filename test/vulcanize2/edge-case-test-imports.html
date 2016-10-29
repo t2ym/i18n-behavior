@@ -7603,7 +7603,7 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
     })()
   };
     
-  if (!Polymer.Element && Polymer.Annotations._bindingRegex.toString() === 
+  if (!Polymer.ElementMixin && Polymer.Annotations._bindingRegex.toString() === 
       _bindingRegex_patch._bindingRegex_1_2_4.toString()) {
     console.log('Fixing Polymer issue#3349 by patching Polymer.Annotations._bindingRegex for Polymer 1.2.4');
     Polymer.Annotations._bindingRegex = _bindingRegex_patch._bindingRegex_1_2_4_patched;
@@ -11475,7 +11475,7 @@ Handle and judge JSON object attributes.
   })();
   // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
   var extraWhiteSpaceNode = !isStandardPropertyConfigurable;
-  if (Polymer.Element) {
+  if (Polymer.ElementMixin) {
     isStandardPropertyConfigurable = false;
   }
 
@@ -11508,7 +11508,7 @@ Handle and judge JSON object attributes.
                       html.getAttribute('locales-path') : 'locales';
 
   // Support ShadowDOM V1 on Polymer 2.x
-  var paramAttribute = Polymer.Element ? 'slot' : 'param';
+  var paramAttribute = Polymer.ElementMixin ? 'slot' : 'param';
 
   var attributesRepository = ((!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript)
     .ownerDocument.querySelector('i18n-attr-repo');
@@ -11894,7 +11894,7 @@ Handle and judge JSON object attributes.
       //console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
 
       var resolved;
-      var id = this.is === 'i18n-dom-bind' || (Polymer.Element && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (Polymer.ElementMixin && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (lang && lang.length > 0) {
         var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
@@ -12173,7 +12173,7 @@ Handle and judge JSON object attributes.
           // reset error status
           this._fetchStatus.error = null;
         }
-        if (!Polymer.Element || (Polymer.Element && this.__data)) {
+        if (!Polymer.ElementMixin || (Polymer.ElementMixin && this.__data)) {
           this.notifyPath('text', this._getBundle(this.lang));
         }
         this.effectiveLang = lang;
@@ -12261,7 +12261,7 @@ Handle and judge JSON object attributes.
 
       // set up an empty bundle if inexistent
       bundles[lang] = bundles[lang] || {};
-      var id = this.is === 'i18n-dom-bind' || (Polymer.Element && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (Polymer.ElementMixin && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (bundles[lang][id]) {
         // bundle is available; no need to fetch
@@ -13526,13 +13526,13 @@ Handle and judge JSON object attributes.
                   return prev;
                 }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
               // clear original childNodes before implicit removals by appendChild to i18n-format for ShadyDOM compatibility
-              if (Polymer.Element) {
+              if (Polymer.ElementMixin) {
                 // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
                 node.innerHTML = '';
               }
               templateText = document.createElement('i18n-format');
               templateText.setAttribute('lang', '{{effectiveLang}}');
-              if (Polymer.Element) {
+              if (Polymer.ElementMixin) {
                 // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
                 // insert i18n-format
                 Polymer.dom(node).appendChild(templateText);
@@ -13546,7 +13546,7 @@ Handle and judge JSON object attributes.
                   templateText.appendChild(param);
                 }
               );
-              if (!Polymer.Element) {
+              if (!Polymer.ElementMixin) {
                 // Avoid ShadyDOM issue for Polymer 1.x (Clearance of innerHTML unexpectedly removes textContent of child nodes)
                 // insert i18n-format
                 node.innerHTML = '';
@@ -14097,7 +14097,7 @@ Handle and judge JSON object attributes.
             }
           }
         }
-        if (Polymer.Element && !this.__data) {
+        if (Polymer.ElementMixin && !this.__data) {
           this._initializeProperties();
         }
         this._langChanged(this.getAttribute('lang'), undefined);
@@ -14180,8 +14180,8 @@ Handle and judge JSON object attributes.
     BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
     BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
     BehaviorsStore.I18nBehavior._updateEffectiveLang = function (event) {
-      if ((!Polymer.Element && Polymer.dom(event).rootTarget === this) ||
-          (Polymer.Element && event.composedPath()[0] === this)) {
+      if ((!Polymer.ElementMixin && Polymer.dom(event).rootTarget === this) ||
+          (Polymer.ElementMixin && event.composedPath()[0] === this)) {
         //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
         this.effectiveLang = this._lang;
       }
@@ -14191,7 +14191,7 @@ Handle and judge JSON object attributes.
     };
   }
 
-  if (Polymer.Element) {
+  if (Polymer.ElementMixin) {
     // Polymer 2.x
     BehaviorsStore._I18nBehavior = BehaviorsStore.I18nBehavior;
     BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
