@@ -7,7 +7,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
   <template id="multiple-element">
     <div id="base">
-      <dom-repeat id="items" items="{{getArray(count)}}"><template>
+      <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
         <span>
           <item-element
             lang="{{effectiveLang}}"
@@ -20,7 +20,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <dom-module id="multiple-element">
   <template>
     <div id="base">
-      <dom-repeat id="items" items="{{getArray(count)}}"><template>
+      <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
         <span>
           <item-element
             lang="{{effectiveLang}}"
@@ -48,8 +48,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             },
 
             listeners: {
-              'lang-updated': 'langUpdated',
-              'dom-change': 'domChanged'
+              'lang-updated': 'langUpdated'
             }          
           }
         }
@@ -115,8 +114,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             },
 
             listeners: {
-              'lang-updated': 'langUpdated',
-              'dom-change': 'domChanged'
+              'lang-updated': 'langUpdated'
             }          
           }
         }
@@ -181,8 +179,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             },
 
             listeners: {
-              'lang-updated': 'langUpdated',
-              'dom-change': 'domChanged'
+              'lang-updated': 'langUpdated'
             }          
           }
         }
@@ -250,8 +247,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         },
 
         listeners: {
-          'lang-updated': 'langUpdated',
-          'dom-change': 'domChanged'
+          'lang-updated': 'langUpdated'
         },
 
         getArray: function (count) {
