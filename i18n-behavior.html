@@ -40,7 +40,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   })();
   // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
   var extraWhiteSpaceNode = !isStandardPropertyConfigurable;
-  if (Polymer.Element) {
+  if (Polymer.ElementMixin) {
     isStandardPropertyConfigurable = false;
   }
 
@@ -73,7 +73,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                       html.getAttribute('locales-path') : 'locales';
 
   // Support ShadowDOM V1 on Polymer 2.x
-  var paramAttribute = Polymer.Element ? 'slot' : 'param';
+  var paramAttribute = Polymer.ElementMixin ? 'slot' : 'param';
 
   var attributesRepository = ((!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript)
     .ownerDocument.querySelector('i18n-attr-repo');
@@ -459,7 +459,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       //console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
 
       var resolved;
-      var id = this.is === 'i18n-dom-bind' || (Polymer.Element && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (Polymer.ElementMixin && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (lang && lang.length > 0) {
         var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
@@ -738,7 +738,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           // reset error status
           this._fetchStatus.error = null;
         }
-        if (!Polymer.Element || (Polymer.Element && this.__data)) {
+        if (!Polymer.ElementMixin || (Polymer.ElementMixin && this.__data)) {
           this.notifyPath('text', this._getBundle(this.lang));
         }
         this.effectiveLang = lang;
@@ -826,7 +826,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
       // set up an empty bundle if inexistent
       bundles[lang] = bundles[lang] || {};
-      var id = this.is === 'i18n-dom-bind' || (Polymer.Element && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (Polymer.ElementMixin && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (bundles[lang][id]) {
         // bundle is available; no need to fetch
@@ -2091,13 +2091,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   return prev;
                 }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
               // clear original childNodes before implicit removals by appendChild to i18n-format for ShadyDOM compatibility
-              if (Polymer.Element) {
+              if (Polymer.ElementMixin) {
                 // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
                 node.innerHTML = '';
               }
               templateText = document.createElement('i18n-format');
               templateText.setAttribute('lang', '{{effectiveLang}}');
-              if (Polymer.Element) {
+              if (Polymer.ElementMixin) {
                 // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
                 // insert i18n-format
                 Polymer.dom(node).appendChild(templateText);
@@ -2111,7 +2111,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   templateText.appendChild(param);
                 }
               );
-              if (!Polymer.Element) {
+              if (!Polymer.ElementMixin) {
                 // Avoid ShadyDOM issue for Polymer 1.x (Clearance of innerHTML unexpectedly removes textContent of child nodes)
                 // insert i18n-format
                 node.innerHTML = '';
@@ -2662,7 +2662,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             }
           }
         }
-        if (Polymer.Element && !this.__data) {
+        if (Polymer.ElementMixin && !this.__data) {
           this._initializeProperties();
         }
         this._langChanged(this.getAttribute('lang'), undefined);
@@ -2745,8 +2745,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
     BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
     BehaviorsStore.I18nBehavior._updateEffectiveLang = function (event) {
-      if ((!Polymer.Element && Polymer.dom(event).rootTarget === this) ||
-          (Polymer.Element && event.composedPath()[0] === this)) {
+      if ((!Polymer.ElementMixin && Polymer.dom(event).rootTarget === this) ||
+          (Polymer.ElementMixin && event.composedPath()[0] === this)) {
         //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
         this.effectiveLang = this._lang;
       }
@@ -2756,7 +2756,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     };
   }
 
-  if (Polymer.Element) {
+  if (Polymer.ElementMixin) {
     // Polymer 2.x
     BehaviorsStore._I18nBehavior = BehaviorsStore.I18nBehavior;
     BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];

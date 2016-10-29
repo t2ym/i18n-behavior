@@ -42,7 +42,7 @@
     })()
   };
     
-  if (!Polymer.Element && Polymer.Annotations._bindingRegex.toString() === 
+  if (!Polymer.ElementMixin && Polymer.Annotations._bindingRegex.toString() === 
       _bindingRegex_patch._bindingRegex_1_2_4.toString()) {
     console.log('Fixing Polymer issue#3349 by patching Polymer.Annotations._bindingRegex for Polymer 1.2.4');
     Polymer.Annotations._bindingRegex = _bindingRegex_patch._bindingRegex_1_2_4_patched;
