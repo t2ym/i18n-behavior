@@ -4,7 +4,46 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 -->
 <link rel="import" href="../polymer/polymer.html">
 
-<!--
+<template id="i18n-attr-repo">
+    <template id="standard">
+      <!-- Standard HTML5 -->
+      <input placeholder value="type=button|submit">
+      <any-elements title aria-label="$" aria-valuetext="$"></any-elements>
+
+      <!-- Standard Polymer Elements -->
+      <paper-input label error-message placeholder></paper-input>
+      <paper-textarea label error-message placeholder></paper-textarea>
+      <paper-dropdown-menu label></paper-dropdown-menu>
+      <paper-toast text></paper-toast>
+      <paper-badge label></paper-badge>
+      <google-chart options cols rows data></google-chart>
+      <google-signin label-signin label-signout label-additional></google-signin>
+      <platinum-push-messaging title message></platinum-push-messaging>
+
+      <!-- Specific to i18n-behavior -->
+      <json-data any-attributes></json-data>
+    </template>
+</template>
+<script>
+(function () {
+  // shared data
+  var sharedData = {};
+
+  // imperative synchronous registration of the template for Polymer 2.x
+  var template = ((!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript)
+    .ownerDocument.querySelector('template#i18n-attr-repo');
+  var domModule = document.createElement('dom-module');
+  domModule.appendChild(template);
+  domModule.register('i18n-attr-repo');
+  window.BehaviorsStore = window.BehaviorsStore || {};
+  // Polymer function for iron-component-page documentation
+  var Polymer = function (proto) {
+    BehaviorsStore._I18nAttrRepo = proto;
+    BehaviorsStore._I18nAttrRepo._created();
+    return window.Polymer(proto);
+  };
+
+/*
 `<i18n-attr-repo>` maintains a list of attributes targeted for UI localization.  
 It judges whether a specific attribute of an element requires localization or not. 
 
@@ -111,7 +150,7 @@ Note: Type name feature is currently ineffective and reserved for further expans
             }
           }
         });
-      </script>
+      </ script>
     </dom-module>
 ```
 
@@ -142,7 +181,7 @@ hard-coded UI string attributes by [`gulp-i18n-preprocess`](https://github.com/t
           is: 'custom-element-user',
           behaviors: [ BehaviorsStore.I18nBehavior ]
         });
-      </script>
+      </ script>
     </dom-module>
 ```
 ```
@@ -187,51 +226,39 @@ Handle and judge JSON object attributes.
 @element i18n-attr-repo
 @hero hero.svg
 @demo demo/index.html
--->
-<dom-module id="i18n-attr-repo">
-  <template>
-    <template id="standard">
-      <!-- Standard HTML5 -->
-      <input placeholder value="type=button|submit">
-      <any-elements title aria-label="$" aria-valuetext="$"></any-elements>
-
-      <!-- Standard Polymer Elements -->
-      <paper-input label error-message placeholder></paper-input>
-      <paper-textarea label error-message placeholder></paper-textarea>
-      <paper-dropdown-menu label></paper-dropdown-menu>
-      <paper-toast text></paper-toast>
-      <paper-badge label></paper-badge>
-      <google-chart options cols rows data></google-chart>
-      <google-signin label-signin label-signout label-additional></google-signin>
-      <platinum-push-messaging title message></platinum-push-messaging>
-
-      <!-- Specific to i18n-behavior -->
-      <json-data any-attributes></json-data>
-    </template>
-  </template>
-</dom-module>
-<script>
-(function () {
-  // shared data
-  var sharedData = {};
-
+*/
   Polymer({
     is: 'i18n-attr-repo',
 
-    ready: function () {
+    created: function () {
       this.data = sharedData;
 
-      var customAttributes = Polymer.dom(this).querySelector('template#custom');
+      var customAttributes = window.Polymer.dom(this).querySelector('template#custom');
       // traverse custom attributes repository
-      if (customAttributes) {
+      if (customAttributes && !this.hasAttribute('processed')) {
         this._traverseTemplateTree(customAttributes._content || customAttributes.content);
+        this.setAttribute('processed', '');
       }
+
+      this._created();
+    },
+
+    _created: function () {
+      this.data = sharedData;
 
       if (this.data.__ready__) {
         return; // traverse standard attributes only once
       }
       this.data.__ready__ = true;
-      this._traverseTemplateTree(this.$.standard._content || this.$.standard.content);
+      var standardTemplate;
+      if (!this.$) {
+        var t = window.Polymer.DomModule.import(this.is, 'template');
+        standardTemplate = (t._content || t.content).querySelector('template#standard');
+      }
+      else {
+        standardTemplate = this.$.standard;
+      }
+      this._traverseTemplateTree(standardTemplate._content || standardTemplate.content);
     },
 
     /**
@@ -243,6 +270,10 @@ Handle and judge JSON object attributes.
      */
     isLocalizableAttribute: function (element, attr) {
       var tagName = element.tagName.toLowerCase();
+      if (!this.data) {
+        this._created();
+        this.data = sharedData;
+      }
       attr = attr.replace(/\$$/, '');
       if (this.data['any-elements'] &&
           this.data['any-elements'][attr]) {
@@ -425,6 +456,10 @@ Handle and judge JSON object attributes.
      * @param {HTMLTemplateElement} template Template of the element.
      */
     registerLocalizableAttributes: function (element, template) {
+      if (!this.data) {
+        this._created();
+        this.data = sharedData;
+      }
       if (!element) {
         element = template.getAttribute('id');
       }

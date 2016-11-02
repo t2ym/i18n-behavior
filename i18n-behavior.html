@@ -8,6 +8,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <link rel="import" href="../i18n-format/i18n-format.html">
 <link rel="import" href="i18n-preference.html">
 <link rel="import" href="i18n-attr-repo.html">
+<!-- For earlier initialization on Polymer 2.x -->
+<i18n-attr-repo></i18n-attr-repo>
 <!-- TODO: convert to HTML import to avoid multiple deepcopy registration -->
 <script src="../deepcopy/build/deepcopy.min.js"></script>
 
@@ -38,6 +40,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   })();
   // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
   var extraWhiteSpaceNode = !isStandardPropertyConfigurable;
+  if (Polymer.ElementMixin) {
+    isStandardPropertyConfigurable = false;
+  }
 
   // app global bundle storage
   var bundles = { '': {} }; // with an empty default bundle
@@ -67,7 +72,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   var localesPath = html.hasAttribute('locales-path') ? 
                       html.getAttribute('locales-path') : 'locales';
 
-  var attributesRepository = document.createElement('i18n-attr-repo');
+  // Support ShadowDOM V1 on Polymer 2.x
+  var paramAttribute = Polymer.ElementMixin ? 'slot' : 'param';
+
+  var attributesRepository = ((!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript)
+    .ownerDocument.querySelector('i18n-attr-repo');
 
   // set up userPreference
   var userPreference = document.querySelector('i18n-preference');
@@ -450,7 +459,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       //console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
 
       var resolved;
-      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (Polymer.ElementMixin && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (lang && lang.length > 0) {
         var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
@@ -476,7 +485,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       // Fallback priorities: last > app default > element default > fallback > {}
       // TODO: need more research on fallback priorities
       if (!resolved) { 
-        if (bundles[this._fetchStatus.lastLang] && bundles[this._fetchStatus.lastLang][id]) {
+        if (this._fetchStatus && bundles[this._fetchStatus.lastLang] && bundles[this._fetchStatus.lastLang][id]) {
           // old bundle for now (no changes should be shown)
           resolved = bundles[this._fetchStatus.lastLang][id]; 
         }
@@ -691,6 +700,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               //console.log('assigning this._lang = ' + this.lang);
               this._lang = this.lang;
             }
+            else if (mutation.oldValue != this.lang && this._lang !== this.lang) {
+              //console.log('assigning this._lang = ' + this.lang);
+              this._lang = this.lang;
+            }
           }
           break;
         default:
@@ -721,11 +734,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       }
       if (bundles[lang] && bundles[lang][id]) {
         // bundle available for the new language
-        if (lang !== this._fetchStatus.ajaxLang) {
+        if (this._fetchStatus && lang !== this._fetchStatus.ajaxLang) {
           // reset error status
           this._fetchStatus.error = null;
         }
-        this.notifyPath('text', this._getBundle(this.lang));
+        if (!Polymer.ElementMixin || (Polymer.ElementMixin && this.__data)) {
+          this.notifyPath('text', this._getBundle(this.lang));
+        }
+        this.effectiveLang = lang;
         this.fire('lang-updated', { 
           lang: this.lang, 
           oldLang: oldLang, 
@@ -810,7 +826,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
       // set up an empty bundle if inexistent
       bundles[lang] = bundles[lang] || {};
-      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (Polymer.ElementMixin && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (bundles[lang][id]) {
         // bundle is available; no need to fetch
@@ -1263,14 +1279,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      *   </dom-module>
      * ```
      */
-    _constructDefaultBundle: function () {
+    _constructDefaultBundle: function (_template, _id) {
       var template;
-      var id = this.is;
+      var id = _id || this.is;
       if (this.is === 'i18n-dom-bind') {
-        template = this;
+        template = _template || this;
         id = this.id;
         /* istanbul ignore if */
-        if (template.content.childNodes.length === 0) {
+        if (template.content && template.content.childNodes.length === 0) {
           // Find the real template in Internet Explorer 11 when i18n-dom-bind is concealed in a parent template
           // This does not happen on Polymer 1.3.1 or later.  So ignore this 'if' statement in code coverage.
           template = Array.prototype.map.call(document.querySelectorAll('template'), function (parentTemplate) {
@@ -1285,7 +1301,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         }
       }
       else {
-        template = Polymer.DomModule.import(id, 'template');
+        template = _template || Polymer.DomModule.import(id, 'template');
       }
       if (template) {
         this.templateDefaultLang = template.hasAttribute('lang') ? template.lang : 'en';
@@ -1300,7 +1316,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
       if (template) {
         // register localizable attributes of the element itself
-        attributesRepository.registerLocalizableAttributes(id, template);
+        if (attributesRepository.registerLocalizableAttributes) {
+          attributesRepository.registerLocalizableAttributes(id, template);
+        }
+        else {
+          BehaviorsStore._I18nAttrRepo._created();
+          BehaviorsStore._I18nAttrRepo.registerLocalizableAttributes(id, template);
+        }
         if (template.getAttribute('localizable-text') === 'embedded') {
           // pick up embedded JSON from the template
           localizableText = template.content.querySelector('#localizable-text');
@@ -1373,7 +1395,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         case 'selected':
           break;
         default:
-          if (!(isLocalizable = attributesRepository.isLocalizableAttribute(node, attribute.name))) {
+          if (!(isLocalizable = BehaviorsStore._I18nAttrRepo.isLocalizableAttribute(node, attribute.name))) {
             break;
           }
           if (text.length === 0) {
@@ -1711,8 +1733,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             else {
               // param element
               // TODO: handle localization of param nodes and attributes
-              if (!param.hasAttribute('param')) {
-                param.setAttribute('param', n);
+              if (!param.hasAttribute(paramAttribute)) {
+                param.setAttribute(paramAttribute, n);
               }
               if (param.tagName.toLowerCase() === 'i18n-number') {
                 if (!param.hasAttribute('lang')) {
@@ -2030,7 +2052,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                       else {
                         prev.text.push('<' + current.node.nodeName.toLowerCase() + '>');
                       }
-                      current.node.setAttribute('param', n.toString());
+                      current.node.setAttribute(paramAttribute, n.toString());
                       prev.params.push(current.templateNode || current.node);
                     }
                     else if (current.type === current.node.TEXT_NODE &&
@@ -2059,7 +2081,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                         current.node.textContent = '{{text.' + messageId + '.' + n + '}}';
                       }
                       span = document.createElement('span');
-                      span.setAttribute('param', n.toString());
+                      span.setAttribute(paramAttribute, n.toString());
                       current.templateNode.content.removeChild(current.node);
                       span.appendChild(current.node);
                       current.templateNode.content.appendChild(span);
@@ -2068,8 +2090,18 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   }
                   return prev;
                 }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
+              // clear original childNodes before implicit removals by appendChild to i18n-format for ShadyDOM compatibility
+              if (Polymer.ElementMixin) {
+                // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
+                node.innerHTML = '';
+              }
               templateText = document.createElement('i18n-format');
               templateText.setAttribute('lang', '{{effectiveLang}}');
+              if (Polymer.ElementMixin) {
+                // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
+                // insert i18n-format
+                Polymer.dom(node).appendChild(templateText);
+              }
               span = document.createElement('span');
               // span.innerText does not set an effective value in Firefox
               span.textContent = templateTextParams.params.shift();
@@ -2079,12 +2111,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                   templateText.appendChild(param);
                 }
               );
+              if (!Polymer.ElementMixin) {
+                // Avoid ShadyDOM issue for Polymer 1.x (Clearance of innerHTML unexpectedly removes textContent of child nodes)
+                // insert i18n-format
+                node.innerHTML = '';
+                Polymer.dom(node).appendChild(templateText);
+              }
               // store the text message
               templateTextParams.text[0] = templateTextParams.text[0].replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
               this._setBundleValue(bundle, messageId, templateTextParams.text);
-              // insert i18n-format
-              node.innerHTML = '';
-              Polymer.dom(node).appendChild(templateText);
               if (!id) {
                 //node.id = messageId;
                 //console.warn('add missing node id as ' + messageId + ' for ' + templateTextParams.text[0]);
@@ -2149,7 +2184,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                     path.pop();
                     /* current.childTextNode is always true since current.node is <span>{{annotation}}</span> */
                     prev.text.push(current.node.textContent);
-                    current.node.setAttribute('param', n.toString());
+                    current.node.setAttribute(paramAttribute, n.toString());
                     prev.params.push(current.node);
                   }
                 }
@@ -2157,6 +2192,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
             templateText = document.createElement('i18n-format');
             templateText.setAttribute('lang', '{{effectiveLang}}');
+            // insert i18n-format
+            Polymer.dom(parent).insertBefore(templateText, node);
+            Polymer.dom(parent).removeChild(node);
             span = document.createElement('span');
             // span.innerText does not set an effective value in Firefox
             span.textContent = templateTextParams.params.shift();
@@ -2169,9 +2207,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             // store the text message
             templateTextParams.text[0] = templateTextParams.text[0].replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
             this._setBundleValue(bundle, messageId, templateTextParams.text);
-            // insert i18n-format
-            Polymer.dom(parent).insertBefore(templateText, node);
-            Polymer.dom(parent).removeChild(node);
             debuglog(messageId + ' = ' + templateTextParams.text);
           }
           else {
@@ -2471,7 +2506,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      */
     i18nFormat: function () {
       if (arguments.length > 0) {
-        var formatted = arguments[0];
+        var formatted = arguments[0] || '';
         for (var n = 1; n < arguments.length; n++) {
           formatted = formatted.replace('{' + n + '}', arguments[n]);
         }
@@ -2507,6 +2542,40 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      */
     registered: function () {
       if (this.is !== 'i18n-dom-bind') {
+        var template = Polymer.DomModule.import(this.is, 'template');
+        if (!template) {
+          var id = this.is;
+          var current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
+                                              : document._currentScript;
+          template = (current ? current.ownerDocument
+                      .querySelector('template[id=' + id + ']') : null) ||
+                     document.querySelector('template[id=' + id + ']');
+          if (!template) {
+            template = document.createElement('template');
+            template.setAttribute('id', id);
+          }
+          if (template) {
+            var domModule = document.createElement('dom-module');
+            var assetUrl = new URL((current ? current.baseURI : null) ||
+              (window.currentImport ? window.currentImport.baseURI : null) ||
+              (current && current.ownerDocument ? current.ownerDocument.baseURI : null) ||
+              document.baseURI);
+            domModule.appendChild(template);
+            domModule.setAttribute('assetpath', 
+                                    template.hasAttribute('basepath') ?
+                                      template.getAttribute('basepath') :
+                                      template.hasAttribute('assetpath') ? 
+                                        template.getAttribute('assetpath') : 
+                                        assetUrl.pathname);
+            domModule.register(id);
+            this._template = template;
+          }
+          var bundle = { model: {} };
+          bundles[''][id] = bundle;
+          bundles[defaultLang] = bundles[defaultLang] || {};
+          bundles[defaultLang][id] = bundle;
+          console.warn('I18nBehavior.registered: ' + id + ' has no template. Supplying an empty template');
+        }
         this._fetchStatus = deepcopy({ // per custom element
           fetchingInstance: null,
           ajax: null,
@@ -2527,6 +2596,24 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       // Fix #34. [Polymer 1.4.0] _propertyEffects have to be maintained per instance
       if (this.is === 'i18n-dom-bind') {
         this._propertyEffects = deepcopy(this._propertyEffects);
+      }
+      else {
+        var template = Polymer.DomModule.import(this.is, 'template');
+        if (template && template.hasAttribute('lang')) {
+          this.templateDefaultLang = template.getAttribute('lang') || '';
+        }
+        if (!this._fetchStatus) {
+          this._fetchStatus = deepcopy({ // per custom element
+            fetchingInstance: null,
+            ajax: null,
+            ajaxLang: null,
+            lastLang: null,
+            fallbackLanguageList: null,
+            targetLang: null,
+            lastResponse: {},
+            rawResponses: {}
+          });
+        }
       }
       if (!isStandardPropertyConfigurable) {
         // Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
@@ -2575,9 +2662,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             }
           }
         }
+        if (Polymer.ElementMixin && !this.__data) {
+          this._initializeProperties();
+        }
         this._langChanged(this.getAttribute('lang'), undefined);
         // model per instance
-        this.model = deepcopy(this.text.model);
+        if (this.text) {
+          this.model = deepcopy(this.text.model);
+        }
       }
     },
 
@@ -2652,15 +2744,58 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     BehaviorsStore.I18nBehavior.properties = _properties;
     BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
     BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
-    BehaviorsStore.I18nBehavior._updateEffectiveLang = function () {
-      //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
-      this.effectiveLang = this._lang;
+    BehaviorsStore.I18nBehavior._updateEffectiveLang = function (event) {
+      if ((!Polymer.ElementMixin && Polymer.dom(event).rootTarget === this) ||
+          (Polymer.ElementMixin && event.composedPath()[0] === this)) {
+        //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
+        this.effectiveLang = this._lang;
+      }
     };
     BehaviorsStore.I18nBehavior.hostAttributes = {
       'lang': defaultLang
     };
   }
 
+  if (Polymer.ElementMixin) {
+    // Polymer 2.x
+    BehaviorsStore._I18nBehavior = BehaviorsStore.I18nBehavior;
+    BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
+    Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
+      get: function() {
+        var current = (!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript;
+        var i18nAttrRepos = current.ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
+        var domModules = current.ownerDocument.querySelectorAll('dom-module[legacy]');
+        if (domModules.length === 0) {
+          domModules = current.ownerDocument.querySelectorAll('dom-module');
+          if (domModules.length !== 1) {
+            domModules = [];
+          }
+        }
+        BehaviorsStore._I18nAttrRepo._created();
+        Array.prototype.forEach.call(i18nAttrRepos, function (repo) {
+          if (!repo.hasAttribute('processed')) {
+            var customAttributes = repo.querySelector('template#custom');
+            if (customAttributes) {
+              BehaviorsStore._I18nAttrRepo._traverseTemplateTree(customAttributes.content || customAttributes._content);
+            }
+            repo.setAttribute('processed', '');
+          }
+        });
+        Array.prototype.forEach.call(domModules, function (domModule) {
+          if (domModule && domModule.id) {
+            var template = domModule.querySelector('template');
+            if (template) {
+              BehaviorsStore._I18nBehavior._constructDefaultBundle(template, domModule.id);
+              domModule.removeAttribute('legacy');
+            }
+          }
+        });
+        return BehaviorsStore._I18nBehavior;
+      }
+    });
+  }
+  else {
+    // Polymer 1.x
   /**
    * `<template is="i18n-dom-bind">` element extends `dom-bind` template element with `I18nBehavior`
    *
@@ -2693,5 +2828,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   }
   var _Polymer = Polymer;
   _Polymer(i18nDomBind);
+  }
 })(document);
 </script>

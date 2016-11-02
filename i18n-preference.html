@@ -29,14 +29,16 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
 @hero hero.svg
 @demo demo/index.html
 -->
-<dom-module id="i18n-preference">
-  <template>
-    <iron-localstorage 
-      id="storage"
-      name="i18n-behavior-preference">
-    </iron-localstorage>
-  </template>
-</dom-module>
+<template id="i18n-preference">
+  <iron-localstorage
+    id="storage"
+    name="i18n-behavior-preference"
+    on-iron-localstorage-load-empty="_onLoadEmptyStorage"
+    on-iron-localstorage-load="_onLoadStorage"
+    on-value-changed="_onStorageValueChange">
+  </iron-localstorage>
+</template>
+<div id="dom-module-placeholder"></div>
 <script>
 (function(document) {
   'use strict';
@@ -45,6 +47,17 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
   var html = document.querySelector('html');
   // app global default language
   var defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
+
+  // imperative synchronous registration of the template for Polymer 2.x
+  var template = ((!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript)
+    .ownerDocument.querySelector('template#i18n-preference');
+  var domModule = document.createElement('dom-module');
+  var currentScript = (!window.HTMLImports || HTMLImports.hasNative) ? document.currentScript : document._currentScript;
+  var registerI18nPreference = function () {
+
+  currentScript.ownerDocument.querySelector('div#dom-module-placeholder').appendChild(domModule);
+  domModule.appendChild(template);
+  domModule.register('i18n-preference');
 
   Polymer({
     is: 'i18n-preference',
@@ -60,12 +73,6 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
         notify: true,
         observer: '_onPersistChange'
       }
-    },
-
-    listeners: {
-      'storage.iron-localstorage-load-empty': '_onLoadEmptyStorage',
-      'storage.iron-localstorage-load': '_onLoadStorage',
-      'storage.value-changed': '_onStorageValueChange'
     },
 
     /**
@@ -255,5 +262,12 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
       }
     }
   });
+  }
+  if ((!window.HTMLImports || HTMLImports.hasNative)) {
+    registerI18nPreference();
+  }
+  else {
+    HTMLImports.whenReady(registerI18nPreference);
+  }
 })(document);
 </script>
