@@ -3874,18 +3874,79 @@ function suitesRunner (suites) {
         }
       }
 
-      // create a property using the metadata in the `config` object
+      /**
+       * Creates effects for a property.
+       *
+       * Example:
+       *
+       *     this._createPropertyFromConfig('foo', {
+       *       type: String, value: 'foo', reflectToAttribute: true
+       *     });
+       *
+       * Note, once a property has been set to
+       * `readOnly`, `computed`, `reflectToAttribute`, or `notify`
+       * these values may not be changed. For example, a subclass cannot
+       * alter these settings. However, additional `observers` may be added
+       * by subclasses.
+       *
+       * @param {string} name Name of the property.
+       * @param {*=} info Info object from which to create property effects.
+       * Supported keys:
+       *
+       * * type: {function} type to which an attribute matching the property
+       * is deserialized. Note the property is camel-cased from a dash-cased
+       * attribute. For example, 'foo-bar' attribute is dersialized to a
+       * property named 'fooBar'.
+       *
+       * * readOnly: {boolean} creates a readOnly property and
+       * makes a private setter for the private of the form '_setFoo' for a
+       * property 'foo',
+       *
+       * * computed: {string} creates a computed property. A computed property
+       * also automatically is set to `readOnly: true`. The value is calculated
+       * by running a method and arguments parsed from the given string. For
+       * example 'compute(foo)' will compute a given property when the
+       * 'foo' property changes by executing the 'compute' method. This method
+       * must return the computed value.
+       *
+       * * reflectToAttriute: {boolean} If true, the property value is reflected
+       * to an attribute of the same name. Note, the attribute is dash-cased
+       * so a property named 'fooBar' is reflected as 'foo-bar'.
+       *
+       * * notify: {boolean} sends a non-bubbline notification event when
+       * the property changes. For example, a property named 'foo' sends an
+       * event named 'foo-changed' with `event.detail` set to the value of
+       * the property.
+       *
+       * * observer: {string} name of a method that runs when the property
+       * changes. The arguments of the method are (value, previousValue).
+       *
+      */
+      /* TODO(sorvell): Users may want control over modifying property
+       effects via subclassing. For example, a user might want to make a
+       reflectToAttribute property not do so in a subclass. We've chosen to
+       disable this because it leads to additional complication.
+       For example, a readOnly effect generates a special setter. If a subclass
+       disables the effect, the setter would fail unexpectedly.
+       Based on feedback, we may want to try to make effects more malleable
+       and/or provide an advanced api for manipulating them.
+       Also consider adding warnings when an effect cannot be changed.
+      */
       _createPropertyFromConfig(name, info) {
         // computed forces readOnly...
         if (info.computed) {
           info.readOnly = true;
         }
-        // readOnly, computed, reflect, notify only if not already doing so...
+        // Note, since all computed properties are readOnly, this prevents
+        // adding additional computed property effects (which leads to a confusing
+        // setup where multiple triggers for setting a property)
+        // While we do have `hasComputedEffect` this is set on the property's
+        // dependencies rather than itself.
+        if (info.computed  && !this._hasReadOnlyEffect(name)) {
+          this._createComputedProperty(name, info.computed);
+        }
         if (info.readOnly && !this._hasReadOnlyEffect(name)) {
           this._createReadOnlyProperty(name, !info.computed);
-        }
-        if (info.computed && !this._hasComputedEffect(name)) {
-          this._createComputedProperty(name, info.computed);
         }
         if (info.reflectToAttribute && !this._hasReflectEffect(name)) {
           this._createReflectedProperty(name);
@@ -4215,6 +4276,14 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
   // disable mouse handlers for MOUSE_TIMEOUT ms after
   // a touchend to ignore synthetic mouse events
   let mouseCanceller = function(mouseEvent) {
+    // Check for sourceCapabilities, used to distinguish synthetic events
+    // if mouseEvent did not come from a device that fires touch events,
+    // it was made by a real mouse and should be counted
+    // http://wicg.github.io/InputDeviceCapabilities/#dom-inputdevicecapabilities-firestouchevents
+    let sc = mouseEvent.sourceCapabilities;
+    if (sc && !sc.firesTouchEvents) {
+      return;
+    }
     // skip synthetic mouse events
     mouseEvent[HANDLED_OBJ] = {skip: true};
     // disable "ghost clicks"
@@ -4233,8 +4302,9 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
   };
 
   function setupTeardownMouseCanceller(setup) {
-    for (let i = 0, en; i < MOUSE_EVENTS.length; i++) {
-      en = MOUSE_EVENTS[i];
+    let events = IS_TOUCH_ONLY ? ['click'] : MOUSE_EVENTS;
+    for (let i = 0, en; i < events.length; i++) {
+      en = events[i];
       if (setup) {
         document.addEventListener(en, mouseCanceller, true);
       } else {
@@ -4244,9 +4314,6 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
   }
 
   function ignoreMouse() {
-    if (IS_TOUCH_ONLY) {
-      return;
-    }
     if (!POINTERSTATE.mouse.mouseIgnoreJob) {
       setupTeardownMouseCanceller(true);
     }
@@ -4406,7 +4473,7 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
             let rootTarget = ev.composedPath ? ev.composedPath()[0] : ev.target;
             POINTERSTATE.mouse.target = rootTarget;
             // ignore syntethic mouse events after a touch
-            ignoreMouse(true);
+            ignoreMouse();
           }
         }
       }
@@ -4420,10 +4487,8 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
       for (let i = 0, r; i < recognizers.length; i++) {
         r = recognizers[i];
         if (gs[r.name] && !handled[r.name]) {
-          if (r.flow && r.flow.start.indexOf(ev.type) > -1) {
-            if (r.reset) {
-              r.reset();
-            }
+          if (r.flow && r.flow.start.indexOf(ev.type) > -1 && r.reset) {
+            r.reset();
           }
         }
       }
@@ -4498,7 +4563,7 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
       for (let i = 0, dep, gd; i < deps.length; i++) {
         dep = deps[i];
         // don't add mouse handlers on iOS because they cause gray selection overlays
-        if (IS_TOUCH_ONLY && MOUSE_EVENTS.indexOf(dep) > -1) {
+        if (IS_TOUCH_ONLY && MOUSE_EVENTS.indexOf(dep) > -1 && dep !== 'click') {
           continue;
         }
         gd = gobj[dep];
@@ -4576,10 +4641,9 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
       target.dispatchEvent(ev);
       // forward `preventDefault` in a clean way
       if (ev.defaultPrevented) {
-        let se = detail.sourceEvent;
-        // sourceEvent may be a touch, which is not preventable this way
-        if (se && se.preventDefault) {
-          se.preventDefault();
+        let preventer = detail.preventer || detail.sourceEvent;
+        if (preventer && preventer.preventDefault) {
+          preventer.preventDefault();
         }
       }
     },
@@ -4588,6 +4652,21 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
       let recognizer = this.findRecognizerByEvent(evName);
       if (recognizer.info) {
         recognizer.info.prevent = true;
+      }
+    },
+
+    /**
+     * Reset the 2500ms timeout on processing mouse input after detecting touch input.
+     *
+     * Touch inputs create synthesized mouse inputs anywhere from 0 to 2000ms after the touch.
+     * This method should only be called during testing with simulated touch inputs.
+     * Calling this method in production may cause duplicate taps or other gestures.
+     *
+     * @method resetMouseCanceller
+     */
+    resetMouseCanceller: function() {
+      if (POINTERSTATE.mouse.mouseIgnoreJob) {
+        POINTERSTATE.mouse.mouseIgnoreJob.flush();
       }
     }
   };
@@ -4632,16 +4711,17 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
       this.fire('down', t, e);
     },
     touchstart: function(e) {
-      this.fire('down', gestures.findOriginalTarget(e), e.changedTouches[0]);
+      this.fire('down', gestures.findOriginalTarget(e), e.changedTouches[0], e);
     },
     touchend: function(e) {
-      this.fire('up', gestures.findOriginalTarget(e), e.changedTouches[0]);
+      this.fire('up', gestures.findOriginalTarget(e), e.changedTouches[0], e);
     },
-    fire: function(type, target, event) {
+    fire: function(type, target, event, preventer) {
       gestures.fire(target, type, {
         x: event.clientX,
         y: event.clientY,
         sourceEvent: event,
+        preventer: preventer,
         prevent: function(e) {
           return gestures.prevent(e);
         }
@@ -4709,6 +4789,10 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
         if (self.hasMovedEnough(x, y)) {
           // first move is 'start', subsequent moves are 'move', mouseup is 'end'
           self.info.state = self.info.started ? (e.type === 'mouseup' ? 'end' : 'track') : 'start';
+          if (self.info.state === 'start') {
+            // if and only if tracking, always prevent tap
+            gestures.prevent('tap');
+          }
           self.info.addMove({x: x, y: y});
           if (!hasLeftMouseButton(e)) {
             // always fire "end"
@@ -4721,7 +4805,6 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
       };
       let upfn = function upfn(e) {
         if (self.info.started) {
-          gestures.prevent('tap');
           movefn(e);
         }
 
@@ -4745,6 +4828,10 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
       let ct = e.changedTouches[0];
       let x = ct.clientX, y = ct.clientY;
       if (this.hasMovedEnough(x, y)) {
+        if (this.info.state === 'start') {
+          // if and only if tracking, always prevent tap
+          gestures.prevent('tap');
+        }
         this.info.addMove({x: x, y: y});
         this.fire(t, ct);
         this.info.state = 'track';
@@ -4757,12 +4844,10 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
       let ct = e.changedTouches[0];
       // only trackend if track was started and not aborted
       if (this.info.started) {
-        // iff tracking, always prevent tap
-        gestures.prevent('tap');
         // reset started state on up
         this.info.state = 'end';
         this.info.addMove({x: ct.clientX, y: ct.clientY});
-        this.fire(t, ct);
+        this.fire(t, ct, e);
       }
     },
 
@@ -4828,13 +4913,13 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
     },
 
     touchstart: function(e) {
-      this.save(e.changedTouches[0]);
+      this.save(e.changedTouches[0], e);
     },
     touchend: function(e) {
-      this.forward(e.changedTouches[0]);
+      this.forward(e.changedTouches[0], e);
     },
 
-    forward: function(e) {
+    forward: function(e, preventer) {
       let dx = Math.abs(e.clientX - this.info.x);
       let dy = Math.abs(e.clientY - this.info.y);
       let t = gestures.findOriginalTarget(e);
@@ -4845,7 +4930,8 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
           gestures.fire(t, 'tap', {
             x: e.clientX,
             y: e.clientY,
-            sourceEvent: e
+            sourceEvent: e,
+            preventer: preventer
           });
         }
       }
@@ -4865,9 +4951,9 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
         }
       }
 
-      _removeEventListenerToNode(node, eventName, handler) {
+      _removeEventListenerFromNode(node, eventName, handler) {
         if (!gestures.removeListener(node, eventName, handler)) {
-          super._addEventListenerToNode(node, eventName, handler);
+          super._removeEventListenerFromNode(node, eventName, handler);
         }
       }
 
@@ -5451,6 +5537,10 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
       return list;
     }
 
+    get activeElement() {
+      let node = this.node;
+      return node._activeElement !== undefined ? node._activeElement : node.activeElement;
+    }
   }
 
   function forwardMethods(proto, methods) {
@@ -5496,7 +5586,6 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
   ]);
 
   forwardReadOnlyProperties(DomApi.prototype, [
-    'activeElement',
     'parentNode', 'firstChild', 'lastChild',
     'nextSibling', 'previousSibling', 'firstElementChild',
     'lastElementChild', 'nextElementSibling', 'previousElementSibling',
@@ -6345,7 +6434,8 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
 
       var config = {
         properties: behavior.properties,
-        observers: behavior.observers
+        observers: behavior.observers,
+        generatedFrom: behavior
       };
 
       class PolymerGenerated extends Base {
@@ -6378,11 +6468,6 @@ Polymer.Debouncer.debounce = function(debouncer, callback, wait, context) {
         created() {
           super.created();
           this._invokeFunction(behavior.created);
-        }
-
-        _applyConfigMetaData() {
-          super._applyConfigMetaData();
-          this._applyConfigMetaDataFrom(behavior);
         }
 
         _applyListeners() {
