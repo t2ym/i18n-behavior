@@ -10,7 +10,7 @@
         {
           "browserName":  "microsoftedge",
           "platform":     "Windows 10",
-          "version":      "13"
+          "version":      "14"
         },
         {
           "browserName":  "safari",
