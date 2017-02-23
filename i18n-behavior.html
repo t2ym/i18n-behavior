@@ -2765,7 +2765,43 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
         var ownerDocument = current.ownerDocument;
         if (current.src && current.src.match(/data:text\/javascript;.*%0A%2F%2F%23%20sourceURL%3D/)) {
-          ownerDocument = current.parentNode;
+          // Fix #62: Emulate a subset of "non-HTMLImports-link-traversing" querySelectorAll for latest Firefox 51
+          // since currentScript.ownerDocument, HTML Imports polyfill, and querySelectorAll behave differently
+          ownerDocument = current.parentNode.children;
+          ownerDocument.querySelectorAll = function (selector) {
+            var match = selector.match(/^([a-zA-Z0-9-]{1,})(:not\(\[(processed)\]\))?(\[(legacy)\])?$/);
+            var list = [];
+            var node;
+            var tagName;
+            var i;
+            for (i = 0; i < this.length; i++) {
+              node = this[i];
+              tagName = node.tagName.toLowerCase();
+              switch (tagName) {
+              case 'link':
+                break;
+              case match[1]:
+                if (match[2]) {
+                  if (!node.hasAttribute(match[3])) {
+                    list.push(node);
+                  }
+                }
+                else if (match[4]) {
+                  if (node.hasAttribute(match[5])) {
+                    list.push(node);
+                  }
+                }
+                else {
+                  list.push(node);
+                }
+                break;
+              default:
+                Array.prototype.forEach.call(node.querySelectorAll(selector), function (child) { list.push(child); });
+                break;
+              }
+            }
+            return list;
+          }
         }
         var i18nAttrRepos = ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
         var domModules = ownerDocument.querySelectorAll('dom-module[legacy]');
