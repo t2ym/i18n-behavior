@@ -345,24 +345,24 @@ function setupFixture (params, fixtureModel) {
         var f = document.querySelector('test-fixture[id=' + fixtureName + ']');
         var t = f.querySelector('template[is=dom-template]');
         if (t) {
-          var templatizer = new Polymer.Templatizer();
           var instanceProps = {};
           var p;
           for (p in fixtureModel) {
             instanceProps[p] = true;
           }
           var self = t;
-          t._ctor = templatizer.templatize(t, {
+          t.__templatizeOwner = undefined;
+          t._ctor = Polymer.Templatize.templatize(t, self, {
             instanceProps: instanceProps,
-            fwdHostPropToInstance: function(host, prop, value) {
+            forwardHostProp: function(prop, value) {
               if (self._instance) {
-                self._instance.forwardProperty(prop, value, host);
+                self._instance.forwardHostProp(prop, value);
               }
             }
           });
           t.stamp = function (model) {
-            this._instance = new this._ctor(this, model);
-            return this._instance.root;
+            var _instance = new this._ctor(model);
+            return _instance.root;
           }.bind(t);
         }
       }
