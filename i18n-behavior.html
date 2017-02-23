@@ -2763,10 +2763,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       get: function() {
         var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
-        var i18nAttrRepos = current.ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
-        var domModules = current.ownerDocument.querySelectorAll('dom-module[legacy]');
+        var ownerDocument = current.ownerDocument;
+        if (current.src && current.src.match(/data:text\/javascript;.*%0A%2F%2F%23%20sourceURL%3D/)) {
+          ownerDocument = current.parentNode;
+        }
+        var i18nAttrRepos = ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
+        var domModules = ownerDocument.querySelectorAll('dom-module[legacy]');
         if (domModules.length === 0) {
-          domModules = current.ownerDocument.querySelectorAll('dom-module');
+          domModules = ownerDocument.querySelectorAll('dom-module');
           if (domModules.length !== 1) {
             domModules = [];
           }
