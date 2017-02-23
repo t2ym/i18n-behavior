@@ -75,7 +75,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   // Support ShadowDOM V1 on Polymer 2.x
   var paramAttribute = Polymer.ElementMixin ? 'slot' : 'param';
 
-  var attributesRepository = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : document._currentScript)
+  var attributesRepository = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript))
     .ownerDocument.querySelector('i18n-attr-repo');
 
   // set up userPreference
@@ -2546,7 +2546,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         if (!template) {
           var id = this.is;
           var current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
-                                              : document._currentScript;
+                                              : (document._currentScript || document.currentScript);
           template = (current ? current.ownerDocument
                       .querySelector('template[id=' + id + ']') : null) ||
                      document.querySelector('template[id=' + id + ']');
@@ -2762,7 +2762,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
     Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       get: function() {
-        var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : document._currentScript;
+        var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
         var i18nAttrRepos = current.ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
         var domModules = current.ownerDocument.querySelectorAll('dom-module[legacy]');
         if (domModules.length === 0) {

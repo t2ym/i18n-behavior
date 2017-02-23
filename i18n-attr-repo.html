@@ -30,7 +30,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   var sharedData = {};
 
   // imperative synchronous registration of the template for Polymer 2.x
-  var template = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : document._currentScript)
+  var template = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript))
     .ownerDocument.querySelector('template#i18n-attr-repo');
   var domModule = document.createElement('dom-module');
   domModule.appendChild(template);
