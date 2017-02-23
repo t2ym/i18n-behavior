@@ -732,9 +732,9 @@ gulp.task('pretest', ['clean'], function(cb) {
 
 gulp.task('pretest2', ['clean2'], function(cb) {
   runSequence(
-    'patchshadycss',
-    'polyfillclone',
-    'webcomponents-min',
+    //'patchshadycss',
+    //'polyfillclone',
+    //'webcomponents-min',
     'scan2',
     'src2-min',
     'preprocess2',
