@@ -798,7 +798,7 @@ function p(a){a=a.replace(aa,"").replace(ba,"");var c=q,b=a,d=new m;d.start=0;d.
 function q(a,c){var b=c.substring(a.start,a.end-1);a.parsedCssText=a.cssText=b.trim();a.parent&&((b=c.substring(a.previous?a.previous.end:a.parent.start,a.start-1),b=ca(b),b=b.replace(r," "),b=b.substring(b.lastIndexOf(";")+1),b=a.parsedSelector=a.selector=b.trim(),a.atRule=!b.indexOf("@"),a.atRule)?b.indexOf("@media")?b.match(da)&&(a.type=u,a.keyframesName=a.selector.split(r).pop()):a.type=t:a.type=b.indexOf("--")?v:y);if(b=a.rules)for(var d=0,e=b.length,f;d<e&&(f=b[d]);d++)q(f,c);return a}
 function ca(a){return a.replace(/\\([0-9a-f]{1,6})\s/gi,function(a,b){a=b;for(b=6-a.length;b--;)a="0"+a;return"\\"+a})}
 function z(a,c,b){b=void 0===b?"":b;var d="";if(a.cssText||a.rules){var e=a.rules,f;if(f=e)f=e[0],f=!(f&&f.selector&&0===f.selector.indexOf("--"));if(f){f=0;for(var h=e.length,g;f<h&&(g=e[f]);f++)d=z(g,c,d)}else c?c=a.cssText:(c=a.cssText,c=c.replace(ea,"").replace(fa,""),c=c.replace(ga,"").replace(ha,"")),(d=c.trim())&&(d="  "+d+"\n")}d&&(a.selector&&(b+=a.selector+" {\n"),b+=d,a.selector&&(b+="}\n\n"));return b}
-var v=1,u=7,t=4,y=1E3,aa=/\/\*[^*]*\*+([^/*][^*]*\*+)*\//gim,ba=/@import[^;]*;/gim,ea=/(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?(?:[;\n]|$)/gim,fa=/(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?{[^}]*?}(?:[;\n]|$)?/gim,ga=/@apply\s*\(?[^);]*\)?\s*(?:[;\n]|$)?/gim,ha=/[^;:]*?:[^;]*?var\([^;]*\)(?:[;\n]|$)?/gim,da=/^@[^\s]*keyframes/,r=/\s+/g;var ia=Promise.resolve();function ja(a){(a=l[a])&&(a._applyShimInvalid=!0)}function ka(a){a.a||(a.a=!0,ia.then(function(){a._applyShimInvalid=!1;a.a=!1}))};var A=/(?:^|[;\s{]\s*)(--[\w-]*?)\s*:\s*(?:([^;{]*)|{([^}]*)})(?:(?=[;\s}])|$)/gi,B=/(?:^|\W+)@apply\s*\(?([^);\n]*)\)?/gi,la=/@media[^(]*(\([^)]*\))/;var C=!(window.ShadyDOM&&window.ShadyDOM.inUse),D=!navigator.userAgent.match("AppleWebKit/601")&&window.CSS&&CSS.supports&&CSS.supports("box-shadow","0 0 0 var(--foo)");function E(a){a&&(D=D&&!a.nativeCss&&!a.shimcssproperties,C=C&&!a.nativeShadow&&!a.shimshadow)}window.ShadyCSS?E(window.ShadyCSS):window.WebComponents&&E(window.WebComponents.flags);var ma=C,F=D;function G(a){"string"===typeof a&&(a=p(a));return z(a,F)}function H(a){!a.__cssRules&&a.textContent&&(a.__cssRules=p(a.textContent));return a.__cssRules}function I(a,c,b,d){if(a){var e=!1,f=a.type;if(d&&f===t){var h=a.selector.match(la);h&&(window.matchMedia(h[1]).matches||(e=!0))}f===v?c(a):b&&f===u?b(a):f===y&&(e=!0);if((a=a.rules)&&!e)for(var e=0,f=a.length,g;e<f&&(g=a[e]);e++)I(g,c,b,d)}}
+var v=1,u=7,t=4,y=1E3,aa=/\/\*[^*]*\*+([^/*][^*]*\*+)*\//gim,ba=/@import[^;]*;/gim,ea=/(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?(?:[;\n]|$)/gim,fa=/(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?{[^}]*?}(?:[;\n]|$)?/gim,ga=/@apply\s*\(?[^);]*\)?\s*(?:[;\n]|$)?/gim,ha=/[^;:]*?:[^;]*?var\([^;]*\)(?:[;\n]|$)?/gim,da=/^@[^\s]*keyframes/,r=/\s+/g;var ia=Promise.resolve();function ja(a){(a=l[a])&&(a._applyShimInvalid=!0)}function ka(a){a.a||(a.a=!0,ia.then(function(){a._applyShimInvalid=!1;a.a=!1}))};var A=/(?:^|[;\s{]\s*)(--[\w-]*?)\s*:\s*(?:([^;{]*)|{([^}]*)})(?:(?=[;\s}])|$)/gi,B=/(?:^|\W+)@apply\s*\(?([^);\n]*)\)?/gi,la=/@media[^(]*(\([^)]*\))/;var C=!(window.ShadyDOM&&window.ShadyDOM.inUse),D=!navigator.userAgent.match("AppleWebKit/601")&&window.CSS&&CSS.supports&&CSS.supports("box-shadow","0 0 0 var(--foo)");function E(a){a&&(D=D&&!a.nativeCss&&!a.shimcssproperties,C=C&&!a.nativeShadow&&!a.shimshadow)}window.ShadyCSS?E(window.ShadyCSS):window.WebComponents&&E(window.WebComponents.flags);var ma=C,F=D;function G(a){if(!a)return"";"string"===typeof a&&(a=p(a));return z(a,F)}function H(a){!a.__cssRules&&a.textContent&&(a.__cssRules=p(a.textContent));return a.__cssRules||null}function I(a,c,b,d){if(a){var e=!1,f=a.type;if(d&&f===t){var h=a.selector.match(la);h&&(window.matchMedia(h[1]).matches||(e=!0))}f===v?c(a):b&&f===u?b(a):f===y&&(e=!0);if((a=a.rules)&&!e)for(var e=0,f=a.length,g;e<f&&(g=a[e]);e++)I(g,c,b,d)}}
 function J(a,c){var b=a.indexOf("var(");if(-1===b)return c(a,"","","");var d;a:{var e=0;d=b+3;for(var f=a.length;d<f;d++)if("("===a[d])e++;else if(")"===a[d]&&!--e)break a;d=-1}e=a.substring(b+4,d);b=a.substring(0,b);a=J(a.substring(d+1),c);d=e.indexOf(",");return-1===d?c(b,e.trim(),"",a):c(b,e.substring(0,d).trim(),e.substring(d+1).trim(),a)};var na=/;\s*/m,oa=/^\s*(initial)|(inherit)\s*$/;function K(){this.a={}}K.prototype.set=function(a,c){a=a.trim();this.a[a]={h:c,i:{}}};K.prototype.get=function(a){a=a.trim();return this.a[a]||null};var L=null;function M(){this.b=this.c=null;this.a=new K}M.prototype.o=function(a){a=B.test(a)||A.test(a);B.lastIndex=0;A.lastIndex=0;return a};M.prototype.m=function(a,c){a=a.content.querySelector("style");var b=null;a&&(b=this.j(a,c));return b};
 M.prototype.j=function(a,c){c=void 0===c?"":c;var b=H(a);this.l(b,c);a.textContent=G(b);return b};M.prototype.f=function(a){var c=this,b=H(a);I(b,function(a){":root"===a.selector&&(a.selector="html");c.g(a)});a.textContent=G(b);return b};M.prototype.l=function(a,c){var b=this;this.c=c;I(a,function(a){b.g(a)});this.c=null};M.prototype.g=function(a){a.cssText=pa(this,a.parsedCssText);":root"===a.selector&&(a.selector=":host > *")};
 function pa(a,c){c=c.replace(A,function(c,d,e,f){return qa(a,c,d,e,f)});return N(a,c)}function N(a,c){for(var b;b=B.exec(c);){var d=b[0],e=b[1];b=b.index;var f=c.slice(0,b+d.indexOf("@apply"));c=c.slice(b+d.length);var h=O(a,f),g,k,d=void 0;g=a;var e=e.replace(na,""),n=[];k=g.a.get(e);k||(g.a.set(e,{}),k=g.a.get(e));if(k)for(d in g.c&&(k.i[g.c]=!0),k.h)g=h&&h[d],k=[d,": var(",e,"_-_",d],g&&k.push(",",g),k.push(")"),n.push(k.join(""));d=n.join("; ");c=""+f+d+c;B.lastIndex=b+d.length}return c}
@@ -9266,9 +9266,9 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-'use strict';var d=!(window.ShadyDOM&&window.ShadyDOM.inUse),e=!navigator.userAgent.match("AppleWebKit/601")&&window.CSS&&CSS.supports&&CSS.supports("box-shadow","0 0 0 var(--foo)");function g(a){a&&(e=e&&!a.nativeCss&&!a.shimcssproperties,d=d&&!a.nativeShadow&&!a.shimshadow)}window.ShadyCSS?g(window.ShadyCSS):window.WebComponents&&g(window.WebComponents.flags);var h=d,k=e;function l(a,b){for(var c in b)null===c?a.style.removeProperty(c):a.style.setProperty(c,b[c])};var m=null,n=window.HTMLImports&&window.HTMLImports.whenReady||null,q;function r(){var a=t;n?n(a):(m||(m=new Promise(function(a){q=a}),"complete"===document.readyState?q():document.addEventListener("readystatechange",function(){"complete"===document.readyState&&q()})),m.then(function(){a&&a()}))};var u=null,t=null;function w(){this.customStyles=[];this.enqueued=!1}function x(a){!a.enqueued&&t&&(a.enqueued=!0,r())}w.prototype.c=function(a){a.__seenByShadyCSS||(a.__seenByShadyCSS=!0,this.customStyles.push(a),x(this))};w.prototype.b=function(a){var b;a.getStyle?b=a.getStyle():b=a;return b};
-w.prototype.a=function(){for(var a=this.customStyles,b=0;b<a.length;b++){var c=a[b];if(!c.__processedByShadyCSS){var f=this.b(c);if(f){c.__processedByShadyCSS=!0;if(c=f.__appliedElement)for(var p=0;p<f.attributes.length;p++){var v=f.attributes[p];c.setAttribute(v.name,v.value)}u&&u(c||f)}}}return a};w.prototype.addCustomStyle=w.prototype.c;w.prototype.getStyleForCustomStyle=w.prototype.b;w.prototype.processStyles=w.prototype.a;
-Object.defineProperties(w.prototype,{transformCallback:{get:function(){return u},set:function(a){u=a}},validateCallback:{get:function(){return t},set:function(a){var b=!1;t||(b=!0);t=a;b&&x(this)}}});var y=new w;window.ShadyCSS||(window.ShadyCSS={prepareTemplate:function(){},styleSubtree:function(a,b){y.a();l(a,b)},styleElement:function(){y.a()},styleDocument:function(a){y.a();l(document.body,a)},getComputedStyleValue:function(a,b){return(a=window.getComputedStyle(a).getPropertyValue(b))?a.trim():""},nativeCss:k,nativeShadow:h});window.ShadyCSS.CustomStyleInterface=y;
+'use strict';var c=!(window.ShadyDOM&&window.ShadyDOM.inUse),f=!navigator.userAgent.match("AppleWebKit/601")&&window.CSS&&CSS.supports&&CSS.supports("box-shadow","0 0 0 var(--foo)");function g(a){a&&(f=f&&!a.nativeCss&&!a.shimcssproperties,c=c&&!a.nativeShadow&&!a.shimshadow)}window.ShadyCSS?g(window.ShadyCSS):window.WebComponents&&g(window.WebComponents.flags);var h=c,k=f;function l(a,b){for(var d in b)null===d?a.style.removeProperty(d):a.style.setProperty(d,b[d])};var m=null,n=window.HTMLImports&&window.HTMLImports.whenReady||null,r;function t(){var a=u;n?n(a):(m||(m=new Promise(function(a){r=a}),"complete"===document.readyState?r():document.addEventListener("readystatechange",function(){"complete"===document.readyState&&r()})),m.then(function(){a&&a()}))};var v=null,u=null;function x(){this.customStyles=[];this.enqueued=!1}function y(a){!a.enqueued&&u&&(a.enqueued=!0,t())}x.prototype.c=function(a){a.__seenByShadyCSS||(a.__seenByShadyCSS=!0,this.customStyles.push(a),y(this))};x.prototype.b=function(a){if(a.__shadyCSSCachedStyle)return a.__shadyCSSCachedStyle;var b;a.getStyle?b=a.getStyle():b=a;return b};
+x.prototype.a=function(){for(var a=this.customStyles,b=0;b<a.length;b++){var d=a[b];if(!d.__shadyCSSCachedStyle){var e=this.b(d);if(e){var p=e.__appliedElement;if(p)for(var q=0;q<e.attributes.length;q++){var w=e.attributes[q];p.setAttribute(w.name,w.value)}e=p||e;v&&v(e);d.__shadyCSSCachedStyle=e}}}return a};x.prototype.addCustomStyle=x.prototype.c;x.prototype.getStyleForCustomStyle=x.prototype.b;x.prototype.processStyles=x.prototype.a;
+Object.defineProperties(x.prototype,{transformCallback:{get:function(){return v},set:function(a){v=a}},validateCallback:{get:function(){return u},set:function(a){var b=!1;u||(b=!0);u=a;b&&y(this)}}});var z=new x;window.ShadyCSS||(window.ShadyCSS={prepareTemplate:function(){},styleSubtree:function(a,b){z.a();l(a,b)},styleElement:function(){z.a()},styleDocument:function(a){z.a();l(document.body,a)},getComputedStyleValue:function(a,b){return(a=window.getComputedStyle(a).getPropertyValue(b))?a.trim():""},nativeCss:k,nativeShadow:h});window.ShadyCSS.CustomStyleInterface=z;
 }).call(self)
 
 //# sourceMappingURL=custom-style-interface.min.js.map
@@ -12462,10 +12462,10 @@ Polymer({
   var defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
 
   // imperative synchronous registration of the template for Polymer 2.x
-  var template = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : document._currentScript)
+  var template = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript))
     .ownerDocument.querySelector('template#i18n-preference');
   var domModule = document.createElement('dom-module');
-  var currentScript = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : document._currentScript;
+  var currentScript = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
   var registerI18nPreference = function () {
 
   currentScript.ownerDocument.querySelector('div#dom-module-placeholder').appendChild(domModule);
@@ -12709,7 +12709,7 @@ Polymer({
   var sharedData = {};
 
   // imperative synchronous registration of the template for Polymer 2.x
-  var template = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : document._currentScript)
+  var template = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript))
     .ownerDocument.querySelector('template#i18n-attr-repo');
   var domModule = document.createElement('dom-module');
   domModule.appendChild(template);
@@ -13266,7 +13266,7 @@ Handle and judge JSON object attributes.
   // Support ShadowDOM V1 on Polymer 2.x
   var paramAttribute = Polymer.ElementMixin ? 'slot' : 'param';
 
-  var attributesRepository = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : document._currentScript)
+  var attributesRepository = ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript))
     .ownerDocument.querySelector('i18n-attr-repo');
 
   // set up userPreference
@@ -15737,7 +15737,7 @@ Handle and judge JSON object attributes.
         if (!template) {
           var id = this.is;
           var current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
-                                              : document._currentScript;
+                                              : (document._currentScript || document.currentScript);
           template = (current ? current.ownerDocument
                       .querySelector('template[id=' + id + ']') : null) ||
                      document.querySelector('template[id=' + id + ']');
@@ -15953,11 +15953,66 @@ Handle and judge JSON object attributes.
     BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
     Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       get: function() {
-        var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : document._currentScript;
-        var i18nAttrRepos = current.ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
-        var domModules = current.ownerDocument.querySelectorAll('dom-module[legacy]');
+        var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
+        var ownerDocument = current.ownerDocument;
+        if (ownerDocument.nodeType === ownerDocument.DOCUMENT_NODE) {
+          // HTML Imports are flatten in the root document and not under document fragment nodes
+          // Fix #62: Emulate a subset of "non-HTMLImports-link-traversing" querySelectorAll for latest Firefox 51
+          // since currentScript.ownerDocument, HTML Imports polyfill, and querySelectorAll behave differently
+          var _tmpNode = current;
+          // check for DOCUMENT_FRAGMENT_NODE for fail safe
+          while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
+            _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &&
+            _tmpNode.nodeType !== _tmpNode.DOCUMENT_NODE) {
+            _tmpNode = _tmpNode.parentNode;
+          }
+          if (_tmpNode &&
+            (_tmpNode.nodeType === _tmpNode.DOCUMENT_FRAGMENT_NODE ||
+             _tmpNode.nodeType === _tmpNode.DOCUMENT_NODE)) {
+            ownerDocument = _tmpNode; // reach the containing document fragment
+          }
+          else if (_tmpNode && _tmpNode.import === _tmpNode) { // html-imports polyfill v1
+            ownerDocument = _tmpNode.children; // reach the immediate import link containing the currentScript
+            ownerDocument.querySelectorAll = function (selector) {
+              var match = selector.match(/^([a-zA-Z0-9-]{1,})(:not\(\[(processed)\]\))?(\[(legacy)\])?$/);
+              var list = [];
+              var node;
+              var tagName;
+              var i;
+              for (i = 0; i < this.length; i++) {
+                node = this[i];
+                tagName = node.tagName.toLowerCase();
+                switch (tagName) {
+                case 'link':
+                  break;
+                case match[1]:
+                  if (match[2]) {
+                    if (!node.hasAttribute(match[3])) {
+                      list.push(node);
+                    }
+                  }
+                  else if (match[4]) {
+                    if (node.hasAttribute(match[5])) {
+                      list.push(node);
+                    }
+                  }
+                  else {
+                    list.push(node);
+                  }
+                  break;
+                default:
+                  Array.prototype.forEach.call(node.querySelectorAll(selector), function (child) { list.push(child); });
+                  break;
+                }
+              }
+              return list;
+            }
+          }
+        }
+        var i18nAttrRepos = ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
+        var domModules = ownerDocument.querySelectorAll('dom-module[legacy]');
         if (domModules.length === 0) {
-          domModules = current.ownerDocument.querySelectorAll('dom-module');
+          domModules = ownerDocument.querySelectorAll('dom-module');
           if (domModules.length !== 1) {
             domModules = [];
           }
