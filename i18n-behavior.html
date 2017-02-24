@@ -2556,17 +2556,20 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }
           if (template) {
             var domModule = document.createElement('dom-module');
-            var assetUrl = new URL((current ? current.baseURI : null) ||
-              (window.currentImport ? window.currentImport.baseURI : null) ||
-              (current && current.ownerDocument ? current.ownerDocument.baseURI : null) ||
-              document.baseURI);
+            var _noTemplateDomModule = Polymer.DomModule.import(this.is);
+            var assetpath = _noTemplateDomModule
+              ? _noTemplateDomModule.assetpath
+              : new URL((current ? current.baseURI : null) ||
+                (window.currentImport ? window.currentImport.baseURI : null) ||
+                (current && current.ownerDocument ? current.ownerDocument.baseURI : null) ||
+                document.baseURI).pathname;
             domModule.appendChild(template);
             domModule.setAttribute('assetpath', 
                                     template.hasAttribute('basepath') ?
                                       template.getAttribute('basepath') :
                                       template.hasAttribute('assetpath') ? 
                                         template.getAttribute('assetpath') : 
-                                        assetUrl.pathname);
+                                        assetpath);
             domModule.register(id);
             this._template = template;
           }
