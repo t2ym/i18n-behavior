@@ -26,4 +26,4 @@ script:
   - cp -vf test/v2X-wct.conf.json wct.conf.json && xvfb-run wct test/index2.html
   - #cp -vf bower_components/test-fixture/test-fixture-es5.html bower_components/test-fixture/test-fixture.html
   - #cp -vf test/v2min-wct.conf.json wct.conf.json && xvfb-run wct test/index2-min.html
-  - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js; fi
+  - #if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js; fi
