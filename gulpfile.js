@@ -588,14 +588,14 @@ gulp.task('empty-mini-bundle-ja2', function (done) {
 
 gulp.task('minify2', function() {
   return gulp.src(['test/vulcanize2/**/*', '!test/vulcanize2/bundle.json'])
-    .pipe(gulpif('*-test.html', 
-      replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
-              '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
+    //.pipe(gulpif('*-test.html', 
+    //  replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
+    //          '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
     .pipe(gulpif('*.html', crisper({
       scriptInHead: false
     })))
     .pipe(gulpif('*.js', babel({ 
-      "presets": [ /*'es2015'*/ ],
+      "presets": [ /* 'es2015' */ ],
       "plugins": [
         'check-es2015-constants',
         'transform-es2015-arrow-functions',
@@ -632,9 +632,9 @@ gulp.task('minify2', function() {
 
 gulp.task('minify2-min', function() {
   return gulp.src(['test/vulcanize2-min/**/*', '!test/vulcanize2-min/bundle.json'])
-    .pipe(gulpif('*-test.html', 
-      replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
-              '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
+    //.pipe(gulpif('*-test.html', 
+    //  replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
+    //          '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
     .pipe(gulpif('*.html', crisper({
       scriptInHead: false
     })))
