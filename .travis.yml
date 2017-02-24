@@ -4,7 +4,6 @@ branches:
   - gh-pages
 sudo: false
 before_script:
-  - npm install web-component-tester@4.2.2
   - npm install bower
   - npm install -g gulp
   - export PATH=$PWD/node_modules/.bin:$PATH
