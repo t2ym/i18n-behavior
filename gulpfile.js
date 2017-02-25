@@ -379,14 +379,19 @@ gulp.task('webcomponents-min', () => {
 });
 
 gulp.task('patch-polyserve', () => {
-  return gulp.src([ 'node_modules/polyserve/lib/start_server.js', 'node_modules/polyserve/lib/transform-middleware.js' ])
-    .pipe(gulpif('start_server.js', replace(
+  return gulp.src([
+    'node_modules/polyserve/lib/start_server.js',
+    'node_modules/polyserve/lib/transform-middleware.js',
+    'node_modules/web-component-tester/node_modules/polyserve/lib/start_server.js',
+    'node_modules/web-component-tester/node_modules/polyserve/lib/transform-middleware.js' ], 
+    { base: 'node_modules' })
+    .pipe(gulpif('**/start_server.js', replace(
       "if (options.compile === 'auto' || options.compile === 'always')",
       "app._delayedAppConfig = () => {\n    if (/* patched */ options.compile === 'auto' || options.compile === 'always')", 'g')))
-    .pipe(gulpif('start_server.js', replace(
+    .pipe(gulpif('**/start_server.js', replace(
       "return app;",
       "}\n    return /* patched */ app;", 'g')))
-    .pipe(gulpif('transform-middleware.js', replace(
+    .pipe(gulpif('**/transform-middleware.js', replace(
                     "newBody = transformer.transform(req, res, body);",`
                     let tmpBody = body;
                     if (Array.isArray(req._transformers)) {
@@ -395,7 +400,7 @@ gulp.task('patch-polyserve', () => {
                         });
                     }
                     newBody = transformer.transform(req, res, tmpBody);`, 'g')))
-    .pipe(gulp.dest('node_modules/polyserve/lib/'));
+    .pipe(gulp.dest('node_modules'));
 });
 
 // Scan HTMLs and construct localizable attributes repository
