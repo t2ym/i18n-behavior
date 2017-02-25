@@ -26,12 +26,12 @@ script:
   - cp -vf test/v2X-wct.conf.json wct.conf.json && xvfb-run wct test/index2.html
   - #cp -vf bower_components/test-fixture/test-fixture-es5.html bower_components/test-fixture/test-fixture.html
   - #cp -vf test/v2min-wct.conf.json wct.conf.json && xvfb-run wct test/index2-min.html
-  - npm install web-component-tester@4.2.2
+  - #npm install web-component-tester@4.2.2
   - mv -vf bower_components bower_components2
-  - cp -vf test/bower2c.json bower.json
-  - bower install
-  - cp -vf test/v2c-wct.conf.json wct.conf.json && xvfb-run wct test/index2.html
-  - mv -vf bower_components bower_components2c
+  - #cp -vf test/bower2c.json bower.json
+  - #bower install
+  - #cp -vf test/v2c-wct.conf.json wct.conf.json && xvfb-run wct test/index2.html
+  - #mv -vf bower_components bower_components2c
   - mv -vf bower_components1 bower_components
   - cp -vf test/0-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
   - # Skip coverage for Microsoft Edge, Safari 8/9 since POST requests from socket.io client for coverage report are responded with 500 Internal Server Error

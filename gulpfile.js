@@ -378,6 +378,25 @@ gulp.task('webcomponents-min', () => {
     .pipe(gulp.dest('test/webcomponentsjs/'));
 });
 
+gulp.task('patch-polyserve', () => {
+  return gulp.src([ 'node_modules/polyserve/lib/start_server.js', 'node_modules/polyserve/lib/transform-middleware.js' ])
+    .pipe(gulpif('start_server.js', replace(
+      "if (options.compile === 'auto' || options.compile === 'always')",
+      "app._delayedAppConfig = () => {\n    if (/* patched */ options.compile === 'auto' || options.compile === 'always')", 'g')))
+    .pipe(gulpif('start_server.js', replace(
+      "return app;",
+      "}\n    return /* patched */ app;", 'g')))
+    .pipe(gulpif('transform-middleware.js', replace(
+                    "newBody = transformer.transform(req, res, body);",`
+                    let tmpBody = body;
+                    if (Array.isArray(req._transformers)) {
+                        req._transformers.forEach(_transformer => {
+                            tmpBody = _transformer.transform(req, res, tmpBody);
+                        });
+                    }
+                    newBody = transformer.transform(req, res, tmpBody);`, 'g')))
+    .pipe(gulp.dest('node_modules/polyserve/lib/'));
+});
 
 // Scan HTMLs and construct localizable attributes repository
 gulp.task('scan2', function () {
@@ -732,9 +751,7 @@ gulp.task('pretest', ['clean'], function(cb) {
 
 gulp.task('pretest2', ['clean2'], function(cb) {
   runSequence(
-    //'patchshadycss',
-    //'polyfillclone',
-    //'webcomponents-min',
+    'patch-polyserve',
     'scan2',
     'src2-min',
     'preprocess2',

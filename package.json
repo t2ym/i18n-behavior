@@ -63,7 +63,7 @@
     "strip-bom": "^3.0.0",
     "through2": "^2.0.1",
     "web-component-tester": "^6.0.0-prerelease.5",
-    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul/tarball/0.10.1",
+    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul#0.10.1-wct6",
     "xliff-conv": "^1.0.10"
   }
 }
