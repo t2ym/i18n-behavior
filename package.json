@@ -60,12 +60,11 @@
     "json-stringify-safe": "^5.0.1",
     "lcov-result-merger": "^1.2.0",
     "merge-stream": "^1.0.0",
-    "polyserve": "^0.16.0-prerelease.9",
     "run-sequence": "^1.1.5",
     "strip-bom": "^3.0.0",
     "through2": "^2.0.1",
     "web-component-tester": "^6.0.0-prerelease.5",
-    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul#0.10.1-wct6.2",
+    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul#0.10.1-wct6.3",
     "xliff-conv": "^1.0.10"
   }
 }
