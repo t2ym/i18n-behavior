@@ -7,6 +7,7 @@ before_script:
   - npm install bower
   - npm install -g gulp
   - export PATH=$PWD/node_modules/.bin:$PATH
+  - ls -l
   - bower install
 env:
   global:
