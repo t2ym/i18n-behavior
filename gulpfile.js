@@ -756,7 +756,7 @@ gulp.task('pretest', ['clean'], function(cb) {
 
 gulp.task('pretest2', ['clean2'], function(cb) {
   runSequence(
-    'patch-polyserve',
+    //'patch-polyserve',
     'scan2',
     'src2-min',
     'preprocess2',
