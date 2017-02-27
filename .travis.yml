@@ -2,7 +2,15 @@ language: node_js
 branches:
   except:
   - gh-pages
-sudo: false
+sudo: required
+dist: trusty
+addons:
+  firefox: latest
+  apt:
+    sources:
+    - google-chrome
+    packages:
+    - google-chrome-stable
 before_script:
   - npm install bower
   - npm install -g gulp
@@ -17,7 +25,7 @@ node_js: 4
 addons:
   sauce_connect: true
 script:
-  - cp -vf test/0-wct.conf.json wct.conf.json && xvfb-run wct test/index-fake.html
+  - cp -vf test/0-wct.conf.json wct.conf.json && xvfb-run wct --skip-plugin=sauce test/index-fake.html
   - mv -vf bower_components bower_components1
   - cp -vf test/bower2.json bower.json
   - bower install
