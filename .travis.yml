@@ -8,7 +8,6 @@ before_script:
   - npm install -g gulp
   - npm install -g typescript
   - export PATH=$PWD/node_modules/.bin:$PATH
-  - pushd node_modules/web-component-tester && npm install && gulp build && popd
   - bower install
 env:
   global:
