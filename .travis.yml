@@ -2,15 +2,7 @@ language: node_js
 branches:
   except:
   - gh-pages
-sudo: required
-dist: trusty
-addons:
-  firefox: latest
-  apt:
-    sources:
-    - google-chrome
-    packages:
-    - google-chrome-stable
+sudo: false
 before_script:
   - npm install bower
   - npm install -g gulp
