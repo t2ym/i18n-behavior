@@ -17,6 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
       var hasShadow = Boolean(Element.prototype.createShadowRoot);
       var nativeShadow = hasShadow && !window.ShadowDOMPolyfill;
+      var isEdge14 = !!navigator.userAgent.match(/ Edge\/14[.]/);
       var suites = [];
       (nativeShadow ?
         [
@@ -24,17 +25,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           'preprocess-lite',
           //'vulcanize-lite',
           //'minify-lite'
-        ] :
-        [
-          'src-lite',
-          'preprocess-lite',
-          //'vulcanize-lite',
-          //'minify-lite',
-          'src',
-          'preprocess',
-          //'vulcanize',
-          //'minify'
         ]
+        : isEdge14 ?
+          [
+            'src-lite',
+            'preprocess-lite',
+            //'vulcanize-lite',
+            //'minify-lite',
+            //'src',
+            //'preprocess',
+            //'vulcanize',
+            //'minify'
+          ]
+          :
+          [
+            'src-lite',
+            'preprocess-lite',
+            //'vulcanize-lite',
+            //'minify-lite',
+            'src',
+            'preprocess',
+            //'vulcanize',
+            //'minify'
+          ]
       ).forEach(function (phase) {
         (nativeShadow ? [ '?xhr=fake&suppress=true', '?dom=shadow&xhr=fake&suppress=true' ] : [ '?xhr=fake&suppress=true' ]).forEach(function (dom) {
           [
