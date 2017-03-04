@@ -35,7 +35,7 @@
     "i18n-format": "#2.0-develop"
   },
   "devDependencies": {
-    "web-component-tester": "t2ym/web-component-tester#istanbul",
+    "web-component-tester": "t2ym/web-component-tester#wct6-plugin",
     "es6-shim": "^0.35.1",
     "get-own-property-symbols": "es-shims/get-own-property-symbols#^0.9.2",
     "iron-component-page": "PolymerElements/iron-component-page#2.0-preview",
