@@ -69,7 +69,13 @@ function updateProperty (element, properties) {
 function getProperty (target, name) {
   var path = name.split(/[.]/);
   if (path.length === 1) {
-    return target[name];
+    switch (name) {
+    case 'textContent':
+      return Array.prototype.map.call(target.childNodes, function (n) { return n.nodeType === n.TEXT_NODE ? n.textContent : ''; }).join('');
+    default:
+      return target[name];
+      break;
+    }
   }
   else {
     var cursor = target;
