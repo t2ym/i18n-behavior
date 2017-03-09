@@ -765,6 +765,7 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     'preprocess2-raw',
     'empty-ja2',
     'preprocess2-min',
+    /*
     'clone2',
     'vulcanize2',
     'clean-clone2',
@@ -779,6 +780,7 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     'minify2-min',
     'mini-bundles2',
     'empty-mini-bundle-ja2',
+    */
     'fake-server',
     /*
     'feedback',
