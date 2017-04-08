@@ -2527,6 +2527,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
      * - As called twice per custom element registration, the method skips bundle construction at the second call.
      */
     beforeRegister: function () {
+      if (Polymer.ElementMixin) {
+        return;
+      }
       if (this.is !== 'i18n-dom-bind') {
         if (!this._templateLocalizable) {
           this._templateLocalizable = this._constructDefaultBundle();
