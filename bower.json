@@ -48,7 +48,7 @@
   },
   "resolutions": {
     "polymer": "2.0.0-rc.4",
-    "webcomponentsjs": "v1.0.0-rc.5",
+    "webcomponentsjs": "v1.0.0-rc.8",
     "i18n-number": "2.0-develop",
     "iron-ajax": "2.0-preview",
     "iron-flex-layout": "2.0-preview",
