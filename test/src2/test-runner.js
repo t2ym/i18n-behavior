@@ -347,6 +347,11 @@ function setupFixture (params, fixtureModel) {
     setupFakeServer(e);
     return new Promise(function (resolve, reject) {
       //console.log('setupFixture: name = ' + fixtureName + ' model = ' + JSON.stringify(fixtureModel, null, 2));
+      if (!window.FixtureWrapper) {
+        window.FixtureWrapper = class FixtureWrapper extends Polymer.Element { };
+        customElements.define('fixture-wrapper', FixtureWrapper);
+      }
+
       if (fixtureModel) {
         var f = document.querySelector('test-fixture[id=' + fixtureName + ']');
         var t = f.querySelector('template[is=dom-template]');
@@ -356,7 +361,7 @@ function setupFixture (params, fixtureModel) {
           for (p in fixtureModel) {
             instanceProps[p] = true;
           }
-          var self = t;
+          var self = new FixtureWrapper();
           t.__templatizeOwner = undefined;
           t._ctor = Polymer.Templatize.templatize(t, self, {
             instanceProps: instanceProps,
