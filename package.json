@@ -60,7 +60,7 @@
     "json-stringify-safe": "^5.0.1",
     "lcov-result-merger": "^1.2.0",
     "merge-stream": "^1.0.0",
-    "polyserve": "https://github.com/t2ym/polyserve#0.16.0-istanbul.4",
+    "polyserve": "https://github.com/t2ym/polyserve#0.17.0-istanbul.1",
     "run-sequence": "^1.1.5",
     "strip-bom": "^3.0.0",
     "through2": "^2.0.1",
