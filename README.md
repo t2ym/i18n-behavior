@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/t2ym/i18n-behavior.svg?branch=master)](https://travis-ci.org/t2ym/i18n-behavior)
 [![Coverage Status](https://coveralls.io/repos/github/t2ym/i18n-behavior/badge.svg?branch=master&build=157)](https://coveralls.io/github/t2ym/i18n-behavior?branch=master)
-[![Bower](https://img.shields.io/bower/v/i18n-behavior.svg)](https://customelements.io/t2ym/i18n-behavior/)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/t2ym/i18n-behavior)
+[![Bower](https://img.shields.io/bower/v/i18n-behavior.svg)](https://www.webcomponents.org/element/t2ym/i18n-behavior)
 
 # i18n-behavior
 
@@ -9,6 +10,15 @@ Instant and Modular I18N for Polymer
 [API Docs](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/), [Demo](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/demo/), and [Test](https://t2ym.github.io/i18n-behavior/components/i18n-behavior/test/) on GitHub Pages (https://t2ym.github.io/i18n-behavior)
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/i18n-behavior.gif" width="768px">
+
+
+# Releases
+
+## Stable Release 2.0.0
+
+- Hybrid support of Polymer 1.x/2.x in the legacy syntax
+- [i18n-element](https://github.com/t2ym/i18n-element) I18N base element class for Polymer 2.x
+- (Work in progress)[live-localizer](https://github.com/t2ym/live-localizer) L10N widget
 
 ## Stable Release 1.1.0
 
@@ -43,12 +53,21 @@ Instant and Modular I18N for Polymer
 
 ## Browser Compatibility
 
-Polyfilled by [`webcomponents-lite.min.js`](https://github.com/webcomponents/webcomponentsjs)
+Polyfilled by [`webcomponents-lite.js`](https://github.com/webcomponents/webcomponentsjs)
+
+### Polymer 2.x
+
+| DOM       | Chrome* | Firefox* | Edge 13+  | IE 11  | Safari 9+ | Chrome Android* | Mobile Safari* | Opera* |
+|:----------|:-------:|:--------:|:---------:|:------:|:---------:|:---------------:|:--------------:|:------:|
+| Supported | ✔       | ✔        | ✔         | ✔      | ✔         | ✔               | ✔              | ✔      |
+
+__ES5 transpilation of Polymer 2.x library is required for non-ES6-ready browsers.__
+
+### Polymer 1.x
 
 | DOM       | Chrome* | Firefox* | Edge 13+  | IE 10+ | Safari 7+ | Chrome Android* | Mobile Safari* | Opera* |
 |:----------|:-------:|:--------:|:---------:|:------:|:---------:|:---------------:|:--------------:|:------:|
-| Shady     | ✔       | ✔       | ✔         | ✔     | ✔         | ✔              | ✔              | ✔     |
-| Shadow    | ✔       | -        | -         | -      | -         | ✔              | -              | ✔     |
+| Supported | ✔       | ✔        | ✔         | ✔      | ✔         | ✔               | ✔              | ✔      |
 
  `*` latest versions
 
@@ -223,6 +242,26 @@ without overheads of run-time traversal into the whole template.
 
 ## Changelogs
 
+#### Stable Release 2.0.0
+
+##### Modules
+
+| Module        | Packager | Version | Description |
+|:--------------|:---------|:--------|:------------|
+| [i18n-element](https://github.com/t2ym/i18n-element) | npm/bower | [2.0.0](https://github.com/t2ym/i18n-element/releases/tag/2.0.0) | I18N base element class |
+| [i18n-behavior](https://github.com/t2ym/i18n-behavior) | npm/bower | [2.0.0](https://github.com/t2ym/i18n-behavior/releases/tag/2.0.0) | Run-time I18N handler |
+| [i18n-format](https://github.com/t2ym/i18n-format) | npm/bower | [2.0.0](https://github.com/t2ym/i18n-format/releases/tag/2.0.0) | I18N text formatter |
+| [i18n-number](https://github.com/t2ym/i18n-number) | npm/bower | [2.0.2](https://github.com/t2ym/i18n-number/releases/tag/2.0.2) | I18N number formatter |
+| [gulp-i18n-preprocess](https://github.com/t2ym/gulp-i18n-preprocess) | npm | [1.2.3](https://github.com/t2ym/gulp-i18n-preprocess/releases/tag/1.2.3) | Build-time I18N preprocessor |
+| [gulp-i18n-leverage](https://github.com/t2ym/gulp-i18n-leverage) | npm | [1.1.3](https://github.com/t2ym/gulp-i18n-leverage/releases/tag/1.1.3) | L10N JSON updater |
+| [gulp-i18n-add-locales](https://github.com/t2ym/gulp-i18n-add-locales) | npm | [0.1.0](https://github.com/t2ym/gulp-i18n-add-locales/releases/tag/0.1.0) | L10N JSON placeholder generator |
+| [xliff-conv](https://github.com/t2ym/xliff-conv) | npm/bower | [1.0.10](https://github.com/t2ym/xliff-conv/releases/tag/1.0.10) | XLIFF/JSON converter |
+| [live-localizer](https://github.com/t2ym/live-localizer) | npm/bower | [0.0.66](https://github.com/t2ym/live-localizer/releases/tag/0.0.66) | L10N widget (WIP) |
+
+##### Highlights
+
+  * [Shown above](#stable-release-200)
+
 #### Stable Release 1.1.0
 
 ##### Modules
@@ -236,10 +275,6 @@ without overheads of run-time traversal into the whole template.
 | [gulp-i18n-leverage](https://github.com/t2ym/gulp-i18n-leverage) | npm | [1.0.13](https://github.com/t2ym/gulp-i18n-leverage/releases/tag/1.0.13) | L10N JSON updater |
 | [gulp-i18n-add-locales](https://github.com/t2ym/gulp-i18n-add-locales) | npm | [0.1.0](https://github.com/t2ym/gulp-i18n-add-locales/releases/tag/0.1.0) | L10N JSON placeholder generator |
 | [xliff-conv](https://github.com/t2ym/xliff-conv) | npm/bower | [1.0.1](https://github.com/t2ym/xliff-conv/releases/tag/1.0.1) | XLIFF/JSON converter |
-
-##### Highlights
-
-  * [Shown above](#stable-release-110)
 
 #### Stable Release 1.0.0
 
