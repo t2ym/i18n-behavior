@@ -1,6 +1,6 @@
 {
   "name": "i18n-behavior",
-  "version": "2.0.0-develop",
+  "version": "2.0.0",
   "description": "Instant and Modular I18N for Polymer",
   "main": "i18n-behavior.html",
   "directories": {
@@ -64,7 +64,7 @@
     "strip-bom": "^3.0.0",
     "through2": "^2.0.1",
     "web-component-tester": "https://github.com/t2ym/web-component-tester#wct6-plugin",
-    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul#0.10.1-wct6.10",
+    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul#0.10.1-wct6.11",
     "xliff-conv": "^1.0.10"
   }
 }
