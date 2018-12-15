@@ -1,18 +1,17 @@
 language: node_js
 branches:
   except:
-  - gh-pages
+    - gh-pages
 sudo: required
 dist: trusty
 before_script:
-  - npm install -g bower @t2ym/polymer-cli wct-istanbul
-  - export PATH=$PWD/node_modules/.bin:$PATH
-  - polymer install --variants
+  - npm install -g polymer-cli
+  - 'export PATH=$PWD/node_modules/.bin:$PATH'
 env:
   global:
     - secure: p25+lDgCw7qt7yfW8lDCX9yWh+GICZaWKdcM0OoNJaaR75kOi0lVYsmkmL7vv3iGFjnx6hIcn+VR9wovk0yTMup8mOM1ergO6IMO6EfKqbKot0uAYZ4c70SN1nAX36WDr0boBKoyA1e+6WLwEwM7sujqmKWnbNDWGcqmWK8Jx8s+8D1IEOTB3ZsK0JqmQCOD+c73vpzQ89br7vudSfjCeXkpuOF1wfT+4jZObpeXLH5LpzyAgm6RUkte8WRFfn1kt5gYINT02X0yFcqC+EWlDZGG25CmJW9D6p81gJu4jQl2a6OHMD9IuGNyyhCkIXAdZnHcl/gBK3XMTCdMg2FnX4Ubz2/SM/imJDEGnFY38AyHXf5KhU6vp18JZl65GFEo7zjVTqLYTg8xhz/vJEp6PrJ9uptwC5gRiM4SeKO75+G8GDetyXteb30pd94oLtw53gmj/L9ATpLgURl77lgsmbrKwjqaM/QKiDtpl3Z3s8iM3ithA/Zk1kI9OKvEx7xZA7RtYY/aJlClWfim7Mefwcq+sWFOqtiTkCW7L5b5oTDZLPAYeXowOLGvXHhplBgLX/QbSVNsPPQLda5pEbR1dRK4j/CFh2i9UEV785RWkFvXruUJQLev8NmDhCLMWuhxkkFal4hsIEj5iJ639lglJnIJBJipcBWWeXs2JQEVyhQ=
     - secure: J0OgdWaeCkL6Uo2BrZmHc90FXBMAVzI8NAHgYmEpAaW4GklfE0MzfESxQLE32GdJKYipY3/w+fTSlVZ/Am8FWsPKSWjJKg9iZVnPZaIX7Krvk1dA2/pMApapM8AFdOdLLZJmiKFAOa5xz20Z4AR377cmpppo/gm95wcMuUyhuxqd476wopUAbdffmuugtUOurpNqSN/vqVRX0zP1m5hhMeGAKU7RaVU1a6tNv3pinjDjl5JPLAY63PaaDAR+qfgn3jbLxXT1Yd8Oj/GVsb/9JQzWtKumyiQPx9923XnF0/zhbhqPQ/EIyN42Ph61Fo89FLVmCWTJTfFrFRg6ASoNPWOZNeweoH4sH5tCkv9dJdwqgpTFPHLJQ5PSSwuskwcACp4cOYcIIr6v/65ME/e7iqSXeKYlfm/NnOLs9woZytlCxvjaSpRd7in6SLuXWvky+t8o6jE7jnLyNGVuykY/I3rZm2oepZ2NoyE0KO6KN3c2hQcG1+F/B0UH8/MNx+hroy1G25WpPRScVJj1z47cPB/Y8q7L3H6GAUA8sAmPOPzZzEtxmFxauYleOnhYzmVEGf4aPBPeLI9htdUiyxPMwlEoNZMopldOHXpiJOMkHyaKh0HkyeJU7yXqNBPVyNjmASb8cob9C2+JSQy1+znYbRebG6oIH2rPmoYpKKE8gWY=
-node_js: stable
+node_js: 10
 addons:
   firefox: latest
   apt:
@@ -22,9 +21,7 @@ addons:
       - google-chrome-stable
   sauce_connect: true
 script:
-  - xvfb-run polymer test
-  - mv -f bower_components bower_components2
-  - mv -f bower_components-1.x bower_components
-  - cp -vf test/v1-wct.conf.json wct.conf.json
-  - xvfb-run wct
+  - cp -vf test/browser.js node_modules/wct-browser-legacy/browser.js
+  - wct --npm --module-resolution=node --skip-plugin=sauce
+  - wct --npm --module-resolution=node --skip-plugin=istanbul
   - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js || echo success; fi

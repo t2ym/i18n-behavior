@@ -7,27 +7,31 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script>
-/*!
- * @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
- * Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
- */
-    </script>
+    <script type="module">
+import '../../i18n-behavior.js';
+import './simple-text-element/simple-text-element.js';
+import './commented-simple-text-element/commented-simple-text-element.js';
+import './plural-gender-element/plural-gender-element.js';
+import './simple-attribute-element/simple-attribute-element.js';
+import './fallback-text-element/fallback-text-element.js';
+import './compound-binding-element/compound-binding-element.js';
+import './simple-text-id-element/simple-text-id-element.js';
+</script>
 
     <script src="../../../webcomponentsjs/webcomponents-lite.min.js"></script>
-    <script src="../../../web-component-tester/browser.js"></script>
-    <script src="fake-server.js"></script>
-    <script src="test-runner.js"></script>
+    <script src="../../../wct-browser-legacy/browser.js"></script>
+    <script src="./fake-server.js"></script>
+    <script src="./test-runner.js"></script>
 
     <link rel="import" href="../../../promise-polyfill/promise-polyfill.html">
-    <link rel="import" href="../../i18n-behavior.html">
-    <link rel="import" href="simple-text-element/simple-text-element.html">
-    <link rel="import" href="commented-simple-text-element/commented-simple-text-element.html">
-    <link rel="import" href="plural-gender-element/plural-gender-element.html">
-    <link rel="import" href="simple-attribute-element/simple-attribute-element.html">
-    <link rel="import" href="fallback-text-element/fallback-text-element.html">
-    <link rel="import" href="compound-binding-element/compound-binding-element.html">
-    <link rel="import" href="simple-text-id-element/simple-text-id-element.html">
+    <script type="module" src="../../i18n-behavior.js"></script>
+    <script type="module" src="./simple-text-element/simple-text-element.js"></script>
+    <script type="module" src="./commented-simple-text-element/commented-simple-text-element.js"></script>
+    <script type="module" src="./plural-gender-element/plural-gender-element.js"></script>
+    <script type="module" src="./simple-attribute-element/simple-attribute-element.js"></script>
+    <script type="module" src="./fallback-text-element/fallback-text-element.js"></script>
+    <script type="module" src="./compound-binding-element/compound-binding-element.js"></script>
+    <script type="module" src="./simple-text-id-element/simple-text-id-element.js"></script>
     <style>
     .test-container.running-test {
       display: block;
@@ -273,36 +277,45 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         </template>
       </template>
     </div>
-    <script>
-      var bind = document.querySelector('template#simple-attribute-dom-bind');
+    <script type="module">
+import '../../i18n-behavior.js';
+import './simple-text-element/simple-text-element.js';
+import './commented-simple-text-element/commented-simple-text-element.js';
+import './plural-gender-element/plural-gender-element.js';
+import './simple-attribute-element/simple-attribute-element.js';
+import './fallback-text-element/fallback-text-element.js';
+import './compound-binding-element/compound-binding-element.js';
+import './simple-text-id-element/simple-text-id-element.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+var bind = document.querySelector('template#simple-attribute-dom-bind');
 
-      window.addEventListener('dom-change', function onDomChangeForBind (event) {
-        if (event.target === bind) {
-          bind._langUpdated = function (e) {
-            if (Polymer.dom(e).rootTarget === this) {
-              console.log('bind._langUpdated: ' + this.is + ' ' + this.id + ' ' + e.type + ' ' + this.lang);
-              console.log('bind._langUpdated: deepcopying model for lang ' + this.lang);
-              this.model = deepcopy(this.text.model);
-              this.notifyPath('model', this.model);
-              this.render();
-            }
-          };
+window.addEventListener('dom-change', function onDomChangeForBind (event) {
+  if (event.target === bind) {
+    bind._langUpdated = function (e) {
+      if (dom(e).rootTarget === this) {
+        console.log('bind._langUpdated: ' + this.is + ' ' + this.id + ' ' + e.type + ' ' + this.lang);
+        console.log('bind._langUpdated: deepcopying model for lang ' + this.lang);
+        this.model = deepcopy(this.text.model);
+        this.notifyPath('model', this.model);
+        this.render();
+      }
+    };
 
-          bind._onDomChangeAfterLangUpdated = function (e) {
-            console.log('bind._onDomChangeAfterLangUpdated ' + this.is + ' ' + this.id + ' ' + e.type + ' ' + this.lang);
-            if (this.params && this.params.lang === this.lang) {
-              console.log('bind._onDomChangeAfterLangUpdated ' + this.is + ' ' + this.id + ' ' + e.type + ' firing local-dom-ready');
-              this.fire('local-dom-ready');
-            }
-          };
+    bind._onDomChangeAfterLangUpdated = function (e) {
+      console.log('bind._onDomChangeAfterLangUpdated ' + this.is + ' ' + this.id + ' ' + e.type + ' ' + this.lang);
+      if (this.params && this.params.lang === this.lang) {
+        console.log('bind._onDomChangeAfterLangUpdated ' + this.is + ' ' + this.id + ' ' + e.type + ' firing local-dom-ready');
+        this.fire('local-dom-ready');
+      }
+    };
 
-          bind.listen(bind, 'lang-updated', '_langUpdated');
-          bind.listen(bind, 'dom-change', '_onDomChangeAfterLangUpdated');
+    bind.listen(bind, 'lang-updated', '_langUpdated');
+    bind.listen(bind, 'dom-change', '_onDomChangeAfterLangUpdated');
 
-          window.removeEventListener('dom-change', onDomChangeForBind);
-        }
-      });
-    </script>
+    window.removeEventListener('dom-change', onDomChangeForBind);
+  }
+});
+</script>
 
     <div class="test-container">
       <template id="compound-binding-dom-bind"
@@ -355,7 +368,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       </template>
     </div>
 
-    <script>
+    <script type="module">
+import '../../i18n-behavior.js';
+import './simple-text-element/simple-text-element.js';
+import './commented-simple-text-element/commented-simple-text-element.js';
+import './plural-gender-element/plural-gender-element.js';
+import './simple-attribute-element/simple-attribute-element.js';
+import './fallback-text-element/fallback-text-element.js';
+import './compound-binding-element/compound-binding-element.js';
+import './simple-text-id-element/simple-text-id-element.js';
 suite('I18nBehavior with ' + 
   (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM'), 
   function () {
@@ -1607,7 +1628,7 @@ suite('I18nBehavior with ' +
   suitesRunner(suites);
 
 });
-    </script>
+</script>
 
   </body>
 </html>

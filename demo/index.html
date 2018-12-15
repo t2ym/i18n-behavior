@@ -7,14 +7,27 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>i18n-behavior Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
-    <link rel="import" href="../../paper-styles/demo-pages.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../i18n-behavior.html">
-    <link rel="import" href="i18n-behavior-demo.html">
-    <style is="custom-style" include="demo-pages-shared-styles">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module">
+    import "@polymer/iron-flex-layout/iron-flex-layout.js";
+    import "@polymer/paper-styles/demo-pages.js";
+    import "@polymer/iron-demo-helpers/demo-snippet.js";
+    import "@polymer/iron-demo-helpers/demo-pages-shared-styles.js";
+    import "../i18n-behavior.js";
+    import "./i18n-behavior-demo.js";
+    </script>
+    <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<style is="custom-style" include="demo-pages-shared-styles">
       .vertical-section-container {
         max-width: 768px;
       }
@@ -46,8 +59,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         }
 
       }
-    </style>
-    <style is="custom-style">
+    </style>`;
+
+document.head.appendChild($_documentContainer.content);
+</script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<style is="custom-style">
       --demo-snippet-code {
         @apply(--paper-font-code1);
       }
@@ -140,10 +159,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         }
 
       }
-    </style>
+    </style>`;
+
+document.head.appendChild($_documentContainer.content);
+</script>
   </head>
   <body unresolved>
-    <div class="vertical-section-container centered">
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<div class="vertical-section-container centered">
 
       <h1><code>i18n-behavior</code> Demo</h1>
 
@@ -157,38 +182,44 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             <i18n-behavior-demo id="i18n-behavior-demo"></i18n-behavior-demo>
           </template>
         </demo-snippet>
+      </div>`;
 
+/*
         <h2><code>i18n-dom-bind</code></h2>
         <demo-snippet id="i18n-dom-bind-demo" class="left-aligned-demo">
           <template>
-            <template is="i18n-dom-bind" id="bind">
-              <h2>{{is}}</h2>
-              <ul>
-                <li id="label">UI Text Label</li>
-                <li><input id="input" placeholder="Placeholder Label"></li>
-                <li>lang = {{effectiveLang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
-                <li><pre>text = {{serialize(text)}}</pre></li>
-                <li id="fallback"><i18n-format><json-data>{
-                  "en": "The last 2 items are missing in non-{1} and fall back to English",
-                  "other": "The last 2 items are missing in {1} and fall back to English" 
-                }</json-data><i>{{effectiveLang}}</i></i18n-format></li>
-              </ul>
-            </template>
+            <i18n-dom-bind id="bind">
+              <template>
+                <h2>{{is}}</h2>
+                <ul>
+                  <li id="label">UI Text Label</li>
+                  <li><input id="input" placeholder="Placeholder Label"></li>
+                  <li>lang = {{effectiveLang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
+                  <li><pre>text = {{serialize(text)}}</pre></li>
+                  <li id="fallback"><i18n-format><json-data>{
+                    "en": "The last 2 items are missing in non-{1} and fall back to English",
+                    "other": "The last 2 items are missing in {1} and fall back to English" 
+                  }</json-data><i>{{effectiveLang}}</i></i18n-format></li>
+                </ul>
+              </template>
+            </i18n-dom-bind>
           </template>
           <script type="text/markdown">
-            <template is="i18n-dom-bind" id="bind" lang="en">
-              <h2>{{is}}</h2>
-              <ul>
-                <li id="label">UI Text Label</li>
-                <li><input id="input" placeholder="Placeholder Label"></li>
-                <li>lang = {{effectiveLang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
-                <li><pre>text = {{serialize(text)}}</pre></li>
-                <li id="fallback"><i18n-format><json-data>{
-                  "en": "The last 2 items are missing in non-{1} and fall back to English",
-                  "other": "The last 2 items are missing in {1} and fall back to English" 
-                }</json-data><i>{{effectiveLang}}</i></i18n-format></li>
-              </ul>
-            </template>
+            <i18n-dom-bind id="bind" lang="en">
+              <template>
+                <h2>{{is}}</h2>
+                <ul>
+                  <li id="label">UI Text Label</li>
+                  <li><input id="input" placeholder="Placeholder Label"></li>
+                  <li>lang = {{effectiveLang}} (This item is automatically converted to <code>&lt;i18n-format&gt;</code>)</li>
+                  <li><pre>text = {{serialize(text)}}</pre></li>
+                  <li id="fallback"><i18n-format><json-data>{
+                    "en": "The last 2 items are missing in non-{1} and fall back to English",
+                    "other": "The last 2 items are missing in {1} and fall back to English" 
+                  }</json-data><i>{{effectiveLang}}</i></i18n-format></li>
+                </ul>
+              </template>
+            </i18n-dom-bind>
             <﻿script>
               window.addEventListener('dom-change', function onDomChange (e) {
                 if (e.target === window.bind) {
@@ -219,72 +250,52 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 "<i18n-format>"
               ]
             }
-          </script>
-          <script>
-            (function () {
-              var demoSnippet = document.querySelector('demo-snippet#i18n-dom-bind-demo');
-              var langList = [ 'en', 'fr', 'ja' ];
-              var langIndex = 0;
-              window.addEventListener('dom-change', function onDomChange (e) {
-                if (unwrap(Polymer.dom(e).rootTarget) === window.bind) {
-                  bind.observeHtmlLang = false;
-                  bind.langList = [ 'en', 'fr', 'ja' ];
-                  bind.langIndex = 0;
-                  bind.lang = bind.langList[bind.langIndex];
-                  window.setInterval(function () {
-                    this.langIndex = (this.langIndex + 1) % this.langList.length;
-                    this.lang = this.langList[this.langIndex];
-                    demoSnippet._markdown = demoSnippet._markdown.replace(/lang=\".*\"/, 'lang=\"' + this.lang + '\"');
-                  }.bind(bind), 1000);
-                  bind.langUpdated = function (e) {
-                    this.model = deepcopy(this.text.model);
-                  };
-                  bind.listen(bind, 'lang-updated', 'langUpdated');
-                  bind.serialize = function (obj) {
-                    return JSON.stringify(obj, null, 2);
-                  };
-                  window.removeEventListener('dom-change', onDomChange);
-                }
-              });
-            })();
-          </script>
+          &lt;/script>
         </demo-snippet>
       </div>
-    </div>
+    </div>`;
+*/
 
-    <script>
-      window.addEventListener('WebComponentsReady', function () {
-        var demoSnippets = document.querySelectorAll('demo-snippet');
-        Array.prototype.forEach.call(demoSnippets, function (demo) {
-          var script = Polymer.dom(demo).queryDistributedElements('script[type="text/markdown"]')[0];
+document.body.appendChild($_documentContainer.content);
+</script>
+<script type="module">
+import '@polymer/iron-flex-layout/iron-flex-layout.js';
+import '@polymer/paper-styles/demo-pages.js';
+import '@polymer/iron-demo-helpers/demo-snippet.js';
+import '@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+import '../i18n-behavior.js';
+import './i18n-behavior-demo.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+var demoSnippets = document.querySelectorAll('demo-snippet');
+Array.prototype.forEach.call(demoSnippets, function (demo) {
+  var script = dom(demo).queryDistributedElements('script[type="text/markdown"]')[0];
 
-          if (!script) {
-            return;
-          }
+  if (!script) {
+    return;
+  }
 
-          var snippet = script.innerHTML;
-          var match = snippet.match(/\n([ ]*)/);
-          if (match && match[1]) {
-            var lines = snippet.split(/\n/);
-            snippet = 
-              lines.map(function (line) {
-                if (line.indexOf(match[1]) === 0) {
-                  line = line.slice(match[1].length);               
-                }
-                return line;
-              }).join('\n');
-          }
+  var snippet = script.innerHTML;
+  var match = snippet.match(/\n([ ]*)/);
+  if (match && match[1]) {
+    var lines = snippet.split(/\n/);
+    snippet = 
+      lines.map(function (line) {
+        if (line.indexOf(match[1]) === 0) {
+          line = line.slice(match[1].length);               
+        }
+        return line;
+      }).join('\n');
+  }
 
-          snippet = '```\n' + snippet + '\n```';
-          snippet = snippet.replace(/=""/g, '');
+  snippet = '```\n' + snippet + '\n```';
+  snippet = snippet.replace(/=""/g, '');
 
-          demo._markdown = snippet;
-        });
-      });
-      var demoSnippet = document.querySelector('demo-snippet#demo-snippet');
-      demoSnippet.addEventListener('markdown-changed', function (e) {
-        demoSnippet._markdown = e.detail.markdown;
-      });
-    </script>
+  demo._markdown = snippet;
+});
+var demoSnippet = document.querySelector('demo-snippet#demo-snippet');
+demoSnippet.addEventListener('markdown-changed', function (e) {
+  demoSnippet._markdown = e.detail.markdown;
+});
+</script>
   </body>
 </html>

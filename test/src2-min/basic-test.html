@@ -7,17 +7,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script>
-/*!
- * @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
- * Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
- */
-    </script>
+    <script type="module">
+import './basic-test-imports.js';
+</script>
 
     <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
     <!-- <script src="../../../custom-elements/src/native-shim.js"></script> -->
-    <script src="../../../web-component-tester/browser.js"></script>
-    <link rel="import" href="basic-test-imports.html">
+    <script src="../../../wct-browser-legacy/browser.js"></script>
+    <script type="module" src="./basic-test-imports.js"></script>
     <style>
     .test-container.running-test {
       display: block;
