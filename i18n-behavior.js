@@ -19,6 +19,7 @@ import { ElementMixin } from '@polymer/polymer/lib/mixins/element-mixin.js';
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
 import { Polymer as Polymer$0 } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import { MutableDataBehavior } from '@polymer/polymer/lib/legacy/mutable-data-behavior.js';
 import deepcopy from 'deepcopy/dist/deepcopy.mjs';
 //const $_documentContainer = document.createElement('template');
 //$_documentContainer.innerHTML = `<i18n-attr-repo></i18n-attr-repo>`;
@@ -2791,7 +2792,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.mjs';
             return this.__template;
           }
           if (this instanceof HTMLElement &&
-            this.constructor.name === 'PolymerGenerated' &&
+            (this.constructor.name || /* name is undefined in IE11 */ this.constructor.toString().replace(/^function ([^ \(]*)((.*|[\n]*)*)$/, '$1')) === 'PolymerGenerated' &&
             !this.constructor.__finalizeClass) {
             this.constructor.__finalizeClass = this.constructor._finalizeClass;
             let This = this;
@@ -2820,6 +2821,11 @@ import deepcopy from 'deepcopy/dist/deepcopy.mjs';
           this.__template = value;
         }
       });
+      if (!(function F() {}).name) {
+        // IE11
+        // Note: In IE11, changes in this.text object do not propagate automatically and require MutableDataBehavior to propagate
+        BehaviorsStore.I18nBehavior.push(MutableDataBehavior);
+      }
     }
     Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       get: function() {
