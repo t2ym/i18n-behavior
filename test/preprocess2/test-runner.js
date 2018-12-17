@@ -2,6 +2,12 @@
  * @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
  * Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
  */
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import { templatize } from '@polymer/polymer/lib/utils/templatize.js';
+import { PolymerElement } from '@polymer/polymer/polymer-element.js';
+import deepcopy from 'deepcopy/dist/deepcopy.js';
+
+window.deepcopy = deepcopy;
 
 if (!Number.isNaN) {
   // polyfill Number.isNaN for IE11
@@ -11,17 +17,17 @@ if (!Number.isNaN) {
 }
 
 // Inheritance of test parameters
-var p = Object.setPrototypeOf || function (target, base) { 
+window.p = Object.setPrototypeOf || function (target, base) { 
   var obj = Object.create(base);
   for (var p in target) {
     obj[p] = target[p];
   }
   return obj;
 };
-var g = Object.getPrototypeOf;
-var _name = 'suite';
-var suiteMap = { null: {} };
-var s = function (name, baseName, extension) {
+window.g = Object.getPrototypeOf;
+window._name = 'suite';
+window.suiteMap = { null: {} };
+window.s = function (name, baseName, extension) {
   if (suiteMap[name]) {
     throw new Error('duplicate suite name ' + name);
   }
@@ -36,7 +42,7 @@ var s = function (name, baseName, extension) {
 
 // Utility functions
 
-function updateProperty (element, properties) {
+window.updateProperty = function updateProperty (element, properties) {
   for (var name in properties) {
     var path = name.split(/[.]/);
     if (path.length === 1) {
@@ -52,7 +58,7 @@ function updateProperty (element, properties) {
           break;
         }
         else if (p === 'PolymerDom') {
-          cursor = Polymer.dom(cursor);
+          cursor = dom(cursor);
         }
         else if (p === 'html') {
           cursor = document.querySelector('html');
@@ -66,7 +72,7 @@ function updateProperty (element, properties) {
   }
 }
 
-function getProperty (target, name) {
+window.getProperty = function getProperty (target, name) {
   var path = name.split(/[.]/);
   if (path.length === 1) {
     switch (name) {
@@ -100,7 +106,7 @@ function getProperty (target, name) {
         }
       }
       else if (p === 'PolymerDom') {
-        cursor = Polymer.dom(cursor);
+        cursor = dom(cursor);
       }
       else if (p === 'previousTextSibling') {
         do {
@@ -133,7 +139,7 @@ function getProperty (target, name) {
   }
 }
 
-function deepMap (target, source, map) {
+window.deepMap = function deepMap (target, source, map) {
   var value;
   for (var prop in source) {
     value = source[prop];
@@ -174,7 +180,7 @@ function deepMap (target, source, map) {
   return target;
 }
 
-function translate (lang, path, text) {
+window.translate = function translate (lang, path, text) {
   var result;
   switch (lang) {
   case '':
@@ -215,23 +221,23 @@ function translate (lang, path, text) {
   return result;
 }
 
-function minifyText (text) {
+window.minifyText = function minifyText (text) {
   if (text && typeof text === 'string') {
     text = text.replace(/[\s]{1,}/g, ' ');
   }
   return text;
 }
 
-var isFakeServer = typeof window === 'object' &&
+window.isFakeServer = typeof window === 'object' &&
   typeof window.location.href === 'string' &&
   window.location.href.indexOf('xhr=fake') > 0 &&
   typeof window.fakeServerContents === 'object';
 
-var isSuppressingSuiteParams = typeof window === 'object' &&
+window.isSuppressingSuiteParams = typeof window === 'object' &&
   typeof window.location.href === 'string' &&
   window.location.href.indexOf('suppress=true') > 0;
 
-var syntax = 'mixin';
+window.syntax = 'mixin';
 (function () {
   var href = typeof window === 'object' && typeof window.location.href === 'string'
     ? window.location.href : ''
@@ -244,7 +250,7 @@ var syntax = 'mixin';
   }
 })();
 
-function setupFakeServer (e) {
+window.setupFakeServer = function setupFakeServer (e) {
   if (isFakeServer) {
     e.server = sinon.fakeServer.create();
     e.server.autoRespond = true;
@@ -263,13 +269,13 @@ function setupFakeServer (e) {
   }
 }
 
-function teardownFakeServer (e) {
+window.teardownFakeServer = function teardownFakeServer (e) {
   if (isFakeServer) {
     e.server.restore();
   }
 }
 
-function setupFixture (params, fixtureModel) {
+window.setupFixture = function setupFixture (params, fixtureModel) {
   var fixtureName = params.fixture;
   var e = document.querySelector('#' + fixtureName);
   var runningTest = document.querySelectorAll('.running-test');
@@ -294,7 +300,7 @@ function setupFixture (params, fixtureModel) {
     });
     return new Promise(function (resolve, reject) {
       e.addEventListener('dom-change', function setupFixtureDomChange (ev) {
-        if (Polymer.dom(ev).rootTarget === e) {
+        if (dom(ev).rootTarget === e) {
           //console.log('setupFixture dom-change');
           e.removeEventListener('dom-change', setupFixtureDomChange);
           try {
@@ -348,7 +354,7 @@ function setupFixture (params, fixtureModel) {
     return new Promise(function (resolve, reject) {
       //console.log('setupFixture: name = ' + fixtureName + ' model = ' + JSON.stringify(fixtureModel, null, 2));
       if (!window.FixtureWrapper) {
-        window.FixtureWrapper = class FixtureWrapper extends Polymer.Element { };
+        window.FixtureWrapper = class FixtureWrapper extends PolymerElement { };
         customElements.define('fixture-wrapper', FixtureWrapper);
       }
 
@@ -363,7 +369,7 @@ function setupFixture (params, fixtureModel) {
           }
           var self = new FixtureWrapper();
           t.__templatizeOwner = undefined;
-          t._ctor = Polymer.Templatize.templatize(t, self, {
+          t._ctor = templatize(t, self, {
             instanceProps: instanceProps,
             forwardHostProp: function(prop, value) {
               if (self._instance) {
@@ -416,7 +422,7 @@ function setupFixture (params, fixtureModel) {
   }
 }
 
-function restoreFixture (fixtureName) {
+window.restoreFixture = function restoreFixture (fixtureName) {
   var e = document.querySelector('#' + fixtureName);
   if (!e) {
     throw new Error('Fixture element with id = ' + fixtureName + ' not found');
@@ -437,7 +443,7 @@ function restoreFixture (fixtureName) {
   }
 }
 
-function getLocalDomRoot (e) {
+window.getLocalDomRoot = function getLocalDomRoot (e) {
   if (e.is === 'i18n-dom-bind') {
     return e.parentElement;
   }
@@ -449,7 +455,7 @@ function getLocalDomRoot (e) {
   }
 }
 
-function suitesRunner (suites) {
+window.suitesRunner = function suitesRunner (suites, _wait) {
 
   suites.forEach(function (params) {
 
@@ -471,7 +477,7 @@ function suitesRunner (suites) {
       this.timeout(timeout);
 
       (params.setup ? setup : suiteSetup)(function () {
-        return setupFixture(params, params.fixtureModel)
+        return (_wait ? new Promise((resolve) => { setTimeout(() => { resolve(); }, _wait); }) : Promise.resolve()).then(() => setupFixture(params, params.fixtureModel))
           .then(function (element) {
             el = element;
             //console.log('setup: element.lang = ' + element.lang);
@@ -481,7 +487,7 @@ function suitesRunner (suites) {
                   (params.event ||
                   params.assign && (params.assign.lang || params.assign['html.lang']))) {
                 el.addEventListener(event, function fixtureSetup (e) {
-                  if (el === Polymer.dom(e).rootTarget &&
+                  if (el === dom(e).rootTarget &&
                       el.lang === params.lang &&
                       el.effectiveLang === params.effectiveLang) {
                     el.removeEventListener(event, fixtureSetup);
@@ -505,6 +511,14 @@ function suitesRunner (suites) {
             });
           }, function (error) {
             throw new Error(error);
+          })
+          .then((result) => {
+            if (_wait) {
+              return new Promise((resolve) => { setTimeout(() => resolve(result), _wait); });
+            }
+            else {
+              return result;
+            }
           });
       });
 
@@ -569,7 +583,7 @@ function suitesRunner (suites) {
         if (!params.setup && params.localDOM) {
           params.localDOM.forEach(function (childPath) {
             var completeStatus;
-            var nodes = Polymer.dom(getLocalDomRoot(el)).querySelectorAll(childPath.select);
+            var nodes = dom(getLocalDomRoot(el)).querySelectorAll(childPath.select);
             assert.ok(nodes.length > 0, childPath.select + ' is defined');
             for (var p in childPath) {
               if (p === 'select') {
@@ -644,7 +658,7 @@ function suitesRunner (suites) {
               (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
           params.localDOM.forEach(function (childPath) {
             var completeStatus;
-            var nodes = Polymer.dom(getLocalDomRoot(el)).querySelectorAll(childPath.select);
+            var nodes = dom(getLocalDomRoot(el)).querySelectorAll(childPath.select);
             assert.ok(nodes.length > 0, childPath.select + ' is defined');
             for (var p in childPath) {
               if (p === 'select') {
@@ -676,7 +690,7 @@ function suitesRunner (suites) {
               (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
           params.lightDOM.forEach(function (childPath) {
             var completeStatus;
-            var nodes = Polymer.dom(el).querySelectorAll(childPath.select);
+            var nodes = dom(el).querySelectorAll(childPath.select);
             assert.ok(nodes.length > 0, childPath.select + ' is defined');
             for (var p in childPath) {
               if (p === 'select') {

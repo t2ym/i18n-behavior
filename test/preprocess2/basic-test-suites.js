@@ -2,6 +2,8 @@
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
+import './test-runner.js';
+addEventListener('load', function (event) {
 var bind = document.querySelector('#simple-attribute-dom-bind');
 
 bind.addEventListener('dom-change', function onDomChangeForBind (event) {
@@ -33,6 +35,8 @@ bind.addEventListener('dom-change', function onDomChangeForBind (event) {
     bind.done = true;
   }
 });
+});
+
 suite('I18nElement with ' + 
   (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM') +
   (' in ' + syntax + ' syntax'), 
