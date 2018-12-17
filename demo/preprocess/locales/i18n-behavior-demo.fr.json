@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "todo": []
+  },
   "model": {
     "simple-input": {
       "placeholder": "texte d'espace réservé"

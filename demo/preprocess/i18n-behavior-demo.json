@@ -1,4 +1,5 @@
 {
+  "meta": {},
   "model": {
     "simple-input": {
       "placeholder": "Placeholder String"
