@@ -11,7 +11,7 @@ import '@polymer/paper-styles/demo-pages.js';
 import '../i18n-behavior.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import deepcopy from 'deepcopy/dist/deepcopy.mjs';
+import deepcopy from 'deepcopy/dist/deepcopy.js';
 Polymer({
   importMeta: import.meta,
 

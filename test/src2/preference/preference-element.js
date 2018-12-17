@@ -43,7 +43,7 @@ case 'mixin':
         if (e.composedPath()[0] === this) {
           console.log(e.detail);
           console.log('navigator.language = ' + navigator.language);
-          if (!e.detail.lastLang || e.detail.lastLang === 'en') {
+          if (!e.detail.lastLang || e.detail.lastLang === 'en' || e.detail.lastLang === 'en-US') {
             this.$.oldLang.lang = e.detail.oldLang;
             this.fire('local-dom-ready');
           }

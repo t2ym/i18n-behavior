@@ -20,7 +20,7 @@ import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
 import { Polymer as Polymer$0 } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { MutableDataBehavior } from '@polymer/polymer/lib/legacy/mutable-data-behavior.js';
-import deepcopy from 'deepcopy/dist/deepcopy.mjs';
+import deepcopy from 'deepcopy/dist/deepcopy.js';
 //const $_documentContainer = document.createElement('template');
 //$_documentContainer.innerHTML = `<i18n-attr-repo></i18n-attr-repo>`;
 //document.head.appendChild($_documentContainer.content);

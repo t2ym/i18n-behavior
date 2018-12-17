@@ -5,7 +5,7 @@
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import { templatize } from '@polymer/polymer/lib/utils/templatize.js';
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-import deepcopy from 'deepcopy/dist/deepcopy.mjs';
+import deepcopy from 'deepcopy/dist/deepcopy.js';
 
 window.deepcopy = deepcopy;
 
