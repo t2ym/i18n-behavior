@@ -37,6 +37,9 @@ var attributesRepository = {};
 var prevBundles = {};
 var bundles = {};
 
+// Preprocessed templates
+var preprocessedTemplates = {};
+
 var title = 'I18N transform';
 var srcDir = 'src';
 var tmpDir = 'tmp';
@@ -53,15 +56,30 @@ gulp.task('clean', function() {
 
 var indexHTML = gulpif([ '**/index.html' ], gulp.dest(destDir));
 
+function btoa(str) {
+  let buf = Buffer.from(str);
+  return buf.toString('base64');
+}
+
+function atob(base64) {
+  let buf = Buffer.from(base64, 'base64');
+  return buf.toString();
+}
+
 var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) {
-  let htmlTemplate = `<!-- temporary HTML --><link rel="import" href="../../../i18n-element.html"><innerHTML><dom-module>`;
+  let htmlTemplate = `<!-- temporary HTML --><encoded-original><link rel="import" href="../../../i18n-element.html"><innerHTML><dom-module>`;
   let code = stripBom(String(file.contents));
   let template = code.match(/html`([^`]*)`/);
   let innerHTML = code.match(/[.]innerHTML = `([^`]*)`/);
   let name = file.path.split('/').pop().replace(/[.]js$/,'');
+  let original = '';
   if (template || innerHTML) {
     let html = htmlTemplate;
     if (template) {
+      original = btoa(template[1]);
+      if (atob(original) !== template[1]) {
+        console.error('atob(btoa(template[1])) !== template[1]');
+      }
       html = html.replace('<dom-module>', 
         `<dom-module id="${name}"><template>${template[1]}</template></dom-module>\n`);
     }
@@ -69,11 +87,17 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
       html = html.replace('<dom-module>', '');
     }
     if (innerHTML) {
+      original = btoa(innerHTML[1]);
+      if (atob(original) !== innerHTML[1]) {
+        console.error('atob(btoa(innerHTML[1])) !== innerHTML[1]');
+      }
       html = html.replace('<innerHTML>', innerHTML[1]);
     }
     else {
       html = html.replace('<innerHTML>', '');
     }
+    //console.log('original', original);
+    html = html.replace('<encoded-original>', `<encoded-original>${original}</encoded-original>`);
     let htmlFile = new gutil.File({
       cwd: file.cwd,
       base: file.base,
@@ -123,12 +147,40 @@ var dropDummyHTML = gulpif('**/*.html', through.obj(function (file, enc, callbac
   let temporaryHTML = '<!-- temporary HTML -->';
   let code = stripBom(String(file.contents));
   if (code.indexOf(temporaryHTML) >= 0 || file.path.match(/\/index[.]html$/)) {
+    let match1 = code.match(/<encoded-original>(.*)<[/]encoded-original>/);
+    let match2 = code.match(/<dom-module id="(.*)"><template localizable-text="embedded">([^`]*)<[/]template><[/]dom-module>/);
+    if (match1 && match2) {
+      let name = match2[1];
+      let original = atob(match1[1]);
+      let preprocessed = match2[2];
+      console.log('setting preprocessedTemplates name = ' + name);
+      preprocessedTemplates[name] = {
+        original: original,
+        preprocessed: preprocessed,
+      };
+    }
     console.log('dropDummyHTML dropping ', file.path);
     callback(null, null);
   }
   else {
     callback(null, file);
   }
+}));
+
+var preprocessJs = gulpif(['**/*.js'], through.obj(function (file, enc, callback) {
+  let code = stripBom(String(file.contents));
+  let name = file.path.split('/').pop().replace(/[.]js$/,'');
+  if (preprocessedTemplates[name]) {
+    if (code.indexOf('html`' + preprocessedTemplates[name].original + '`') < 0) {
+      console.error('preprocessJs name = ' + name + ' template not found');
+    }
+    code = code.replace(
+      'html`' + preprocessedTemplates[name].original + '`',
+      '((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`' + preprocessedTemplates[name].preprocessed + '`)');
+    file.contents = Buffer.from(code);
+    console.log('preprocessJs name = ' + name);
+  }
+  callback(null, file);
 }));
 
 var tmpJSON = gulpif([ '**/*.json', '!**/locales/*' ], gulp.dest(tmpDir));
@@ -235,6 +287,8 @@ var exportXliff = through.obj(function (file, enc, callback) {
 
 var feedback = gulpif([ '**/bundle.json', '**/locales/*.json', '**/*.json', '**/xliff/bundle.*.xlf' ], gulp.dest(srcDir));
 
+var dropXliff = gulpignore([ '**/xliff', '**/xliff/**' ]);
+
 var config = {
   // list of target locales to add
   locales: gutil.env.targets ? gutil.env.targets.split(/ /) : []
@@ -261,11 +315,12 @@ gulp.task('i18n', () => {
     .pipe(indexHTML)
     .pipe(unmodulize)
     .pipe(scan)
-    .pipe(basenameSort)
     .pipe(dropDefaultJSON)
     .pipe(preprocess)
     .pipe(tmpHTML)
     .pipe(dropDummyHTML)
+    .pipe(basenameSort)
+    .pipe(preprocessJs)
     .pipe(tmpJSON)
     .pipe(importXliff)
     .pipe(leverage)
@@ -273,6 +328,7 @@ gulp.task('i18n', () => {
     .pipe(feedback)
     .pipe(debug({ title: title }))
     .pipe(size({ title: title }))
+    .pipe(dropXliff)
     .pipe(gulp.dest(destDir));
 });
 
