@@ -2799,11 +2799,16 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
             this.constructor._finalizeClass = function _finalizeClass() {
               let info = this.generatedFrom;
               if (!this._templateLocalizable) {
+                let template = DomModule.import(info.is, 'template');
                 if (info._template) {
+                  if (!template) {
+                    let m = document.createElement('dom-module');
+                    m.appendChild(info._template);
+                    m.register(info.is);
+                  }
                   this._templateLocalizable = BehaviorsStore._I18nBehavior._constructDefaultBundle(This.__template = info._template, info.is);
                 }
                 else {
-                  let template = DomModule.import(info.is, 'template');
                   if (template) {
                     this._templateLocalizable = BehaviorsStore._I18nBehavior._constructDefaultBundle(This.__template = template, info.is);
                   }
