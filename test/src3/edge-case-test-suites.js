@@ -286,7 +286,7 @@ suite('I18nElement with ' +
       effectiveLang: lang1,
       templateDefaultLang: lang1,
       observeHtmlLang: true,
-      text: { model: {} },
+      //text: { model: {} },
       model: {},
       localDOM: undefined,
       lightDOM: undefined
