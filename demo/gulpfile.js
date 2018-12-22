@@ -176,6 +176,7 @@ var preprocessJs = gulpif(['**/*.js'], through.obj(function (file, enc, callback
     if (code.indexOf('html`' + preprocessedTemplates[name].original + '`') < 0) {
       console.error('preprocessJs name = ' + name + ' template not found');
     }
+    preprocessedTemplates[name].preprocessed = preprocessedTemplates[name].preprocessed.replace(/\\n/g, '\\\\n').replace(/\\"/g, '\\\\"');
     code = code.replace(
       'html`' + preprocessedTemplates[name].original + '`',
       '((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`' + preprocessedTemplates[name].preprocessed + '`)');
