@@ -87,10 +87,12 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
       html = html.replace('<dom-module>', '');
     }
     if (innerHTML) {
+      /*
       original = btoa(innerHTML[1]);
       if (atob(original) !== innerHTML[1]) {
         console.error('atob(btoa(innerHTML[1])) !== innerHTML[1]');
       }
+      */
       html = html.replace('<innerHTML>', innerHTML[1]);
     }
     else {

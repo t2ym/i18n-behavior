@@ -12,6 +12,15 @@ import '../../i18n-behavior.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
+
+const i18nAttrRepoContainer = document.createElement('template');
+i18nAttrRepoContainer.innerHTML = `<i18n-attr-repo>
+  <template id="custom">
+    <input i18n-target-attr>
+  </template>
+</i18n-attr-repo>`;
+document.head.appendChild(i18nAttrRepoContainer.content);
+
 Polymer({
   importMeta: import.meta,
 
@@ -29,7 +38,7 @@ Polymer({
     <span id="simple" class="text">{{text.simple}}</span>
 
     <h2>{{text.h2_3}}</h2>
-    <input id="simple-input" placeholder="{{model.simple-input.placeholder}}">
+    <input id="simple-input" placeholder="{{model.simple-input.placeholder}}" i18n-target-attr$="{{model.simple-input.i18n-target-attr$}}">
 
     <h2>{{text.h2_5}}</h2>
     <p id="example-sentence" class="text"><i18n-format lang="{{effectiveLang}}"><span>{{text.example-sentence.0}}</span><i slot="1">{{text.example-sentence.1}}</i><b slot="2">{{text.example-sentence.2}}</b><a class="code" href="https://github.com/t2ym/i18n-format" slot="3">{{text.example-sentence.3}}</a></i18n-format></p>
@@ -63,7 +72,8 @@ Polymer({
   "meta": {},
   "model": {
     "simple-input": {
-      "placeholder": "Placeholder String"
+      "placeholder": "Placeholder String",
+      "i18n-target-attr$": "Custom I18n Target Attribute String"
     },
     "data": {
       "sender": {

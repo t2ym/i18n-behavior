@@ -4,7 +4,8 @@
   },
   "model": {
     "simple-input": {
-      "placeholder": "texte d'espace réservé"
+      "placeholder": "texte d'espace réservé",
+      "i18n-target-attr$": "fr Custom I18n Target Attribute String"
     },
     "data": {
       "sender": {
