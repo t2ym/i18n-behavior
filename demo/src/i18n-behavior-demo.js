@@ -16,7 +16,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
 const i18nAttrRepoContainer = document.createElement('template');
 i18nAttrRepoContainer.innerHTML = `<i18n-attr-repo>
   <template id="custom">
-    <input i18n-target-attr>
+    <input i18n-target-attr="$">
   </template>
 </i18n-attr-repo>`;
 document.head.appendChild(i18nAttrRepoContainer.content);
@@ -38,7 +38,7 @@ Polymer({
     <span id="simple" class="text">UI Text String</span>
 
     <h2>Simple Attribute</h2>
-    <input id="simple-input" placeholder="Placeholder String" i18n-target-attr$="Custom I18n Target Attribute String">
+    <input id="simple-input" placeholder="Placeholder String" i18n-target-attr="Custom I18n Target Attribute String">
 
     <h2>Automatic Format</h2>
     <p id="example-sentence" class="text">This <i>example sentence</i> with <b>some parameters or embedded tags</b> is automatically converted to <a class="code" href="https://github.com/t2ym/i18n-format">&lt;i18n-format&gt;</a> to translate it as a whole with any parameter order.</p>

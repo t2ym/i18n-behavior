@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file xml:space="default" source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2018-12-22T08:15:55Z" product-name="messages">
+  <file xml:space="default" source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2018-12-22T16:01:38Z" product-name="messages">
     <header>
       <tool tool-id="xliff-conv" tool-name="xliff-conv" tool-version="1.0.11"/>
     </header>
@@ -10,7 +10,7 @@
         <source>Placeholder String</source>
         <target state="translated">texte d'espace réservé</target>
       </trans-unit>
-      <trans-unit id="i18n-behavior-demo.model.simple-input.i18n-target-attr$" approved="yes">
+      <trans-unit id="i18n-behavior-demo.model.simple-input.i18n-target-attr" approved="yes">
         <source>Custom I18n Target Attribute String</source>
         <target state="translated">fr Custom I18n Target Attribute String</target>
       </trans-unit>

@@ -6,7 +6,7 @@
     "model": {
       "simple-input": {
         "placeholder": "プレースホルダー文字列",
-        "i18n-target-attr$": "ja Custom I18n Target Attribute String"
+        "i18n-target-attr": "ja Custom I18n Target Attribute String"
       },
       "data": {
         "sender": {

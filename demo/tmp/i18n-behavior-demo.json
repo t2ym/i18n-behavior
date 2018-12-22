@@ -3,7 +3,7 @@
   "model": {
     "simple-input": {
       "placeholder": "Placeholder String",
-      "i18n-target-attr$": "Custom I18n Target Attribute String"
+      "i18n-target-attr": "Custom I18n Target Attribute String"
     },
     "data": {
       "sender": {
