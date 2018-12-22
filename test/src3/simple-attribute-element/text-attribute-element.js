@@ -4,6 +4,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import '../../../i18n-behavior.js';
 
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { Polymer as Polymer$0 } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 const $_documentContainer = document.createElement('template');
 
@@ -53,21 +54,14 @@ $_documentContainer.innerHTML = `<i18n-attr-repo>
     <text-attribute-element i18n-target7="string-attr=aaa,type1"></text-attribute-element>
     <text-attribute-element i18n-target7="invalid!attr=aaa,typeX"></text-attribute-element>
   </template>
-</i18n-attr-repo><template id="text-attribute-element" text-attr="custom-text-attr1 custom-text-attr3">
-    <span id="attr1">{{customTextAttr1}}</span>
-    <span id="attr2">{{customTextAttr2}}</span>
-    <span id="attr3">{{customTextAttr3}}</span>
-    <span id="attr4">{{outOfScopeAttr}}</span>
-    <span>text</span>
-  </template><dom-module id="text-attribute-element">
-  <template text-attr="custom-text-attr1 custom-text-attr3">
-    <span id="attr1">{{customTextAttr1}}</span>
-    <span id="attr2">{{customTextAttr2}}</span>
-    <span id="attr3">{{customTextAttr3}}</span>
-    <span id="attr4">{{outOfScopeAttr}}</span>
-    <span>text</span>
-  </template>
-</dom-module>`;
+</i18n-attr-repo>
+<template id="text-attribute-element">
+  <span id="attr1">{{customTextAttr1}}</span>
+  <span id="attr2">{{customTextAttr2}}</span>
+  <span id="attr3">{{customTextAttr3}}</span>
+  <span id="attr4">{{outOfScopeAttr}}</span>
+  <span>text</span>
+</template>`;
 
 document.head.appendChild($_documentContainer.content);
 switch (syntax) {
@@ -77,6 +71,16 @@ case 'mixin':
     class TextAttributeElement extends Mixins.Localizable(Polymer.LegacyElement) {
       static get importMeta() {
         return import.meta;
+      }
+
+      static get template() {
+        return html`
+    <span id="attr1">{{customTextAttr1}}</span>
+    <span id="attr2">{{customTextAttr2}}</span>
+    <span id="attr3">{{customTextAttr3}}</span>
+    <span id="attr4">{{outOfScopeAttr}}</span>
+    <span>text</span>
+`;
       }
 
       static get is() { return 'text-attribute-element'; }
@@ -123,6 +127,16 @@ case 'base-element':
     class TextAttributeElement extends BaseElements.I18nElement {
       static get importMeta() {
         return import.meta;
+      }
+
+      static get template() {
+        return html`
+    <span id="attr1">{{customTextAttr1}}</span>
+    <span id="attr2">{{customTextAttr2}}</span>
+    <span id="attr3">{{customTextAttr3}}</span>
+    <span id="attr4">{{outOfScopeAttr}}</span>
+    <span>text</span>
+`;
       }
 
       static get is() { return 'text-attribute-element'; }
@@ -208,6 +222,15 @@ case 'legacy':
   {
     Polymer$0({
       importMeta: import.meta,
+
+      _template: html`
+    <span id="attr1">{{customTextAttr1}}</span>
+    <span id="attr2">{{customTextAttr2}}</span>
+    <span id="attr3">{{customTextAttr3}}</span>
+    <span id="attr4">{{outOfScopeAttr}}</span>
+    <span>text</span>
+`,
+
       is: 'text-attribute-element',
 
       behaviors: [
