@@ -23,9 +23,18 @@ case 'mixin':
       }
 
       static get template() {
-        return html`
-    <span id="label">A</span>
-`;
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
+    <span id="label">{{text.label}}</span>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "label": "A"
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'item-element' }
@@ -41,9 +50,18 @@ case 'base-element':
       }
 
       static get template() {
-        return html`
-    <span id="label">A</span>
-`;
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
+    <span id="label">{{text.label}}</span>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "label": "A"
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'item-element' }
@@ -62,9 +80,18 @@ case 'legacy':
     Polymer$0({
       importMeta: import.meta,
 
-      _template: html`
-    <span id="label">A</span>
-`,
+      _template: ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
+    <span id="label">{{text.label}}</span>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "label": "A"
+}
+</json-data>
+</template>
+`),
 
       is: 'item-element',
 

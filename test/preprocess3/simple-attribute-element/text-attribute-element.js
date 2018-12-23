@@ -74,13 +74,22 @@ case 'mixin':
       }
 
       static get template() {
-        return html`
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <span id="attr1">{{customTextAttr1}}</span>
     <span id="attr2">{{customTextAttr2}}</span>
     <span id="attr3">{{customTextAttr3}}</span>
     <span id="attr4">{{outOfScopeAttr}}</span>
-    <span>text</span>
-`;
+    <span>{{text.span_4}}</span>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "span_4": "text"
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'text-attribute-element'; }
@@ -130,13 +139,22 @@ case 'base-element':
       }
 
       static get template() {
-        return html`
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <span id="attr1">{{customTextAttr1}}</span>
     <span id="attr2">{{customTextAttr2}}</span>
     <span id="attr3">{{customTextAttr3}}</span>
     <span id="attr4">{{outOfScopeAttr}}</span>
-    <span>text</span>
-`;
+    <span>{{text.span_4}}</span>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "span_4": "text"
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'text-attribute-element'; }
@@ -223,13 +241,22 @@ case 'legacy':
     Polymer$0({
       importMeta: import.meta,
 
-      _template: html`
+      _template: ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <span id="attr1">{{customTextAttr1}}</span>
     <span id="attr2">{{customTextAttr2}}</span>
     <span id="attr3">{{customTextAttr3}}</span>
     <span id="attr4">{{outOfScopeAttr}}</span>
-    <span>text</span>
-`,
+    <span>{{text.span_4}}</span>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "span_4": "text"
+}
+</json-data>
+</template>
+`),
 
       is: 'text-attribute-element',
 

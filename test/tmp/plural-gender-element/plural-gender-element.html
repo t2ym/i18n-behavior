@@ -1,0 +1,82 @@
+<!-- temporary HTML --><html><head></head><body><encoded-original>CiAgICA8cD4KICAgICAgPGkxOG4tZm9ybWF0IGlkPSJjb21wb3VuZC1mb3JtYXQtdGV4dCIgb24tcmVuZGVyZWQ9Il9yZW5kZXJlZCI+CiAgICAgICAgPGpzb24tZGF0YT57CiAgICAgICAgICAiMCI6ICJZb3UgKHszfSkgZ2F2ZSBubyBnaWZ0cy4iLAogICAgICAgICAgIjEiOiB7CiAgICAgICAgICAgICJtYWxlIjogIllvdSAoezN9KSBnYXZlIGhpbSAoezR9KSB7NX0uIiwKICAgICAgICAgICAgImZlbWFsZSI6ICJZb3UgKHszfSkgZ2F2ZSBoZXIgKHs0fSkgezV9LiIsCiAgICAgICAgICAgICJvdGhlciI6ICJZb3UgKHszfSkgZ2F2ZSB0aGVtICh7NH0pIHs1fS4iCiAgICAgICAgICB9LAogICAgICAgICAgIm9uZSI6IHsKICAgICAgICAgICAgIm1hbGUiOiAiWW91ICh7M30pIGdhdmUgaGltICh7NH0pIGFuZCBvbmUgb3RoZXIgcGVyc29uIHs1fS4iLAogICAgICAgICAgICAiZmVtYWxlIjogIllvdSAoezN9KSBnYXZlIGhlciAoezR9KSBhbmQgb25lIG90aGVyIHBlcnNvbiB7NX0uIiwKICAgICAgICAgICAgIm90aGVyIjogIllvdSAoezN9KSBnYXZlIHRoZW0gKHs0fSkgYW5kIG9uZSBvdGhlciBwZXJzb24gezV9LiIKICAgICAgICAgIH0sCiAgICAgICAgICAib3RoZXIiOiAiWW91ICh7M30pIGdhdmUgdGhlbSAoezR9KSBhbmQgezF9IG90aGVyIHBlb3BsZSBnaWZ0cy4iCiAgICAgICAgfTwvanNvbi1kYXRhPgogICAgICAgIDxpMThuLW51bWJlciBvZmZzZXQ9IjEiPnt7cmVjaXBpZW50cy5sZW5ndGh9fTwvaTE4bi1udW1iZXI+CiAgICAgICAgPHNwYW4+e3tyZWNpcGllbnRzLjAuZ2VuZGVyfX08L3NwYW4+CiAgICAgICAgPHNwYW4+e3tzZW5kZXIubmFtZX19PC9zcGFuPgogICAgICAgIDxzcGFuPnt7cmVjaXBpZW50cy4wLm5hbWV9fTwvc3Bhbj4KICAgICAgICA8c3Bhbj5hIGdpZnQ8L3NwYW4+CiAgICAgIDwvaTE4bi1mb3JtYXQ+CiAgICA8L3A+Cg==</encoded-original><link rel="import" href="../../../i18n-element.html"><template id="plural-gender-element" basepath="plural-gender-element/" localizable-text="embedded">
+    <p>
+      <i18n-format id="compound-format-text" on-rendered="_rendered" lang="{{effectiveLang}}">
+        <json-data>{{serialize(text.compound-format-text.0)}}</json-data>
+        <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{recipients.length}}</i18n-number>
+        <span slot="2">{{recipients.0.gender}}</span>
+        <span slot="3">{{sender.name}}</span>
+        <span slot="4">{{recipients.0.name}}</span>
+        <span slot="5">{{text.compound-format-text.5}}</span>
+      </i18n-format>
+    </p>
+  <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "compound-format-text": [
+    {
+      "0": "You ({3}) gave no gifts.",
+      "1": {
+        "male": "You ({3}) gave him ({4}) {5}.",
+        "female": "You ({3}) gave her ({4}) {5}.",
+        "other": "You ({3}) gave them ({4}) {5}."
+      },
+      "one": {
+        "male": "You ({3}) gave him ({4}) and one other person {5}.",
+        "female": "You ({3}) gave her ({4}) and one other person {5}.",
+        "other": "You ({3}) gave them ({4}) and one other person {5}."
+      },
+      "other": "You ({3}) gave them ({4}) and {1} other people gifts."
+    },
+    "{{recipients.length - 1}}",
+    "{{recipients.0.gender}}",
+    "{{sender.name}}",
+    "{{recipients.0.name}}",
+    "a gift"
+  ]
+}
+</json-data>
+</template>
+</template><dom-module id="plural-gender-element"><template localizable-text="embedded">
+    <p>
+      <i18n-format id="compound-format-text" on-rendered="_rendered" lang="{{effectiveLang}}">
+        <json-data>{{serialize(text.compound-format-text.0)}}</json-data>
+        <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{recipients.length}}</i18n-number>
+        <span slot="2">{{recipients.0.gender}}</span>
+        <span slot="3">{{sender.name}}</span>
+        <span slot="4">{{recipients.0.name}}</span>
+        <span slot="5">{{text.compound-format-text.5}}</span>
+      </i18n-format>
+    </p>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "compound-format-text": [
+    {
+      "0": "You ({3}) gave no gifts.",
+      "1": {
+        "male": "You ({3}) gave him ({4}) {5}.",
+        "female": "You ({3}) gave her ({4}) {5}.",
+        "other": "You ({3}) gave them ({4}) {5}."
+      },
+      "one": {
+        "male": "You ({3}) gave him ({4}) and one other person {5}.",
+        "female": "You ({3}) gave her ({4}) and one other person {5}.",
+        "other": "You ({3}) gave them ({4}) and one other person {5}."
+      },
+      "other": "You ({3}) gave them ({4}) and {1} other people gifts."
+    },
+    "{{recipients.length - 1}}",
+    "{{recipients.0.gender}}",
+    "{{sender.name}}",
+    "{{recipients.0.name}}",
+    "a gift"
+  ]
+}
+</json-data>
+</template>
+</template></dom-module>
+</body></html>

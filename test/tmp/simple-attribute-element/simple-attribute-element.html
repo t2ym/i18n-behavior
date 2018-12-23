@@ -1,0 +1,394 @@
+<!-- temporary HTML --><html><head></head><body><encoded-original>CiAgICA8c3R5bGUgYXR0cj0iVGhpcyBpcyBub3QgZXh0cmFjdGVkIj4KICAgIGdvb2dsZS1jaGFydCB7CiAgICAgIHdpZHRoOiAzMDBweDsKICAgIH0KICAgIDwvc3R5bGU+CiAgICA8ZGl2IGlkPSJvdXRlci1kaXYiPgogICAgICA8ZGl2IGlkPSJvcmRpbmFyeS1kaXYiIGF0dHI9IlRoaXMgaXMgbm90IHRhcmdldGVkIGZvciBleHRyYWN0aW9uIj50ZXh0IDE8L2Rpdj4KCiAgICAgIDxpbnB1dCBpZD0ic3RhbmRhcmQtaW5wdXQiIHBsYWNlaG9sZGVyPSJzdGFuZGFyZCBIVE1MNSBhdHRyaWJ1dGUiPgogICAgICA8aW5wdXQgcGxhY2Vob2xkZXI9InN0YW5kYXJkIEhUTUw1IGF0dHJpYnV0ZSB3aXRob3V0IGlkIj4KCiAgICAgIDxwYXBlci1pbnB1dCBpZD0icGFwZXItaW5wdXQtZWxlbWVudCIgbGFiZWw9InBhcGVyLWlucHV0IGxhYmVsIiBlcnJvci1tZXNzYWdlPSJwYXBlci1pbnB1dCBlcnJvciBtZXNzYWdlIiBwbGFjZWhvbGRlcj0icGFwZXItaW5wdXQgcGxhY2Vob2xkZXIiIHZhbHVlPSJ0aGlzIGlzIG5vdCBhIHRhcmdldCI+CiAgICAgIDwvcGFwZXItaW5wdXQ+CgogICAgICA8cGFwZXItaW5wdXQgbGFiZWw9InBhcGVyLWlucHV0IGxhYmVsIHdpdGhvdXQgaWQiIGVycm9yLW1lc3NhZ2U9InBhcGVyLWlucHV0IGVycm9yIG1lc3NhZ2Ugd2l0aG91dCBpZCIgcGxhY2Vob2xkZXI9InBhcGVyLWlucHV0IHBsYWNlaG9sZGVyIHdpdGhvdXQgaWQiIHZhbHVlPSJ0aGlzIGlzIG5vdCBhIHRhcmdldCI+CiAgICAgIDwvcGFwZXItaW5wdXQ+CgogICAgICA8Z29vZ2xlLWNoYXJ0IHR5cGU9InBpZSIgaWQ9InBpZS1jaGFydCIgb3B0aW9ucz0ieyZxdW90O3RpdGxlJnF1b3Q7OiAmcXVvdDtEaXN0cmlidXRpb24gb2YgZGF5cyBpbiAyMDAxSDEmcXVvdDt9IiBjb2xzPSJbIHsmcXVvdDtsYWJlbCZxdW90OzogJnF1b3Q7TW9udGgmcXVvdDssICZxdW90O3R5cGUmcXVvdDs6ICZxdW90O3N0cmluZyZxdW90O30seyZxdW90O2xhYmVsJnF1b3Q7OiAmcXVvdDtEYXlzJnF1b3Q7LCAmcXVvdDt0eXBlJnF1b3Q7OiAmcXVvdDtudW1iZXImcXVvdDt9IF0iIHJvd3M9IlsgWyZxdW90O0phbiZxdW90OywgMzFdLFsmcXVvdDtGZWImcXVvdDssIDI4XSxbJnF1b3Q7TWFyJnF1b3Q7LCAzMV0sWyZxdW90O0FwciZxdW90OywgMzBdLFsmcXVvdDtNYXkmcXVvdDssIDMxXSxbJnF1b3Q7SnVuJnF1b3Q7LCAzMF0gXSI+CiAgICAgIDwvZ29vZ2xlLWNoYXJ0PgoKICAgICAgPGdvb2dsZS1jaGFydCBpZD0iY29sdW1uLWNoYXJ0IiB0eXBlPSJjb2x1bW4iIG9wdGlvbnM9InsmcXVvdDt0aXRsZSZxdW90OzogJnF1b3Q7SW52ZW50b3J5JnF1b3Q7fSIgZGF0YT0iWyBbJnF1b3Q7WWVhciZxdW90OywgJnF1b3Q7VGhpbmdzJnF1b3Q7LCAmcXVvdDtTdHVmZiZxdW90O10sCiAgICAgICAgICAgICAgICBbJnF1b3Q7MjAwNCZxdW90OywgMTAwMCwgNDAwXSwKICAgICAgICAgICAgICAgIFsmcXVvdDsyMDA1JnF1b3Q7LCAxMTcwLCA0NjBdLAogICAgICAgICAgICAgICAgWyZxdW90OzIwMDYmcXVvdDssIDY2MCwgMTEyMF0sCiAgICAgICAgICAgICAgICBbJnF1b3Q7MjAwNyZxdW90OywgMTAzMCwgNTQwXSBdIj4KICAgICAgPC9nb29nbGUtY2hhcnQ+CgogICAgICA8dGV4dC1hdHRyaWJ1dGUtZWxlbWVudCBpZD0iY3VzdG9tLWF0dHIiIGN1c3RvbS10ZXh0LWF0dHIxPSJjdXN0b20gdGV4dCBhdHRyaWJ1dGUgMSIgY3VzdG9tLXRleHQtYXR0cjI9ImN1c3RvbSB0ZXh0IGF0dHJpYnV0ZSAyIiBjdXN0b20tdGV4dC1hdHRyMz0iY3VzdG9tIHRleHQgYXR0cmlidXRlIDMiIG91dC1vZi1zY29wZS1hdHRyPSJvdXQgb2Ygc2NvcGUgYXR0ciI+CiAgICAgIDwvdGV4dC1hdHRyaWJ1dGUtZWxlbWVudD4KCiAgICAgIDx0ZXh0LWF0dHJpYnV0ZS1lbGVtZW50IGlkPSJzZWxlY3RpdmUtYXR0ciIgYm9vbGVhbi1hdHRyPSIiIGVtcHR5LWF0dHI9IiIgc3RyaW5nLWF0dHI9ImFiYyIgY3VzdG9tLXRleHQtYXR0cjQ9Int7dGV4dC5vcmRpbmFyeS1kaXZ9fSBjdXN0b20tdGV4dC1hdHRyNCBhdHRyaWJ1dGUgd2l0aCBwYXJhbSB7e3RleHQub3JkaW5hcnktZGl2fX0gYW5kIHBhcmFtIFtbdGV4dC5vcmRpbmFyeS1kaXZdXSB7e3RleHQub3JkaW5hcnktZGl2fX0iIGN1c3RvbS10ZXh0LWF0dHI1XCQ9IltbdGV4dC5vcmRpbmFyeS1kaXZdXSBjdXN0b20tdGV4dC1hdHRyNSBhdHRyaWJ1dGUgd2l0aCBwYXJhbSB7e29yKCcnLHRleHQub3JkaW5hcnktZGl2KX19IGFuZCBwYXJhbSBbW3RleHQub3JkaW5hcnktZGl2XV0iIGkxOG4tdGFyZ2V0PSJpMThuLXRhcmdldCBhdHRyaWJ1dGUgd2l0aCBwYXJhbSB7e3RleHQub3JkaW5hcnktZGl2fX0gYW5kIHBhcmFtIFtbdGV4dC5vcmRpbmFyeS1kaXZdXSIgaTE4bi10YXJnZXQyPSJpMThuLXRhcmdldDIgYXR0cmlidXRlIHdpdGggcGFyYW0ge3tvcignJyx0ZXh0Lm9yZGluYXJ5LWRpdil9fSBhbmQgcGFyYW0gW1t0ZXh0Lm9yZGluYXJ5LWRpdl1dIj4KICAgICAgPC90ZXh0LWF0dHJpYnV0ZS1lbGVtZW50PgogICAgICA8dGV4dC1hdHRyaWJ1dGUtZWxlbWVudCBpZD0ic2VsZWN0aXZlLWF0dHIyIiBib29sZWFuLWF0dHI9IiIgYm9vbGVhbi1hdHRyMj0iIiBzdHJpbmctYXR0cj0iYWFhIiBpMThuLXRhcmdldD0iaTE4bi10YXJnZXQgYXR0cmlidXRlIDIiPgogICAgICA8L3RleHQtYXR0cmlidXRlLWVsZW1lbnQ+CiAgICAgIDx0ZXh0LWF0dHJpYnV0ZS1lbGVtZW50IGlkPSJzZWxlY3RpdmUtYXR0cjMiIGkxOG4tdGFyZ2V0Nj0iaTE4bi10YXJnZXQ2IGF0dHJpYnV0ZSAyIj4KICAgICAgPC90ZXh0LWF0dHJpYnV0ZS1lbGVtZW50PgogICAgICA8dGV4dC1hdHRyaWJ1dGUtZWxlbWVudCBpZD0ic2VsZWN0aXZlLWF0dHI0IiBib29sZWFuLWF0dHI9IiIgaTE4bi10YXJnZXQ2PSJpMThuLXRhcmdldDYgYXR0cmlidXRlIDMiIGkxOG4tdGFyZ2V0Nz0idW5tYXRjaGluZyBpMThuLXRhcmdldDQgYXR0cmlidXRlIj4KICAgICAgPC90ZXh0LWF0dHJpYnV0ZS1lbGVtZW50PgogICAgICA8dGV4dC1hdHRyaWJ1dGUtZWxlbWVudCBpZD0ic2VsZWN0aXZlLWF0dHI1IiBzdHJpbmctYXR0cj0ieHh4IiBpMThuLXRhcmdldDc9InVubWF0Y2hpbmcgaTE4bi10YXJnZXQ3IGF0dHJpYnV0ZSI+CiAgICAgIDwvdGV4dC1hdHRyaWJ1dGUtZWxlbWVudD4KCiAgICAgIDxzcGFuIGlkPSJ0ZXN0LWpzb24tZGF0YS0xIj57e21vZGVsLmpzb24tZGF0YS1pZC5hdHRyMX19PC9zcGFuPgogICAgICA8c3BhbiBpZD0idGVzdC1qc29uLWRhdGEtMiI+e3ttb2RlbC5qc29uLWRhdGEtaWQuaTE4bi10YXJnZXQtYXR0cn19PC9zcGFuPgogICAgICA8c3BhbiBpZD0idGVzdC1qc29uLWRhdGEtMyI+e3ttb2RlbC50ZW1wbGF0ZV8yOmpzb24tZGF0YV8xLmF0dHIxfX08L3NwYW4+CiAgICAgIDxzcGFuIGlkPSJ0ZXN0LWpzb24tZGF0YS00Ij57e21vZGVsLnRlbXBsYXRlXzI6anNvbi1kYXRhXzEuaTE4bi10YXJnZXQtYXR0cn19PC9zcGFuPgoKICAgIDwvZGl2PgogICAgPHRlbXBsYXRlPgogICAgICA8anNvbi1kYXRhIGlkPSJqc29uLWRhdGEtaWQiIGF0dHIxPSJ0aGlzIGF0dHIxIGlzIGV4dHJhY3RlZCIgaTE4bi10YXJnZXQtYXR0cj0idGhpcyBhdHRyaWJ1dGUgaXMgYWxzbyBleHRyYWN0ZWQiPjwvanNvbi1kYXRhPgogICAgICA8anNvbi1kYXRhIGF0dHIxPSJ0aGlzIGF0dHIxIHdpdGhvdXQgaWQgaXMgZXh0cmFjdGVkIiBpMThuLXRhcmdldC1hdHRyPSJ0aGlzIGF0dHJpYnV0ZSB3aXRob3V0IGlkIGlzIGFsc28gZXh0cmFjdGVkIj48L2pzb24tZGF0YT4KICAgIDwvdGVtcGxhdGU+Cg==</encoded-original><link rel="import" href="../../../i18n-element.html"><template id="simple-attribute-element" basepath="simple-attribute-element/" localizable-text="embedded">
+    <style attr="This is not extracted">
+    google-chart {
+      width: 300px;
+    }
+    </style>
+    <div id="outer-div">
+      <div id="ordinary-div" attr="This is not targeted for extraction">{{text.ordinary-div}}</div>
+
+      <input id="standard-input" placeholder="{{model.standard-input.placeholder}}">
+      <input placeholder="{{model.outer-div:input_2.placeholder}}">
+
+      <paper-input id="paper-input-element" label="{{model.paper-input-element.label}}" error-message="{{model.paper-input-element.error-message}}" placeholder="{{model.paper-input-element.placeholder}}" value="this is not a target">
+      </paper-input>
+
+      <paper-input label="{{model.outer-div:paper-input_4.label}}" error-message="{{model.outer-div:paper-input_4.error-message}}" placeholder="{{model.outer-div:paper-input_4.placeholder}}" value="this is not a target">
+      </paper-input>
+
+      <google-chart type="pie" id="pie-chart" options="{{model.pie-chart.options}}" cols="{{model.pie-chart.cols}}" rows="{{model.pie-chart.rows}}">
+      </google-chart>
+
+      <google-chart id="column-chart" type="column" options="{{model.column-chart.options}}" data="{{model.column-chart.data}}">
+      </google-chart>
+
+      <text-attribute-element id="custom-attr" custom-text-attr1="{{model.custom-attr.custom-text-attr1}}" custom-text-attr2="{{model.custom-attr.custom-text-attr2}}" custom-text-attr3="{{model.custom-attr.custom-text-attr3}}" out-of-scope-attr="out of scope attr">
+      </text-attribute-element>
+
+      <text-attribute-element id="selective-attr" boolean-attr="" empty-attr="" string-attr="abc" custom-text-attr4$="{{i18nFormat(model.selective-attr.custom-text-attr4.0,text.ordinary-div,text.ordinary-div,text.ordinary-div,text.ordinary-div)}}" custom-text-attr5$="[[text.ordinary-div]]{{model.selective-attr.custom-text-attr5.1}}{{or('',text.ordinary-div)}}{{model.selective-attr.custom-text-attr5.3}}[[text.ordinary-div]]" i18n-target="{{i18nFormat(model.selective-attr.i18n-target.0,text.ordinary-div,text.ordinary-div)}}" i18n-target2="{{model.selective-attr.i18n-target2.0}}{{or('',text.ordinary-div)}}{{model.selective-attr.i18n-target2.2}}[[text.ordinary-div]]">
+      </text-attribute-element>
+      <text-attribute-element id="selective-attr2" boolean-attr="" boolean-attr2="" string-attr="aaa" i18n-target="{{model.selective-attr2.i18n-target}}">
+      </text-attribute-element>
+      <text-attribute-element id="selective-attr3" i18n-target6="{{model.selective-attr3.i18n-target6}}">
+      </text-attribute-element>
+      <text-attribute-element id="selective-attr4" boolean-attr="" i18n-target6="{{model.selective-attr4.i18n-target6}}" i18n-target7="unmatching i18n-target4 attribute">
+      </text-attribute-element>
+      <text-attribute-element id="selective-attr5" string-attr="xxx" i18n-target7="unmatching i18n-target7 attribute">
+      </text-attribute-element>
+
+      <span id="test-json-data-1">{{model.json-data-id.attr1}}</span>
+      <span id="test-json-data-2">{{model.json-data-id.i18n-target-attr}}</span>
+      <span id="test-json-data-3">{{model.template_2:json-data_1.attr1}}</span>
+      <span id="test-json-data-4">{{model.template_2:json-data_1.i18n-target-attr}}</span>
+
+    </div>
+    <template>
+      <json-data id="json-data-id" attr1="{{model.json-data-id.attr1}}" i18n-target-attr="{{model.json-data-id.i18n-target-attr}}"></json-data>
+      <json-data attr1="{{model.template_2:json-data_1.attr1}}" i18n-target-attr="{{model.template_2:json-data_1.i18n-target-attr}}"></json-data>
+    </template>
+  <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {
+    "standard-input": {
+      "placeholder": "standard HTML5 attribute"
+    },
+    "outer-div:input_2": {
+      "placeholder": "standard HTML5 attribute without id"
+    },
+    "paper-input-element": {
+      "label": "paper-input label",
+      "error-message": "paper-input error message",
+      "placeholder": "paper-input placeholder"
+    },
+    "outer-div:paper-input_4": {
+      "label": "paper-input label without id",
+      "error-message": "paper-input error message without id",
+      "placeholder": "paper-input placeholder without id"
+    },
+    "pie-chart": {
+      "options": {
+        "title": "Distribution of days in 2001H1"
+      },
+      "cols": [
+        {
+          "label": "Month",
+          "type": "string"
+        },
+        {
+          "label": "Days",
+          "type": "number"
+        }
+      ],
+      "rows": [
+        [
+          "Jan",
+          31
+        ],
+        [
+          "Feb",
+          28
+        ],
+        [
+          "Mar",
+          31
+        ],
+        [
+          "Apr",
+          30
+        ],
+        [
+          "May",
+          31
+        ],
+        [
+          "Jun",
+          30
+        ]
+      ]
+    },
+    "column-chart": {
+      "options": {
+        "title": "Inventory"
+      },
+      "data": [
+        [
+          "Year",
+          "Things",
+          "Stuff"
+        ],
+        [
+          "2004",
+          1000,
+          400
+        ],
+        [
+          "2005",
+          1170,
+          460
+        ],
+        [
+          "2006",
+          660,
+          1120
+        ],
+        [
+          "2007",
+          1030,
+          540
+        ]
+      ]
+    },
+    "custom-attr": {
+      "custom-text-attr1": "custom text attribute 1",
+      "custom-text-attr2": "custom text attribute 2",
+      "custom-text-attr3": "custom text attribute 3"
+    },
+    "selective-attr": {
+      "custom-text-attr4": [
+        "{1} custom-text-attr4 attribute with param {2} and param {3} {4}",
+        "{{text.ordinary-div}}",
+        "{{text.ordinary-div}}",
+        "[[text.ordinary-div]]",
+        "{{text.ordinary-div}}"
+      ],
+      "custom-text-attr5": [
+        "[[text.ordinary-div]]",
+        " custom-text-attr5 attribute with param ",
+        "{{or('',text.ordinary-div)}}",
+        " and param ",
+        "[[text.ordinary-div]]"
+      ],
+      "i18n-target": [
+        "i18n-target attribute with param {1} and param {2}",
+        "{{text.ordinary-div}}",
+        "[[text.ordinary-div]]"
+      ],
+      "i18n-target2": [
+        "i18n-target2 attribute with param ",
+        "{{or('',text.ordinary-div)}}",
+        " and param ",
+        "[[text.ordinary-div]]"
+      ]
+    },
+    "selective-attr2": {
+      "i18n-target": "i18n-target attribute 2"
+    },
+    "selective-attr3": {
+      "i18n-target6": "i18n-target6 attribute 2"
+    },
+    "selective-attr4": {
+      "i18n-target6": "i18n-target6 attribute 3"
+    },
+    "json-data-id": {
+      "attr1": "this attr1 is extracted",
+      "i18n-target-attr": "this attribute is also extracted"
+    },
+    "template_2:json-data_1": {
+      "attr1": "this attr1 without id is extracted",
+      "i18n-target-attr": "this attribute without id is also extracted"
+    }
+  },
+  "ordinary-div": "text 1"
+}
+</json-data>
+</template>
+</template><dom-module id="simple-attribute-element"><template localizable-text="embedded">
+    <style attr="This is not extracted">
+    google-chart {
+      width: 300px;
+    }
+    </style>
+    <div id="outer-div">
+      <div id="ordinary-div" attr="This is not targeted for extraction">{{text.ordinary-div}}</div>
+
+      <input id="standard-input" placeholder="{{model.standard-input.placeholder}}">
+      <input placeholder="{{model.outer-div:input_2.placeholder}}">
+
+      <paper-input id="paper-input-element" label="{{model.paper-input-element.label}}" error-message="{{model.paper-input-element.error-message}}" placeholder="{{model.paper-input-element.placeholder}}" value="this is not a target">
+      </paper-input>
+
+      <paper-input label="{{model.outer-div:paper-input_4.label}}" error-message="{{model.outer-div:paper-input_4.error-message}}" placeholder="{{model.outer-div:paper-input_4.placeholder}}" value="this is not a target">
+      </paper-input>
+
+      <google-chart type="pie" id="pie-chart" options="{{model.pie-chart.options}}" cols="{{model.pie-chart.cols}}" rows="{{model.pie-chart.rows}}">
+      </google-chart>
+
+      <google-chart id="column-chart" type="column" options="{{model.column-chart.options}}" data="{{model.column-chart.data}}">
+      </google-chart>
+
+      <text-attribute-element id="custom-attr" custom-text-attr1="{{model.custom-attr.custom-text-attr1}}" custom-text-attr2="{{model.custom-attr.custom-text-attr2}}" custom-text-attr3="{{model.custom-attr.custom-text-attr3}}" out-of-scope-attr="out of scope attr">
+      </text-attribute-element>
+
+      <text-attribute-element id="selective-attr" boolean-attr="" empty-attr="" string-attr="abc" custom-text-attr4$="{{i18nFormat(model.selective-attr.custom-text-attr4.0,text.ordinary-div,text.ordinary-div,text.ordinary-div,text.ordinary-div)}}" custom-text-attr5$="[[text.ordinary-div]]{{model.selective-attr.custom-text-attr5.1}}{{or('',text.ordinary-div)}}{{model.selective-attr.custom-text-attr5.3}}[[text.ordinary-div]]" i18n-target="{{i18nFormat(model.selective-attr.i18n-target.0,text.ordinary-div,text.ordinary-div)}}" i18n-target2="{{model.selective-attr.i18n-target2.0}}{{or('',text.ordinary-div)}}{{model.selective-attr.i18n-target2.2}}[[text.ordinary-div]]">
+      </text-attribute-element>
+      <text-attribute-element id="selective-attr2" boolean-attr="" boolean-attr2="" string-attr="aaa" i18n-target="{{model.selective-attr2.i18n-target}}">
+      </text-attribute-element>
+      <text-attribute-element id="selective-attr3" i18n-target6="{{model.selective-attr3.i18n-target6}}">
+      </text-attribute-element>
+      <text-attribute-element id="selective-attr4" boolean-attr="" i18n-target6="{{model.selective-attr4.i18n-target6}}" i18n-target7="unmatching i18n-target4 attribute">
+      </text-attribute-element>
+      <text-attribute-element id="selective-attr5" string-attr="xxx" i18n-target7="unmatching i18n-target7 attribute">
+      </text-attribute-element>
+
+      <span id="test-json-data-1">{{model.json-data-id.attr1}}</span>
+      <span id="test-json-data-2">{{model.json-data-id.i18n-target-attr}}</span>
+      <span id="test-json-data-3">{{model.template_2:json-data_1.attr1}}</span>
+      <span id="test-json-data-4">{{model.template_2:json-data_1.i18n-target-attr}}</span>
+
+    </div>
+    <template>
+      <json-data id="json-data-id" attr1="{{model.json-data-id.attr1}}" i18n-target-attr="{{model.json-data-id.i18n-target-attr}}"></json-data>
+      <json-data attr1="{{model.template_2:json-data_1.attr1}}" i18n-target-attr="{{model.template_2:json-data_1.i18n-target-attr}}"></json-data>
+    </template>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {
+    "standard-input": {
+      "placeholder": "standard HTML5 attribute"
+    },
+    "outer-div:input_2": {
+      "placeholder": "standard HTML5 attribute without id"
+    },
+    "paper-input-element": {
+      "label": "paper-input label",
+      "error-message": "paper-input error message",
+      "placeholder": "paper-input placeholder"
+    },
+    "outer-div:paper-input_4": {
+      "label": "paper-input label without id",
+      "error-message": "paper-input error message without id",
+      "placeholder": "paper-input placeholder without id"
+    },
+    "pie-chart": {
+      "options": {
+        "title": "Distribution of days in 2001H1"
+      },
+      "cols": [
+        {
+          "label": "Month",
+          "type": "string"
+        },
+        {
+          "label": "Days",
+          "type": "number"
+        }
+      ],
+      "rows": [
+        [
+          "Jan",
+          31
+        ],
+        [
+          "Feb",
+          28
+        ],
+        [
+          "Mar",
+          31
+        ],
+        [
+          "Apr",
+          30
+        ],
+        [
+          "May",
+          31
+        ],
+        [
+          "Jun",
+          30
+        ]
+      ]
+    },
+    "column-chart": {
+      "options": {
+        "title": "Inventory"
+      },
+      "data": [
+        [
+          "Year",
+          "Things",
+          "Stuff"
+        ],
+        [
+          "2004",
+          1000,
+          400
+        ],
+        [
+          "2005",
+          1170,
+          460
+        ],
+        [
+          "2006",
+          660,
+          1120
+        ],
+        [
+          "2007",
+          1030,
+          540
+        ]
+      ]
+    },
+    "custom-attr": {
+      "custom-text-attr1": "custom text attribute 1",
+      "custom-text-attr2": "custom text attribute 2",
+      "custom-text-attr3": "custom text attribute 3"
+    },
+    "selective-attr": {
+      "custom-text-attr4": [
+        "{1} custom-text-attr4 attribute with param {2} and param {3} {4}",
+        "{{text.ordinary-div}}",
+        "{{text.ordinary-div}}",
+        "[[text.ordinary-div]]",
+        "{{text.ordinary-div}}"
+      ],
+      "custom-text-attr5": [
+        "[[text.ordinary-div]]",
+        " custom-text-attr5 attribute with param ",
+        "{{or('',text.ordinary-div)}}",
+        " and param ",
+        "[[text.ordinary-div]]"
+      ],
+      "i18n-target": [
+        "i18n-target attribute with param {1} and param {2}",
+        "{{text.ordinary-div}}",
+        "[[text.ordinary-div]]"
+      ],
+      "i18n-target2": [
+        "i18n-target2 attribute with param ",
+        "{{or('',text.ordinary-div)}}",
+        " and param ",
+        "[[text.ordinary-div]]"
+      ]
+    },
+    "selective-attr2": {
+      "i18n-target": "i18n-target attribute 2"
+    },
+    "selective-attr3": {
+      "i18n-target6": "i18n-target6 attribute 2"
+    },
+    "selective-attr4": {
+      "i18n-target6": "i18n-target6 attribute 3"
+    },
+    "json-data-id": {
+      "attr1": "this attr1 is extracted",
+      "i18n-target-attr": "this attribute is also extracted"
+    },
+    "template_2:json-data_1": {
+      "attr1": "this attr1 without id is extracted",
+      "i18n-target-attr": "this attribute without id is also extracted"
+    }
+  },
+  "ordinary-div": "text 1"
+}
+</json-data>
+</template>
+</template></dom-module>
+</body></html>

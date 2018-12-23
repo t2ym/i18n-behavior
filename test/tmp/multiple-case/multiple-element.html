@@ -1,0 +1,36 @@
+<!-- temporary HTML --><html><head></head><body><encoded-original>CiAgICA8ZGl2IGlkPSJiYXNlIj4KICAgICAgPGRvbS1yZXBlYXQgaWQ9Iml0ZW1zIiBpdGVtcz0ie3tnZXRBcnJheShjb3VudCl9fSIgb24tZG9tLWNoYW5nZT0iZG9tQ2hhbmdlZCI+PHRlbXBsYXRlPgogICAgICAgIDxzcGFuPgogICAgICAgICAgPGl0ZW0tZWxlbWVudCBsYW5nPSJ7e2VmZmVjdGl2ZUxhbmd9fSIgb2JzZXJ2ZS1odG1sLWxhbmc9Int7b2JzZXJ2ZUh0bWxMYW5nfX0iPjwvaXRlbS1lbGVtZW50PgogICAgICAgIDwvc3Bhbj4KICAgICAgPC90ZW1wbGF0ZT48L2RvbS1yZXBlYXQ+CiAgICA8L2Rpdj4KICAgIDxkaXYgaWQ9InNhdmUiPjwvZGl2Pgo=</encoded-original><link rel="import" href="../../../i18n-element.html"><template id="multiple-element" basepath="multiple-case/" localizable-text="embedded">
+    <div id="base">
+      <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
+        <span>
+          <item-element lang="{{effectiveLang}}" observe-html-lang="{{observeHtmlLang}}"></item-element>
+        </span>
+      </template></dom-repeat>
+    </div>
+    <div id="save"></div>
+  <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {}
+}
+</json-data>
+</template>
+</template><dom-module id="multiple-element"><template localizable-text="embedded">
+    <div id="base">
+      <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
+        <span>
+          <item-element lang="{{effectiveLang}}" observe-html-lang="{{observeHtmlLang}}"></item-element>
+        </span>
+      </template></dom-repeat>
+    </div>
+    <div id="save"></div>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {}
+}
+</json-data>
+</template>
+</template></dom-module>
+</body></html>

@@ -32,7 +32,7 @@ case 'mixin':
       }
 
       static get template() {
-        return html`
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <div id="base">
       <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
         <span>
@@ -41,7 +41,15 @@ case 'mixin':
       </template></dom-repeat>
     </div>
     <div id="save"></div>
-`;
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {}
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'multiple-element' }
@@ -115,7 +123,7 @@ case 'base-element':
       }
 
       static get template() {
-        return html`
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <div id="base">
       <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
         <span>
@@ -124,7 +132,15 @@ case 'base-element':
       </template></dom-repeat>
     </div>
     <div id="save"></div>
-`;
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {}
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'multiple-element' }
@@ -259,7 +275,7 @@ case 'legacy':
     Polymer$0({
       importMeta: import.meta,
 
-      _template: html`
+      _template: ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <div id="base">
       <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
         <span>
@@ -268,7 +284,15 @@ case 'legacy':
       </template></dom-repeat>
     </div>
     <div id="save"></div>
-`,
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {}
+}
+</json-data>
+</template>
+`),
 
       is: 'multiple-element',
 

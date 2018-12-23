@@ -57,41 +57,69 @@ case 'mixin':
       }
 
       static get template() {
-        return html`
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <span id="status">{{tr(status,text.statusMessages)}}</span>
 
     <span id="default">{{or(value,text.defaultValue)}}</span>
 
-    <i18n-format id="annotated-format">
+    <i18n-format id="annotated-format" lang="{{effectiveLang}}">
       <span>{{tr(status,text.statusMessageFormats)}}</span>
-      <span>{{parameter}}</span>
-      <span>string parameter</span>
+      <span slot="1">{{parameter}}</span>
+      <span slot="2">{{text.annotated-format.2}}</span>
     </i18n-format>
 
-    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" bind-value="{{value}}">
+    <input is="iron-input" id="aria-attributes" title="{{model.aria-attributes.title}}" aria-label$="{{model.aria-attributes.aria-label}}" aria-valuetext$="{{model.aria-attributes.aria-valuetext}}" bind-value="{{value}}">
 
     <span>{{tr('key',text.nodefault)}}</span>
-    <span>{{text.defaultValue}} {{text.defaultValue}}</span>
+    <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span slot="1">{{text.defaultValue}}</span><span slot="2">{{text.defaultValue}}</span></i18n-format></span>
 
     <template>
-      <json-data text-id="statusMessages">{
-        "ok": "healthy status",
-        "busy": "busy status",
-        "error": "error status",
-        "default": "unknown status"
-      }</json-data>
-      <span text-id="defaultValue">default value</span>
-      <json-data text-id="statusMessageFormats">{
-        "ok": "healthy status",
-        "busy": "busy status with {2}",
-        "error": "error status with {1} and {2}",
-        "default": "unknown status"
-      }</json-data>
-      <json-data text-id="nodefault">{
-        "ok": "ok status"
-      }</json-data>
+      <json-data text-id="statusMessages">{{text.statusMessages}}</json-data>
+      <span text-id="defaultValue">{{text.defaultValue}}</span>
+      <json-data text-id="statusMessageFormats">{{text.statusMessageFormats}}</json-data>
+      <json-data text-id="nodefault">{{text.nodefault}}</json-data>
     </template>
-`;
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {
+    "aria-attributes": {
+      "title": "tooltip text",
+      "aria-label": "aria label text",
+      "aria-valuetext": "aria value text"
+    }
+  },
+  "annotated-format": [
+    "{{tr(status,text.statusMessageFormats)}}",
+    "{{parameter}}",
+    "string parameter"
+  ],
+  "span_5": [
+    "{1} {2}",
+    "{{text.defaultValue}}",
+    "{{text.defaultValue}}"
+  ],
+  "statusMessages": {
+    "ok": "healthy status",
+    "busy": "busy status",
+    "error": "error status",
+    "default": "unknown status"
+  },
+  "defaultValue": "default value",
+  "statusMessageFormats": {
+    "ok": "healthy status",
+    "busy": "busy status with {2}",
+    "error": "error status with {1} and {2}",
+    "default": "unknown status"
+  },
+  "nodefault": {
+    "ok": "ok status"
+  }
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'advanced-binding-element' }
@@ -168,41 +196,69 @@ case 'base-element':
       }
 
       static get template() {
-        return html`
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <span id="status">{{tr(status,text.statusMessages)}}</span>
 
     <span id="default">{{or(value,text.defaultValue)}}</span>
 
-    <i18n-format id="annotated-format">
+    <i18n-format id="annotated-format" lang="{{effectiveLang}}">
       <span>{{tr(status,text.statusMessageFormats)}}</span>
-      <span>{{parameter}}</span>
-      <span>string parameter</span>
+      <span slot="1">{{parameter}}</span>
+      <span slot="2">{{text.annotated-format.2}}</span>
     </i18n-format>
 
-    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" bind-value="{{value}}">
+    <input is="iron-input" id="aria-attributes" title="{{model.aria-attributes.title}}" aria-label$="{{model.aria-attributes.aria-label}}" aria-valuetext$="{{model.aria-attributes.aria-valuetext}}" bind-value="{{value}}">
 
     <span>{{tr('key',text.nodefault)}}</span>
-    <span>{{text.defaultValue}} {{text.defaultValue}}</span>
+    <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span slot="1">{{text.defaultValue}}</span><span slot="2">{{text.defaultValue}}</span></i18n-format></span>
 
     <template>
-      <json-data text-id="statusMessages">{
-        "ok": "healthy status",
-        "busy": "busy status",
-        "error": "error status",
-        "default": "unknown status"
-      }</json-data>
-      <span text-id="defaultValue">default value</span>
-      <json-data text-id="statusMessageFormats">{
-        "ok": "healthy status",
-        "busy": "busy status with {2}",
-        "error": "error status with {1} and {2}",
-        "default": "unknown status"
-      }</json-data>
-      <json-data text-id="nodefault">{
-        "ok": "ok status"
-      }</json-data>
+      <json-data text-id="statusMessages">{{text.statusMessages}}</json-data>
+      <span text-id="defaultValue">{{text.defaultValue}}</span>
+      <json-data text-id="statusMessageFormats">{{text.statusMessageFormats}}</json-data>
+      <json-data text-id="nodefault">{{text.nodefault}}</json-data>
     </template>
-`;
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {
+    "aria-attributes": {
+      "title": "tooltip text",
+      "aria-label": "aria label text",
+      "aria-valuetext": "aria value text"
+    }
+  },
+  "annotated-format": [
+    "{{tr(status,text.statusMessageFormats)}}",
+    "{{parameter}}",
+    "string parameter"
+  ],
+  "span_5": [
+    "{1} {2}",
+    "{{text.defaultValue}}",
+    "{{text.defaultValue}}"
+  ],
+  "statusMessages": {
+    "ok": "healthy status",
+    "busy": "busy status",
+    "error": "error status",
+    "default": "unknown status"
+  },
+  "defaultValue": "default value",
+  "statusMessageFormats": {
+    "ok": "healthy status",
+    "busy": "busy status with {2}",
+    "error": "error status with {1} and {2}",
+    "default": "unknown status"
+  },
+  "nodefault": {
+    "ok": "ok status"
+  }
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'advanced-binding-element' }
@@ -341,41 +397,69 @@ case 'legacy':
     Polymer$0({
       importMeta: import.meta,
 
-      _template: html`
+      _template: ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <span id="status">{{tr(status,text.statusMessages)}}</span>
 
     <span id="default">{{or(value,text.defaultValue)}}</span>
 
-    <i18n-format id="annotated-format">
+    <i18n-format id="annotated-format" lang="{{effectiveLang}}">
       <span>{{tr(status,text.statusMessageFormats)}}</span>
-      <span>{{parameter}}</span>
-      <span>string parameter</span>
+      <span slot="1">{{parameter}}</span>
+      <span slot="2">{{text.annotated-format.2}}</span>
     </i18n-format>
 
-    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" bind-value="{{value}}">
+    <input is="iron-input" id="aria-attributes" title="{{model.aria-attributes.title}}" aria-label$="{{model.aria-attributes.aria-label}}" aria-valuetext$="{{model.aria-attributes.aria-valuetext}}" bind-value="{{value}}">
 
     <span>{{tr('key',text.nodefault)}}</span>
-    <span>{{text.defaultValue}} {{text.defaultValue}}</span>
+    <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span slot="1">{{text.defaultValue}}</span><span slot="2">{{text.defaultValue}}</span></i18n-format></span>
 
     <template>
-      <json-data text-id="statusMessages">{
-        "ok": "healthy status",
-        "busy": "busy status",
-        "error": "error status",
-        "default": "unknown status"
-      }</json-data>
-      <span text-id="defaultValue">default value</span>
-      <json-data text-id="statusMessageFormats">{
-        "ok": "healthy status",
-        "busy": "busy status with {2}",
-        "error": "error status with {1} and {2}",
-        "default": "unknown status"
-      }</json-data>
-      <json-data text-id="nodefault">{
-        "ok": "ok status"
-      }</json-data>
+      <json-data text-id="statusMessages">{{text.statusMessages}}</json-data>
+      <span text-id="defaultValue">{{text.defaultValue}}</span>
+      <json-data text-id="statusMessageFormats">{{text.statusMessageFormats}}</json-data>
+      <json-data text-id="nodefault">{{text.nodefault}}</json-data>
     </template>
-`,
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {
+    "aria-attributes": {
+      "title": "tooltip text",
+      "aria-label": "aria label text",
+      "aria-valuetext": "aria value text"
+    }
+  },
+  "annotated-format": [
+    "{{tr(status,text.statusMessageFormats)}}",
+    "{{parameter}}",
+    "string parameter"
+  ],
+  "span_5": [
+    "{1} {2}",
+    "{{text.defaultValue}}",
+    "{{text.defaultValue}}"
+  ],
+  "statusMessages": {
+    "ok": "healthy status",
+    "busy": "busy status",
+    "error": "error status",
+    "default": "unknown status"
+  },
+  "defaultValue": "default value",
+  "statusMessageFormats": {
+    "ok": "healthy status",
+    "busy": "busy status with {2}",
+    "error": "error status with {1} and {2}",
+    "default": "unknown status"
+  },
+  "nodefault": {
+    "ok": "ok status"
+  }
+}
+</json-data>
+</template>
+`),
 
       is: 'advanced-binding-element',
 

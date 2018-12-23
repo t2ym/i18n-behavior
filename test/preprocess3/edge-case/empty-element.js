@@ -22,9 +22,17 @@ case 'mixin':
       }
 
       static get template() {
-        return html`
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
 
-`;
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {}
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'empty-element' }
@@ -40,9 +48,17 @@ case 'base-element':
       }
 
       static get template() {
-        return html`
+        return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
 
-`;
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {}
+}
+</json-data>
+</template>
+`);
       }
 
       static get is() { return 'empty-element' }
@@ -61,9 +77,17 @@ case 'legacy':
     Polymer$0({
       importMeta: import.meta,
 
-      _template: html`
+      _template: ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
 
-`,
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {}
+}
+</json-data>
+</template>
+`),
 
       is: 'empty-element',
 
