@@ -81,7 +81,7 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
         console.error('atob(btoa(template[1])) !== template[1]');
       }
       html = html.replace('<dom-module>', 
-        `<dom-module id="${name}"><template>${template[1]}</template></dom-module>\n`);
+        `<dom-module id="${name}"><template>${template[1].replace(/\\[$]/g, '$')}</template></dom-module>\n`);
     }
     else {
       html = html.replace('<dom-module>', '');
@@ -93,7 +93,7 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
         console.error('atob(btoa(innerHTML[1])) !== innerHTML[1]');
       }
       */
-      html = html.replace('<innerHTML>', innerHTML[1]);
+      html = html.replace('<innerHTML>', innerHTML[1].replace(/\\[$]/g, '$'));
     }
     else {
       html = html.replace('<innerHTML>', '');
@@ -111,6 +111,20 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
   }
   callback(null, file);
 }));
+
+var barrier = function (title) {
+  var files = [];
+  return through.obj(function (file, enc, callback) {
+    files.push(file);
+    callback();
+  }, function (callback) {
+    files.forEach(function (file) {
+      this.push(file);
+    }, this)
+    callback();
+    console.log(`barrier ======== ${title} ========`);
+  });
+};
 
 // Scan HTMLs and construct localizable attributes repository
 var scan = gulpif('*.html', i18nPreprocess({
@@ -316,13 +330,15 @@ gulp.task('locales', function() {
 gulp.task('i18n', () => {
   return gulp.src([ path.join(srcDir, '**/*') ], { base: srcDir })
     .pipe(indexHTML)
+    .pipe(basenameSort)
     .pipe(unmodulize)
     .pipe(scan)
+    .pipe(barrier('scan completed'))
     .pipe(dropDefaultJSON)
     .pipe(preprocess)
     .pipe(tmpHTML)
     .pipe(dropDummyHTML)
-    .pipe(basenameSort)
+    .pipe(barrier('drop dummy HTML completed'))
     .pipe(preprocessJs)
     .pipe(tmpJSON)
     .pipe(importXliff)
@@ -353,7 +369,7 @@ gulp.task('i18n-attr-repo.html', function () {
           html = html.replace('<dom-module>', '');
         }
         if (innerHTML) {
-          html = html.replace('<innerHTML>', innerHTML[1]);
+          html = html.replace('<innerHTML>', innerHTML[1].replace(/\\[$]/g, '$'));
         }
         else {
           html = html.replace('<innerHTML>', '');
