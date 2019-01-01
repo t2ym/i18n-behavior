@@ -94,8 +94,15 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     userPreference = document.createElement('i18n-preference');
     // append to body
     addEventListener('load', function (event) {
-      document.querySelector('body').appendChild(userPreference);
+      if (!document.querySelector('i18n-preference')) {
+        document.querySelector('body').appendChild(userPreference);
+      }
     });
+    setTimeout(function () {
+      if (!document.querySelector('i18n-preference')) {
+        document.querySelector('body').appendChild(userPreference);
+      }
+    }, 0);
   }
 
   // debug log when <html debug> attribute exists
