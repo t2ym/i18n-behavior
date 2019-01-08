@@ -15,7 +15,7 @@ import '@polymer/iron-ajax/iron-ajax.js';
 import 'i18n-format/i18n-format.js';
 import './i18n-preference.js';
 import './i18n-attr-repo.js';
-import { ElementMixin } from '@polymer/polymer/lib/mixins/element-mixin.js';
+//import { ElementMixin } from '@polymer/polymer/lib/mixins/element-mixin.js'; // ElementMixin is used only for a Polymer version indicator, which is truthy
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
 import { Polymer as Polymer$0 } from '@polymer/polymer/lib/legacy/polymer-fn.js';
@@ -50,9 +50,9 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
   })();
   // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
   var extraWhiteSpaceNode = !isStandardPropertyConfigurable;
-  if (ElementMixin) {
+  //if (ElementMixin) { // ElementMixin is always truthy
     isStandardPropertyConfigurable = false;
-  }
+  //}
 
   // app global bundle storage
   var bundles = { '': {} }; // with an empty default bundle
@@ -83,7 +83,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
                       html.getAttribute('locales-path') : 'locales';
 
   // Support ShadowDOM V1 on Polymer 2.x
-  var paramAttribute = ElementMixin ? 'slot' : 'param';
+  var paramAttribute = 'slot'; // ElementMixin ? 'slot' : 'param'; // ElementMixin is always truthy
 
   var attributesRepository = document.createElement('i18n-attr-repo');
   // ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript)).ownerDocument.querySelector('i18n-attr-repo');
@@ -481,7 +481,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
       //console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
 
       var resolved;
-      var id = this.is === 'i18n-dom-bind' || (ElementMixin && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (/* ElementMixin && */this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (lang && lang.length > 0) {
         var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
@@ -760,7 +760,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           // reset error status
           this._fetchStatus.error = null;
         }
-        if (!ElementMixin || (ElementMixin && this.__data)) {
+        if (/* !ElementMixin || */ (/* ElementMixin && */ this.__data)) {
           this.notifyPath('text', this._getBundle(this.lang));
         }
         this.effectiveLang = lang;
@@ -848,7 +848,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
 
       // set up an empty bundle if inexistent
       bundles[lang] = bundles[lang] || {};
-      var id = this.is === 'i18n-dom-bind' || (ElementMixin && this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || (/* ElementMixin && */ this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
 
       if (bundles[lang][id]) {
         // bundle is available; no need to fetch
@@ -2116,17 +2116,17 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
                   return prev;
                 }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
               // clear original childNodes before implicit removals by appendChild to i18n-format for ShadyDOM compatibility
-              if (ElementMixin) {
+              //if (ElementMixin) { // ElementMixin is always truthy
                 // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
                 node.innerHTML = '';
-              }
+              //}
               templateText = document.createElement('i18n-format');
               templateText.setAttribute('lang', '{{effectiveLang}}');
-              if (ElementMixin) {
+              //if (ElementMixin) { // ElementMixin is always truthy
                 // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
                 // insert i18n-format
                 dom(node).appendChild(templateText);
-              }
+              //}
               span = document.createElement('span');
               // span.innerText does not set an effective value in Firefox
               span.textContent = templateTextParams.params.shift();
@@ -2136,12 +2136,14 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
                   templateText.appendChild(param);
                 }
               );
+              /* ElementMixin is always truthy
               if (!ElementMixin) {
                 // Avoid ShadyDOM issue for Polymer 1.x (Clearance of innerHTML unexpectedly removes textContent of child nodes)
                 // insert i18n-format
                 node.innerHTML = '';
                 dom(node).appendChild(templateText);
               }
+              */
               // store the text message
               templateTextParams.text[0] = templateTextParams.text[0].replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
               this._setBundleValue(bundle, messageId, templateTextParams.text);
@@ -2552,14 +2554,16 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
      * - As called twice per custom element registration, the method skips bundle construction at the second call.
      */
     beforeRegister: function () {
-      if (ElementMixin) {
+      //if (ElementMixin) { // ElementMixin is always truthy
         return;
-      }
+      //}
+      /* Unreacheable code
       if (this.is !== 'i18n-dom-bind') {
         if (!this._templateLocalizable) {
           this._templateLocalizable = this._constructDefaultBundle();
         }
       }
+      */
     },
 
 
@@ -2693,7 +2697,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
             }
           }
         }
-        if (ElementMixin && !this.__data) {
+        if (/* ElementMixin && */ !this.__data) {
           this._initializeProperties();
         }
         this._langChanged(this.getAttribute('lang'), undefined);
@@ -2776,8 +2780,8 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
     BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
     BehaviorsStore.I18nBehavior._updateEffectiveLang = function (event) {
-      if ((!ElementMixin && dom(event).rootTarget === this) ||
-          (ElementMixin && event.composedPath()[0] === this)) {
+      if (/* (!ElementMixin && dom(event).rootTarget === this) || */
+          (/* ElementMixin && */ event.composedPath()[0] === this)) {
         //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
         this.effectiveLang = this._lang;
       }
@@ -2787,11 +2791,11 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     };
   }
 
-  if (ElementMixin) {
+  //if (ElementMixin) { // ElementMixin is always truthy
     // Polymer 2.x
     BehaviorsStore._I18nBehavior = BehaviorsStore.I18nBehavior;
     BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
-    if (!document.currentScript) {
+    //if (!document.currentScript) { // document.currentScript is always falsy
       // Polymer 3.x
       BehaviorsStore.I18nBehavior.push({
         get _template() { 
@@ -2838,7 +2842,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         // Note: In IE11, changes in this.text object do not propagate automatically and require MutableDataBehavior to propagate
         BehaviorsStore.I18nBehavior.push(MutableDataBehavior);
       }
-    }
+    //}
     Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       get: function() {
         var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
@@ -2927,5 +2931,41 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         return BehaviorsStore._I18nBehavior;
       }
     });
+  //}
+  /*
+  else {
+    // Polymer 1.x
+  /**
+   * `<template is="i18n-dom-bind">` element extends `dom-bind` template element with `I18nBehavior`
+   *
+   * @group I18nBehavior
+   * @element i18n-dom-bind
+   * /
+  var i18nBehaviorDomBind = {};
+  Base.extend(i18nBehaviorDomBind, BehaviorsStore.I18nBehavior);
+  var i18nDomBind = {};
+  var domBind = document.createElement('template', 'dom-bind');
+  var domBindProto = Object.getPrototypeOf(domBind);
+  if (typeof domBindProto.render !== 'function') {
+    domBindProto = domBind.__proto__; // fallback for IE10
   }
+  Base.extend(i18nDomBind, domBindProto);
+  i18nDomBind.is = 'i18n-dom-bind';
+  if (!navigator.language && navigator.browserLanguage) { // Detect IE10
+    // Fix #35. [IE10] Hide properties until attached phase in IE10
+    // to avoid exceptions in overriding unconfigurable properties in Object.defineProperty
+    i18nBehaviorDomBind._properties = i18nBehaviorDomBind.properties;
+    i18nBehaviorDomBind.properties = Object.create(null);
+  }
+  /* As of Polymer 1.3.1, dom-bind does not have predefined behaviors * /
+  /* istanbul ignore if * /
+  if (i18nDomBind.behaviors) {
+    i18nDomBind.behaviors.push(i18nBehaviorDomBind);
+  }
+  else {
+    i18nDomBind.behaviors = [ i18nBehaviorDomBind ];
+  }
+  var _Polymer = Polymer$0;
+  _Polymer(i18nDomBind);
+  } */
 // })(document); // ES Modules do not need closures
