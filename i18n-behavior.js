@@ -2928,39 +2928,4 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
       }
     });
   }
-  else {
-    // Polymer 1.x
-  /**
-   * `<template is="i18n-dom-bind">` element extends `dom-bind` template element with `I18nBehavior`
-   *
-   * @group I18nBehavior
-   * @element i18n-dom-bind
-   */
-  var i18nBehaviorDomBind = {};
-  Base.extend(i18nBehaviorDomBind, BehaviorsStore.I18nBehavior);
-  var i18nDomBind = {};
-  var domBind = document.createElement('template', 'dom-bind');
-  var domBindProto = Object.getPrototypeOf(domBind);
-  if (typeof domBindProto.render !== 'function') {
-    domBindProto = domBind.__proto__; // fallback for IE10
-  }
-  Base.extend(i18nDomBind, domBindProto);
-  i18nDomBind.is = 'i18n-dom-bind';
-  if (!navigator.language && navigator.browserLanguage) { // Detect IE10
-    // Fix #35. [IE10] Hide properties until attached phase in IE10
-    // to avoid exceptions in overriding unconfigurable properties in Object.defineProperty
-    i18nBehaviorDomBind._properties = i18nBehaviorDomBind.properties;
-    i18nBehaviorDomBind.properties = Object.create(null);
-  }
-  /* As of Polymer 1.3.1, dom-bind does not have predefined behaviors */
-  /* istanbul ignore if */
-  if (i18nDomBind.behaviors) {
-    i18nDomBind.behaviors.push(i18nBehaviorDomBind);
-  }
-  else {
-    i18nDomBind.behaviors = [ i18nBehaviorDomBind ];
-  }
-  var _Polymer = Polymer$0;
-  _Polymer(i18nDomBind);
-  }
 })(document);
