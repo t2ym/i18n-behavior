@@ -25,8 +25,8 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
 //$_documentContainer.innerHTML = `<i18n-attr-repo></i18n-attr-repo>`;
 //document.head.appendChild($_documentContainer.content);
 /* jshint -W100 */
-(function(document) {
-  'use strict';
+// (function(document) { // ES Modules do not need closures
+//  'use strict'; // ES Modules are always strict mode
 
   var html = document.querySelector('html');
   if (window.ShadowDOMPolyfill) {
@@ -2928,4 +2928,4 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
       }
     });
   }
-})(document);
+// })(document); // ES Modules do not need closures

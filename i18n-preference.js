@@ -43,8 +43,8 @@ $_documentContainer.innerHTML = `<template id="i18n-preference">
 </template><div id="dom-module-placeholder"></div>`;
 
 //document.head.appendChild($_documentContainer.content);
-(function(document) {
-  'use strict';
+//(function(document) { // ES Modules do not need closures
+  //'use strict'; // ES Modules are always strict mode
 
   // html element of this document
   var html = document.querySelector('html');
@@ -271,4 +271,4 @@ $_documentContainer.innerHTML = `<template id="i18n-preference">
   else {
     HTMLImports.whenReady(registerI18nPreference);
   }
-})(document);
+//})(document); // ES Modules do not need closures
