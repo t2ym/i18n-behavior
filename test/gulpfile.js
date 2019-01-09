@@ -304,7 +304,7 @@ var exportXliff = through.obj(function (file, enc, callback) {
   });
 });
 
-var feedback = gulpif([ '**/bundle.json', '**/locales/*.json', '**/*.json', '**/xliff/bundle.*.xlf' ], gulp.dest(srcDir));
+var feedback = gulpif([ '**/bundle.json', '**/locales/*.json', '**/*.json', '**/xliff/bundle.*.xlf' ], gulp.dest(tmpDir));
 
 var dropXliff = gulpignore([ '**/xliff', '**/xliff/**' ]);
 
@@ -350,7 +350,7 @@ gulp.task('i18n', () => {
     .pipe(importXliff)
     .pipe(leverage)
     .pipe(exportXliff)
-    //.pipe(feedback)
+    .pipe(feedback)
     .pipe(debug({ title: title }))
     .pipe(size({ title: title }))
     .pipe(dropXliff)

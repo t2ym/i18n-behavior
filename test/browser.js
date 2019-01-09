@@ -737,7 +737,6 @@ var CLISocket = /** @class */ (function () {
      */
     CLISocket.prototype.observe = function (runner) {
         var _this = this;
-        this.writable = true;
         this.emitEvent('browser-start', {
             url: window.location.toString(),
         });
@@ -779,101 +778,11 @@ var CLISocket = /** @class */ (function () {
      * @param {*} data Additional data to pass with the event.
      */
     CLISocket.prototype.emitEvent = function (event, data) {
-        var self = this;
-        var isPolling = false;
-        var dataJSON = data ? JSON.stringify(data) : '';
-        var dataSize = dataJSON.length;
-        var chunkSize = 65536;
-        var chunks = [];
-        var chunk;
-        var eventId;
-        var transport;
-        if (this.socket.io &&
-          this.socket.io.engine &&
-          this.socket.io.engine.transport &&
-          this.socket.io.engine.transport.query &&
-          this.socket.io.engine.transport.query.transport === 'polling') {
-            isPolling = true;
-            this.eventQueue = this.eventQueue || [];
-        }
-        if (isPolling) {
-            eventId = this.browserId + ',' + event + ',' + Date.now();
-            if (dataSize > chunkSize) {
-                transport = this.socket.io.engine.transport;
-                while (dataJSON) {
-                    chunks.push(dataJSON.substr(0, chunkSize));
-                    dataJSON = dataJSON.substr(chunkSize);
-                }
-                function processEventQueue() {
-                    if (document.querySelector('li.failures a')) {
-                        document.querySelector('li.failures a').textContent = self.eventQueue.map(function (item) {
-                            if (item.event === 'client-event-fragment') {
-                                return item.data.eventId;
-                            }
-                            else {
-                                return item.data.event;
-                            }
-                        }).join(' ');
-                    }
-                    var eventItem;
-                    while (eventItem = self.eventQueue.shift()) {
-                        self.socket.emit(eventItem.event, eventItem.data);
-                        if (eventItem.event === 'client-event-fragment') {
-                            break;
-                        }
-                    }
-                    if (self.eventQueue.length === 0) {
-                        self.writable = true;
-                        transport.removeListener('drain', processEventQueue);
-                    }
-                }
-                while (chunk = chunks.shift()) {
-                    this.eventQueue.push({
-                        event:   'client-event-fragment',
-                        data: {
-                            browserId: self.browserId,
-                            eventId:   eventId,
-                            event:     event,
-                            chunk:     chunk,
-                            last:      chunks.length === 0
-                        }
-                    });
-                }
-                if (this.writable) {
-                    this.writable = false;
-                    transport.on('drain', processEventQueue);
-                    if (transport.writable) {
-                        processEventQueue();
-                    }
-                }
-            }
-            else {
-                if (this.writable) {
-                    this.socket.emit('client-event', {
-                        browserId: this.browserId,
-                        event:     event,
-                        data:      data,
-                    });
-                }
-                else {
-                    this.eventQueue.push({
-                        event:   'client-event',
-                        data: {
-                            browserId: this.browserId,
-                            event:     event,
-                            data:      data,
-                        }
-                    });
-                }
-            }
-        }
-        else {
-            this.socket.emit('client-event', {
-                browserId: this.browserId,
-                event:     event,
-                data:      data,
-            });
-        }
+        this.socket.emit('client-event', {
+            browserId: this.browserId,
+            event: event,
+            data: data,
+        });
     };
     /**
      * Builds a `CLISocket` if we are within a CLI-run environment; short-circuits

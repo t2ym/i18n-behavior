@@ -22,6 +22,5 @@ addons:
   sauce_connect: true
 script:
   - gulp patch-wct-browser-legacy # cp -vf test/browser.js node_modules/wct-browser-legacy/browser.js
-  - gulp patch-web-component-tester # cp -vf test/steps.js node_modules/web-component-tester/runner/steps.js
   - wct --npm --module-resolution=node
   - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js || echo success; fi
