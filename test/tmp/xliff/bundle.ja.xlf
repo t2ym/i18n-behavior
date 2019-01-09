@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file xml:space="default" source-language="en" target-language="ja" datatype="plaintext" original="messages" date="2019-01-09T01:13:55Z" product-name="messages">
+    <header>
+      <tool tool-id="xliff-conv" tool-name="xliff-conv" tool-version="1.0.11"/>
+    </header>
+    <body>
+      <trans-unit id="null-template-default-lang-element.text">
+        <source> outermost text at the beginning </source>
+        <target state="new"> outermost text at the beginning </target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.h1_3">
+        <source>outermost header 1</source>
+        <target state="new">outermost header 1</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.text_4">
+        <source> outermost text in the middle </source>
+        <target state="new"> outermost text in the middle </target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.span_5">
+        <source>simple text without id</source>
+        <target state="new">simple text without id</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.span_6">
+        <source>simple text without id 2</source>
+        <target state="new">simple text without id 2</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.label-1">
+        <source>simple text with id</source>
+        <target state="new">simple text with id</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.label-2">
+        <source>simple text with id 2</source>
+        <target state="new">simple text with id 2</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_9:span">
+        <source>simple text within div</source>
+        <target state="new">simple text within div</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_9:span_1">
+        <source>simple text within div 2</source>
+        <target state="new">simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_9:div_2:div">
+        <source>great grandchild text within div</source>
+        <target state="new">great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_10:text">
+        <source> simple text as the first element in div </source>
+        <target state="new"> simple text as the first element in div </target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_10:span_1">
+        <source>simple text within div</source>
+        <target state="new">simple text within div</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_10:text_2">
+        <source> simple text in the middle of div </source>
+        <target state="new"> simple text in the middle of div </target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_10:span_3">
+        <source>simple text within div 2</source>
+        <target state="new">simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_10:div_4:div">
+        <source>great grandchild text within div</source>
+        <target state="new">great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_10:text_5">
+        <source> simple text at the last element in div </source>
+        <target state="new"> simple text at the last element in div </target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.toplevel-div:span">
+        <source>simple text within div</source>
+        <target state="new">simple text within div</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.toplevel-div:span_1">
+        <source>simple text within div 2</source>
+        <target state="new">simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.third-level-div">
+        <source>great grandchild text within div</source>
+        <target state="new">great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.second-level-div:div_1">
+        <source>great grandchild text within div without id</source>
+        <target state="new">great grandchild text within div without id</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_12:ul:li">
+        <source>line item without id 1</source>
+        <target state="new">line item without id 1</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_12:ul:li_1">
+        <source>line item without id 2</source>
+        <target state="new">line item without id 2</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.div_12:ul:li_2">
+        <source>line item without id 3</source>
+        <target state="new">line item without id 3</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.line-items:li">
+        <source>line item with id 1</source>
+        <target state="new">line item with id 1</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.line-items:li_1">
+        <source>line item with id 2</source>
+        <target state="new">line item with id 2</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.line-items:li_2">
+        <source>line item with id 3</source>
+        <target state="new">line item with id 3</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.p_13.0">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="new">A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.p_13.1">
+        <source>parameters</source>
+        <target state="new">parameters</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.p_13.2">
+        <source>&lt;i18n-format></source>
+        <target state="new">&lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.paragraph.0">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="new">A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.paragraph.1">
+        <source>id</source>
+        <target state="new">id</target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.paragraph.2">
+        <source>&lt;i18n-format></source>
+        <target state="new">&lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="null-template-default-lang-element.text_15">
+        <source> outermost text at the end </source>
+        <target state="new"> outermost text at the end </target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

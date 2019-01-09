@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file xml:space="default" source-language="en" target-language="ru" datatype="plaintext" original="messages" date="2019-01-09T01:13:55Z" product-name="messages">
+    <header>
+      <tool tool-id="xliff-conv" tool-name="xliff-conv" tool-version="1.0.11"/>
+    </header>
+    <body>
+      <trans-unit id="simple-text-element.text" approved="yes">
+        <source> outermost text at the beginning </source>
+        <target state="translated"> ru outermost text at the beginning </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.h1_3" approved="yes">
+        <source>outermost header 1</source>
+        <target state="translated">ru outermost header 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.text_4" approved="yes">
+        <source> outermost text in the middle </source>
+        <target state="translated"> ru outermost text in the middle </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.span_5" approved="yes">
+        <source>simple text without id</source>
+        <target state="translated">ru simple text without id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.span_6" approved="yes">
+        <source>simple text without id 2</source>
+        <target state="translated">ru simple text without id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.label-1" approved="yes">
+        <source>simple text with id</source>
+        <target state="translated">ru simple text with id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.label-2" approved="yes">
+        <source>simple text with id 2</source>
+        <target state="translated">ru simple text with id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_9:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">ru simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_9:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">ru simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_9:div_2:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">ru great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:text" approved="yes">
+        <source> simple text as the first element in div </source>
+        <target state="translated"> ru simple text as the first element in div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:span_1" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">ru simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:text_2" approved="yes">
+        <source> simple text in the middle of div </source>
+        <target state="translated"> ru simple text in the middle of div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:span_3" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">ru simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:div_4:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">ru great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:text_5" approved="yes">
+        <source> simple text at the last element in div </source>
+        <target state="translated"> ru simple text at the last element in div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.toplevel-div:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">ru simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.toplevel-div:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">ru simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.third-level-div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">ru great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.second-level-div:div_1" approved="yes">
+        <source>great grandchild text within div without id</source>
+        <target state="translated">ru great grandchild text within div without id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_12:ul:li" approved="yes">
+        <source>line item without id 1</source>
+        <target state="translated">ru line item without id 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_12:ul:li_1" approved="yes">
+        <source>line item without id 2</source>
+        <target state="translated">ru line item without id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_12:ul:li_2" approved="yes">
+        <source>line item without id 3</source>
+        <target state="translated">ru line item without id 3</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.line-items:li" approved="yes">
+        <source>line item with id 1</source>
+        <target state="translated">ru line item with id 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.line-items:li_1" approved="yes">
+        <source>line item with id 2</source>
+        <target state="translated">ru line item with id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.line-items:li_2" approved="yes">
+        <source>line item with id 3</source>
+        <target state="translated">ru line item with id 3</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.p_13.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">ru A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.p_13.1" approved="yes">
+        <source>parameters</source>
+        <target state="translated">ru parameters</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.p_13.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">ru &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.paragraph.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">ru A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.paragraph.1" approved="yes">
+        <source>id</source>
+        <target state="translated">ru id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.paragraph.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">ru &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.text_15" approved="yes">
+        <source> outermost text at the end </source>
+        <target state="translated"> ru outermost text at the end </target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,2273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file xml:space="default" source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2019-01-09T01:13:55Z" product-name="messages">
+    <header>
+      <tool tool-id="xliff-conv" tool-name="xliff-conv" tool-version="1.0.11"/>
+    </header>
+    <body>
+      <trans-unit id="advanced-binding-element.model.aria-attributes.title" approved="yes">
+        <source>tooltip text</source>
+        <target state="translated">fr tooltip text</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.model.aria-attributes.aria-label" approved="yes">
+        <source>aria label text</source>
+        <target state="translated">fr aria label text</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.model.aria-attributes.aria-valuetext" approved="yes">
+        <source>aria value text</source>
+        <target state="translated">fr aria value text</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.annotated-format.0" approved="yes">
+        <source>{{tr(status,text.statusMessageFormats)}}</source>
+        <target state="translated">{{tr(status,text.statusMessageFormats)}}</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.annotated-format.1" approved="yes">
+        <source>{{parameter}}</source>
+        <target state="translated">{{parameter}}</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.annotated-format.2" approved="yes">
+        <source>string parameter</source>
+        <target state="translated">fr string parameter</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.span_5.0" approved="yes">
+        <source>{1} {2}</source>
+        <target state="translated">fr {1} {2}</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.span_5.1" approved="yes">
+        <source>{{text.defaultValue}}</source>
+        <target state="translated">{{text.defaultValue}}</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.span_5.2" approved="yes">
+        <source>{{text.defaultValue}}</source>
+        <target state="translated">{{text.defaultValue}}</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.statusMessages.ok" approved="yes">
+        <source>healthy status</source>
+        <target state="translated">fr healthy status</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.statusMessages.busy" approved="yes">
+        <source>busy status</source>
+        <target state="translated">fr busy status</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.statusMessages.error" approved="yes">
+        <source>error status</source>
+        <target state="translated">fr error status</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.statusMessages.default" approved="yes">
+        <source>unknown status</source>
+        <target state="translated">fr unknown status</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.defaultValue" approved="yes">
+        <source>default value</source>
+        <target state="translated">fr default value</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.statusMessageFormats.ok" approved="yes">
+        <source>healthy status</source>
+        <target state="translated">fr healthy status</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.statusMessageFormats.busy" approved="yes">
+        <source>busy status with {2}</source>
+        <target state="translated">fr busy status with {2}</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.statusMessageFormats.error" approved="yes">
+        <source>error status with {1} and {2}</source>
+        <target state="translated">fr error status with {1} and {2}</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.statusMessageFormats.default" approved="yes">
+        <source>unknown status</source>
+        <target state="translated">fr unknown status</target>
+      </trans-unit>
+      <trans-unit id="advanced-binding-element.nodefault.ok" approved="yes">
+        <source>ok status</source>
+        <target state="translated">fr ok status</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.text" approved="yes">
+        <source> outermost text at the beginning </source>
+        <target state="translated"> fr outermost text at the beginning </target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.h1_3" approved="yes">
+        <source>outermost header 1</source>
+        <target state="translated">fr outermost header 1</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.text_4" approved="yes">
+        <source> outermost text in the middle </source>
+        <target state="translated"> fr outermost text in the middle </target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.span_5" approved="yes">
+        <source>simple text without id</source>
+        <target state="translated">fr simple text without id</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.span_6" approved="yes">
+        <source>simple text without id 2</source>
+        <target state="translated">fr simple text without id 2</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.label-1" approved="yes">
+        <source>simple text with id</source>
+        <target state="translated">fr simple text with id</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.label-2" approved="yes">
+        <source>simple text with id 2</source>
+        <target state="translated">fr simple text with id 2</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_9:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_9:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_9:div_2:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_10:text" approved="yes">
+        <source> simple text as the first element in div </source>
+        <target state="translated"> fr simple text as the first element in div </target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_10:span_1" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_10:text_2" approved="yes">
+        <source> simple text in the middle of div </source>
+        <target state="translated"> fr simple text in the middle of div </target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_10:span_3" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_10:div_4:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_10:text_5" approved="yes">
+        <source> simple text at the last element in div </source>
+        <target state="translated"> fr simple text at the last element in div </target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.toplevel-div:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.toplevel-div:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.third-level-div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.second-level-div:div_1" approved="yes">
+        <source>great grandchild text within div without id</source>
+        <target state="translated">fr great grandchild text within div without id</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_12:ul:li" approved="yes">
+        <source>line item without id 1</source>
+        <target state="translated">fr line item without id 1</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_12:ul:li_1" approved="yes">
+        <source>line item without id 2</source>
+        <target state="translated">fr line item without id 2</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.div_12:ul:li_2" approved="yes">
+        <source>line item without id 3</source>
+        <target state="translated">fr line item without id 3</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.line-items:li" approved="yes">
+        <source>line item with id 1</source>
+        <target state="translated">fr line item with id 1</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.line-items:li_1" approved="yes">
+        <source>line item with id 2</source>
+        <target state="translated">fr line item with id 2</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.line-items:li_2" approved="yes">
+        <source>line item with id 3</source>
+        <target state="translated">fr line item with id 3</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.p_13.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.p_13.1" approved="yes">
+        <source>parameters</source>
+        <target state="translated">fr parameters</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.p_13.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.paragraph.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.paragraph.1" approved="yes">
+        <source>id</source>
+        <target state="translated">fr id</target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.paragraph.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="commented-simple-text-element.text_15" approved="yes">
+        <source> outermost text at the end </source>
+        <target state="translated"> fr outermost text at the end </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update2:text.0" approved="yes">
+        <source>updated: {1}, by: </source>
+        <target state="translated">fr updated: {1}, by: </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update2:text.1" approved="yes">
+        <source>{{text.updated}}</source>
+        <target state="translated">{{text.updated}}</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update2:text_2" approved="yes">
+        <source> xxx </source>
+        <target state="translated"> fr xxx </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update2:dom-if_3:template:span:b" approved="yes">
+        <source>IF CONTENT</source>
+        <target state="translated">fr IF CONTENT</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update2:b_4" approved="yes">
+        <source>abc</source>
+        <target state="translated">fr abc</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update2:dom-if_5:template:text" approved="yes">
+        <source>IF CONTENT 2</source>
+        <target state="translated">fr IF CONTENT 2</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update2:text_6" approved="yes">
+        <source> hello </source>
+        <target state="translated"> fr hello </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update:text.0" approved="yes">
+        <source>updated: {1}, by: </source>
+        <target state="translated">fr updated: {1}, by: </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update:text.1" approved="yes">
+        <source>{{text.updated}}</source>
+        <target state="translated">{{text.updated}}</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update:text_2" approved="yes">
+        <source> xxx </source>
+        <target state="translated"> fr xxx </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update:dom-if_3:template:b" approved="yes">
+        <source>IF CONTENT</source>
+        <target state="translated">fr IF CONTENT</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update:b_4" approved="yes">
+        <source>abc</source>
+        <target state="translated">fr abc</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update:dom-if_5:template:text" approved="yes">
+        <source>IF CONTENT 2</source>
+        <target state="translated">fr IF CONTENT 2</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update:text_6" approved="yes">
+        <source> hello </source>
+        <target state="translated"> fr hello </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update3:text.0" approved="yes">
+        <source>updated: {1}, by: </source>
+        <target state="translated">fr updated: {1}, by: </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update3:text.1" approved="yes">
+        <source>{{text.updated}}</source>
+        <target state="translated">{{text.updated}}</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update3:text_2" approved="yes">
+        <source> xxx </source>
+        <target state="translated"> fr xxx </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update3:dom-if_3:template:b" approved="yes">
+        <source>IF</source>
+        <target state="translated">fr IF</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update3:dom-if_3:template:b_1" approved="yes">
+        <source>CONTENT</source>
+        <target state="translated">fr CONTENT</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update3:b_4" approved="yes">
+        <source>abc</source>
+        <target state="translated">fr abc</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update3:dom-if_5:template:text" approved="yes">
+        <source>IF CONTENT 2</source>
+        <target state="translated">fr IF CONTENT 2</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update3:text_6" approved="yes">
+        <source> hello </source>
+        <target state="translated"> fr hello </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:text.0" approved="yes">
+        <source>updated: {1}, by: </source>
+        <target state="translated">fr updated: {1}, by: </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:text.1" approved="yes">
+        <source>{{text.updated}}</source>
+        <target state="translated">{{text.updated}}</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:dom-repeat_1:template:text.0" approved="yes">
+        <source> {1} = {2} </source>
+        <target state="translated"> fr {1} = {2} </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:dom-repeat_1:template:text.1" approved="yes">
+        <source>{{item.name}}</source>
+        <target state="translated">{{item.name}}</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:dom-repeat_1:template:text.2" approved="yes">
+        <source>{{text.updated}}</source>
+        <target state="translated">{{text.updated}}</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:text_2" approved="yes">
+        <source> xxx </source>
+        <target state="translated"> fr xxx </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:dom-if_3:template:b" approved="yes">
+        <source>IF CONTENT</source>
+        <target state="translated">fr IF CONTENT</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:b_4" approved="yes">
+        <source>abc</source>
+        <target state="translated">fr abc</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:dom-if_5:template:text" approved="yes">
+        <source>IF CONTENT 2</source>
+        <target state="translated">fr IF CONTENT 2</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.item-update4:text_6" approved="yes">
+        <source> hello </source>
+        <target state="translated"> fr hello </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph:text" approved="yes">
+        <source>A paragraph with </source>
+        <target state="translated">fr A paragraph with </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph:text_2" approved="yes">
+        <source> is converted to </source>
+        <target state="translated"> fr is converted to </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph:code_3" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph:text_4" approved="yes">
+        <source>. </source>
+        <target state="translated">fr . </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph2:text" approved="yes">
+        <source>A paragraph with deep </source>
+        <target state="translated">fr A paragraph with deep </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph2:text_2" approved="yes">
+        <source> is </source>
+        <target state="translated"> fr is </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph2:b_3" approved="yes">
+        <source>not</source>
+        <target state="translated">fr not</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph2:text_4" approved="yes">
+        <source> converted to </source>
+        <target state="translated"> fr converted to </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph2:code_5" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.paragraph2:text_6" approved="yes">
+        <source>. </source>
+        <target state="translated">fr . </target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.authors.0.name" approved="yes">
+        <source>Joe</source>
+        <target state="translated">fr Joe</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.authors.1.name" approved="yes">
+        <source>Alice</source>
+        <target state="translated">fr Alice</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.updated" approved="yes">
+        <source>Jan 1st, 2016</source>
+        <target state="translated">fr Jan 1st, 2016</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.parameters.0" approved="yes">
+        <source>parameter 1</source>
+        <target state="translated">fr parameter 1</target>
+      </trans-unit>
+      <trans-unit id="complex-compound-binding-element.parameters.1" approved="yes">
+        <source>parameter 2</source>
+        <target state="translated">fr parameter 2</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.text.0" approved="yes">
+        <source> outermost text at the beginning with compound {1} and {2} variables </source>
+        <target state="translated"> fr outermost text at the beginning with compound {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.text.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.text.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.h1_3.0" approved="yes">
+        <source>outermost header 1 with {1} and {2} variables</source>
+        <target state="translated">fr outermost header 1 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.h1_3.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.h1_3.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.text_4.0" approved="yes">
+        <source> outermost text in the middle with {1} and {2} variables </source>
+        <target state="translated"> fr outermost text in the middle with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.text_4.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.text_4.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.span_5.0" approved="yes">
+        <source>simple text without id with {1} and {2} variables</source>
+        <target state="translated">fr simple text without id with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.span_5.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.span_5.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.span_6.0" approved="yes">
+        <source>simple text without id 2 with {1} and {2} variables</source>
+        <target state="translated">fr simple text without id 2 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.span_6.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.span_6.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.label-1.0" approved="yes">
+        <source>simple text with id and {1} and {2} variables</source>
+        <target state="translated">fr simple text with id and {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.label-1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.label-1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.label-2.0" approved="yes">
+        <source>simple text with id and {1} and {2} variables 2</source>
+        <target state="translated">fr simple text with id and {1} and {2} variables 2</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.label-2.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.label-2.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_9:span.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_9:span.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_9:span.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_9:span_1.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables 2</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables 2</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_9:span_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_9:span_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_9:div_2:div.0" approved="yes">
+        <source>great grandchild text within div with {1} and {2} variables</source>
+        <target state="translated">fr great grandchild text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_9:div_2:div.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_9:div_2:div.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:text.0" approved="yes">
+        <source> simple text as the first element in div with {1} and {2} variables </source>
+        <target state="translated"> fr simple text as the first element in div with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:text.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:text.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:span_1.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:span_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:span_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:text_2.0" approved="yes">
+        <source> simple text in the middle of div with {1} and {2} variables </source>
+        <target state="translated"> fr simple text in the middle of div with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:text_2.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:text_2.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:span_3.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables 2</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables 2</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:span_3.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:span_3.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:div_4:div.0" approved="yes">
+        <source>great grandchild text within div with {1} and {2} variables</source>
+        <target state="translated">fr great grandchild text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:div_4:div.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:div_4:div.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:text_5.0" approved="yes">
+        <source> simple text at the last element in div with {1} and {2} variables </source>
+        <target state="translated"> fr simple text at the last element in div with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:text_5.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_10:text_5.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.toplevel-div:span.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.toplevel-div:span.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.toplevel-div:span.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.toplevel-div:span_1.0" approved="yes">
+        <source>simple text within div 2 with {1} and {2} variables</source>
+        <target state="translated">fr simple text within div 2 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.toplevel-div:span_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.toplevel-div:span_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.third-level-div.0" approved="yes">
+        <source>great grandchild text within div with {1} and {2} variables</source>
+        <target state="translated">fr great grandchild text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.third-level-div.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.third-level-div.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.second-level-div:div_1.0" approved="yes">
+        <source>great grandchild text within div without id with {1} and {2} variables</source>
+        <target state="translated">fr great grandchild text within div without id with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.second-level-div:div_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.second-level-div:div_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_12:ul:li.0" approved="yes">
+        <source>line item without id 1 with {1} and {2} variables</source>
+        <target state="translated">fr line item without id 1 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_12:ul:li.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_12:ul:li.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_12:ul:li_1.0" approved="yes">
+        <source>line item without id 2 with {1} and {2} variables</source>
+        <target state="translated">fr line item without id 2 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_12:ul:li_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_12:ul:li_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_12:ul:li_2.0" approved="yes">
+        <source>line item without id 3 with {1} and {2} variables</source>
+        <target state="translated">fr line item without id 3 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_12:ul:li_2.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.div_12:ul:li_2.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.line-items:li.0" approved="yes">
+        <source>line item with id 1 with {1} and {2} variables</source>
+        <target state="translated">fr line item with id 1 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.line-items:li.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.line-items:li.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.line-items:li_1.0" approved="yes">
+        <source>line item with id 2 with {1} and {2} variables</source>
+        <target state="translated">fr line item with id 2 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.line-items:li_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.line-items:li_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.line-items:li_2.0" approved="yes">
+        <source>line item with id 3 with {1} and {2} variables</source>
+        <target state="translated">fr line item with id 3 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.line-items:li_2.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.line-items:li_2.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.p_13.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.p_13.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.p_13.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.paragraph.0" approved="yes">
+        <source>A paragraph with {1}, {2}, and {3} is converted to {4}.</source>
+        <target state="translated">fr A paragraph with {1}, {2}, and {3} is converted to {4}.</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.paragraph.1" approved="yes">
+        <source>id</source>
+        <target state="translated">fr id</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.paragraph.2" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.paragraph.3" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.paragraph.4" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.text_15.0" approved="yes">
+        <source> outermost text at the end with {1} and {2} variables </source>
+        <target state="translated"> fr outermost text at the end with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.text_15.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-dom-bind.text_15.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.text.0" approved="yes">
+        <source> outermost text at the beginning with compound {1} and {2} variables </source>
+        <target state="translated"> fr outermost text at the beginning with compound {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.text.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.text.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.h1_3.0" approved="yes">
+        <source>outermost header 1 with {1} and {2} variables</source>
+        <target state="translated">fr outermost header 1 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.h1_3.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.h1_3.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.text_4.0" approved="yes">
+        <source> outermost text in the middle with {1} and {2} variables </source>
+        <target state="translated"> fr outermost text in the middle with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.text_4.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.text_4.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.span_5.0" approved="yes">
+        <source>simple text without id with {1} and {2} variables</source>
+        <target state="translated">fr simple text without id with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.span_5.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.span_5.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.span_6.0" approved="yes">
+        <source>simple text without id 2 with {1} and {2} variables</source>
+        <target state="translated">fr simple text without id 2 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.span_6.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.span_6.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.label-1.0" approved="yes">
+        <source>simple text with id and {1} and {2} variables</source>
+        <target state="translated">fr simple text with id and {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.label-1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.label-1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.label-2.0" approved="yes">
+        <source>simple text with id and {1} and {2} variables 2</source>
+        <target state="translated">fr simple text with id and {1} and {2} variables 2</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.label-2.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.label-2.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_9:span.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_9:span.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_9:span.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_9:span_1.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables 2</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables 2</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_9:span_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_9:span_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_9:div_2:div.0" approved="yes">
+        <source>great grandchild text within div with {1} and {2} variables</source>
+        <target state="translated">fr great grandchild text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_9:div_2:div.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_9:div_2:div.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:text.0" approved="yes">
+        <source> simple text as the first element in div with {1} and {2} variables </source>
+        <target state="translated"> fr simple text as the first element in div with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:text.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:text.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:span_1.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:span_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:span_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:text_2.0" approved="yes">
+        <source> simple text in the middle of div with {1} and {2} variables </source>
+        <target state="translated"> fr simple text in the middle of div with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:text_2.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:text_2.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:span_3.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables 2</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables 2</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:span_3.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:span_3.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:div_4:div.0" approved="yes">
+        <source>great grandchild text within div with {1} and {2} variables</source>
+        <target state="translated">fr great grandchild text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:div_4:div.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:div_4:div.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:text_5.0" approved="yes">
+        <source> simple text at the last element in div with {1} and {2} variables </source>
+        <target state="translated"> fr simple text at the last element in div with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:text_5.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_10:text_5.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.toplevel-div:span.0" approved="yes">
+        <source>simple text within div with {1} and {2} variables</source>
+        <target state="translated">fr simple text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.toplevel-div:span.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.toplevel-div:span.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.toplevel-div:span_1.0" approved="yes">
+        <source>simple text within div 2 with {1} and {2} variables</source>
+        <target state="translated">fr simple text within div 2 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.toplevel-div:span_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.toplevel-div:span_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.third-level-div.0" approved="yes">
+        <source>great grandchild text within div with {1} and {2} variables</source>
+        <target state="translated">fr great grandchild text within div with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.third-level-div.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.third-level-div.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.second-level-div:div_1.0" approved="yes">
+        <source>great grandchild text within div without id with {1} and {2} variables</source>
+        <target state="translated">fr great grandchild text within div without id with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.second-level-div:div_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.second-level-div:div_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_12:ul:li.0" approved="yes">
+        <source>line item without id 1 with {1} and {2} variables</source>
+        <target state="translated">fr line item without id 1 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_12:ul:li.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_12:ul:li.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_12:ul:li_1.0" approved="yes">
+        <source>line item without id 2 with {1} and {2} variables</source>
+        <target state="translated">fr line item without id 2 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_12:ul:li_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_12:ul:li_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_12:ul:li_2.0" approved="yes">
+        <source>line item without id 3 with {1} and {2} variables</source>
+        <target state="translated">fr line item without id 3 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_12:ul:li_2.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.div_12:ul:li_2.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.line-items:li.0" approved="yes">
+        <source>line item with id 1 with {1} and {2} variables</source>
+        <target state="translated">fr line item with id 1 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.line-items:li.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.line-items:li.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.line-items:li_1.0" approved="yes">
+        <source>line item with id 2 with {1} and {2} variables</source>
+        <target state="translated">fr line item with id 2 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.line-items:li_1.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.line-items:li_1.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.line-items:li_2.0" approved="yes">
+        <source>line item with id 3 with {1} and {2} variables</source>
+        <target state="translated">fr line item with id 3 with {1} and {2} variables</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.line-items:li_2.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.line-items:li_2.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.p_13.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.p_13.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.p_13.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.paragraph.0" approved="yes">
+        <source>A paragraph with {1}, {2}, and {3} is converted to {4}.</source>
+        <target state="translated">fr A paragraph with {1}, {2}, and {3} is converted to {4}.</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.paragraph.1" approved="yes">
+        <source>id</source>
+        <target state="translated">fr id</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.paragraph.2" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.paragraph.3" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.paragraph.4" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.text_15.0" approved="yes">
+        <source> outermost text at the end with {1} and {2} variables </source>
+        <target state="translated"> fr outermost text at the end with {1} and {2} variables </target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.text_15.1" approved="yes">
+        <source>{{param1}}</source>
+        <target state="translated">{{param1}}</target>
+      </trans-unit>
+      <trans-unit id="compound-binding-element.text_15.2" approved="yes">
+        <source>{{param2}}</source>
+        <target state="translated">{{param2}}</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.text" approved="yes">
+        <source> outermost text at the beginning </source>
+        <target state="translated">fr  outermost text at the beginning </target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.h1_3" approved="yes">
+        <source>outermost header 1</source>
+        <target state="translated">fr outermost header 1</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.text_4" approved="yes">
+        <source> outermost text in the middle </source>
+        <target state="translated">fr  outermost text in the middle </target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.span_5" approved="yes">
+        <source>simple text without id</source>
+        <target state="translated">fr simple text without id</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.span_6" approved="yes">
+        <source>simple text without id 2</source>
+        <target state="translated">fr simple text without id 2</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.label-1" approved="yes">
+        <source>simple text with id</source>
+        <target state="translated">fr simple text with id</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.label-2" approved="yes">
+        <source>simple text with id 2</source>
+        <target state="translated">fr simple text with id 2</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_9:span">
+        <source>simple text within div</source>
+        <target state="new">simple text within div</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_9:span_1">
+        <source>simple text within div 2</source>
+        <target state="new">simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_9:div_2:div">
+        <source>great grandchild text within div</source>
+        <target state="new">great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_10:text">
+        <source> simple text as the first element in div </source>
+        <target state="new"> simple text as the first element in div </target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_10:span_1">
+        <source>simple text within div</source>
+        <target state="new">simple text within div</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_10:text_2">
+        <source> simple text in the middle of div </source>
+        <target state="new"> simple text in the middle of div </target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_10:span_3">
+        <source>simple text within div 2</source>
+        <target state="new">simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_10:div_4:div">
+        <source>great grandchild text within div</source>
+        <target state="new">great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_10:text_5">
+        <source> simple text at the last element in div </source>
+        <target state="new"> simple text at the last element in div </target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.toplevel-div:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.toplevel-div:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.third-level-div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.second-level-div:div_1" approved="yes">
+        <source>great grandchild text within div without id</source>
+        <target state="translated">fr great grandchild text within div without id</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_12:ul:li" approved="yes">
+        <source>line item without id 1</source>
+        <target state="translated">fr line item without id 1</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_12:ul:li_1" approved="yes">
+        <source>line item without id 2</source>
+        <target state="translated">fr line item without id 2</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.div_12:ul:li_2" approved="yes">
+        <source>line item without id 3</source>
+        <target state="translated">fr line item without id 3</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.line-items:li" approved="yes">
+        <source>line item with id 1</source>
+        <target state="translated">fr line item with id 1</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.line-items:li_1" approved="yes">
+        <source>line item with id 2</source>
+        <target state="translated">fr line item with id 2</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.line-items:li_2" approved="yes">
+        <source>line item with id 3</source>
+        <target state="translated">fr line item with id 3</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.p_13.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.p_13.1" approved="yes">
+        <source>parameters</source>
+        <target state="translated">fr parameters</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.p_13.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.paragraph.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.paragraph.1" approved="yes">
+        <source>id</source>
+        <target state="translated">fr id</target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.paragraph.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="fallback-text-element.text_15" approved="yes">
+        <source> outermost text at the end </source>
+        <target state="translated">fr  outermost text at the end </target>
+      </trans-unit>
+      <trans-unit id="item-element.label" approved="yes">
+        <source>A</source>
+        <target state="translated">fr A</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.0.0" approved="yes">
+        <source>You ({3}) gave no gifts.</source>
+        <target state="translated">fr You ({3}) gave no gifts.</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.0.1.male" approved="yes">
+        <source>You ({3}) gave him ({4}) {5}.</source>
+        <target state="translated">fr You ({3}) gave him ({4}) {5}.</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.0.1.female" approved="yes">
+        <source>You ({3}) gave her ({4}) {5}.</source>
+        <target state="translated">fr You ({3}) gave her ({4}) {5}.</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.0.1.other" approved="yes">
+        <source>You ({3}) gave them ({4}) {5}.</source>
+        <target state="translated">fr You ({3}) gave them ({4}) {5}.</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.0.one.male" approved="yes">
+        <source>You ({3}) gave him ({4}) and one other person {5}.</source>
+        <target state="translated">fr You ({3}) gave him ({4}) and one other person {5}.</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.0.one.female" approved="yes">
+        <source>You ({3}) gave her ({4}) and one other person {5}.</source>
+        <target state="translated">fr You ({3}) gave her ({4}) and one other person {5}.</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.0.one.other" approved="yes">
+        <source>You ({3}) gave them ({4}) and one other person {5}.</source>
+        <target state="translated">fr You ({3}) gave them ({4}) and one other person {5}.</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.0.other" approved="yes">
+        <source>You ({3}) gave them ({4}) and {1} other people gifts.</source>
+        <target state="translated">fr You ({3}) gave them ({4}) and {1} other people gifts.</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.1" approved="yes">
+        <source>{{recipients.length - 1}}</source>
+        <target state="translated">{{recipients.length - 1}}</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.2" approved="yes">
+        <source>{{recipients.0.gender}}</source>
+        <target state="translated">{{recipients.0.gender}}</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.3" approved="yes">
+        <source>{{sender.name}}</source>
+        <target state="translated">{{sender.name}}</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.4" approved="yes">
+        <source>{{recipients.0.name}}</source>
+        <target state="translated">{{recipients.0.name}}</target>
+      </trans-unit>
+      <trans-unit id="plural-gender-element.compound-format-text.5" approved="yes">
+        <source>a gift</source>
+        <target state="translated">fr a gift</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.standard-input.placeholder" approved="yes">
+        <source>standard HTML5 attribute</source>
+        <target state="translated">fr standard HTML5 attribute</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.outer-div:input_2.placeholder" approved="yes">
+        <source>standard HTML5 attribute without id</source>
+        <target state="translated">fr standard HTML5 attribute without id</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.paper-input-element.label" approved="yes">
+        <source>paper-input label</source>
+        <target state="translated">fr paper-input label</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.paper-input-element.error-message" approved="yes">
+        <source>paper-input error message</source>
+        <target state="translated">fr paper-input error message</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.paper-input-element.placeholder" approved="yes">
+        <source>paper-input placeholder</source>
+        <target state="translated">fr paper-input placeholder</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.outer-div:paper-input_4.label" approved="yes">
+        <source>paper-input label without id</source>
+        <target state="translated">fr paper-input label without id</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.outer-div:paper-input_4.error-message" approved="yes">
+        <source>paper-input error message without id</source>
+        <target state="translated">fr paper-input error message without id</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.outer-div:paper-input_4.placeholder" approved="yes">
+        <source>paper-input placeholder without id</source>
+        <target state="translated">fr paper-input placeholder without id</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.options.title" approved="yes">
+        <source>Distribution of days in 2001H1</source>
+        <target state="translated">fr Distribution of days in 2001H1</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.cols.0.label" approved="yes">
+        <source>Month</source>
+        <target state="translated">fr Month</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.cols.0.type" approved="yes">
+        <source>string</source>
+        <target state="translated">string</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.cols.1.label" approved="yes">
+        <source>Days</source>
+        <target state="translated">fr Days</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.cols.1.type" approved="yes">
+        <source>number</source>
+        <target state="translated">number</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.0.0" approved="yes">
+        <source>Jan</source>
+        <target state="translated">fr Jan</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.0.1" restype="x-json-number" approved="yes">
+        <source>31</source>
+        <target state="translated">31</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.1.0" approved="yes">
+        <source>Feb</source>
+        <target state="translated">fr Feb</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.1.1" restype="x-json-number" approved="yes">
+        <source>28</source>
+        <target state="translated">28</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.2.0" approved="yes">
+        <source>Mar</source>
+        <target state="translated">fr Mar</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.2.1" restype="x-json-number" approved="yes">
+        <source>31</source>
+        <target state="translated">31</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.3.0" approved="yes">
+        <source>Apr</source>
+        <target state="translated">fr Apr</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.3.1" restype="x-json-number" approved="yes">
+        <source>30</source>
+        <target state="translated">30</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.4.0" approved="yes">
+        <source>May</source>
+        <target state="translated">fr May</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.4.1" restype="x-json-number" approved="yes">
+        <source>31</source>
+        <target state="translated">31</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.5.0" approved="yes">
+        <source>Jun</source>
+        <target state="translated">fr Jun</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.pie-chart.rows.5.1" restype="x-json-number" approved="yes">
+        <source>30</source>
+        <target state="translated">30</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.options.title" approved="yes">
+        <source>Inventory</source>
+        <target state="translated">fr Inventory</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.0.0" approved="yes">
+        <source>Year</source>
+        <target state="translated">fr Year</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.0.1" approved="yes">
+        <source>Things</source>
+        <target state="translated">fr Things</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.0.2" approved="yes">
+        <source>Stuff</source>
+        <target state="translated">fr Stuff</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.1.0" approved="yes">
+        <source>2004</source>
+        <target state="translated">2004</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.1.1" restype="x-json-number" approved="yes">
+        <source>1000</source>
+        <target state="translated">1000</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.1.2" restype="x-json-number" approved="yes">
+        <source>400</source>
+        <target state="translated">400</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.2.0" approved="yes">
+        <source>2005</source>
+        <target state="translated">2005</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.2.1" restype="x-json-number" approved="yes">
+        <source>1170</source>
+        <target state="translated">1170</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.2.2" restype="x-json-number" approved="yes">
+        <source>460</source>
+        <target state="translated">460</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.3.0" approved="yes">
+        <source>2006</source>
+        <target state="translated">2006</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.3.1" restype="x-json-number" approved="yes">
+        <source>660</source>
+        <target state="translated">660</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.3.2" restype="x-json-number" approved="yes">
+        <source>1120</source>
+        <target state="translated">1120</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.4.0" approved="yes">
+        <source>2007</source>
+        <target state="translated">2007</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.4.1" restype="x-json-number" approved="yes">
+        <source>1030</source>
+        <target state="translated">1030</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.column-chart.data.4.2" restype="x-json-number" approved="yes">
+        <source>540</source>
+        <target state="translated">540</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.custom-attr.custom-text-attr1" approved="yes">
+        <source>custom text attribute 1</source>
+        <target state="translated">fr custom text attribute 1</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.custom-attr.custom-text-attr2" approved="yes">
+        <source>custom text attribute 2</source>
+        <target state="translated">fr custom text attribute 2</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.custom-attr.custom-text-attr3" approved="yes">
+        <source>custom text attribute 3</source>
+        <target state="translated">fr custom text attribute 3</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr4.0" approved="yes">
+        <source>{1} custom-text-attr4 attribute with param {2} and param {3} {4}</source>
+        <target state="translated">fr {1} custom-text-attr4 attribute with param {2} and param {3} {4}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr4.1" approved="yes">
+        <source>{{text.ordinary-div}}</source>
+        <target state="translated">{{text.ordinary-div}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr4.2" approved="yes">
+        <source>{{text.ordinary-div}}</source>
+        <target state="translated">{{text.ordinary-div}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr4.3" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr4.4" approved="yes">
+        <source>{{text.ordinary-div}}</source>
+        <target state="translated">{{text.ordinary-div}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr5.0" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr5.1" approved="yes">
+        <source> custom-text-attr5 attribute with param </source>
+        <target state="translated"> fr custom-text-attr5 attribute with param </target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr5.2" approved="yes">
+        <source>{{or('',text.ordinary-div)}}</source>
+        <target state="translated">{{or('',text.ordinary-div)}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr5.3" approved="yes">
+        <source> and param </source>
+        <target state="translated"> fr and param </target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.custom-text-attr5.4" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.i18n-target.0" approved="yes">
+        <source>i18n-target attribute with param {1} and param {2}</source>
+        <target state="translated">fr i18n-target attribute with param {1} and param {2}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.i18n-target.1" approved="yes">
+        <source>{{text.ordinary-div}}</source>
+        <target state="translated">{{text.ordinary-div}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.i18n-target.2" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.i18n-target2.0" approved="yes">
+        <source>i18n-target2 attribute with param </source>
+        <target state="translated">fr i18n-target2 attribute with param </target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.i18n-target2.1" approved="yes">
+        <source>{{or('',text.ordinary-div)}}</source>
+        <target state="translated">{{or('',text.ordinary-div)}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.i18n-target2.2" approved="yes">
+        <source> and param </source>
+        <target state="translated"> fr and param </target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr.i18n-target2.3" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr2.i18n-target" approved="yes">
+        <source>i18n-target attribute 2</source>
+        <target state="translated">fr i18n-target attribute 2</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr3.i18n-target6" approved="yes">
+        <source>i18n-target6 attribute 2</source>
+        <target state="translated">fr i18n-target6 attribute 2</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.selective-attr4.i18n-target6" approved="yes">
+        <source>i18n-target6 attribute 3</source>
+        <target state="translated">fr i18n-target6 attribute 3</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.json-data-id.attr1" approved="yes">
+        <source>this attr1 is extracted</source>
+        <target state="translated">fr this attr1 is extracted</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.json-data-id.i18n-target-attr" approved="yes">
+        <source>this attribute is also extracted</source>
+        <target state="translated">fr this attribute is also extracted</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.template_2:json-data_1.attr1" approved="yes">
+        <source>this attr1 without id is extracted</source>
+        <target state="translated">fr this attr1 without id is extracted</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.model.template_2:json-data_1.i18n-target-attr" approved="yes">
+        <source>this attribute without id is also extracted</source>
+        <target state="translated">fr this attribute without id is also extracted</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-dom-bind.ordinary-div" approved="yes">
+        <source>text 1</source>
+        <target state="translated">fr text 1</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.standard-input.placeholder" approved="yes">
+        <source>standard HTML5 attribute</source>
+        <target state="translated">fr standard HTML5 attribute</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.outer-div:input_2.placeholder" approved="yes">
+        <source>standard HTML5 attribute without id</source>
+        <target state="translated">fr standard HTML5 attribute without id</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.paper-input-element.label" approved="yes">
+        <source>paper-input label</source>
+        <target state="translated">fr paper-input label</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.paper-input-element.error-message" approved="yes">
+        <source>paper-input error message</source>
+        <target state="translated">fr paper-input error message</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.paper-input-element.placeholder" approved="yes">
+        <source>paper-input placeholder</source>
+        <target state="translated">fr paper-input placeholder</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.outer-div:paper-input_4.label" approved="yes">
+        <source>paper-input label without id</source>
+        <target state="translated">fr paper-input label without id</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.outer-div:paper-input_4.error-message" approved="yes">
+        <source>paper-input error message without id</source>
+        <target state="translated">fr paper-input error message without id</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.outer-div:paper-input_4.placeholder" approved="yes">
+        <source>paper-input placeholder without id</source>
+        <target state="translated">fr paper-input placeholder without id</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.options.title" approved="yes">
+        <source>Distribution of days in 2001H1</source>
+        <target state="translated">fr Distribution of days in 2001H1</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.cols.0.label" approved="yes">
+        <source>Month</source>
+        <target state="translated">fr Month</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.cols.0.type" approved="yes">
+        <source>string</source>
+        <target state="translated">string</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.cols.1.label" approved="yes">
+        <source>Days</source>
+        <target state="translated">fr Days</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.cols.1.type" approved="yes">
+        <source>number</source>
+        <target state="translated">number</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.0.0" approved="yes">
+        <source>Jan</source>
+        <target state="translated">fr Jan</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.0.1" restype="x-json-number" approved="yes">
+        <source>31</source>
+        <target state="translated">31</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.1.0" approved="yes">
+        <source>Feb</source>
+        <target state="translated">fr Feb</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.1.1" restype="x-json-number" approved="yes">
+        <source>28</source>
+        <target state="translated">28</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.2.0" approved="yes">
+        <source>Mar</source>
+        <target state="translated">fr Mar</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.2.1" restype="x-json-number" approved="yes">
+        <source>31</source>
+        <target state="translated">31</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.3.0" approved="yes">
+        <source>Apr</source>
+        <target state="translated">fr Apr</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.3.1" restype="x-json-number" approved="yes">
+        <source>30</source>
+        <target state="translated">30</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.4.0" approved="yes">
+        <source>May</source>
+        <target state="translated">fr May</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.4.1" restype="x-json-number" approved="yes">
+        <source>31</source>
+        <target state="translated">31</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.5.0" approved="yes">
+        <source>Jun</source>
+        <target state="translated">fr Jun</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.pie-chart.rows.5.1" restype="x-json-number" approved="yes">
+        <source>30</source>
+        <target state="translated">30</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.options.title" approved="yes">
+        <source>Inventory</source>
+        <target state="translated">fr Inventory</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.0.0" approved="yes">
+        <source>Year</source>
+        <target state="translated">fr Year</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.0.1" approved="yes">
+        <source>Things</source>
+        <target state="translated">fr Things</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.0.2" approved="yes">
+        <source>Stuff</source>
+        <target state="translated">fr Stuff</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.1.0" approved="yes">
+        <source>2004</source>
+        <target state="translated">2004</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.1.1" restype="x-json-number" approved="yes">
+        <source>1000</source>
+        <target state="translated">1000</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.1.2" restype="x-json-number" approved="yes">
+        <source>400</source>
+        <target state="translated">400</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.2.0" approved="yes">
+        <source>2005</source>
+        <target state="translated">2005</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.2.1" restype="x-json-number" approved="yes">
+        <source>1170</source>
+        <target state="translated">1170</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.2.2" restype="x-json-number" approved="yes">
+        <source>460</source>
+        <target state="translated">460</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.3.0" approved="yes">
+        <source>2006</source>
+        <target state="translated">2006</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.3.1" restype="x-json-number" approved="yes">
+        <source>660</source>
+        <target state="translated">660</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.3.2" restype="x-json-number" approved="yes">
+        <source>1120</source>
+        <target state="translated">1120</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.4.0" approved="yes">
+        <source>2007</source>
+        <target state="translated">2007</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.4.1" restype="x-json-number" approved="yes">
+        <source>1030</source>
+        <target state="translated">1030</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.column-chart.data.4.2" restype="x-json-number" approved="yes">
+        <source>540</source>
+        <target state="translated">540</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.custom-attr.custom-text-attr1" approved="yes">
+        <source>custom text attribute 1</source>
+        <target state="translated">fr custom text attribute 1</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.custom-attr.custom-text-attr2" approved="yes">
+        <source>custom text attribute 2</source>
+        <target state="translated">fr custom text attribute 2</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.custom-attr.custom-text-attr3" approved="yes">
+        <source>custom text attribute 3</source>
+        <target state="translated">fr custom text attribute 3</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr4.0" approved="yes">
+        <source>{1} custom-text-attr4 attribute with param {2} and param {3} {4}</source>
+        <target state="translated">fr {1} custom-text-attr4 attribute with param {2} and param {3} {4}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr4.1" approved="yes">
+        <source>{{text.ordinary-div}}</source>
+        <target state="translated">{{text.ordinary-div}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr4.2" approved="yes">
+        <source>{{text.ordinary-div}}</source>
+        <target state="translated">{{text.ordinary-div}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr4.3" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr4.4" approved="yes">
+        <source>{{text.ordinary-div}}</source>
+        <target state="translated">{{text.ordinary-div}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr5.0" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr5.1" approved="yes">
+        <source> custom-text-attr5 attribute with param </source>
+        <target state="translated"> fr custom-text-attr5 attribute with param </target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr5.2" approved="yes">
+        <source>{{or('',text.ordinary-div)}}</source>
+        <target state="translated">{{or('',text.ordinary-div)}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr5.3" approved="yes">
+        <source> and param </source>
+        <target state="translated"> fr and param </target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.custom-text-attr5.4" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.i18n-target.0" approved="yes">
+        <source>i18n-target attribute with param {1} and param {2}</source>
+        <target state="translated">fr i18n-target attribute with param {1} and param {2}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.i18n-target.1" approved="yes">
+        <source>{{text.ordinary-div}}</source>
+        <target state="translated">{{text.ordinary-div}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.i18n-target.2" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.i18n-target2.0" approved="yes">
+        <source>i18n-target2 attribute with param </source>
+        <target state="translated">fr i18n-target2 attribute with param </target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.i18n-target2.1" approved="yes">
+        <source>{{or('',text.ordinary-div)}}</source>
+        <target state="translated">{{or('',text.ordinary-div)}}</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.i18n-target2.2" approved="yes">
+        <source> and param </source>
+        <target state="translated"> fr and param </target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr.i18n-target2.3" approved="yes">
+        <source>[[text.ordinary-div]]</source>
+        <target state="translated">[[text.ordinary-div]]</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr2.i18n-target" approved="yes">
+        <source>i18n-target attribute 2</source>
+        <target state="translated">fr i18n-target attribute 2</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr3.i18n-target6" approved="yes">
+        <source>i18n-target6 attribute 2</source>
+        <target state="translated">fr i18n-target6 attribute 2</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.selective-attr4.i18n-target6" approved="yes">
+        <source>i18n-target6 attribute 3</source>
+        <target state="translated">fr i18n-target6 attribute 3</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.json-data-id.attr1" approved="yes">
+        <source>this attr1 is extracted</source>
+        <target state="translated">fr this attr1 is extracted</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.json-data-id.i18n-target-attr" approved="yes">
+        <source>this attribute is also extracted</source>
+        <target state="translated">fr this attribute is also extracted</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.template_2:json-data_1.attr1" approved="yes">
+        <source>this attr1 without id is extracted</source>
+        <target state="translated">fr this attr1 without id is extracted</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.model.template_2:json-data_1.i18n-target-attr" approved="yes">
+        <source>this attribute without id is also extracted</source>
+        <target state="translated">fr this attribute without id is also extracted</target>
+      </trans-unit>
+      <trans-unit id="simple-attribute-element.ordinary-div" approved="yes">
+        <source>text 1</source>
+        <target state="translated">fr text 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.text" approved="yes">
+        <source> outermost text at the beginning </source>
+        <target state="translated"> fr outermost text at the beginning </target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.h1_3" approved="yes">
+        <source>outermost header 1</source>
+        <target state="translated">fr outermost header 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.text_4" approved="yes">
+        <source> outermost text in the middle </source>
+        <target state="translated"> fr outermost text in the middle </target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.span_5" approved="yes">
+        <source>simple text without id</source>
+        <target state="translated">fr simple text without id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.span_6" approved="yes">
+        <source>simple text without id 2</source>
+        <target state="translated">fr simple text without id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.label-1" approved="yes">
+        <source>simple text with id</source>
+        <target state="translated">fr simple text with id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.label-2" approved="yes">
+        <source>simple text with id 2</source>
+        <target state="translated">fr simple text with id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_9:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_9:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_9:div_2:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_10:text" approved="yes">
+        <source> simple text as the first element in div </source>
+        <target state="translated"> fr simple text as the first element in div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_10:span_1" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_10:text_2" approved="yes">
+        <source> simple text in the middle of div </source>
+        <target state="translated"> fr simple text in the middle of div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_10:span_3" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_10:div_4:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_10:text_5" approved="yes">
+        <source> simple text at the last element in div </source>
+        <target state="translated"> fr simple text at the last element in div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.toplevel-div:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.toplevel-div:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.third-level-div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.second-level-div:div_1" approved="yes">
+        <source>great grandchild text within div without id</source>
+        <target state="translated">fr great grandchild text within div without id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_12:ul:li" approved="yes">
+        <source>line item without id 1</source>
+        <target state="translated">fr line item without id 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_12:ul:li_1" approved="yes">
+        <source>line item without id 2</source>
+        <target state="translated">fr line item without id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.div_12:ul:li_2" approved="yes">
+        <source>line item without id 3</source>
+        <target state="translated">fr line item without id 3</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.line-items:li" approved="yes">
+        <source>line item with id 1</source>
+        <target state="translated">fr line item with id 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.line-items:li_1" approved="yes">
+        <source>line item with id 2</source>
+        <target state="translated">fr line item with id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.line-items:li_2" approved="yes">
+        <source>line item with id 3</source>
+        <target state="translated">fr line item with id 3</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.p_13.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.p_13.1" approved="yes">
+        <source>parameters</source>
+        <target state="translated">fr parameters</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.p_13.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.paragraph.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.paragraph.1" approved="yes">
+        <source>id</source>
+        <target state="translated">fr id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.paragraph.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="simple-text-dom-bind.text_15" approved="yes">
+        <source> outermost text at the end </source>
+        <target state="translated"> fr outermost text at the end </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.text" approved="yes">
+        <source> outermost text at the beginning </source>
+        <target state="translated"> fr outermost text at the beginning </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.h1_3" approved="yes">
+        <source>outermost header 1</source>
+        <target state="translated">fr outermost header 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.text_4" approved="yes">
+        <source> outermost text in the middle </source>
+        <target state="translated"> fr outermost text in the middle </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.span_5" approved="yes">
+        <source>simple text without id</source>
+        <target state="translated">fr simple text without id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.span_6" approved="yes">
+        <source>simple text without id 2</source>
+        <target state="translated">fr simple text without id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.label-1" approved="yes">
+        <source>simple text with id</source>
+        <target state="translated">fr simple text with id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.label-2" approved="yes">
+        <source>simple text with id 2</source>
+        <target state="translated">fr simple text with id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_9:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_9:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_9:div_2:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:text" approved="yes">
+        <source> simple text as the first element in div </source>
+        <target state="translated"> fr simple text as the first element in div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:span_1" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:text_2" approved="yes">
+        <source> simple text in the middle of div </source>
+        <target state="translated"> fr simple text in the middle of div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:span_3" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:div_4:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_10:text_5" approved="yes">
+        <source> simple text at the last element in div </source>
+        <target state="translated"> fr simple text at the last element in div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.toplevel-div:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.toplevel-div:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.third-level-div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.second-level-div:div_1" approved="yes">
+        <source>great grandchild text within div without id</source>
+        <target state="translated">fr great grandchild text within div without id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_12:ul:li" approved="yes">
+        <source>line item without id 1</source>
+        <target state="translated">fr line item without id 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_12:ul:li_1" approved="yes">
+        <source>line item without id 2</source>
+        <target state="translated">fr line item without id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.div_12:ul:li_2" approved="yes">
+        <source>line item without id 3</source>
+        <target state="translated">fr line item without id 3</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.line-items:li" approved="yes">
+        <source>line item with id 1</source>
+        <target state="translated">fr line item with id 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.line-items:li_1" approved="yes">
+        <source>line item with id 2</source>
+        <target state="translated">fr line item with id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.line-items:li_2" approved="yes">
+        <source>line item with id 3</source>
+        <target state="translated">fr line item with id 3</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.p_13.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.p_13.1" approved="yes">
+        <source>parameters</source>
+        <target state="translated">fr parameters</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.p_13.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.paragraph.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.paragraph.1" approved="yes">
+        <source>id</source>
+        <target state="translated">fr id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.paragraph.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="simple-text-element.text_15" approved="yes">
+        <source> outermost text at the end </source>
+        <target state="translated"> fr outermost text at the end </target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.text" approved="yes">
+        <source> outermost text at the beginning </source>
+        <target state="translated"> fr outermost text at the beginning </target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.h1_3" approved="yes">
+        <source>outermost header 1</source>
+        <target state="translated">fr outermost header 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.text_4" approved="yes">
+        <source> outermost text in the middle </source>
+        <target state="translated"> fr outermost text in the middle </target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.span_5" approved="yes">
+        <source>simple text without id</source>
+        <target state="translated">fr simple text without id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.span_6" approved="yes">
+        <source>simple text without id 2</source>
+        <target state="translated">fr simple text without id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.label-1" approved="yes">
+        <source>simple text with id</source>
+        <target state="translated">fr simple text with id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.label-2" approved="yes">
+        <source>simple text with id 2</source>
+        <target state="translated">fr simple text with id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_9:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_9:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_9:div_2:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_10:text" approved="yes">
+        <source> simple text as the first element in div </source>
+        <target state="translated"> fr simple text as the first element in div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_10:span_1" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_10:text_2" approved="yes">
+        <source> simple text in the middle of div </source>
+        <target state="translated"> fr simple text in the middle of div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_10:span_3" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_10:div_4:div" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_10:text_5" approved="yes">
+        <source> simple text at the last element in div </source>
+        <target state="translated"> fr simple text at the last element in div </target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.toplevel-div:span" approved="yes">
+        <source>simple text within div</source>
+        <target state="translated">fr simple text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.toplevel-div:span_1" approved="yes">
+        <source>simple text within div 2</source>
+        <target state="translated">fr simple text within div 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.second-level-div.0" approved="yes">
+        <source> {1}
+        {2} </source>
+        <target state="translated"> fr {1}
+        {2} </target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.second-level-div.1" approved="yes">
+        <source>great grandchild text within div</source>
+        <target state="translated">fr great grandchild text within div</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.second-level-div.2" approved="yes">
+        <source>great grandchild text within div without id</source>
+        <target state="translated">fr great grandchild text within div without id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_12:ul:li" approved="yes">
+        <source>line item without id 1</source>
+        <target state="translated">fr line item without id 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_12:ul:li_1" approved="yes">
+        <source>line item without id 2</source>
+        <target state="translated">fr line item without id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.div_12:ul:li_2" approved="yes">
+        <source>line item without id 3</source>
+        <target state="translated">fr line item without id 3</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.line-items.0" approved="yes">
+        <source> {1}
+        {2}
+        {3} </source>
+        <target state="translated"> fr {1}
+        {2}
+        {3} </target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.line-items.1" approved="yes">
+        <source>line item with id 1</source>
+        <target state="translated">fr line item with id 1</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.line-items.2" approved="yes">
+        <source>line item with id 2</source>
+        <target state="translated">fr line item with id 2</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.line-items.3" approved="yes">
+        <source>line item with id 3</source>
+        <target state="translated">fr line item with id 3</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.p_13.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.p_13.1" approved="yes">
+        <source>parameters</source>
+        <target state="translated">fr parameters</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.p_13.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.paragraph.0" approved="yes">
+        <source>A paragraph with {1} is converted to {2}.</source>
+        <target state="translated">fr A paragraph with {1} is converted to {2}.</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.paragraph.1" approved="yes">
+        <source>id</source>
+        <target state="translated">fr id</target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.paragraph.2" approved="yes">
+        <source>&lt;i18n-format></source>
+        <target state="translated">fr &lt;i18n-format></target>
+      </trans-unit>
+      <trans-unit id="simple-text-id-element.text_15" approved="yes">
+        <source> outermost text at the end </source>
+        <target state="translated"> fr outermost text at the end </target>
+      </trans-unit>
+      <trans-unit id="text-attribute-element.span_4" approved="yes">
+        <source>text</source>
+        <target state="translated">fr text</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
