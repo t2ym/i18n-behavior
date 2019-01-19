@@ -265,10 +265,12 @@ $_documentContainer.innerHTML = `<template id="i18n-preference">
     }
   });
   }
-  if ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative)) {
+  //if ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative)) { // Drop HTML Imports support
     registerI18nPreference();
-  }
+  //}
+  /*
   else {
     HTMLImports.whenReady(registerI18nPreference);
   }
+  */
 //})(document); // ES Modules do not need closures

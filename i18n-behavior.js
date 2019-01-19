@@ -2586,10 +2586,12 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         var template = this._template || DomModule.import(this.is, 'template');
         if (!template) {
           var id = this.is;
+          /* Drop HTML Imports support; document.currentScript is always undefined
           var current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
                                               : (document._currentScript || document.currentScript);
-          template = (current ? current.ownerDocument
-                      .querySelector('template[id=' + id + ']') : null) ||
+          */
+          template = /* (current ? current.ownerDocument
+                      .querySelector('template[id=' + id + ']') : null) || */
                      document.querySelector('template[id=' + id + ']');
           if (!template) {
             template = document.createElement('template');
@@ -2600,9 +2602,9 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
             var _noTemplateDomModule = DomModule.import(this.is);
             var assetpath = _noTemplateDomModule
               ? _noTemplateDomModule.assetpath
-              : new URL((current ? current.baseURI : null) ||
+              : new URL(/* (current ? current.baseURI : null) ||
                 (window.currentImport ? window.currentImport.baseURI : null) ||
-                (current && current.ownerDocument ? current.ownerDocument.baseURI : null) ||
+                (current && current.ownerDocument ? current.ownerDocument.baseURI : null) || */
                 document.baseURI).pathname;
             domModule.appendChild(template);
             domModule.setAttribute('assetpath', 
@@ -2854,14 +2856,15 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     //}
     Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       get: function() {
-        var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
+        //var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
         var ownerDocument = document;//current.ownerDocument;
-        if (ownerDocument.nodeType === ownerDocument.DOCUMENT_NODE) {
+        //if (ownerDocument.nodeType === ownerDocument.DOCUMENT_NODE) {
           // HTML Imports are flatten in the root document and not under document fragment nodes
           // Fix #62: Emulate a subset of "non-HTMLImports-link-traversing" querySelectorAll for latest Firefox 51
           // since currentScript.ownerDocument, HTML Imports polyfill, and querySelectorAll behave differently
-          var _tmpNode = current;
+          //var _tmpNode = current;
           // check for DOCUMENT_FRAGMENT_NODE for fail safe
+          /* document.currentScript is always falsy
           while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
             _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &&
             _tmpNode.nodeType !== _tmpNode.DOCUMENT_NODE) {
@@ -2872,6 +2875,8 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
              _tmpNode.nodeType === _tmpNode.DOCUMENT_NODE)) {
             ownerDocument = _tmpNode; // reach the containing document fragment
           }
+          */
+          /* Drop support for HTML Imports polyfill
           else if (_tmpNode && _tmpNode.import === _tmpNode) { // html-imports polyfill v1
             ownerDocument = _tmpNode.children; // reach the immediate import link containing the currentScript
             ownerDocument.querySelectorAll = function (selector) {
@@ -2909,7 +2914,8 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
               return list;
             }
           }
-        }
+          */
+        //}
         var i18nAttrRepos = ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
         var domModules = ownerDocument.querySelectorAll('dom-module[legacy]');
         if (domModules.length === 0) {
