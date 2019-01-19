@@ -168,7 +168,9 @@ let value=inner.substring(0,comma).trim();let fallback=inner.substring(comma+1).
    * @param {Element} element
    * @param {string} value
    */function setElementClassRaw(element,value){// use native setAttribute provided by ShadyDOM when setAttribute is patched
-if(nativeShadow){element.setAttribute('class',value);}else{window['ShadyDOM']['nativeMethods']['setAttribute'].call(element,'class',value);}}const wrap=window['ShadyDOM']&&window['ShadyDOM']['wrap']||(node=>node);/**
+if(nativeShadow){element.setAttribute('class',value);}else{window['ShadyDOM']['nativeMethods']['setAttribute'].call(element,'class',value);}}/**
+   * @type {function(*):*}
+   */const wrap=window['ShadyDOM']&&window['ShadyDOM']['wrap']||(node=>node);/**
                                                                                          * @param {Element | {is: string, extends: string}} element
                                                                                          * @return {{is: string, typeExtension: string}}
                                                                                          */function getIsExtends(element){let localName=element['localName'];let is='',typeExtension='';/*
@@ -7074,15 +7076,10 @@ if(str===null||str===undefined||!str.toString){return'';}return encodeURICompone
    *
    * @return {!IronRequestElement}
    */generateRequest:function(){var request=/** @type {!IronRequestElement} */document.createElement('iron-request');var requestOptions=this.toRequestOptions();this.push('activeRequests',request);request.completes.then(this._boundHandleResponse).catch(this._handleError.bind(this,request)).then(this._discardRequest.bind(this,request));var evt=this.fire('iron-ajax-presend',{request:request,options:requestOptions},{bubbles:this.bubbles,cancelable:true});if(evt.defaultPrevented){request.abort();request.rejectCompletes(request);return request;}if(this.lastRequest){this.lastRequest.removeEventListener('iron-request-progress-changed',this._boundOnProgressChanged);}request.addEventListener('iron-request-progress-changed',this._boundOnProgressChanged);request.send(requestOptions);this._setLastProgress(null);this._setLastRequest(request);this._setLoading(true);this.fire('request',{request:request,options:requestOptions},{bubbles:this.bubbles,composed:true});this.fire('iron-ajax-request',{request:request,options:requestOptions},{bubbles:this.bubbles,composed:true});return request;},_handleResponse:function(request){if(request===this.lastRequest){this._setLastResponse(request.response);this._setLastError(null);this._setLoading(false);}this.fire('response',request,{bubbles:this.bubbles,composed:true});this.fire('iron-ajax-response',request,{bubbles:this.bubbles,composed:true});},_handleError:function(request,error){if(this.verbose){Base._error(error);}if(request===this.lastRequest){this._setLastError({request:request,error:error,status:request.xhr.status,statusText:request.xhr.statusText,response:request.xhr.response});this._setLastResponse(null);this._setLoading(false);}// Tests fail if this goes after the normal this.fire('error', ...)
-this.fire('iron-ajax-error',{request:request,error:error},{bubbles:this.bubbles,composed:true});this.fire('error',{request:request,error:error},{bubbles:this.bubbles,composed:true});},_discardRequest:function(request){var requestIndex=this.activeRequests.indexOf(request);if(requestIndex>-1){this.splice('activeRequests',requestIndex,1);}},_requestOptionsChanged:function(){this.debounce('generate-request',function(){if(this.url==null){return;}if(this.auto){this.generateRequest();}},this.debounceDuration);}});const bundledImportMeta$3={...import.meta,url:new URL('../../node_modules/i18n-number/i18n-number.js',import.meta.url).href};const $_documentContainer$1=document.createElement('template');$_documentContainer$1.setAttribute('style','display: none;');$_documentContainer$1.innerHTML=`<dom-module id="i18n-number">
-  <template strip-whitespace="">
-    <span id="number"></span>
-  </template>
-  
-</dom-module>`;document.head.appendChild($_documentContainer$1.content);var intlLibraryScript;var intlLibraryLoadingStatus='initializing';var _setupIntlPolyfillCalled=false;/**
-                                       * Set up Intl polyfill if required
-                                       */function _setupIntlPolyfill(){// Polyfill Intl if required
-var intlLibraryUrl=this.resolveUrl('../intl/dist/Intl.min.js');if(window.Intl){if(window.IntlPolyfill&&window.Intl===window.IntlPolyfill){intlLibraryLoadingStatus='loaded';}else{intlLibraryLoadingStatus='native';}}else{intlLibraryLoadingStatus='loading';intlLibraryScript=document.createElement('script');intlLibraryScript.setAttribute('src',intlLibraryUrl);intlLibraryScript.setAttribute('id','intl-js-library');intlLibraryScript.addEventListener('load',function intlLibraryLoaded(e){intlLibraryLoadingStatus='loaded';e.target.removeEventListener('load',intlLibraryLoaded);return false;});var s=document.querySelector('script')||document.body;s.parentNode.insertBefore(intlLibraryScript,s);}}/**
+this.fire('iron-ajax-error',{request:request,error:error},{bubbles:this.bubbles,composed:true});this.fire('error',{request:request,error:error},{bubbles:this.bubbles,composed:true});},_discardRequest:function(request){var requestIndex=this.activeRequests.indexOf(request);if(requestIndex>-1){this.splice('activeRequests',requestIndex,1);}},_requestOptionsChanged:function(){this.debounce('generate-request',function(){if(this.url==null){return;}if(this.auto){this.generateRequest();}},this.debounceDuration);}});const bundledImportMeta$3={...import.meta,url:new URL('../../node_modules/i18n-number/i18n-number.js',import.meta.url).href};var intlLibraryScript;var intlLibraryLoadingStatus='initializing';var _setupIntlPolyfillCalled=false;var formatCache=new Map();/**
+                              * Set up Intl polyfill if required
+                              */function _setupIntlPolyfill(){// Polyfill Intl if required
+var intlLibraryUrl=this.resolveUrl('../intl/dist/Intl.min.js',this.importMeta.url);if(window.Intl){if(window.IntlPolyfill&&window.Intl===window.IntlPolyfill){intlLibraryLoadingStatus='loaded';}else{intlLibraryLoadingStatus='native';}}else{intlLibraryLoadingStatus='loading';intlLibraryScript=document.createElement('script');intlLibraryScript.setAttribute('src',intlLibraryUrl);intlLibraryScript.setAttribute('id','intl-js-library');intlLibraryScript.addEventListener('load',function intlLibraryLoaded(e){intlLibraryLoadingStatus='loaded';e.target.removeEventListener('load',intlLibraryLoaded);return false;});var s=document.querySelector('script')||document.body;s.parentNode.insertBefore(intlLibraryScript,s);}}/**
    * Set up polyfill locale of Intl if required
    *
    * @param {String} locale Target locale to polyfill
@@ -7090,7 +7087,7 @@ var intlLibraryUrl=this.resolveUrl('../intl/dist/Intl.min.js');if(window.Intl){i
    * @return {Boolean} true if supported; false if callback will be called
    */function _setupIntlPolyfillLocale(locale,callback){if(!window.IntlPolyfill){switch(intlLibraryLoadingStatus){case'loading':/* istanbul ignore else: intlLibraryScript is always set when the status is 'loading' */if(intlLibraryScript){var libraryLoadedBindThis=function(e){_setupIntlPolyfillLocale.call(this,locale,callback);e.target.removeEventListener('load',libraryLoadedBindThis);}.bind(this);intlLibraryScript.addEventListener('load',libraryLoadedBindThis);return false;}else{console.error('Intl.js is not being loaded');}/* istanbul ignore next: intlLibraryScript is always set when the status is 'loading' */break;// impossible cases
 case'initializing':case'loaded':case'native':default:/* istanbul ignore next: these cases are impossible */break;}}else{if(intlLibraryLoadingStatus!=='native'){var supported=Intl.NumberFormat.supportedLocalesOf(locale,{localeMatcher:'lookup'});var script;var intlScript;if(supported.length===0){// load the locale
-var fallbackLanguages=_enumerateFallbackLanguages(locale);locale=fallbackLanguages.shift();script=document.querySelector('script#intl-js-locale-'+locale);if(!script){script=document.createElement('script');script.setAttribute('id','intl-js-locale-'+locale);script.setAttribute('src',this.resolveUrl('../intl/locale-data/jsonp/'+locale+'.js'));var intlLocaleLoadedBindThis=function(e){if(e.target===script){e.target.removeEventListener('load',intlLocaleLoadedBindThis);callback.call(this,locale);}return false;}.bind(this);var intlLocaleLoadErrorBindThis=function(e){if(e.target===script){e.target.removeEventListener('error',intlLocaleLoadErrorBindThis);script.setAttribute('loaderror','');locale=fallbackLanguages.shift();if(!locale){locale=this.DEFAULT_LANG;}var fallbackSupport=Intl.NumberFormat.supportedLocalesOf(locale,{localeMatcher:'lookup'});if(fallbackSupport.length>0){callback.call(this,locale);}else{_setupIntlPolyfillLocale.call(this,locale,callback);}return false;}}.bind(this);script.addEventListener('load',intlLocaleLoadedBindThis);script.addEventListener('error',intlLocaleLoadErrorBindThis);intlScript=document.querySelector('script#intl-js-library')||document.body;intlScript.parentNode.insertBefore(script,intlScript.nextSibling);}else if(!script.hasAttribute('loaderror')){// already loading
+var fallbackLanguages=_enumerateFallbackLanguages(locale);locale=fallbackLanguages.shift();script=document.querySelector('script#intl-js-locale-'+locale);if(!script){script=document.createElement('script');script.setAttribute('id','intl-js-locale-'+locale);script.setAttribute('src',this.resolveUrl('../intl/locale-data/jsonp/'+locale+'.js',this.importMeta.url));var intlLocaleLoadedBindThis=function(e){if(e.target===script){e.target.removeEventListener('load',intlLocaleLoadedBindThis);callback.call(this,locale);}return false;}.bind(this);var intlLocaleLoadErrorBindThis=function(e){if(e.target===script){e.target.removeEventListener('error',intlLocaleLoadErrorBindThis);script.setAttribute('loaderror','');locale=fallbackLanguages.shift();if(!locale){locale=this.DEFAULT_LANG;}var fallbackSupport=Intl.NumberFormat.supportedLocalesOf(locale,{localeMatcher:'lookup'});if(fallbackSupport.length>0){callback.call(this,locale);}else{_setupIntlPolyfillLocale.call(this,locale,callback);}return false;}}.bind(this);script.addEventListener('load',intlLocaleLoadedBindThis);script.addEventListener('error',intlLocaleLoadErrorBindThis);intlScript=document.querySelector('script#intl-js-library')||document.body;intlScript.parentNode.insertBefore(script,intlScript.nextSibling);}else if(!script.hasAttribute('loaderror')){// already loading
 var anotherIntlLocaleLoadedBindThis=function(e){if(e.target===script){callback.call(this,locale);e.target.removeEventListener('load',anotherIntlLocaleLoadedBindThis);return false;}}.bind(this);var anotherIntlLocaleLoadErrorBindThis=function(e){if(e.target===script){e.target.removeEventListener('error',anotherIntlLocaleLoadErrorBindThis);locale=fallbackLanguages.shift();if(!locale){locale=this.DEFAULT_LANG;}var fallbackSupport=Intl.NumberFormat.supportedLocalesOf(locale,{localeMatcher:'lookup'});if(fallbackSupport.length>0){callback.call(this,locale);}else{_setupIntlPolyfillLocale.call(this,locale,callback);}return false;}}.bind(this);script.addEventListener('load',anotherIntlLocaleLoadedBindThis);script.addEventListener('error',anotherIntlLocaleLoadErrorBindThis);}else{var enSupport=Intl.NumberFormat.supportedLocalesOf(this.DEFAULT_LANG,{localeMatcher:'lookup'});if(enSupport.length>0){callback.call(this,this.DEFAULT_LANG);}else{_setupIntlPolyfillLocale.call(this,this.DEFAULT_LANG,callback);}}return false;}}}return true;}/**
    * Enumerate fallback locales for the target locale.
    * 
@@ -7141,7 +7138,7 @@ parts.splice(isExtLangCode,1);result.push(parts.join('-'));parts.splice(isExtLan
 // e.g. zh-yue-Hans -> zh-Hans
 parts.splice(isExtLangCode,1);result.push(parts.join('-'));parts.splice(isExtLangCode,0,extLangCode);}if(!isScriptCode&&!isExtLangCode&&isCountryCode&&parts.length==2){// default script code can be added in certain cases with country codes
 // e.g. zh-CN -> zh-Hans-CN, zh-TW -> zh-Hant-TW
-switch(result[result.length-1]){case'zh-CN':case'zh-CHS':result.push('zh-Hans');break;case'zh-TW':case'zh-SG':case'zh-HK':case'zh-CHT':result.push('zh-Hant');break;default:break;}}parts.pop();}}return result;}Polymer$1({importMeta:bundledImportMeta$3,is:'i18n-number',/**
+switch(result[result.length-1]){case'zh-CN':case'zh-CHS':result.push('zh-Hans');break;case'zh-TW':case'zh-SG':case'zh-HK':case'zh-CHT':result.push('zh-Hant');break;default:break;}}parts.pop();}}return result;}Polymer$1({importMeta:bundledImportMeta$3,is:'i18n-number',_template:(t=>{t.setAttribute('strip-whitespace','');return t;})(html`<span id="number"></span>`),/**
    * Fired whenever the formatted text is rendered.
    *
    * @event rendered
@@ -7171,13 +7168,11 @@ switch(result[result.length-1]){case'zh-CN':case'zh-CHS':result.push('zh-Hans');
    * Default locale constant 'en'
    */DEFAULT_LANG:'en',/**
    * Start loading Intl polyfill only once
-   */registered:function(){if(!_setupIntlPolyfillCalled&&// Fix #6: Safari 9 with 2.0-preview cannot properly resolve self URL at registered callback
-this.resolveUrl('.').match(/\/i18n-number\//)&&!this.resolveUrl('..').match(/\/i18n-number\//)){_setupIntlPolyfillCalled=true;_setupIntlPolyfill.call(this);}},ready:function(){if(!_setupIntlPolyfillCalled){// Fix #6: For Safari 9
-_setupIntlPolyfillCalled=true;_setupIntlPolyfill.call(this);}this._setupObservers();this.raw=this.textNode.data;if(!this.lang){// Polyfill non-functional default value for lang property in Safari 7
+   */registered:function(){if(!_setupIntlPolyfillCalled){_setupIntlPolyfillCalled=true;_setupIntlPolyfill.call(this);}},ready:function(){this._setupObservers();this.raw=this.textNode.data;if(!this.lang){// Polyfill non-functional default value for lang property in Safari 7
 this.lang=this.DEFAULT_LANG;}},attached:function(){this.raw=this.textNode.data;},/**
    * Set up observers of textContent mutations
-   */_setupObservers:function(){this.textNode=dom(this).childNodes[0];if(!this.textNode){dom(this).appendChild(document.createTextNode(''));this.textNode=dom(this).childNodes[0];}this.observer=new MutationObserver(this._textMutated.bind(this));this.observer.observe(this.textNode,{characterData:true});this.observer.observe(this,{attributes:true,attributeFilter:['lang']});this.nodeObserver=dom(this).observeNodes(function(info){if(info.addedNodes[0]&&info.addedNodes[0].nodeType===info.addedNodes[0].TEXT_NODE){this.textNode=info.addedNodes[0];this.raw=this.textNode.data;//console.log('i18n-number: text node added with ' + this.raw);
-this.observer.observe(this.textNode,{characterData:true});}}.bind(this));},/**
+   */_setupObservers:function(){let i=0;do{this.textNode=dom(this).childNodes[i++];if(!this.textNode){this.textNode=dom(this).childNodes[0];break;}}while(this.textNode.nodeType!==this.textNode.TEXT_NODE);if(!this.textNode){dom(this).appendChild(document.createTextNode(''));this.textNode=dom(this).childNodes[0];}this.observer=new MutationObserver(this._textMutated.bind(this));this.observer.observe(this.textNode,{characterData:true});this.observer.observe(this,{attributes:true,attributeFilter:['lang']});this.nodeObserver=dom(this).observeNodes(function(info){let i=0;do{if(info.addedNodes[i]&&info.addedNodes[i].nodeType===info.addedNodes[i].TEXT_NODE){this.textNode=info.addedNodes[i];this.raw=this.textNode.data;//console.log('i18n-number: text node added with ' + this.raw);
+this.observer.observe(this.textNode,{characterData:true});break;}i++;}while(i<info.addedNodes.length);}.bind(this));},/**
    * MutationObserver callback of the child text node to re-render on text mutations.
    *
    * @param {Array} mutations Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
@@ -7206,15 +7201,21 @@ this._render(this.lang,this.options,this.raw,this.offset);}},/**
    * @param {number} offset New offset.
    */_offsetChanged:function(offset){if(this.textNode){//console.log('i18n-number: _offsetChanged: offset = ' + offset);
 this._render(this.lang,this.options,this.raw,offset);}},/**
+   * Get a cached Intl.NumberFormat object
+   *
+   * @param {string} lang Locale for formatting.
+   * @param {Object} options Options for Intl.NumberFormat.
+   * @return {Object} Intl.NumberFormat object.
+   */_getNumberFormatObject(lang,options){let formatId=lang+JSON.stringify(options);let formatObject=formatCache.get(formatId);if(!formatObject){formatObject=new Intl.NumberFormat(lang,options);formatCache.set(formatId,formatObject);}return formatObject;},/**
    * Formats the number
    *
    * @param {string} lang Locale for formatting.
    * @param {Object} options Options for Intl.NumberFormat.
    * @param {number} number Number to format.
    * @return {string} Formatted number string.
-   */_formatNumber:function(lang,options,number){if(!lang){lang=this.DEFAULT_LANG;}switch(intlLibraryLoadingStatus){case'loaded':case'loading':default:try{if(_setupIntlPolyfillLocale.call(this,lang,function(locale){this.effectiveLang=locale;this._render.call(this,locale,this.options,this.raw,this.offset);}.bind(this))){return new Intl.NumberFormat(lang,options).format(number);}else{// waiting for callback
+   */_formatNumber:function(lang,options,number){if(!lang){lang=this.DEFAULT_LANG;}switch(intlLibraryLoadingStatus){case'loaded':case'loading':default:try{if(_setupIntlPolyfillLocale.call(this,lang,function(locale){this.effectiveLang=locale;this._render.call(this,locale,this.options,this.raw,this.offset);}.bind(this))){return this._getNumberFormatObject(lang,options).format(number);}else{// waiting for callback
 return undefined;}}catch(e){return number.toString();}/* istanbul ignore next: unreachable code due to returns in the same case */break;case'native':// native
-try{return new Intl.NumberFormat(lang,options).format(number);}catch(e){return number.toString();}/* istanbul ignore next: unreachable code due to returns in the same case */break;}},/**
+try{return this._getNumberFormatObject(lang,options).format(number);}catch(e){return number.toString();}/* istanbul ignore next: unreachable code due to returns in the same case */break;}},/**
    * Renders the formatted number
    *
    * @param {string} lang Locale for formatting.
@@ -7250,7 +7251,7 @@ if(typeof this.formatted!=='undefined'){this.fire('rendered');}},/**
      */_lang:{type:String,value:'en',reflectToAttribute:false,observer:'_langChanged'},/**
      * The parameter attribute name to identify parameters.
      * No need to change in a normal usage.
-     */paramAttribute:{type:String,value:function(){return PolymerElement?'slot':'param';}(),observer:'_paramAttributeChanged'},/**
+     */paramAttribute:{type:String,value:'slot'},/**
      * The parameter format in the template text.
      * The `'n'` in the format means n-th parameter.
      * No need to change in a normal usage.
@@ -7263,7 +7264,13 @@ if(typeof this.formatted!=='undefined'){this.fire('rendered');}},/**
      */observeParams:{type:Boolean,value:true// TODO: optimize re-rendering
 }},/**
    * Default locale constant 'en'
-   */DEFAULT_LANG:'en',ready:function(){this._setupParams();if(this.root===this){this.attachShadow({mode:'open'});this.root=this.shadowRoot;this.render();}if(!this.lang){// Polyfill non-functional default value for lang property in Safari 7
+   */DEFAULT_LANG:'en',ready:function(){this._setupParams();/*
+                         if (this.root === this) {
+                           this.attachShadow({ mode: 'open' });
+                           this.root = this.shadowRoot;
+                           this.render();
+                         }
+                         */if(!this.lang){// Polyfill non-functional default value for lang property in Safari 7
 this.lang=this.DEFAULT_LANG;}},attached:function(){this.render();},/**
    * Traverse the local DOM and set up parameters and observers.
    */_setupParams:function(){var n;this.elements=Array.prototype.filter.call(dom(this).childNodes,function(node){return node.nodeType===node.ELEMENT_NODE;});var needParamObservation=this.observeParams&&this.elements.length>0&&this.elements[0].tagName.toLowerCase()==='json-data';this.observer=new MutationObserver(this._templateMutated.bind(this));this.observer.observe(this,{attributes:true,attributeFilter:['lang']});for(n=0;n<this.elements.length;n++){if(n===0){this.templateElement=this.elements[n];let i=0;do{this.templateTextNode=dom(this.templateElement).childNodes[i++];if(!this.templateTextNode){this.templateTextNode=dom(this.templateElement).childNodes[0];break;}}while(this.templateTextNode.nodeType!==this.templateTextNode.TEXT_NODE);this.observer.observe(this.templateTextNode,{characterData:true});}else{if(!this.elements[n].hasAttribute(this.paramAttribute)){this.elements[n].setAttribute(this.paramAttribute,''+n);}if(needParamObservation){// TODO: childNodes[0] may not be a text node
@@ -7275,7 +7282,7 @@ this.observer.observe(dom(this.elements[n]).childNodes[0],{characterData:true});
    */_templateMutated:function(mutations){mutations.forEach(function(mutation){switch(mutation.type){case'characterData'://console.log('i18n-format: ' + this.id + '._templateMutated(): characterData: tag = ' + 
 //            Polymer.dom(mutation.target).parentNode.tagName.toLowerCase() + 
 //            ' data = ' + mutation.target.data);
-if((PolymerElement?mutation.target:dom(mutation.target)).parentNode.tagName.toLowerCase()!=='i18n-number'||typeof(PolymerElement?mutation.target:dom(mutation.target)).parentNode.formatted!=='undefined'){this.render();}break;case'attributes':if(mutation.attributeName==='lang'){this._lang=this.lang;}break;default:/* istanbul ignore next: mutation.type is always characterData or attributes */break;}},this);},/**
+if(mutation.target.parentNode.tagName.toLowerCase()!=='i18n-number'||typeof mutation.target.parentNode.formatted!=='undefined'){this.render();}break;case'attributes':if(mutation.attributeName==='lang'){this._lang=this.lang;}break;default:/* istanbul ignore next: mutation.type is always characterData or attributes */break;}},this);},/**
    * Observer of `lang` property to re-render the template text.
    *
    * @param {string} lang New locale.
@@ -7294,14 +7301,34 @@ if(this.elements&&oldParamFormat!==undefined&&paramFormat&&this.lang!==undefined
    *
    * @param {string} paramAttribute New paramAttribute.
    * @param {string} oldParamAttribute Old paramAttribute.
-   */_paramAttributeChanged:function(paramAttribute,oldParamAttribute){//console.log('i18n-format: ' + this.id + '._paramAttributeChanged() new = ' + paramAttribute + ' old = ' + oldParamAttribute);
-var n;if(this.elements&&oldParamAttribute!==undefined&&paramAttribute&&this.lang!==undefined&&this.lang!==null&&!this.lang.match(/^{{.*}}$/)&&!this.lang.match(/^\[\[.*\]\]$/)){for(n=1;n<this.elements.length;n++){this.elements[n].removeAttribute(oldParamAttribute);if(!this.elements[n].hasAttribute(paramAttribute)){this.elements[n].setAttribute(paramAttribute,''+n);}}this.lastTemplateText=undefined;this.render();}},/**
-   * Detect the CLDR plural category of a number 
-   * with [`make-plural` library](https://github.com/eemeli/make-plural.js).
-   *
-   * @param {number} n The number to get the plural category for.
-   * @return {string} Plural category of the number. 
-   */_getPluralCategory:function(n){var category='other';var lang=this.lang||this.DEFAULT_LANG;lang=lang.split(/[-_]/)[0];if(plurals[lang]){category=plurals[lang](n);}else{category=plurals.en(n);}//console.log('i18n-format: _getPluralCategory(' + n + ') = ' + category);
+   */ /* only for Polymer 1.x with ShadowDOM v0
+      _paramAttributeChanged: function (paramAttribute, oldParamAttribute) {
+        //console.log('i18n-format: ' + this.id + '._paramAttributeChanged() new = ' + paramAttribute + ' old = ' + oldParamAttribute);
+        var n;
+        if (this.elements &&
+            oldParamAttribute !== undefined &&
+            paramAttribute &&
+            this.lang !== undefined &&
+            this.lang !== null &&
+            !this.lang.match(/^{{.*}}$/) &&
+            !this.lang.match(/^\[\[.*\]\]$/)) {
+          for (n = 1; n < this.elements.length; n++) {
+            this.elements[n].removeAttribute(oldParamAttribute);
+            if (!this.elements[n].hasAttribute(paramAttribute)) {
+              this.elements[n].setAttribute(paramAttribute, '' + n);
+            }
+          }
+          this.lastTemplateText = undefined;
+          this.render();
+        }
+      },
+      */ /**
+          * Detect the CLDR plural category of a number 
+          * with [`make-plural` library](https://github.com/eemeli/make-plural.js).
+          *
+          * @param {number} n The number to get the plural category for.
+          * @return {string} Plural category of the number. 
+          */_getPluralCategory:function(n){var category='other';var lang=this.lang||this.DEFAULT_LANG;lang=lang.split(/[-_]/)[0];if(plurals[lang]){category=plurals[lang](n);}else{category=plurals.en(n);}//console.log('i18n-format: _getPluralCategory(' + n + ') = ' + category);
 return category;},/**
    * Select a template text by parameters.
    *
@@ -7318,10 +7345,14 @@ templateObject=templateObject[param.textContent];}else if(templateObject.other){
 templateObject=templateObject.other;}else{// default
 templateObject='';console.warn('i18n-format: cannot find a template');}}}if(typeof templateObject==='string'){templateText=templateObject;}else if(typeof templateObject==='undefined'){templateText=undefined;}else{templateText='';console.warn('i18n-format: cannot find a template');}}else{templateText=this.templateTextNode.data;}return templateText;},/**
    * Render the template text.
-   */render:function(){var templateText=this._selectTemplateText();var tmpNode=document.createElement('span');var paramPlaceholder;var childNodes=[];var i;var shadowDomV1=!!PolymerElement;var shadyDomV1=!!window.ShadyDOM;if(templateText===this.lastTemplateText){//console.log('i18n-format: skipping rendering as the templateText has not changed');
+   */render:function(){var templateText=this._selectTemplateText();var tmpNode=document.createElement('span');var paramPlaceholder;var childNodes=[];var i;var shadyDomV1=!!window.ShadyDOM;if(templateText===this.lastTemplateText){//console.log('i18n-format: skipping rendering as the templateText has not changed');
 return;}else if(typeof templateText==='undefined'){return;}else{this.lastTemplateText=templateText;//console.log('i18n-format: ' + this.id + '.render() templateText = ' + templateText);
-}i=1;while(this.elements&&i<this.elements.length){paramPlaceholder=this.paramFormat.replace('n',i);templateText=templateText.replace(paramPlaceholder,shadowDomV1?'<slot name="'+i+'"></slot>':'<content select="['+this.paramAttribute+'=\''+i+'\']"></content>');i++;}tmpNode.innerHTML=templateText;if(PolymerElement){if(this.root===this){this.attachShadow({mode:'open'});this.root=this.shadowRoot;}this.root.innerHTML='';// Polymer 2.x
-}else{dom(this.root).innerHTML='';}// References of childNodes have to be copied for Shady DOM compatibility
+}i=1;while(this.elements&&i<this.elements.length){paramPlaceholder=this.paramFormat.replace('n',i);templateText=templateText.replace(paramPlaceholder,'<slot name="'+i+'"></slot>');i++;}tmpNode.innerHTML=templateText;/*
+                                      if (this.root === this) {
+                                        this.attachShadow({ mode: 'open' });
+                                        this.root = this.shadowRoot;
+                                      }
+                                      */this.root.innerHTML='';// References of childNodes have to be copied for Shady DOM compatibility
 for(i=0;i<tmpNode.childNodes.length;i++){childNodes[i]=tmpNode.childNodes[i];}for(i=0;i<childNodes.length;i++){// each node has to be appended via Polymer.dom()
 dom(this.root).appendChild(childNodes[i]);}if(shadyDomV1){ShadyDOM.flush();}this.fire('rendered');}});/*
     
@@ -7444,11 +7475,7 @@ dom(this.root).appendChild(childNodes[i]);}if(shadyDomV1){ShadyDOM.flush();}this
           ]</json-data>
         </template>
     
-    */ /*
-         FIXME(polymer-modulizer): the above comments were extracted
-         from HTML and may be out of place here. Review them and
-         then delete this comment!
-       */Polymer$1({is:'iron-localstorage',properties:{/**
+    */Polymer$1({is:'iron-localstorage',properties:{/**
      * localStorage item key
      */name:{type:String,value:''},/**
      * The data associated with this storage.
@@ -7487,7 +7514,7 @@ this.errorMessage=ex.message;Base._error('Could not save to localStorage. Incogn
          * @event iron-localstorage-load-empty
          * @param {{externalChange:boolean}} detail -
          *     externalChange: true if change occured in different window.
-         */});const bundledImportMeta$5={...import.meta,url:new URL('../../i18n-preference.js',import.meta.url).href};const $_documentContainer$2=document.createElement('template');$_documentContainer$2.innerHTML=`<template id="i18n-preference">
+         */});const bundledImportMeta$5={...import.meta,url:new URL('../../i18n-preference.js',import.meta.url).href};const $_documentContainer$1=document.createElement('template');$_documentContainer$1.innerHTML=`<template id="i18n-preference">
   <iron-localstorage id="storage" name="i18n-behavior-preference" on-iron-localstorage-load-empty="_onLoadEmptyStorage" on-iron-localstorage-load="_onLoadStorage" on-value-changed="_onStorageValueChange">
   </iron-localstorage>
 </template><div id="dom-module-placeholder"></div>`;//document.head.appendChild($_documentContainer.content);
@@ -7496,7 +7523,7 @@ this.errorMessage=ex.message;Base._error('Could not save to localStorage. Incogn
 // html element of this document
 var html$1=document.querySelector('html');// app global default language
 var defaultLang=html$1.hasAttribute('lang')?html$1.getAttribute('lang'):'';// imperative synchronous registration of the template for Polymer 2.x
-var template$1=$_documentContainer$2.content.querySelector('template#i18n-preference');var domModule$2=document.createElement('dom-module');//var currentScript = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
+var template$1=$_documentContainer$1.content.querySelector('template#i18n-preference');var domModule$2=document.createElement('dom-module');//var currentScript = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
 var registerI18nPreference=function(){//currentScript.ownerDocument.querySelector('div#dom-module-placeholder').appendChild(domModule);
 domModule$2.appendChild(template$1);domModule$2.register('i18n-preference');Polymer$1({importMeta:bundledImportMeta$5,is:'i18n-preference',properties:{/**
        * Persistence of preference 
@@ -7545,7 +7572,13 @@ this.$.storage.value=undefined;}}}},/**
      */_observe:function(){// observe html lang mutations
 if(!this._htmlLangMutationObserver){this._htmlLangMutationObserverCallbackBindThis=this._htmlLangMutationObserverCallback.bind(this);this._htmlLangMutationObserver=new MutationObserver(this._htmlLangMutationObserverCallbackBindThis);}this._htmlLangMutationObserver.observe(html$1,{attributes:true});},/**
      * Disconnect html.lang mutation observer
-     */_disconnect:function(){if(this._htmlLangMutationObserver){this._htmlLangMutationObserver.disconnect();}}});};if(!window.HTMLImports||HTMLImports.hasNative||HTMLImports.useNative){registerI18nPreference();}else{HTMLImports.whenReady(registerI18nPreference);}//})(document); // ES Modules do not need closures
+     */_disconnect:function(){if(this._htmlLangMutationObserver){this._htmlLangMutationObserver.disconnect();}}});};//if ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative)) { // Drop HTML Imports support
+registerI18nPreference();//}
+/*
+else {
+  HTMLImports.whenReady(registerI18nPreference);
+}
+*/ //})(document); // ES Modules do not need closures
 /*!
  * @license deepcopy.js Copyright(c) 2013 sasa+1
  * https://github.com/sasaplus1/deepcopy.js
@@ -7644,13 +7677,31 @@ ref=reference[index];}clone[key]=ref||recursiveCopy(value,customizer,result,visi
 //document.head.appendChild($_documentContainer.content);
 /* jshint -W100 */ // (function(document) { // ES Modules do not need closures
 //  'use strict'; // ES Modules are always strict mode
-var html$2=document.querySelector('html');if(window.ShadowDOMPolyfill){// Fix #38. Add reflectToAttribute effect on html.lang property
-// for supplementing Shadow DOM MutationObserver polyfill
-Object.defineProperty(html$2,'lang',{get:function(){return this.getAttribute('lang');},set:function(value){this.setAttribute('lang',value);}});}// Safari 7 predefines non-configurable standard properties
+var html$2=document.querySelector('html');/* ShadowDOMPolyfill is deprecated by ShadyDOM, while ShadowDOMPolyfill is still documented at https://www.webcomponents.org/polyfills
+                                             if (window.ShadowDOMPolyfill) {
+                                             // Fix #38. Add reflectToAttribute effect on html.lang property
+                                             // for supplementing Shadow DOM MutationObserver polyfill
+                                             Object.defineProperty(html, 'lang', {
+                                               get: function () {
+                                                 return this.getAttribute('lang');
+                                               },
+                                               set: function (value) {
+                                                 this.setAttribute('lang', value);
+                                               }
+                                             });
+                                             }
+                                             */ // Safari 7 predefines non-configurable standard properties
 // Note: They become configurable with ShadowDOMPolyfill, which wraps them.
-var isStandardPropertyConfigurable=function(){var langPropertyDescriptor=Object.getOwnPropertyDescriptor(document.createElement('span'),'lang');return!langPropertyDescriptor||langPropertyDescriptor.configurable;}();// Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
-var extraWhiteSpaceNode=!isStandardPropertyConfigurable;//if (ElementMixin) { // ElementMixin is always truthy
-isStandardPropertyConfigurable=false;//}
+/*
+var isStandardPropertyConfigurable = (function () {
+  var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
+  return !langPropertyDescriptor || langPropertyDescriptor.configurable;
+})();
+*/ // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
+//var extraWhiteSpaceNode = !isStandardPropertyConfigurable; // Drop Safari 7 support
+//if (ElementMixin) { // ElementMixin is always truthy
+//var isStandardPropertyConfigurable = false;
+//}
 // app global bundle storage
 var bundles={'':{}};// with an empty default bundle
 // app global default language
@@ -8012,37 +8063,42 @@ if(this._fetchStatus&&lang!==this._fetchStatus.ajaxLang){// reset error status
 this._fetchStatus.error=null;}if(/* !ElementMixin || */ /* ElementMixin && */this.__data){this.notifyPath('text',this._getBundle(this.lang));}this.effectiveLang=lang;this.fire('lang-updated',{lang:this.lang,oldLang:oldLang,lastLang:this._fetchStatus.lastLang});}else{// fetch the missing bundle
 this._fetchLanguage(lang);}},/**
    * Called on `lang-updated` events and update `this.effectiveLang` with the value of `this.lang`.
-   */_updateEffectiveLang:function(event){if(dom(event).rootTarget===this){//console.log('_updateEffectiveLang: lang = ' + this.lang);
-this.effectiveLang=this.lang;}},/**
-   * Trigger fetching of the appropriate text message bundle of the target locale.
-   *
-   * ### Two Layers of Fallbacks:
-   *
-   * 1. Missing bundles fall back to those of their fallback locales.
-   * 1. Missing texts in the non-default bundles fall back to those in the default bundle. 
-   *
-   * ### Fallback Examples:
-   *
-   *| Locale      | Bundle Status                    |
-   *|:------------|:---------------------------------|
-   *| fr-CA       | existent with sparse texts       |
-   *| fr          | existent with full texts         |
-   *| ja          | existent with some missing texts |
-   *| zh-Hans-CN  | missing                          |
-   *| zh-Hans     | existent with some missing texts |
-   *| zh          | missing                          |
-   *| en          | existent with full texts         |
-   *| ''(default) | existent with full texts         |
-   *
-   *| Target      | Fallback bundle       | Resolved locale |
-   *|:------------|:----------------------|:----------------|
-   *| en          | en                    | en              |
-   *| ja          | ja + ''(default)      | ja              |
-   *| fr-CA       | fr-CA + fr            | fr-CA           |
-   *| zh-Hans-CN  | zh-Hans + ''(default) | zh-Hans         |
-   *
-   * @param {string} lang Target locale.
-   */_fetchLanguage:function(lang){if(this._fetchStatus){this._fetchStatus.fallbackLanguageList=this._enumerateFallbackLanguages(lang);this._fetchStatus.fallbackLanguageList.push('');this._fetchStatus.targetLang=this._fetchStatus.fallbackLanguageList.shift();this._fetchBundle(this._fetchStatus.targetLang);}},/**
+   */ /* _updateEffectiveLang will always be overridden later in this code
+      _updateEffectiveLang: function (event) {
+        if (dom(event).rootTarget === this) {
+          //console.log('_updateEffectiveLang: lang = ' + this.lang);
+          this.effectiveLang = this.lang;
+        }
+      }, */ /**
+             * Trigger fetching of the appropriate text message bundle of the target locale.
+             *
+             * ### Two Layers of Fallbacks:
+             *
+             * 1. Missing bundles fall back to those of their fallback locales.
+             * 1. Missing texts in the non-default bundles fall back to those in the default bundle. 
+             *
+             * ### Fallback Examples:
+             *
+             *| Locale      | Bundle Status                    |
+             *|:------------|:---------------------------------|
+             *| fr-CA       | existent with sparse texts       |
+             *| fr          | existent with full texts         |
+             *| ja          | existent with some missing texts |
+             *| zh-Hans-CN  | missing                          |
+             *| zh-Hans     | existent with some missing texts |
+             *| zh          | missing                          |
+             *| en          | existent with full texts         |
+             *| ''(default) | existent with full texts         |
+             *
+             *| Target      | Fallback bundle       | Resolved locale |
+             *|:------------|:----------------------|:----------------|
+             *| en          | en                    | en              |
+             *| ja          | ja + ''(default)      | ja              |
+             *| fr-CA       | fr-CA + fr            | fr-CA           |
+             *| zh-Hans-CN  | zh-Hans + ''(default) | zh-Hans         |
+             *
+             * @param {string} lang Target locale.
+             */_fetchLanguage:function(lang){if(this._fetchStatus){this._fetchStatus.fallbackLanguageList=this._enumerateFallbackLanguages(lang);this._fetchStatus.fallbackLanguageList.push('');this._fetchStatus.targetLang=this._fetchStatus.fallbackLanguageList.shift();this._fetchBundle(this._fetchStatus.targetLang);}},/**
    * Fetch the text message bundle of the target locale 
    * cooperatively with other instances.
    *
@@ -8206,7 +8262,11 @@ target[prop]=target[prop]||[];this._deepMap(target[prop],value,map);}else{target
 template=Array.prototype.map.call(document.querySelectorAll('template'),function(parentTemplate){return parentTemplate.content.querySelector('template#'+id+'[is="i18n-dom-bind"]');}).reduce(function(prev,current){return prev||current;});// Patch this.content with the real one
 if(template){this.content=template.content;}}}else{template=_template||DomModule.import(id,'template');}if(template){this.templateDefaultLang=template.hasAttribute('lang')?template.lang:'en';}else{this.templateDefaultLang='en';}var bundle={model:{}};var path=[];var templateDefaultLang=this.templateDefaultLang;var localizableText,jsonData;if(template){// register localizable attributes of the element itself
 if(attributesRepository.registerLocalizableAttributes){attributesRepository.registerLocalizableAttributes(id,template);}else{BehaviorsStore._I18nAttrRepo._created();BehaviorsStore._I18nAttrRepo.registerLocalizableAttributes(id,template);}if(template.getAttribute('localizable-text')==='embedded'){// pick up embedded JSON from the template
-localizableText=template.content.querySelector('#localizable-text');if(localizableText){jsonData=localizableText.content.querySelector('json-data');if(jsonData){bundle=JSON.parse(jsonData.textContent);}else{console.error('<json-data> not found in <template id=\"localizable-text\">');}}else{console.error('<template id=\"localizable-text\"> not found');}}else{if(extraWhiteSpaceNode){template.setAttribute('strip-whitespace','');}// traverse template to generate bundle
+localizableText=template.content.querySelector('#localizable-text');if(localizableText){jsonData=localizableText.content.querySelector('json-data');if(jsonData){bundle=JSON.parse(jsonData.textContent);}else{console.error('<json-data> not found in <template id=\"localizable-text\">');}}else{console.error('<template id=\"localizable-text\"> not found');}}else{/* Drop Safari 7 support
+        if (extraWhiteSpaceNode) {
+          template.setAttribute('strip-whitespace', '');
+        }
+        */ // traverse template to generate bundle
 this._traverseTemplateTree(template.content,path,bundle,0);}}bundles[''][id]=bundle;bundles[templateDefaultLang]=bundles[templateDefaultLang]||{};bundles[templateDefaultLang][id]=bundle;//console.log('text = ');
 //console.log(JSON.stringify(bundle, null, 2));
 return true;},/**
@@ -8398,9 +8458,13 @@ parsedValue.shift();parsedValue.splice(1,0,'serialize(');parsedValue.splice(3,0,
 if(!param.hasAttribute(paramAttribute)){param.setAttribute(paramAttribute,n);}if(param.tagName.toLowerCase()==='i18n-number'){if(!param.hasAttribute('lang')){param.setAttribute('lang','{{effectiveLang}}');}var offset=param.getAttribute('offset');if(offset){offset=' - '+offset;}else{offset='';}if(parsedValue){// convert to {{path - offset}}
 parsedValue.shift();parsedValue.splice(2,0,offset);value=parsedValue.join('');}else{param.textContent='{{text.'+messageId+'.'+n+'}}';}}else{if(!parsedValue){param.textContent='{{text.'+messageId+'.'+n+'}}';}}}return value;},this);debuglog(messageId+' = '+text);this._setBundleValue(bundle,messageId,text);break;case'template':// traverse into its content
 //console.log(path.join(':') + ':' + node.content.nodeName + ':' + 0);
-if(extraWhiteSpaceNode){//if (node.hasAttribute('is') && node.getAttribute('is').match(/^(i18n-)?dom-/)) {
-node.setAttribute('strip-whitespace','');//}
-}this._traverseTemplateTree(node.content,path,bundle,0);break;default:// element node
+/* Drop Safari 7 support
+            if (extraWhiteSpaceNode) {
+              //if (node.hasAttribute('is') && node.getAttribute('is').match(/^(i18n-)?dom-/)) {
+                node.setAttribute('strip-whitespace', '');
+              //}
+            }
+            */this._traverseTemplateTree(node.content,path,bundle,0);break;default:// element node
 if(name==='i18n-number'||name==='i18n-datetime'){if(!node.hasAttribute('lang')){node.setAttribute('lang','{{effectiveLang}}');}}// pick up element attributes
 this._traverseAttributes(node,path,bundle);// check annonated node
 isCompoundAnnotatedNode=false;if(node.childElementCount===0){if(node.textContent){isCompoundAnnotatedNode=this._isCompoundAnnotatedText(node.textContent);}}if(node.childElementCount===0&&!isCompoundAnnotatedNode){if(node.textContent){// use textContent for Firefox compatibility
@@ -8611,50 +8675,138 @@ return;//}
    * Lifecycle callback at registration of the custom element.
    *
    * this._fetchStatus is initialized per registration.
-   */registered:function(){if(this.is!=='i18n-dom-bind'){var template=this._template||DomModule.import(this.is,'template');if(!template){var id=this.is;var current=!window.HTMLImports||HTMLImports.useNative?document.currentScript:document._currentScript||document.currentScript;template=(current?current.ownerDocument.querySelector('template[id='+id+']'):null)||document.querySelector('template[id='+id+']');if(!template){template=document.createElement('template');template.setAttribute('id',id);}if(template){var domModule=document.createElement('dom-module');var _noTemplateDomModule=DomModule.import(this.is);var assetpath=_noTemplateDomModule?_noTemplateDomModule.assetpath:new URL((current?current.baseURI:null)||(window.currentImport?window.currentImport.baseURI:null)||(current&&current.ownerDocument?current.ownerDocument.baseURI:null)||document.baseURI).pathname;domModule.appendChild(template);domModule.setAttribute('assetpath',template.hasAttribute('basepath')?template.getAttribute('basepath'):template.hasAttribute('assetpath')?template.getAttribute('assetpath'):assetpath);domModule.register(id);this._template=template;}var bundle={model:{}};bundles[''][id]=bundle;bundles[defaultLang$1]=bundles[defaultLang$1]||{};bundles[defaultLang$1][id]=bundle;console.warn('I18nBehavior.registered: '+id+' has no template. Supplying an empty template');}this._fetchStatus=deepcopy({// per custom element
+   */registered:function(){if(this.is!=='i18n-dom-bind'){var template=this._template||DomModule.import(this.is,'template');if(!template){var id=this.is;/* Drop HTML Imports support; document.currentScript is always undefined
+                          var current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
+                                                              : (document._currentScript || document.currentScript);
+                          */template=/* (current ? current.ownerDocument
+                    .querySelector('template[id=' + id + ']') : null) || */document.querySelector('template[id='+id+']');if(!template){template=document.createElement('template');template.setAttribute('id',id);}if(template){var domModule=document.createElement('dom-module');var _noTemplateDomModule=DomModule.import(this.is);var assetpath=_noTemplateDomModule?_noTemplateDomModule.assetpath:new URL(/* (current ? current.baseURI : null) ||
+                                                                                           (window.currentImport ? window.currentImport.baseURI : null) ||
+                                                                                           (current && current.ownerDocument ? current.ownerDocument.baseURI : null) || */document.baseURI).pathname;domModule.appendChild(template);domModule.setAttribute('assetpath',template.hasAttribute('basepath')?template.getAttribute('basepath'):template.hasAttribute('assetpath')?template.getAttribute('assetpath'):assetpath);domModule.register(id);this._template=template;}var bundle={model:{}};bundles[''][id]=bundle;bundles[defaultLang$1]=bundles[defaultLang$1]||{};bundles[defaultLang$1][id]=bundle;console.warn('I18nBehavior.registered: '+id+' has no template. Supplying an empty template');}this._fetchStatus=deepcopy({// per custom element
 fetchingInstance:null,ajax:null,ajaxLang:null,lastLang:null,fallbackLanguageList:null,targetLang:null,lastResponse:{},rawResponses:{}});}},/**
    * Lifecycle callback on instance creation
    */created:function(){// Fix #34. [Polymer 1.4.0] _propertyEffects have to be maintained per instance
 if(this.is==='i18n-dom-bind'){this._propertyEffects=deepcopy(this._propertyEffects);}else{var template=DomModule.import(this.is,'template');if(template&&template.hasAttribute('lang')){this.templateDefaultLang=template.getAttribute('lang')||'';}if(!this._fetchStatus){this._fetchStatus=deepcopy({// per custom element
-fetchingInstance:null,ajax:null,ajaxLang:null,lastLang:null,fallbackLanguageList:null,targetLang:null,lastResponse:{},rawResponses:{}});}}if(!isStandardPropertyConfigurable){// Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
-this.observer=new MutationObserver(this._handleLangAttributeChange.bind(this));this.observer.observe(this,{attributes:true,attributeFilter:['lang'],attributeOldValue:true});}},/**
+fetchingInstance:null,ajax:null,ajaxLang:null,lastLang:null,fallbackLanguageList:null,targetLang:null,lastResponse:{},rawResponses:{}});}}//if (!isStandardPropertyConfigurable) {
+// Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
+this.observer=new MutationObserver(this._handleLangAttributeChange.bind(this));this.observer.observe(this,{attributes:true,attributeFilter:['lang'],attributeOldValue:true});//}
+},/**
    * Lifecycle callback when the template children are ready.
    */ready:function(){if(this.is==='i18n-dom-bind'){if(!this._templateLocalizable){this._templateLocalizable=this._constructDefaultBundle();}if(!this._fetchStatus){this._fetchStatus=deepcopy({// per instance
 fetchingInstance:null,ajax:null,ajaxLang:null,lastLang:null,fallbackLanguageList:null,targetLang:null,lastResponse:{},rawResponses:{}});}this._onDomChangeBindThis=this._onDomChange.bind(this);this.addEventListener('dom-change',this._onDomChangeBindThis);// Fix #34. [Polymer 1.4.0] Supply an empty object if this.__data__ is undefined
-this.__data__=this.__data__||Object.create(null);}else{if(!isStandardPropertyConfigurable){// Fix #36. Patch missing properties except for lang
-for(var p in this._propertyEffects){if(this._propertyEffects[p]&&!Object.getOwnPropertyDescriptor(this,p)){//console.log('ready: creating accessors for ' + p);
-Polymer.Bind._createAccessors(this,p,this._propertyEffects[p]);}}}if(/* ElementMixin && */!this.__data){this._initializeProperties();}this._langChanged(this.getAttribute('lang'),undefined);// model per instance
+this.__data__=this.__data__||Object.create(null);}else{//if (!isStandardPropertyConfigurable) {
+// Fix #36. Patch missing properties except for lang
+/* Drop fix for Polymer 1.x
+      for (var p in this._propertyEffects) {
+        if (this._propertyEffects[p] &&
+            !Object.getOwnPropertyDescriptor(this, p)) {
+          //console.log('ready: creating accessors for ' + p);
+          Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
+        }
+      }
+      */ //}
+if(/* ElementMixin && */!this.__data){this._initializeProperties();}this._langChanged(this.getAttribute('lang'),undefined);// model per instance
 if(this.text){this.model=deepcopy(this.text.model);}}},/**
    * attached lifecycle callback.
-   */attached:function(){if(this.is==='i18n-dom-bind'){if(this._properties){// Fix #35. [IE10] Restore properties for use in rendering
-this.properties=this._properties;delete this._properties;}}if(this.observeHtmlLang){this.lang=html$2.lang;// TODO: this call is redundant
+   */attached:function(){/*
+    if (this.is === 'i18n-dom-bind') {
+      if (this._properties) {
+        // Fix #35. [IE10] Restore properties for use in rendering
+        this.properties = this._properties;
+        delete this._properties;
+      }
+    }
+    */if(this.observeHtmlLang){this.lang=html$2.lang;// TODO: this call is redundant
 this._observeHtmlLangChanged(true);}},/**
    * Handle `dom-change` event for `i18n-dom-bind`
-   */_onDomChange:function(){// Fix #16: [IE11][Polymer 1.3.0] On IE11, i18n-dom-bind does not work with Polymer 1.3.0
-// Patch the broken lang property accessors manually if it is missing
-// Fix #34: [IE11][Polymer 1.4.0] Create missing property accessors including lang
-for(var p in this._propertyEffects){if(this._propertyEffects[p]&&!Object.getOwnPropertyDescriptor(this,p)){Polymer.Bind._createAccessors(this,p,this._propertyEffects[p]);}}this.removeEventListener('dom-change',this._onDomChangeBindThis);if(this.text&&this.text.model){this.model=deepcopy(this.text.model);}// Fix #17: [Polymer 1.3.0] observeHtmlLang is undefined in i18n-dom-bind
-// Explicitly initialize observeHtmlLang if the value is undefined.
-if(typeof this.observeHtmlLang==='undefined'&&!this.hasAttribute('observe-html-lang')){this.observeHtmlLang=true;}if(this.observeHtmlLang){this.lang=html$2.lang;this._observeHtmlLangChanged(true);}},/**
+   */_onDomChange:function(){/* Drop fix for Polymer 1.x
+    // Fix #16: [IE11][Polymer 1.3.0] On IE11, i18n-dom-bind does not work with Polymer 1.3.0
+    // Patch the broken lang property accessors manually if it is missing
+    // Fix #34: [IE11][Polymer 1.4.0] Create missing property accessors including lang
+    for (var p in this._propertyEffects) {
+      if (this._propertyEffects[p] &&
+          !Object.getOwnPropertyDescriptor(this, p)) {
+        Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
+      }
+    }
+    */this.removeEventListener('dom-change',this._onDomChangeBindThis);if(this.text&&this.text.model){this.model=deepcopy(this.text.model);}/* Drop fix for Polymer 1.x
+      // Fix #17: [Polymer 1.3.0] observeHtmlLang is undefined in i18n-dom-bind
+      // Explicitly initialize observeHtmlLang if the value is undefined.
+      if (typeof this.observeHtmlLang === 'undefined' &&
+          !this.hasAttribute('observe-html-lang')) {
+        this.observeHtmlLang = true;
+      }
+      */if(this.observeHtmlLang){this.lang=html$2.lang;this._observeHtmlLangChanged(true);}},/**
    * detached lifecycle callback
    */detached:function(){if(this.observeHtmlLang){this._observeHtmlLangChanged(false);}}};// Fix #36. Rename lang property as _lang to avoid conflict with the predefined lang property
-if(!isStandardPropertyConfigurable){var _properties=Object.create(null);for(var p$2 in BehaviorsStore.I18nBehavior.properties){if(p$2==='lang'){_properties._lang=BehaviorsStore.I18nBehavior.properties.lang;}else{_properties[p$2]=BehaviorsStore.I18nBehavior.properties[p$2];}}BehaviorsStore.I18nBehavior.properties=_properties;BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute=false;BehaviorsStore.I18nBehavior.properties.text.computed='_getBundle(_lang)';BehaviorsStore.I18nBehavior._updateEffectiveLang=function(event){if(/* (!ElementMixin && dom(event).rootTarget === this) || */ /* ElementMixin && */event.composedPath()[0]===this){//console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
-this.effectiveLang=this._lang;}};BehaviorsStore.I18nBehavior.hostAttributes={'lang':defaultLang$1};}//if (ElementMixin) { // ElementMixin is always truthy
+//if (!isStandardPropertyConfigurable) {
+var _properties=Object.create(null);for(var p$2 in BehaviorsStore.I18nBehavior.properties){if(p$2==='lang'){_properties._lang=BehaviorsStore.I18nBehavior.properties.lang;}else{_properties[p$2]=BehaviorsStore.I18nBehavior.properties[p$2];}}BehaviorsStore.I18nBehavior.properties=_properties;BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute=false;BehaviorsStore.I18nBehavior.properties.text.computed='_getBundle(_lang)';BehaviorsStore.I18nBehavior._updateEffectiveLang=function(event){if(/* (!ElementMixin && dom(event).rootTarget === this) || */ /* ElementMixin && */event.composedPath()[0]===this){//console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
+this.effectiveLang=this._lang;}};BehaviorsStore.I18nBehavior.hostAttributes={'lang':defaultLang$1};//}
+//if (ElementMixin) { // ElementMixin is always truthy
 // Polymer 2.x
 BehaviorsStore._I18nBehavior=BehaviorsStore.I18nBehavior;BehaviorsStore.I18nBehavior=[BehaviorsStore._I18nBehavior];//if (!document.currentScript) { // document.currentScript is always falsy
 // Polymer 3.x
 BehaviorsStore.I18nBehavior.push({get _template(){if(this.__template){return this.__template;}if(this instanceof HTMLElement&&(this.constructor.name||/* name is undefined in IE11 */this.constructor.toString().replace(/^function ([^ \(]*)((.*|[\n]*)*)$/,'$1'))==='PolymerGenerated'&&!this.constructor.__finalizeClass){this.constructor.__finalizeClass=this.constructor._finalizeClass;let This=this;this.constructor._finalizeClass=function _finalizeClass(){let info=this.generatedFrom;if(!this._templateLocalizable){let template=DomModule.import(info.is,'template');if(info._template){if(!template){let m=document.createElement('dom-module');m.appendChild(info._template);m.register(info.is);}this._templateLocalizable=BehaviorsStore._I18nBehavior._constructDefaultBundle(This.__template=info._template,info.is);}else{if(template){this._templateLocalizable=BehaviorsStore._I18nBehavior._constructDefaultBundle(This.__template=template,info.is);}}}if(!this.hasOwnProperty('importPath')){Object.defineProperty(this,'importPath',{value:info.importPath});}return this.__finalizeClass();};}return this.__template;},set _template(value){this.__template=value;}});if(!function F(){}.name){// IE11
 // Note: In IE11, changes in this.text object do not propagate automatically and require MutableDataBehavior to propagate
 BehaviorsStore.I18nBehavior.push(MutableDataBehavior);}//}
-Object.defineProperty(BehaviorsStore.I18nBehavior,'0',{get:function(){var current=!window.HTMLImports||HTMLImports.hasNative||HTMLImports.useNative?document.currentScript:document._currentScript||document.currentScript;var ownerDocument=document;//current.ownerDocument;
-if(ownerDocument.nodeType===ownerDocument.DOCUMENT_NODE){// HTML Imports are flatten in the root document and not under document fragment nodes
+Object.defineProperty(BehaviorsStore.I18nBehavior,'0',{get:function(){//var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
+var ownerDocument=document;//current.ownerDocument;
+//if (ownerDocument.nodeType === ownerDocument.DOCUMENT_NODE) {
+// HTML Imports are flatten in the root document and not under document fragment nodes
 // Fix #62: Emulate a subset of "non-HTMLImports-link-traversing" querySelectorAll for latest Firefox 51
 // since currentScript.ownerDocument, HTML Imports polyfill, and querySelectorAll behave differently
-var _tmpNode=current;// check for DOCUMENT_FRAGMENT_NODE for fail safe
-while(_tmpNode&&_tmpNode.tagName!=='LINK'&&_tmpNode.nodeType!==_tmpNode.DOCUMENT_FRAGMENT_NODE&&_tmpNode.nodeType!==_tmpNode.DOCUMENT_NODE){_tmpNode=_tmpNode.parentNode;}if(_tmpNode&&(_tmpNode.nodeType===_tmpNode.DOCUMENT_FRAGMENT_NODE||_tmpNode.nodeType===_tmpNode.DOCUMENT_NODE)){ownerDocument=_tmpNode;// reach the containing document fragment
-}else if(_tmpNode&&_tmpNode.import===_tmpNode){// html-imports polyfill v1
-ownerDocument=_tmpNode.children;// reach the immediate import link containing the currentScript
-ownerDocument.querySelectorAll=function(selector){var match=selector.match(/^([a-zA-Z0-9-]{1,})(:not\(\[(processed)\]\))?(\[(legacy)\])?$/);var list=[];var node;var tagName;var i;for(i=0;i<this.length;i++){node=this[i];tagName=node.tagName.toLowerCase();switch(tagName){case'link':break;case match[1]:if(match[2]){if(!node.hasAttribute(match[3])){list.push(node);}}else if(match[4]){if(node.hasAttribute(match[5])){list.push(node);}}else{list.push(node);}break;default:Array.prototype.forEach.call(node.querySelectorAll(selector),function(child){list.push(child);});break;}}return list;};}}var i18nAttrRepos=ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');var domModules=ownerDocument.querySelectorAll('dom-module[legacy]');if(domModules.length===0){domModules=ownerDocument.querySelectorAll('dom-module');if(domModules.length!==1){domModules=[];}}BehaviorsStore._I18nAttrRepo._created();Array.prototype.forEach.call(i18nAttrRepos,function(repo){if(!repo.hasAttribute('processed')){var customAttributes=repo.querySelector('template#custom');if(customAttributes){BehaviorsStore._I18nAttrRepo._traverseTemplateTree(customAttributes.content||customAttributes._content);}repo.setAttribute('processed','');}});Array.prototype.forEach.call(domModules,function(domModule){if(domModule&&domModule.id){var template=domModule.querySelector('template');if(template){BehaviorsStore._I18nBehavior._constructDefaultBundle(template,domModule.id);domModule.removeAttribute('legacy');}}});return BehaviorsStore._I18nBehavior;}});//}
+//var _tmpNode = current;
+// check for DOCUMENT_FRAGMENT_NODE for fail safe
+/* document.currentScript is always falsy
+    while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
+      _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &&
+      _tmpNode.nodeType !== _tmpNode.DOCUMENT_NODE) {
+      _tmpNode = _tmpNode.parentNode;
+    }
+    if (_tmpNode &&
+      (_tmpNode.nodeType === _tmpNode.DOCUMENT_FRAGMENT_NODE ||
+       _tmpNode.nodeType === _tmpNode.DOCUMENT_NODE)) {
+      ownerDocument = _tmpNode; // reach the containing document fragment
+    }
+    */ /* Drop support for HTML Imports polyfill
+       else if (_tmpNode && _tmpNode.import === _tmpNode) { // html-imports polyfill v1
+         ownerDocument = _tmpNode.children; // reach the immediate import link containing the currentScript
+         ownerDocument.querySelectorAll = function (selector) {
+           var match = selector.match(/^([a-zA-Z0-9-]{1,})(:not\(\[(processed)\]\))?(\[(legacy)\])?$/);
+           var list = [];
+           var node;
+           var tagName;
+           var i;
+           for (i = 0; i < this.length; i++) {
+             node = this[i];
+             tagName = node.tagName.toLowerCase();
+             switch (tagName) {
+             case 'link':
+               break;
+             case match[1]:
+               if (match[2]) {
+                 if (!node.hasAttribute(match[3])) {
+                   list.push(node);
+                 }
+               }
+               else if (match[4]) {
+                 if (node.hasAttribute(match[5])) {
+                   list.push(node);
+                 }
+               }
+               else {
+                 list.push(node);
+               }
+               break;
+             default:
+               Array.prototype.forEach.call(node.querySelectorAll(selector), function (child) { list.push(child); });
+               break;
+             }
+           }
+           return list;
+         }
+       }
+       */ //}
+var i18nAttrRepos=ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');var domModules=ownerDocument.querySelectorAll('dom-module[legacy]');if(domModules.length===0){domModules=ownerDocument.querySelectorAll('dom-module');if(domModules.length!==1){domModules=[];}}BehaviorsStore._I18nAttrRepo._created();Array.prototype.forEach.call(i18nAttrRepos,function(repo){if(!repo.hasAttribute('processed')){var customAttributes=repo.querySelector('template#custom');if(customAttributes){BehaviorsStore._I18nAttrRepo._traverseTemplateTree(customAttributes.content||customAttributes._content);}repo.setAttribute('processed','');}});Array.prototype.forEach.call(domModules,function(domModule){if(domModule&&domModule.id){var template=domModule.querySelector('template');if(template){BehaviorsStore._I18nBehavior._constructDefaultBundle(template,domModule.id);domModule.removeAttribute('legacy');}}});return BehaviorsStore._I18nBehavior;}});//}
 /*
 else {
   // Polymer 1.x
@@ -8777,9 +8929,9 @@ assert.equal(minifyText(getProperty(nodes[0],p)),minifyText(params.rawText?child
 if(Array.isArray(childPath[p])){//console.log(nodes);
 Array.prototype.forEach.call(childPath[p],function(path,i,a){assert.equal(getProperty(nodes[i],p),translate(params.effectiveLang,p,path),p+' is set as '+translate(params.effectiveLang,p,path));});}else{//console.log(nodes[0]);
 assert.equal(getProperty(nodes[0],p),translate(params.effectiveLang,p,childPath[p]),p+' is set as '+translate(params.effectiveLang,p,childPath[p]));}}//console.log(childPath);
-});});}(params.setup?teardown:suiteTeardown)(function(){restoreFixture(params.fixture);});});});};const bundledImportMeta$6={...import.meta,url:new URL('./multiple-case/item-element.js',import.meta.url).href};const $_documentContainer$3=document.createElement('template');$_documentContainer$3.innerHTML=`<template id="item-element">
+});});}(params.setup?teardown:suiteTeardown)(function(){restoreFixture(params.fixture);});});});};const bundledImportMeta$6={...import.meta,url:new URL('./multiple-case/item-element.js',import.meta.url).href};const $_documentContainer$2=document.createElement('template');$_documentContainer$2.innerHTML=`<template id="item-element">
     <span id="label">A</span>
-  </template>`;document.head.appendChild($_documentContainer$3.content);switch(syntax){default:case'mixin':{class ItemElement extends Mixins.Localizable(Polymer.LegacyElement){static get importMeta(){return bundledImportMeta$6;}static get template(){return(t=>{t.setAttribute("localizable-text","embedded");return t;})(html`
+  </template>`;document.head.appendChild($_documentContainer$2.content);switch(syntax){default:case'mixin':{class ItemElement extends Mixins.Localizable(Polymer.LegacyElement){static get importMeta(){return bundledImportMeta$6;}static get template(){return(t=>{t.setAttribute("localizable-text","embedded");return t;})(html`
     <span id="label">{{text.label}}</span>
 <template id="localizable-text">
 <json-data>
@@ -8812,7 +8964,7 @@ assert.equal(getProperty(nodes[0],p),translate(params.effectiveLang,p,childPath[
 }
 </json-data>
 </template>
-`),is:'item-element',behaviors:[BehaviorsStore.I18nBehavior]});}break;}const bundledImportMeta$7={...import.meta,url:new URL('./multiple-case/multiple-element.js',import.meta.url).href};const $_documentContainer$4=document.createElement('template');$_documentContainer$4.innerHTML=`<template id="multiple-element">
+`),is:'item-element',behaviors:[BehaviorsStore.I18nBehavior]});}break;}const bundledImportMeta$7={...import.meta,url:new URL('./multiple-case/multiple-element.js',import.meta.url).href};const $_documentContainer$3=document.createElement('template');$_documentContainer$3.innerHTML=`<template id="multiple-element">
     <div id="base">
       <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
         <span>
@@ -8821,7 +8973,7 @@ assert.equal(getProperty(nodes[0],p),translate(params.effectiveLang,p,childPath[
       </template></dom-repeat>
     </div>
     <div id="save"></div>
-  </template>`;document.head.appendChild($_documentContainer$4.content);switch(syntax){default:case'mixin':{class MultipleElement extends Mixins.Localizable(Polymer.LegacyElement){static get importMeta(){return bundledImportMeta$7;}static get template(){return(t=>{t.setAttribute("localizable-text","embedded");return t;})(html`
+  </template>`;document.head.appendChild($_documentContainer$3.content);switch(syntax){default:case'mixin':{class MultipleElement extends Mixins.Localizable(Polymer.LegacyElement){static get importMeta(){return bundledImportMeta$7;}static get template(){return(t=>{t.setAttribute("localizable-text","embedded");return t;})(html`
     <div id="base">
       <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
         <span>
