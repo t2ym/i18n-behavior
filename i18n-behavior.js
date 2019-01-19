@@ -783,12 +783,13 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     /**
      * Called on `lang-updated` events and update `this.effectiveLang` with the value of `this.lang`.
      */
+    /* _updateEffectiveLang will always be overridden later in this code
     _updateEffectiveLang: function (event) {
       if (dom(event).rootTarget === this) {
         //console.log('_updateEffectiveLang: lang = ' + this.lang);
         this.effectiveLang = this.lang;
       }
-    },
+    }, */
 
     /**
      * Trigger fetching of the appropriate text message bundle of the target locale.
