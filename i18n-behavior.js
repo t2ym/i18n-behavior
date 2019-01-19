@@ -2700,6 +2700,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
       else {
         //if (!isStandardPropertyConfigurable) {
           // Fix #36. Patch missing properties except for lang
+          /* Drop fix for Polymer 1.x
           for (var p in this._propertyEffects) {
             if (this._propertyEffects[p] &&
                 !Object.getOwnPropertyDescriptor(this, p)) {
@@ -2707,6 +2708,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
               Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
             }
           }
+          */
         //}
         if (/* ElementMixin && */ !this.__data) {
           this._initializeProperties();
@@ -2723,6 +2725,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
      * attached lifecycle callback.
      */
     attached: function () {
+      /*
       if (this.is === 'i18n-dom-bind') {
         if (this._properties) {
           // Fix #35. [IE10] Restore properties for use in rendering
@@ -2730,6 +2733,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           delete this._properties;
         }
       }
+      */
       if (this.observeHtmlLang) {
         this.lang = html.lang;
         // TODO: this call is redundant
@@ -2741,6 +2745,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
      * Handle `dom-change` event for `i18n-dom-bind`
      */
     _onDomChange: function () {
+      /* Drop fix for Polymer 1.x
       // Fix #16: [IE11][Polymer 1.3.0] On IE11, i18n-dom-bind does not work with Polymer 1.3.0
       // Patch the broken lang property accessors manually if it is missing
       // Fix #34: [IE11][Polymer 1.4.0] Create missing property accessors including lang
@@ -2750,16 +2755,19 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
         }
       }
+      */
       this.removeEventListener('dom-change', this._onDomChangeBindThis);
       if (this.text && this.text.model) {
         this.model = deepcopy(this.text.model);
       }
+      /* Drop fix for Polymer 1.x
       // Fix #17: [Polymer 1.3.0] observeHtmlLang is undefined in i18n-dom-bind
       // Explicitly initialize observeHtmlLang if the value is undefined.
       if (typeof this.observeHtmlLang === 'undefined' &&
           !this.hasAttribute('observe-html-lang')) {
         this.observeHtmlLang = true;
       }
+      */
       if (this.observeHtmlLang) {
         this.lang = html.lang;
         this._observeHtmlLangChanged(true);
