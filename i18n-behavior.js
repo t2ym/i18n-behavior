@@ -46,14 +46,16 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
 
   // Safari 7 predefines non-configurable standard properties
   // Note: They become configurable with ShadowDOMPolyfill, which wraps them.
+  /*
   var isStandardPropertyConfigurable = (function () {
     var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
     return !langPropertyDescriptor || langPropertyDescriptor.configurable;
   })();
+  */
   // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
-  var extraWhiteSpaceNode = !isStandardPropertyConfigurable;
+  //var extraWhiteSpaceNode = !isStandardPropertyConfigurable; // Drop Safari 7 support
   //if (ElementMixin) { // ElementMixin is always truthy
-    isStandardPropertyConfigurable = false;
+  var isStandardPropertyConfigurable = false;
   //}
 
   // app global bundle storage
@@ -1367,9 +1369,11 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           }
         }
         else {
+          /* Drop Safari 7 support
           if (extraWhiteSpaceNode) {
             template.setAttribute('strip-whitespace', '');
           }
+          */
           // traverse template to generate bundle
           this._traverseTemplateTree(template.content, path, bundle, 0);
         }
@@ -1798,11 +1802,13 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         case 'template':
           // traverse into its content
           //console.log(path.join(':') + ':' + node.content.nodeName + ':' + 0);
+          /* Drop Safari 7 support
           if (extraWhiteSpaceNode) {
             //if (node.hasAttribute('is') && node.getAttribute('is').match(/^(i18n-)?dom-/)) {
               node.setAttribute('strip-whitespace', '');
             //}
           }
+          */
           this._traverseTemplateTree(node.content, path, bundle, 0);
           break;
         default:
