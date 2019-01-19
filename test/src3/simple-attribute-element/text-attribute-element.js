@@ -223,13 +223,13 @@ case 'legacy':
     Polymer$0({
       importMeta: import.meta,
 
-      _template: html`
+      _template: (t => { t.setAttribute('text-attr', 'custom-text-attr1 custom-text-attr3'); return t; })(html`
     <span id="attr1">{{customTextAttr1}}</span>
     <span id="attr2">{{customTextAttr2}}</span>
     <span id="attr3">{{customTextAttr3}}</span>
     <span id="attr4">{{outOfScopeAttr}}</span>
     <span>text</span>
-`,
+`),
 
       is: 'text-attribute-element',
 
