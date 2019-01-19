@@ -29,6 +29,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
 //  'use strict'; // ES Modules are always strict mode
 
   var html = document.querySelector('html');
+  /* ShadowDOMPolyfill is deprecated by ShadyDOM, while ShadowDOMPolyfill is still documented at https://www.webcomponents.org/polyfills
   if (window.ShadowDOMPolyfill) {
     // Fix #38. Add reflectToAttribute effect on html.lang property
     // for supplementing Shadow DOM MutationObserver polyfill
@@ -41,6 +42,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
       }
     });
   }
+  */
 
   // Safari 7 predefines non-configurable standard properties
   // Note: They become configurable with ShadowDOMPolyfill, which wraps them.
