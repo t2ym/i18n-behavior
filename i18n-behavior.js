@@ -55,7 +55,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
   // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
   //var extraWhiteSpaceNode = !isStandardPropertyConfigurable; // Drop Safari 7 support
   //if (ElementMixin) { // ElementMixin is always truthy
-  var isStandardPropertyConfigurable = false;
+  //var isStandardPropertyConfigurable = false;
   //}
 
   // app global bundle storage
@@ -2658,7 +2658,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           });
         }
       }
-      if (!isStandardPropertyConfigurable) {
+      //if (!isStandardPropertyConfigurable) {
         // Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
         this.observer = new MutationObserver(this._handleLangAttributeChange.bind(this));
         this.observer.observe(this, {
@@ -2666,7 +2666,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           attributeFilter: [ 'lang' ],
           attributeOldValue: true
         });
-      }
+      //}
     },
 
     /**
@@ -2695,7 +2695,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         this.__data__ = this.__data__ || Object.create(null);
       }
       else {
-        if (!isStandardPropertyConfigurable) {
+        //if (!isStandardPropertyConfigurable) {
           // Fix #36. Patch missing properties except for lang
           for (var p in this._propertyEffects) {
             if (this._propertyEffects[p] &&
@@ -2704,7 +2704,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
               Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
             }
           }
-        }
+        //}
         if (/* ElementMixin && */ !this.__data) {
           this._initializeProperties();
         }
@@ -2774,7 +2774,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
   };
 
   // Fix #36. Rename lang property as _lang to avoid conflict with the predefined lang property
-  if (!isStandardPropertyConfigurable) {
+  //if (!isStandardPropertyConfigurable) {
     var _properties = Object.create(null);
     for (var p in BehaviorsStore.I18nBehavior.properties) {
       if (p === 'lang') {
@@ -2797,7 +2797,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     BehaviorsStore.I18nBehavior.hostAttributes = {
       'lang': defaultLang
     };
-  }
+  //}
 
   //if (ElementMixin) { // ElementMixin is always truthy
     // Polymer 2.x
