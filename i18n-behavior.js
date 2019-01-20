@@ -2844,9 +2844,6 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
                   }
                 }
               }
-              if (!this.hasOwnProperty('importPath')) {
-                Object.defineProperty(this, 'importPath', { value: info.importPath });
-              }
               return this.__finalizeClass();
             }
           }
