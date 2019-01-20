@@ -9,6 +9,31 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <!-- <script src="../../../custom-elements/src/native-shim.js"></script> -->
     <script src="../../../wct-browser-legacy/browser.js"></script>
     <script type="module" src="./preference-test-imports.js"></script>
+    <script type="module">
+      import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+      import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+      let t = document.createElement('template');
+      t.innerHTML = `
+        <i18n-attr-repo id="orphaned-i18n-attr-repo" processed>
+          <template id="custom">
+            <text-attribute-element custom-text-attrXX=""></text-attribute-element>
+          </template>
+        </i18n-attr-repo>
+      `;
+      document.body.appendChild(t.content);
+      document.body.querySelector('#orphaned-i18n-attr-repo').removeAttribute('processed');
+      Polymer({
+        importMeta: import.meta,
+        is: 'utility-directives',
+        behaviors: [ BehaviorsStore.I18nBehavior ],
+        _template: html`
+          <span>{{tr('',1)}}</span><span>{{tr("key1")}}</span><span>{{tr('')}}</span>
+          <template>
+            <span id="key1">keyA</span>
+          </template>
+        `,
+      });
+    </script>
     <style>
     .test-container.running-test {
       display: block;
@@ -27,6 +52,32 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         <span>dummy component</span>
         <span>format <span>abc</span> <template><!-- comment -->text in template</template> text</span>
         <span>format2 <span>abc2</span> <span></span> <span> </span> <template><!-- comment --></template>  <template> </template> <template>{{text}}</template> text2</span>
+        <span aria-label="{ invalid: json }"></span>
+        <i18n-format>
+          <json-data>{{serialize(text.dummy)}}</json-data>
+          <span>dummy</span>
+        </i18n-format>
+        <i18n-format>
+          <json-data>{{text.dummy}}</json-data>
+          <span>dummy</span>
+        </i18n-format>
+        <i18n-format>
+          <json-data>[[serialize(text.dummy)]]</json-data>
+          <span>dummy</span>
+        </i18n-format>
+        <i18n-format>
+          <json-data>[[text.dummy]]</json-data>
+          <span>dummy</span>
+        </i18n-format>
+        <i18n-format>
+          <span>format {1}</span>
+          <span>param</span>
+        </i18n-format>
+        <i18n-format>
+          <span>number param {1}</span>
+          <i18n-number>1</i18n-number>
+        </i18n-format>
+        <i18n-number>1</i18n-number>
       </template>
     </dom-module>
   </head>
@@ -38,6 +89,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         <preference-element></preference-element>
       </template>
     </test-fixture>
+
+    <utility-directives></utility-directives>
 
     <i18n-preference persist=""></i18n-preference>
   
