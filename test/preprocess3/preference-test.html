@@ -22,6 +22,20 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       `;
       document.body.appendChild(t.content);
       document.body.querySelector('#orphaned-i18n-attr-repo').removeAttribute('processed');
+      try {
+        let brokenDomModule1 = document.querySelector('#broken-dom-module1');
+        BehaviorsStore._I18nBehavior._constructDefaultBundle(brokenDomModule1.querySelector('template'), brokenDomModule1.id);
+      }
+      catch (e) {
+        console.log(e);
+      }
+      try {
+        let brokenDomModule2 = document.querySelector('#broken-dom-module2');
+        BehaviorsStore._I18nBehavior._constructDefaultBundle(brokenDomModule2.querySelector('template'), brokenDomModule2.id);
+      }
+      catch (e) {
+        console.log(e);
+      }
       Polymer({
         importMeta: import.meta,
         is: 'utility-directives',
@@ -78,6 +92,32 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           <i18n-number>1</i18n-number>
         </i18n-format>
         <i18n-number>1</i18n-number>
+      </template>
+    </dom-module>
+    <dom-module id="broken-dom-module1">
+      <template localizable-text="embedded">
+        <span id="oldLang"></span>
+        <template id="broken-localizable-text">
+        <json-data>
+        {
+          "meta": {},
+          "model": {}
+        }
+        </json-data>
+        </template>
+      </template>
+    </dom-module>
+    <dom-module id="broken-dom-module2">
+      <template localizable-text="embedded">
+        <span id="oldLang"></span>
+        <template id="localizable-text">
+        <broken-json-data>
+        {
+          "meta": {},
+          "model": {}
+        }
+        </broken-json-data>
+        </template>
       </template>
     </dom-module>
   </head>
