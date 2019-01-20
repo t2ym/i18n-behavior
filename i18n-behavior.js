@@ -16,7 +16,7 @@ import 'i18n-format/i18n-format.js';
 import './i18n-preference.js';
 import './i18n-attr-repo.js';
 //import { ElementMixin } from '@polymer/polymer/lib/mixins/element-mixin.js'; // ElementMixin is used only for a Polymer version indicator, which is truthy
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+//import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'; // dom() is unnecessary
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
 //import { Polymer as Polymer$0 } from '@polymer/polymer/lib/legacy/polymer-fn.js'; // Polymer$0 is no longer used for defining i18n-dom-bind in this file
 import { MutableDataBehavior } from '@polymer/polymer/lib/legacy/mutable-data-behavior.js';
@@ -2134,7 +2134,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
               //if (ElementMixin) { // ElementMixin is always truthy
                 // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
                 // insert i18n-format
-                dom(node).appendChild(templateText);
+                node.appendChild(templateText);
               //}
               span = document.createElement('span');
               // span.innerText does not set an effective value in Firefox
@@ -2229,8 +2229,8 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
             templateText = document.createElement('i18n-format');
             templateText.setAttribute('lang', '{{effectiveLang}}');
             // insert i18n-format
-            dom(parent).insertBefore(templateText, node);
-            dom(parent).removeChild(node);
+            parent.insertBefore(templateText, node);
+            parent.removeChild(node);
             span = document.createElement('span');
             // span.innerText does not set an effective value in Firefox
             span.textContent = templateTextParams.params.shift();

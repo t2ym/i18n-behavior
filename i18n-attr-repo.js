@@ -5,7 +5,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 import '@polymer/polymer/polymer-legacy.js';
 
 import { Polymer as Polymer$0 } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+// import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'; // dom() is unnecessary
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
 const $_documentContainer = document.createElement('template');
 
@@ -237,7 +237,7 @@ Polymer({
   created: function () {
     this.data = sharedData;
 
-    var customAttributes = dom(this).querySelector('template#custom');
+    var customAttributes = this.querySelector('template#custom');
     // traverse custom attributes repository
     if (customAttributes && !this.hasAttribute('processed')) {
       this._traverseTemplateTree(customAttributes._content || customAttributes.content);
