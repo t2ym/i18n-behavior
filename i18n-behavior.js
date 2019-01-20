@@ -9,7 +9,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-import { Base } from '@polymer/polymer/polymer-legacy.js';
+//import { Base } from '@polymer/polymer/polymer-legacy.js'; // Use document.createElement() instead of Base.create()
 
 import '@polymer/iron-ajax/iron-ajax.js';
 import 'i18n-format/i18n-format.js';
@@ -920,7 +920,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         this._fetchStatus.fetchingInstance = this;
         if (!this._fetchStatus.ajax) {
           // set up ajax client
-          this._fetchStatus.ajax = Base.create('iron-ajax');
+          this._fetchStatus.ajax = document.createElement('iron-ajax');
           this._fetchStatus.ajax.handleAs = 'json';
           this._fetchStatus._handleResponseBindFetchingInstance = this._handleResponse.bind(this);
           this._fetchStatus._handleErrorBindFetchingInstance = this._handleError.bind(this);
