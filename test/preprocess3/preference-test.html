@@ -39,7 +39,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       Polymer({
         importMeta: import.meta,
         is: 'utility-directives',
-        behaviors: [ BehaviorsStore.I18nBehavior ],
+        behaviors: [ BehaviorsStore.I18nBehavior, BehaviorsStore.I18nControllerBehavior ],
         _template: html`
           <span>{{tr('',1)}}</span><span>{{tr("key1")}}</span><span>{{tr('')}}</span>
           <template>
