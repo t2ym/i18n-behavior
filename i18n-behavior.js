@@ -1410,6 +1410,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
       var attrId;
       var isLocalizable;
       var dummy;
+      var renamedAttributes = [];
       // pick up element attributes
       Array.prototype.forEach.call(node.attributes, function (attribute) {
         text = attribute.value;
@@ -1498,6 +1499,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
                 dummy = document.createElement('span');
                 dummy.innerHTML = '<span ' + attribute.name + '$="' + processed + '"></span>';
                 node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
+                renamedAttributes.push(attribute.name);
               }
               else {
                 attribute.value = processed;
@@ -1527,6 +1529,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
                 dummy = document.createElement('span');
                 dummy.innerHTML = '<span ' + attribute.name + '$="' + processed + '"></span>';
                 node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
+                renamedAttributes.push(attribute.name);
               }
               else {
                 attribute.value = processed;
@@ -1543,6 +1546,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
               dummy = document.createElement('span');
               dummy.innerHTML = '<span ' + attribute.name + '$=' + '"{{' + attrId + '}}"' + '></span>';
               node.setAttributeNode(dummy.childNodes[0].attributes[0].cloneNode());
+              renamedAttributes.push(attribute.name);
             }
             else {
               attribute.value = '{{' + attrId + '}}';
@@ -1551,6 +1555,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           break;
         }
       }, this);
+      renamedAttributes.forEach(name => node.removeAttribute(name));
     },
 
     /**
