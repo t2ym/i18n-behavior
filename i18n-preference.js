@@ -26,12 +26,6 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
 @hero hero.svg
 @demo demo/index.html
 */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import '@polymer/polymer/polymer-legacy.js';
 
 import '@polymer/iron-localstorage/iron-localstorage.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
@@ -42,10 +36,6 @@ $_documentContainer.innerHTML = `<template id="i18n-preference">
   </iron-localstorage>
 </template><div id="dom-module-placeholder"></div>`;
 
-//document.head.appendChild($_documentContainer.content);
-//(function(document) { // ES Modules do not need closures
-  //'use strict'; // ES Modules are always strict mode
-
   // html element of this document
   var html = document.querySelector('html');
   // app global default language
@@ -54,10 +44,7 @@ $_documentContainer.innerHTML = `<template id="i18n-preference">
   // imperative synchronous registration of the template for Polymer 2.x
   var template = $_documentContainer.content.querySelector('template#i18n-preference');
   var domModule = document.createElement('dom-module');
-  //var currentScript = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
-  var registerI18nPreference = function () {
 
-  //currentScript.ownerDocument.querySelector('div#dom-module-placeholder').appendChild(domModule);
   domModule.appendChild(template);
   domModule.register('i18n-preference');
 
@@ -264,13 +251,3 @@ $_documentContainer.innerHTML = `<template id="i18n-preference">
       }
     }
   });
-  }
-  //if ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative)) { // Drop HTML Imports support
-    registerI18nPreference();
-  //}
-  /*
-  else {
-    HTMLImports.whenReady(registerI18nPreference);
-  }
-  */
-//})(document); // ES Modules do not need closures
