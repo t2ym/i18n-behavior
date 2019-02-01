@@ -2731,9 +2731,9 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           }
           */
         //}
-        if (/* ElementMixin && */ !this.__data) {
-          this._initializeProperties();
-        }
+        //if (/* ElementMixin && */ !this.__data) { // this.__data has always been initialized
+        //  this._initializeProperties();
+        //}
         this._langChanged(this.getAttribute('lang'), undefined);
         // model per instance
         if (this.text) {
