@@ -1345,7 +1345,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         }
       }
       else {
-        template = _template || DomModule.import(id, 'template');
+        template = _template;// || DomModule.import(id, 'template'); // Remove unreachable code
       }
       if (template) {
         this.templateDefaultLang = template.hasAttribute('lang') ? template.lang : 'en';
