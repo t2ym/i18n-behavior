@@ -70,14 +70,18 @@ var debuglog = html.hasAttribute('debug') ?
 
 window.BehaviorsStore = window.BehaviorsStore || {};
 /**
+ * @namespace BehaviorsStore
+ */
+export const BehaviorsStore = window.BehaviorsStore;
+/**
  * Apply `BehaviorsStore.I18nControllerBehavior` to manipulate internal variables for I18N
  *
  * Note: This behavior is not for normal custom elements to apply I18N. UI is not expected.
  *
- * @polymerBehavior BehaviorsStore.I18nControllerBehavior
- * @group I18nBehavior
+ * @polymerBehavior I18nControllerBehavior
+ * @memberof BehaviorsStore
  */
-BehaviorsStore.I18nControllerBehavior = {
+export const I18nControllerBehavior = {
   properties: {
 
     /**
@@ -165,6 +169,7 @@ BehaviorsStore.I18nControllerBehavior = {
     }
   }
 };
+BehaviorsStore.I18nControllerBehavior = I18nControllerBehavior;
 /**
  * Apply `BehaviorsStore.I18nBehavior` to implement localizable elements.
  *
@@ -260,12 +265,10 @@ BehaviorsStore.I18nControllerBehavior = {
  *
  * - Support user locale preference per user
  *
- * @polymerBehavior BehaviorsStore.I18nBehavior
- * @group I18nBehavior
- * @hero hero.svg
- * @demo demo/index.html
+ * @polymerBehavior I18nBehavior
+ * @memberof BehaviorsStore
  */
-BehaviorsStore.I18nBehavior = {
+let I18nBehavior = {
 
   /**
    * Fired when the text message bundle object (`this.text`) is updated after `this.lang` is changed.
@@ -2549,7 +2552,7 @@ BehaviorsStore.I18nBehavior = {
   }
 };
 
-BehaviorsStore._I18nBehavior = BehaviorsStore.I18nBehavior;
+export const _I18nBehavior = BehaviorsStore._I18nBehavior = I18nBehavior;
 BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
 BehaviorsStore.I18nBehavior.push({
   get _template() { 
@@ -2626,3 +2629,5 @@ Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
     return BehaviorsStore._I18nBehavior;
   }
 });
+I18nBehavior = BehaviorsStore.I18nBehavior;
+export { I18nBehavior };
