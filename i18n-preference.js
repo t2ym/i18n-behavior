@@ -36,218 +36,218 @@ $_documentContainer.innerHTML = `<template id="i18n-preference">
   </iron-localstorage>
 </template><div id="dom-module-placeholder"></div>`;
 
-  // html element of this document
-  var html = document.querySelector('html');
-  // app global default language
-  var defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
+// html element of this document
+var html = document.querySelector('html');
+// app global default language
+var defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
 
-  // imperative synchronous registration of the template for Polymer 2.x
-  var template = $_documentContainer.content.querySelector('template#i18n-preference');
-  var domModule = document.createElement('dom-module');
+// imperative synchronous registration of the template for Polymer 2.x
+var template = $_documentContainer.content.querySelector('template#i18n-preference');
+var domModule = document.createElement('dom-module');
 
-  domModule.appendChild(template);
-  domModule.register('i18n-preference');
+domModule.appendChild(template);
+domModule.register('i18n-preference');
 
-  Polymer({
-    importMeta: import.meta,
-    is: 'i18n-preference',
+Polymer({
+  importMeta: import.meta,
+  is: 'i18n-preference',
 
-    properties: {
-      /**
-       * Persistence of preference 
-       */
-      persist: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-        notify: true,
-        observer: '_onPersistChange'
-      }
-    },
-
+  properties: {
     /**
-     * Ready callback to initialize this.lang
+     * Persistence of preference 
      */
-    ready: function () {
-      if (this.persist) {
-        // delay this.lang update
-      }
-      else {
-        //this.$.storage.value = undefined;
-      }
-      this.isReady = true;
-    },
+    persist: {
+      type: Boolean,
+      value: false,
+      reflectToAttribute: true,
+      notify: true,
+      observer: '_onPersistChange'
+    }
+  },
 
-    /**
-     * Attached callback to initialize html.lang and its observation
-     */
-    attached: function () {
-      this._observe();
-      if (this.persist) {
-        // delay html.lang update
-      }
-      else {
-        if (!html.hasAttribute('preferred')) {
-          html.setAttribute('lang', navigator.language || navigator.browserLanguage);
-        }
-      }
-    },
+  /**
+   * Ready callback to initialize this.lang
+   */
+  ready: function () {
+    if (this.persist) {
+      // delay this.lang update
+    }
+    else {
+      //this.$.storage.value = undefined;
+    }
+    this.isReady = true;
+  },
 
-    /**
-     * Detached callback to diconnect html.lang observation
-     */
-    detached: function () {
-      this._disconnect();
-    },
-
-    /**
-     * Initialize an empty localstorage
-     */
-    _onLoadEmptyStorage: function () {
-      if (this.isReady) {
-        if (this.persist) {
-          if (this.isInitialized) {
-            // store html.lang value
-            this.$.storage.value = html.getAttribute('lang');
-          }
-          else {
-            if (html.hasAttribute('preferred')) {
-              this.$.storage.value = html.getAttribute('lang');
-            }
-            else {
-              this.$.storage.value = navigator.language || navigator.browserLanguage;
-              if (html.getAttribute('lang') !== this.$.storage.value) {
-                html.setAttribute('lang', this.$.storage.value);
-              }
-            }
-            this.isInitialized = true;
-          }
-        }
-        else {
-          // leave the empty storage as it is
-        }
-      }
-    },
-
-    /**
-     * Handle the loaded storage value
-     */
-    _onLoadStorage: function () {
-      if (this.isReady) {
-        if (this.persist) {
-          // preferred attribute in html to put higher priority
-          // in the default html language than navigator.language
-          if (html.hasAttribute('preferred')) {
-            if (this.$.storage.value !== defaultLang) {
-              // overwrite the storage by the app default language
-              this.$.storage.value = defaultLang;
-            }
-          }
-          else {
-            // load the value from the storage
-            html.setAttribute('lang', this.$.storage.value);
-          }
-        }
-        else {
-          // empty the storage
-          this.$.storage.value = undefined;
-        }
-      }
-    },
-
-    /**
-     * Handle persist changes
-     *
-     * @param {Boolean} value new this.persist value
-     */
-    _onPersistChange: function (value) {
-      if (this.isReady) {
-        if (value) {
-          if (this.$.storage.value !== html.getAttribute('lang')) {
-            // save to the storage
-            this.$.storage.value = html.getAttribute('lang');
-          }
-        }
-        else {
-          // empty the storage
-          this.$.storage.value = undefined;
-        }
-      }
-    },
-
-    /**
-     * Handle storage value changes
-     *
-     * @param {Event} e value-changed event on the storage
-     */
-    _onStorageValueChange: function (e) {
-      var value = e.detail.value;
-      if (this.isReady) {
-        if (this.persist) {
-          if (value) {
-            if (value !== html.getAttribute('lang')) {
-              // save to the lang
-              html.setAttribute('lang', value);
-            }
-          }
-          else {
-            // update the storage
-            this.$.storage.value = html.getAttribute('lang');
-          }
-        }
-        else {
-          if (value) {
-            // empty the storage
-            this.$.storage.value = undefined;
-          }
-        }
-      }
-    },
-
-    /**
-     * Handle value changes on localstorage
-     *
-     * @param {MutationRecord[]} mutations Array of MutationRecords for html.lang
-     *
-     * Note: 
-     *   - Bound to this element
-     */
-    _htmlLangMutationObserverCallback: function (mutations) {
-      mutations.forEach(function(mutation) {
-        switch (mutation.type) {
-        case 'attributes':
-          if (mutation.attributeName === 'lang') {
-            if (this.$.storage.value !== mutation.target.getAttribute('lang')) {
-              this.$.storage.value = mutation.target.getAttribute('lang');
-            }
-          }
-          break;
-        default:
-          break;
-        }
-      }.bind(this));
-    },
-
-    /**
-     * Set up html.lang mutation observer
-     */
-    _observe: function () {
-      // observe html lang mutations
-      if (!this._htmlLangMutationObserver) {
-        this._htmlLangMutationObserverCallbackBindThis = 
-          this._htmlLangMutationObserverCallback.bind(this);
-        this._htmlLangMutationObserver =
-          new MutationObserver(this._htmlLangMutationObserverCallbackBindThis);
-      }
-      this._htmlLangMutationObserver.observe(html, { attributes: true });
-    },
-
-    /**
-     * Disconnect html.lang mutation observer
-     */
-    _disconnect: function () {
-      if (this._htmlLangMutationObserver) {
-        this._htmlLangMutationObserver.disconnect();
+  /**
+   * Attached callback to initialize html.lang and its observation
+   */
+  attached: function () {
+    this._observe();
+    if (this.persist) {
+      // delay html.lang update
+    }
+    else {
+      if (!html.hasAttribute('preferred')) {
+        html.setAttribute('lang', navigator.language || navigator.browserLanguage);
       }
     }
-  });
+  },
+
+  /**
+   * Detached callback to diconnect html.lang observation
+   */
+  detached: function () {
+    this._disconnect();
+  },
+
+  /**
+   * Initialize an empty localstorage
+   */
+  _onLoadEmptyStorage: function () {
+    if (this.isReady) {
+      if (this.persist) {
+        if (this.isInitialized) {
+          // store html.lang value
+          this.$.storage.value = html.getAttribute('lang');
+        }
+        else {
+          if (html.hasAttribute('preferred')) {
+            this.$.storage.value = html.getAttribute('lang');
+          }
+          else {
+            this.$.storage.value = navigator.language || navigator.browserLanguage;
+            if (html.getAttribute('lang') !== this.$.storage.value) {
+              html.setAttribute('lang', this.$.storage.value);
+            }
+          }
+          this.isInitialized = true;
+        }
+      }
+      else {
+        // leave the empty storage as it is
+      }
+    }
+  },
+
+  /**
+   * Handle the loaded storage value
+   */
+  _onLoadStorage: function () {
+    if (this.isReady) {
+      if (this.persist) {
+        // preferred attribute in html to put higher priority
+        // in the default html language than navigator.language
+        if (html.hasAttribute('preferred')) {
+          if (this.$.storage.value !== defaultLang) {
+            // overwrite the storage by the app default language
+            this.$.storage.value = defaultLang;
+          }
+        }
+        else {
+          // load the value from the storage
+          html.setAttribute('lang', this.$.storage.value);
+        }
+      }
+      else {
+        // empty the storage
+        this.$.storage.value = undefined;
+      }
+    }
+  },
+
+  /**
+   * Handle persist changes
+   *
+   * @param {Boolean} value new this.persist value
+   */
+  _onPersistChange: function (value) {
+    if (this.isReady) {
+      if (value) {
+        if (this.$.storage.value !== html.getAttribute('lang')) {
+          // save to the storage
+          this.$.storage.value = html.getAttribute('lang');
+        }
+      }
+      else {
+        // empty the storage
+        this.$.storage.value = undefined;
+      }
+    }
+  },
+
+  /**
+   * Handle storage value changes
+   *
+   * @param {Event} e value-changed event on the storage
+   */
+  _onStorageValueChange: function (e) {
+    var value = e.detail.value;
+    if (this.isReady) {
+      if (this.persist) {
+        if (value) {
+          if (value !== html.getAttribute('lang')) {
+            // save to the lang
+            html.setAttribute('lang', value);
+          }
+        }
+        else {
+          // update the storage
+          this.$.storage.value = html.getAttribute('lang');
+        }
+      }
+      else {
+        if (value) {
+          // empty the storage
+          this.$.storage.value = undefined;
+        }
+      }
+    }
+  },
+
+  /**
+   * Handle value changes on localstorage
+   *
+   * @param {MutationRecord[]} mutations Array of MutationRecords for html.lang
+   *
+   * Note: 
+   *   - Bound to this element
+   */
+  _htmlLangMutationObserverCallback: function (mutations) {
+    mutations.forEach(function(mutation) {
+      switch (mutation.type) {
+      case 'attributes':
+        if (mutation.attributeName === 'lang') {
+          if (this.$.storage.value !== mutation.target.getAttribute('lang')) {
+            this.$.storage.value = mutation.target.getAttribute('lang');
+          }
+        }
+        break;
+      default:
+        break;
+      }
+    }.bind(this));
+  },
+
+  /**
+   * Set up html.lang mutation observer
+   */
+  _observe: function () {
+    // observe html lang mutations
+    if (!this._htmlLangMutationObserver) {
+      this._htmlLangMutationObserverCallbackBindThis = 
+        this._htmlLangMutationObserverCallback.bind(this);
+      this._htmlLangMutationObserver =
+        new MutationObserver(this._htmlLangMutationObserverCallbackBindThis);
+    }
+    this._htmlLangMutationObserver.observe(html, { attributes: true });
+  },
+
+  /**
+   * Disconnect html.lang mutation observer
+   */
+  _disconnect: function () {
+    if (this._htmlLangMutationObserver) {
+      this._htmlLangMutationObserver.disconnect();
+    }
+  }
+});
