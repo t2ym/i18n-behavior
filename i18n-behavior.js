@@ -2,62 +2,15 @@
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-/* For earlier initialization on Polymer 2.x */
-/* TODO: convert to HTML import to avoid multiple deepcopy registration */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-//import { Base } from '@polymer/polymer/polymer-legacy.js'; // Use document.createElement() instead of Base.create()
-
 import '@polymer/iron-ajax/iron-ajax.js';
 import 'i18n-format/i18n-format.js';
 import './i18n-preference.js';
 import './i18n-attr-repo.js';
-//import { ElementMixin } from '@polymer/polymer/lib/mixins/element-mixin.js'; // ElementMixin is used only for a Polymer version indicator, which is truthy
-//import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'; // dom() is unnecessary
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
-//import { Polymer as Polymer$0 } from '@polymer/polymer/lib/legacy/polymer-fn.js'; // Polymer$0 is no longer used for defining i18n-dom-bind in this file
 import { MutableDataBehavior } from '@polymer/polymer/lib/legacy/mutable-data-behavior.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
-//const $_documentContainer = document.createElement('template');
-//$_documentContainer.innerHTML = `<i18n-attr-repo></i18n-attr-repo>`;
-//document.head.appendChild($_documentContainer.content);
-/* jshint -W100 */
-// (function(document) { // ES Modules do not need closures
-//  'use strict'; // ES Modules are always strict mode
 
   var html = document.querySelector('html');
-  /* ShadowDOMPolyfill is deprecated by ShadyDOM, while ShadowDOMPolyfill is still documented at https://www.webcomponents.org/polyfills
-  if (window.ShadowDOMPolyfill) {
-    // Fix #38. Add reflectToAttribute effect on html.lang property
-    // for supplementing Shadow DOM MutationObserver polyfill
-    Object.defineProperty(html, 'lang', {
-      get: function () {
-        return this.getAttribute('lang');
-      },
-      set: function (value) {
-        this.setAttribute('lang', value);
-      }
-    });
-  }
-  */
-
-  // Safari 7 predefines non-configurable standard properties
-  // Note: They become configurable with ShadowDOMPolyfill, which wraps them.
-  /*
-  var isStandardPropertyConfigurable = (function () {
-    var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
-    return !langPropertyDescriptor || langPropertyDescriptor.configurable;
-  })();
-  */
-  // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
-  //var extraWhiteSpaceNode = !isStandardPropertyConfigurable; // Drop Safari 7 support
-  //if (ElementMixin) { // ElementMixin is always truthy
-  //var isStandardPropertyConfigurable = false;
-  //}
-
   // app global bundle storage
   var bundles = { '': {} }; // with an empty default bundle
   // app global default language
@@ -86,11 +39,10 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
   var localesPath = html.hasAttribute('locales-path') ? 
                       html.getAttribute('locales-path') : 'locales';
 
-  // Support ShadowDOM V1 on Polymer 2.x
-  var paramAttribute = 'slot'; // ElementMixin ? 'slot' : 'param'; // ElementMixin is always truthy
+  // Support ShadowDOM V1
+  var paramAttribute = 'slot';
 
   var attributesRepository = document.createElement('i18n-attr-repo');
-  // ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript)).ownerDocument.querySelector('i18n-attr-repo');
 
   // set up userPreference
   var userPreference = document.querySelector('i18n-preference');
@@ -492,7 +444,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
       //console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
 
       var resolved;
-      var id = this.is === 'i18n-dom-bind' || (/* ElementMixin && */this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || this.constructor.is === 'i18n-dom-bind' ? this.id : this.is;
 
       if (lang && lang.length > 0) {
         var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
@@ -687,32 +639,6 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     },
 
     /**
-     * Get the next fallback locale for the target locale.
-     * 
-     * Subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
-     *
-     * ### Examples:
-     *
-     *| Target Locale | Next Fallback |
-     *|:--------------|:--------------|
-     *| ru            | null          |
-     *| en-GB         | en            |
-     *| fr-CA         | fr            |
-     *| zh-Hans-CN    | zh-Hans       |
-     *
-     * @param {string} lang Target locale.
-     * @return {string} Next fallback locale. `null` if there are no fallback languages.
-     */
-    /*
-    _getNextFallbackLanguage: function (lang) {
-      var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
-      fallbackLanguageList.shift();
-      var nextFallbackLanguage = fallbackLanguageList.shift();
-      return nextFallbackLanguage ? nextFallbackLanguage : null;
-    },
-    */
-
-    /**
      * MutationObserver callback of `lang` attribute for Safari 7
      *
      * @param {Array} mutations Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
@@ -771,7 +697,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           // reset error status
           this._fetchStatus.error = null;
         }
-        if (/* !ElementMixin || */ (/* ElementMixin && */ this.__data)) {
+        if (this.__data) {
           this.notifyPath('text', this._getBundle(this.lang));
         }
         this.effectiveLang = lang;
@@ -790,16 +716,8 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     /**
      * Called on `lang-updated` events and update `this.effectiveLang` with the value of `this.lang`.
      */
-    /* _updateEffectiveLang will always be overridden later in this code
     _updateEffectiveLang: function (event) {
-      if (dom(event).rootTarget === this) {
-        //console.log('_updateEffectiveLang: lang = ' + this.lang);
-        this.effectiveLang = this.lang;
-      }
-    }, */
-    _updateEffectiveLang: function (event) {
-      if (/* (!ElementMixin && dom(event).rootTarget === this) || */
-          (/* ElementMixin && */ event.composedPath()[0] === this)) {
+      if (event.composedPath()[0] === this) {
         //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
         this.effectiveLang = this._lang;
       }
@@ -867,7 +785,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
 
       // set up an empty bundle if inexistent
       bundles[lang] = bundles[lang] || {};
-      var id = this.is === 'i18n-dom-bind' || (/* ElementMixin && */ this.constructor.is === 'i18n-dom-bind') ? this.id : this.is;
+      var id = this.is === 'i18n-dom-bind' || this.constructor.is === 'i18n-dom-bind' ? this.id : this.is;
 
       if (bundles[lang][id]) {
         // bundle is available; no need to fetch
@@ -1200,24 +1118,6 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     },
 
     /**
-     * Construct a pseudo-bundle for the target locale. (Not used for now)
-     *
-     * @param {string} lang Target locale.
-     */
-    /*
-    _constructPseudoBundle: function (lang) {
-      var bundle = {};
-      var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
-      this._deepMap(bundle, bundles[''][id], function (value) {
-        return typeof value === 'string' ? lang + ' ' + value : value;
-      });
-      bundles[lang] = bundles[lang] || {};
-      bundles[lang][id] = bundle;
-      return bundle;
-    },
-    */
-
-    /**
      * Recursively map the source object onto the target object with the specified map function.
      * 
      * The method is used to merge a bundle into its fallback bundle.
@@ -1345,7 +1245,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         }
       }
       else {
-        template = _template;// || DomModule.import(id, 'template'); // Remove unreachable code
+        template = _template;
       }
       if (template) {
         this.templateDefaultLang = template.hasAttribute('lang') ? template.lang : 'en';
@@ -1384,11 +1284,6 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
           }
         }
         else {
-          /* Drop Safari 7 support
-          if (extraWhiteSpaceNode) {
-            template.setAttribute('strip-whitespace', '');
-          }
-          */
           // traverse template to generate bundle
           this._traverseTemplateTree(template.content, path, bundle, 0);
         }
@@ -1822,13 +1717,6 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         case 'template':
           // traverse into its content
           //console.log(path.join(':') + ':' + node.content.nodeName + ':' + 0);
-          /* Drop Safari 7 support
-          if (extraWhiteSpaceNode) {
-            //if (node.hasAttribute('is') && node.getAttribute('is').match(/^(i18n-)?dom-/)) {
-              node.setAttribute('strip-whitespace', '');
-            //}
-          }
-          */
           this._traverseTemplateTree(node.content, path, bundle, 0);
           break;
         default:
@@ -2144,17 +2032,11 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
                   return prev;
                 }.bind(this), { text: [ '' ], params: [ '{{text.' + messageId + '.0}}' ] });
               // clear original childNodes before implicit removals by appendChild to i18n-format for ShadyDOM compatibility
-              //if (ElementMixin) { // ElementMixin is always truthy
-                // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
-                node.innerHTML = '';
-              //}
+              node.innerHTML = '';
               templateText = document.createElement('i18n-format');
               templateText.setAttribute('lang', '{{effectiveLang}}');
-              //if (ElementMixin) { // ElementMixin is always truthy
-                // Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
-                // insert i18n-format
-                node.appendChild(templateText);
-              //}
+              // insert i18n-format
+              node.appendChild(templateText);
               span = document.createElement('span');
               // span.innerText does not set an effective value in Firefox
               span.textContent = templateTextParams.params.shift();
@@ -2164,14 +2046,6 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
                   templateText.appendChild(param);
                 }
               );
-              /* ElementMixin is always truthy
-              if (!ElementMixin) {
-                // Avoid ShadyDOM issue for Polymer 1.x (Clearance of innerHTML unexpectedly removes textContent of child nodes)
-                // insert i18n-format
-                node.innerHTML = '';
-                dom(node).appendChild(templateText);
-              }
-              */
               // store the text message
               templateTextParams.text[0] = templateTextParams.text[0].replace(/^[\s]*[\s]/, ' ').replace(/[\s][\s]*$/, ' ');
               this._setBundleValue(bundle, messageId, templateTextParams.text);
@@ -2442,23 +2316,6 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     },
 
     /**
-     * Merge `this.defaultText` into the target default bundle.
-     * 
-     * ### TODO: 
-     *
-     * - Need more research on the effective usage of this feature.
-     *
-     * @param {Object} bundle Default bundle.
-     */
-    /*
-    _mergeDefaultText: function (bundle) {
-      if (this.defaultText) {
-        this._deepMap(bundle, this.defaultText, function (text) { return text; });
-      }
-    },
-    */
-
-    /**
      * Return the first non-null argument.
      *
      * Utility method for use in annotations.
@@ -2572,30 +2429,6 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     // Lifecycle callbacks
 
     /**
-     * Lifecycle callback before registration of the custom element.
-     *
-     * The default bundle is constructed via traversal of the element's template at this timing per registration.
-     *
-     * ### Notes: 
-     *
-     * - For `i18n-dom-bind` elements, bundle construction is put off until `ready` lifecycle callback.
-     * - As called twice per custom element registration, the method skips bundle construction at the second call.
-     */
-    beforeRegister: function () {
-      //if (ElementMixin) { // ElementMixin is always truthy
-        return;
-      //}
-      /* Unreacheable code
-      if (this.is !== 'i18n-dom-bind') {
-        if (!this._templateLocalizable) {
-          this._templateLocalizable = this._constructDefaultBundle();
-        }
-      }
-      */
-    },
-
-
-    /**
      * Lifecycle callback at registration of the custom element.
      *
      * this._fetchStatus is initialized per registration.
@@ -2605,13 +2438,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         var template = this._template || DomModule.import(this.is, 'template');
         if (!template) {
           var id = this.is;
-          /* Drop HTML Imports support; document.currentScript is always undefined
-          var current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
-                                              : (document._currentScript || document.currentScript);
-          */
-          template = /* (current ? current.ownerDocument
-                      .querySelector('template[id=' + id + ']') : null) || */
-                     document.querySelector('template[id=' + id + ']');
+          template = document.querySelector('template[id=' + id + ']');
           if (!template) {
             template = document.createElement('template');
             template.setAttribute('id', id);
@@ -2621,10 +2448,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
             var _noTemplateDomModule = DomModule.import(this.is);
             var assetpath = _noTemplateDomModule
               ? _noTemplateDomModule.assetpath
-              : new URL(/* (current ? current.baseURI : null) ||
-                (window.currentImport ? window.currentImport.baseURI : null) ||
-                (current && current.ownerDocument ? current.ownerDocument.baseURI : null) || */
-                document.baseURI).pathname;
+              : new URL(document.baseURI).pathname;
             domModule.appendChild(template);
             domModule.setAttribute('assetpath', 
                                     template.hasAttribute('basepath') ?
@@ -2667,30 +2491,14 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         if (template && template.hasAttribute('lang')) {
           this.templateDefaultLang = template.getAttribute('lang') || '';
         }
-        /* this._fetchStatus has always been initialized at registered callback
-        if (!this._fetchStatus) {
-          this._fetchStatus = deepcopy({ // per custom element
-            fetchingInstance: null,
-            ajax: null,
-            ajaxLang: null,
-            lastLang: null,
-            fallbackLanguageList: null,
-            targetLang: null,
-            lastResponse: {},
-            rawResponses: {}
-          });
-        }
-        */
       }
-      //if (!isStandardPropertyConfigurable) {
-        // Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
-        this.observer = new MutationObserver(this._handleLangAttributeChange.bind(this));
-        this.observer.observe(this, {
-          attributes: true,
-          attributeFilter: [ 'lang' ],
-          attributeOldValue: true
-        });
-      //}
+      // Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
+      this.observer = new MutationObserver(this._handleLangAttributeChange.bind(this));
+      this.observer.observe(this, {
+        attributes: true,
+        attributeFilter: [ 'lang' ],
+        attributeOldValue: true
+      });
     },
 
     /**
@@ -2698,44 +2506,10 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
      */
     ready: function () {
       if (this.is === 'i18n-dom-bind') {
-        /* With Polymer 3.x, ready() is called after initialization
-        if (!this._templateLocalizable) {
-          this._templateLocalizable = this._constructDefaultBundle();
-        }
-        if (!this._fetchStatus) {
-          this._fetchStatus = deepcopy({ // per instance
-            fetchingInstance: null,
-            ajax: null,
-            ajaxLang: null,
-            lastLang: null,
-            fallbackLanguageList: null,
-            targetLang: null, 
-            lastResponse: {},
-            rawResponses: {}
-          });
-        }
-        */
         this._onDomChangeBindThis = this._onDomChange.bind(this);
         this.addEventListener('dom-change', this._onDomChangeBindThis);
-        // Fix #34. [Polymer 1.4.0] Supply an empty object if this.__data__ is undefined
-        // this.__data__ = this.__data__ || Object.create(null); // Drop unnecessary fix for Polymer 1.x
       }
       else {
-        //if (!isStandardPropertyConfigurable) {
-          // Fix #36. Patch missing properties except for lang
-          /* Drop fix for Polymer 1.x
-          for (var p in this._propertyEffects) {
-            if (this._propertyEffects[p] &&
-                !Object.getOwnPropertyDescriptor(this, p)) {
-              //console.log('ready: creating accessors for ' + p);
-              Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
-            }
-          }
-          */
-        //}
-        //if (/* ElementMixin && */ !this.__data) { // this.__data has always been initialized
-        //  this._initializeProperties();
-        //}
         this._langChanged(this.getAttribute('lang'), undefined);
         // model per instance
         if (this.text) {
@@ -2748,15 +2522,6 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
      * attached lifecycle callback.
      */
     attached: function () {
-      /*
-      if (this.is === 'i18n-dom-bind') {
-        if (this._properties) {
-          // Fix #35. [IE10] Restore properties for use in rendering
-          this.properties = this._properties;
-          delete this._properties;
-        }
-      }
-      */
       if (this.observeHtmlLang) {
         this.lang = html.lang;
         // TODO: this call is redundant
@@ -2768,29 +2533,10 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
      * Handle `dom-change` event for `i18n-dom-bind`
      */
     _onDomChange: function () {
-      /* Drop fix for Polymer 1.x
-      // Fix #16: [IE11][Polymer 1.3.0] On IE11, i18n-dom-bind does not work with Polymer 1.3.0
-      // Patch the broken lang property accessors manually if it is missing
-      // Fix #34: [IE11][Polymer 1.4.0] Create missing property accessors including lang
-      for (var p in this._propertyEffects) {
-        if (this._propertyEffects[p] &&
-            !Object.getOwnPropertyDescriptor(this, p)) {
-          Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
-        }
-      }
-      */
       this.removeEventListener('dom-change', this._onDomChangeBindThis);
       if (this.text && this.text.model) {
         this.model = deepcopy(this.text.model);
       }
-      /* Drop fix for Polymer 1.x
-      // Fix #17: [Polymer 1.3.0] observeHtmlLang is undefined in i18n-dom-bind
-      // Explicitly initialize observeHtmlLang if the value is undefined.
-      if (typeof this.observeHtmlLang === 'undefined' &&
-          !this.hasAttribute('observe-html-lang')) {
-        this.observeHtmlLang = true;
-      }
-      */
       if (this.observeHtmlLang) {
         this.lang = html.lang;
         this._observeHtmlLangChanged(true);
@@ -2807,40 +2553,9 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     }
   };
 
-  // Fix #36. Rename lang property as _lang to avoid conflict with the predefined lang property
-  //if (!isStandardPropertyConfigurable) {
-  /*
-    var _properties = Object.create(null);
-    for (var p in BehaviorsStore.I18nBehavior.properties) {
-      if (p === 'lang') {
-        _properties._lang = BehaviorsStore.I18nBehavior.properties.lang;
-      }
-      else {
-        _properties[p] = BehaviorsStore.I18nBehavior.properties[p];
-      }
-    }
-    BehaviorsStore.I18nBehavior.properties = _properties;
-    BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
-    BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
-  */
-  //  BehaviorsStore.I18nBehavior._updateEffectiveLang = function (event) {
-  //    if (/* (!ElementMixin && dom(event).rootTarget === this) || */
-  //        (/* ElementMixin && */ event.composedPath()[0] === this)) {
-        //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
-  //      this.effectiveLang = this._lang;
-  //    }
-  //  };
-  //  BehaviorsStore.I18nBehavior.hostAttributes = {
-  //    'lang': defaultLang
-  //  };
-  //}
 
-  //if (ElementMixin) { // ElementMixin is always truthy
-    // Polymer 2.x
     BehaviorsStore._I18nBehavior = BehaviorsStore.I18nBehavior;
     BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
-    //if (!document.currentScript) { // document.currentScript is always falsy
-      // Polymer 3.x
       BehaviorsStore.I18nBehavior.push({
         get _template() { 
           if (this.__template) {
@@ -2883,69 +2598,9 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         // Note: In IE11, changes in this.text object do not propagate automatically and require MutableDataBehavior to propagate
         BehaviorsStore.I18nBehavior.push(MutableDataBehavior);
       }
-    //}
     Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       get: function() {
-        //var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
-        var ownerDocument = document;//current.ownerDocument;
-        //if (ownerDocument.nodeType === ownerDocument.DOCUMENT_NODE) {
-          // HTML Imports are flatten in the root document and not under document fragment nodes
-          // Fix #62: Emulate a subset of "non-HTMLImports-link-traversing" querySelectorAll for latest Firefox 51
-          // since currentScript.ownerDocument, HTML Imports polyfill, and querySelectorAll behave differently
-          //var _tmpNode = current;
-          // check for DOCUMENT_FRAGMENT_NODE for fail safe
-          /* document.currentScript is always falsy
-          while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
-            _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &&
-            _tmpNode.nodeType !== _tmpNode.DOCUMENT_NODE) {
-            _tmpNode = _tmpNode.parentNode;
-          }
-          if (_tmpNode &&
-            (_tmpNode.nodeType === _tmpNode.DOCUMENT_FRAGMENT_NODE ||
-             _tmpNode.nodeType === _tmpNode.DOCUMENT_NODE)) {
-            ownerDocument = _tmpNode; // reach the containing document fragment
-          }
-          */
-          /* Drop support for HTML Imports polyfill
-          else if (_tmpNode && _tmpNode.import === _tmpNode) { // html-imports polyfill v1
-            ownerDocument = _tmpNode.children; // reach the immediate import link containing the currentScript
-            ownerDocument.querySelectorAll = function (selector) {
-              var match = selector.match(/^([a-zA-Z0-9-]{1,})(:not\(\[(processed)\]\))?(\[(legacy)\])?$/);
-              var list = [];
-              var node;
-              var tagName;
-              var i;
-              for (i = 0; i < this.length; i++) {
-                node = this[i];
-                tagName = node.tagName.toLowerCase();
-                switch (tagName) {
-                case 'link':
-                  break;
-                case match[1]:
-                  if (match[2]) {
-                    if (!node.hasAttribute(match[3])) {
-                      list.push(node);
-                    }
-                  }
-                  else if (match[4]) {
-                    if (node.hasAttribute(match[5])) {
-                      list.push(node);
-                    }
-                  }
-                  else {
-                    list.push(node);
-                  }
-                  break;
-                default:
-                  Array.prototype.forEach.call(node.querySelectorAll(selector), function (child) { list.push(child); });
-                  break;
-                }
-              }
-              return list;
-            }
-          }
-          */
-        //}
+        var ownerDocument = document;
         var i18nAttrRepos = ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');
         var domModules = ownerDocument.querySelectorAll('dom-module[legacy]');
         if (domModules.length === 0) {
@@ -2976,41 +2631,3 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         return BehaviorsStore._I18nBehavior;
       }
     });
-  //}
-  /*
-  else {
-    // Polymer 1.x
-  /**
-   * `<template is="i18n-dom-bind">` element extends `dom-bind` template element with `I18nBehavior`
-   *
-   * @group I18nBehavior
-   * @element i18n-dom-bind
-   * /
-  var i18nBehaviorDomBind = {};
-  Base.extend(i18nBehaviorDomBind, BehaviorsStore.I18nBehavior);
-  var i18nDomBind = {};
-  var domBind = document.createElement('template', 'dom-bind');
-  var domBindProto = Object.getPrototypeOf(domBind);
-  if (typeof domBindProto.render !== 'function') {
-    domBindProto = domBind.__proto__; // fallback for IE10
-  }
-  Base.extend(i18nDomBind, domBindProto);
-  i18nDomBind.is = 'i18n-dom-bind';
-  if (!navigator.language && navigator.browserLanguage) { // Detect IE10
-    // Fix #35. [IE10] Hide properties until attached phase in IE10
-    // to avoid exceptions in overriding unconfigurable properties in Object.defineProperty
-    i18nBehaviorDomBind._properties = i18nBehaviorDomBind.properties;
-    i18nBehaviorDomBind.properties = Object.create(null);
-  }
-  /* As of Polymer 1.3.1, dom-bind does not have predefined behaviors * /
-  /* istanbul ignore if * /
-  if (i18nDomBind.behaviors) {
-    i18nDomBind.behaviors.push(i18nBehaviorDomBind);
-  }
-  else {
-    i18nDomBind.behaviors = [ i18nBehaviorDomBind ];
-  }
-  var _Polymer = Polymer$0;
-  _Polymer(i18nDomBind);
-  } */
-// })(document); // ES Modules do not need closures
