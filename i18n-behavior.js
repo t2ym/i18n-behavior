@@ -327,21 +327,28 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
      * @event bundle-fetched
      */
 
+    /**
+     * The locale of the element.
+     * The default value is copied from `<html lang>` attribute of the current page.
+     * If `<html lang>` is not specified, `''` is set to use the template default language.
+     *
+     * The value is synchronized with `<html lang>` attribute of the current page by default.
+     *
+     * ### Note:
+     *  - The value may not reflect the current UI locale until the localized texts are loaded.
+     */
+    hostAttributes: {
+      'lang': defaultLang
+    },
+
     properties: {
       /**
-       * The locale of the element.
-       * The default value is copied from `<html lang>` attribute of the current page.
-       * If `<html lang>` is not specified, `''` is set to use the template default language.
-       *
-       * The value is synchronized with `<html lang>` attribute of the current page by default.
-       *
-       * ### Note:
-       *  - The value may not reflect the current UI locale until the localized texts are loaded.
+       * Mirrored property for this.lang
        */
-      lang: {
+      _lang: {
         type: String,
         value: defaultLang,
-        reflectToAttribute: true,
+        reflectToAttribute: false,
         observer: '_langChanged'
       },
 
@@ -352,7 +359,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
        */
       text: {
         type: Object,
-        computed: '_getBundle(lang)'
+        computed: '_getBundle(_lang)'
       },
 
       /**
@@ -790,6 +797,13 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         this.effectiveLang = this.lang;
       }
     }, */
+    _updateEffectiveLang: function (event) {
+      if (/* (!ElementMixin && dom(event).rootTarget === this) || */
+          (/* ElementMixin && */ event.composedPath()[0] === this)) {
+        //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
+        this.effectiveLang = this._lang;
+      }
+    },
 
     /**
      * Trigger fetching of the appropriate text message bundle of the target locale.
@@ -2791,6 +2805,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
 
   // Fix #36. Rename lang property as _lang to avoid conflict with the predefined lang property
   //if (!isStandardPropertyConfigurable) {
+  /*
     var _properties = Object.create(null);
     for (var p in BehaviorsStore.I18nBehavior.properties) {
       if (p === 'lang') {
@@ -2803,16 +2818,17 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
     BehaviorsStore.I18nBehavior.properties = _properties;
     BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute = false;
     BehaviorsStore.I18nBehavior.properties.text.computed = '_getBundle(_lang)';
-    BehaviorsStore.I18nBehavior._updateEffectiveLang = function (event) {
-      if (/* (!ElementMixin && dom(event).rootTarget === this) || */
-          (/* ElementMixin && */ event.composedPath()[0] === this)) {
+  */
+  //  BehaviorsStore.I18nBehavior._updateEffectiveLang = function (event) {
+  //    if (/* (!ElementMixin && dom(event).rootTarget === this) || */
+  //        (/* ElementMixin && */ event.composedPath()[0] === this)) {
         //console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
-        this.effectiveLang = this._lang;
-      }
-    };
-    BehaviorsStore.I18nBehavior.hostAttributes = {
-      'lang': defaultLang
-    };
+  //      this.effectiveLang = this._lang;
+  //    }
+  //  };
+  //  BehaviorsStore.I18nBehavior.hostAttributes = {
+  //    'lang': defaultLang
+  //  };
   //}
 
   //if (ElementMixin) { // ElementMixin is always truthy
