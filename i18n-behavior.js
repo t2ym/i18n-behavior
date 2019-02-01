@@ -2696,6 +2696,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
      */
     ready: function () {
       if (this.is === 'i18n-dom-bind') {
+        /* With Polymer 3.x, ready() is called after initialization
         if (!this._templateLocalizable) {
           this._templateLocalizable = this._constructDefaultBundle();
         }
@@ -2711,6 +2712,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
             rawResponses: {}
           });
         }
+        */
         this._onDomChangeBindThis = this._onDomChange.bind(this);
         this.addEventListener('dom-change', this._onDomChangeBindThis);
         // Fix #34. [Polymer 1.4.0] Supply an empty object if this.__data__ is undefined
