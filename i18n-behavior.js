@@ -2716,7 +2716,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         this._onDomChangeBindThis = this._onDomChange.bind(this);
         this.addEventListener('dom-change', this._onDomChangeBindThis);
         // Fix #34. [Polymer 1.4.0] Supply an empty object if this.__data__ is undefined
-        this.__data__ = this.__data__ || Object.create(null);
+        // this.__data__ = this.__data__ || Object.create(null); // Drop unnecessary fix for Polymer 1.x
       }
       else {
         //if (!isStandardPropertyConfigurable) {
