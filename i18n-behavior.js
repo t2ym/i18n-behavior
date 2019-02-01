@@ -2667,6 +2667,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
         if (template && template.hasAttribute('lang')) {
           this.templateDefaultLang = template.getAttribute('lang') || '';
         }
+        /* this._fetchStatus has always been initialized at registered callback
         if (!this._fetchStatus) {
           this._fetchStatus = deepcopy({ // per custom element
             fetchingInstance: null,
@@ -2679,6 +2680,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
             rawResponses: {}
           });
         }
+        */
       }
       //if (!isStandardPropertyConfigurable) {
         // Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
