@@ -1,5 +1,5 @@
 {
-  "description": "Instant and Modular I18N for Polymer",
+  "description": "Instant and Modular I18N framework for lit-html and Polymer",
   "keywords": [
     "polymer",
     "polymer3",
@@ -24,7 +24,9 @@
     "test": "test"
   },
   "scripts": {
-    "demo": "cd demo; gulp"
+    "demo": "cd demo; gulp",
+    "build:demo": "polymer build",
+    "build:docs": "polymer build --entrypoint index.html --name esm-unbundled"
   },
   "author": "Tetsuya Mori <t2y3141592@gmail.com>",
   "license": "BSD-2-Clause",
@@ -44,6 +46,8 @@
     "content-type": "^1.0.2",
     "coveralls": "^2.11.8",
     "del": "^2.2.0",
+    "escodegen": "github:t2ym/escodegen#es2018",
+    "espree": "github:t2ym/espree#es2018",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-crisper": "^1.0.0",

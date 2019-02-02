@@ -1,0 +1,2676 @@
+{
+  "schema_version": "1.0.0",
+  "elements": [
+    {
+      "description": "",
+      "summary": "",
+      "path": "i18n-preference.js",
+      "properties": [
+        {
+          "name": "persist",
+          "type": "boolean | null | undefined",
+          "description": "Persistence of preference",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 57,
+              "column": 4
+            },
+            "end": {
+              "line": 63,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true,
+              "observer": "\"_onPersistChange\"",
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "importMeta",
+          "type": "?",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 50,
+              "column": 2
+            },
+            "end": {
+              "line": 50,
+              "column": 25
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": false
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "ready",
+          "description": "Ready callback to initialize this.lang",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 69,
+              "column": 2
+            },
+            "end": {
+              "line": 77,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "attached",
+          "description": "Attached callback to initialize html.lang and its observation",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 82,
+              "column": 2
+            },
+            "end": {
+              "line": 92,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "detached",
+          "description": "Detached callback to diconnect html.lang observation",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 97,
+              "column": 2
+            },
+            "end": {
+              "line": 99,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_onLoadEmptyStorage",
+          "description": "Initialize an empty localstorage",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 104,
+              "column": 2
+            },
+            "end": {
+              "line": 128,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_onLoadStorage",
+          "description": "Handle the loaded storage value",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 133,
+              "column": 2
+            },
+            "end": {
+              "line": 154,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_onPersistChange",
+          "description": "Handle persist changes",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 161,
+              "column": 2
+            },
+            "end": {
+              "line": 174,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "value",
+              "type": "Boolean",
+              "description": "new this.persist value"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_onStorageValueChange",
+          "description": "Handle storage value changes",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 181,
+              "column": 2
+            },
+            "end": {
+              "line": 203,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e",
+              "type": "Event",
+              "description": "value-changed event on the storage"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_htmlLangMutationObserverCallback",
+          "description": "Handle value changes on localstorage",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 213,
+              "column": 2
+            },
+            "end": {
+              "line": 227,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "mutations",
+              "type": "Array.<MutationRecord>",
+              "description": "Array of MutationRecords for html.lang\n\nNote:\n  - Bound to this element"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_observe",
+          "description": "Set up html.lang mutation observer",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 232,
+              "column": 2
+            },
+            "end": {
+              "line": 241,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_disconnect",
+          "description": "Disconnect html.lang mutation observer",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 246,
+              "column": 2
+            },
+            "end": {
+              "line": 250,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 49,
+          "column": 8
+        },
+        "end": {
+          "line": 251,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "attributes": [
+        {
+          "name": "persist",
+          "description": "Persistence of preference",
+          "sourceRange": {
+            "start": {
+              "line": 57,
+              "column": 4
+            },
+            "end": {
+              "line": 63,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "boolean | null | undefined"
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "persist-changed",
+          "description": "Fired when the `persist` property changes.",
+          "metadata": {}
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "i18n-preference"
+    },
+    {
+      "description": "`<i18n-attr-repo>` maintains a list of attributes targeted for UI localization.  \nIt judges whether a specific attribute of an element requires localization or not. \n\n    var attrRepository = \n      document.createElement('i18n-attr-repo');\n\n    attrRepository.registerLocalizableAttributes(\n      'custom-element',\n      Polymer.DomModule.import('custom-element', 'template')\n    );\n    attrRepository.isLocalizableAttribute(inputElement, 'placeholder');\n\n### Interactions with `BehaviorsStore.I18nBehavior`\n\nThe element is not meant for DOM attachment. The object is\na singleton object dedicated for `BehaviorsStore.I18nBehavior`.\n`I18nBehavior` interacts with the localizable attributes repository in these 3 ways.\n\n### 1) Construct the repository for the standard elements from its own static template at the object creation.\n\n```\n    // i18n-behavior.html\n    var attrRepository = \n      document.createElement('i18n-attr-repo');\n```\n\nPre-defined I18N-target attributes in the static template of `i18n-attr-repo`:\n\n```\n    <dom-module id=\"i18n-attr-repo\">\n      <template>\n        <template id=\"standard\">\n          <input placeholder>\n          <any-elements title aria-label=\"$\" aria-valuetext=\"$\"></any-elements>\n\n          <paper-input label error-message placeholder></paper-input>\n          <paper-textarea label error-message placeholder></paper-textarea>\n          <paper-dropdown-menu label></paper-dropdown-menu>\n          <paper-toast text></paper-toast>\n          <google-chart options cols rows data></google-chart>\n          <google-signin label-signin label-signout label-additional></google-signin>\n          <platinum-push-messaging title message></platinum-push-messaging>\n\n          <json-data any-attributes></json-data>\n        </template>\n      </template>\n    </dom-module>\n```\n\nThis static list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for\nbuild-time automatic I18N of hard-coded string attributes.\n\n### 2) Register I18N-target attributes of custom elements from a template with id=\"custom\" in its light DOM.\n\nI18N-target attributes for custom elements without I18nBehavior can be registered to the respository by this method. \n\nExample I18N-target attributes in a static template in the light DOM of `i18n-attr-repo`:\n\n```\n    <i18n-attr-repo>\n      <template id=\"custom\">\n        <shop-md-decorator error-message=\"$\"></shop-md-decorator>\n        <input value=\"type=submit|button\">\n        <my-element i18n-target-attr=\"attr=value,boolean-attr,!boolean-attr\"></my-element>\n        <my-element i18n-target-attr=\"attr1=value1,attr2=value2,type-name\"></my-element>\n        <my-element i18n-target-attr=\"boolean-attr=\"></my-element>\n        <my-element i18n-target-attr=\"type-name2\"></my-element>\n      </template>\n    </i18n-attr-repo>\n```\n\nThis list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for\nbuild-time automatic I18N of hard-coded string attributes.\n\nNote: Type name feature is currently ineffective and reserved for further expansion of the attribute I18N features.\n\n### 3) Register localizable attributes of the newly registered elements from the `text-attr` attribute of the element's template.\n\n```\n    // i18n-behavior.html, scanning custom-element template\n    var id = 'custom-element';\n    attrRepository.registerLocalizableAttributes(\n      id, \n      Polymer.DomModule.import(id, 'template')\n    );\n```\n```\n    // custom-element.html\n    <dom-module id=\"custom-element\">\n      <template text-attr=\"localizable-attr1 localizable-attr2\">\n        <span>{{localizableAttr1}}</span>\n        <span>{{localizableAttr2}}</span>\n      </template>\n      <script>\n        Polymer({\n          is: 'custom-element',\n          behaviors: [ BehaviorsStore.I18nBehavior ],\n          properties: {\n            localizableAttr1: {\n              type: String\n            },\n            localizableAttr2: {\n              type: String\n            }\n          }\n        });\n      </ script>\n    </dom-module>\n```\n\n`text-attr` attributes are also traversed for build-time automatic I18N of \nhard-coded UI string attributes by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter.\n\n### 4) Judge localizability of attributes for the local DOM elements of the newly registered element.\n\n```\n    // i18n-behavior.html, scanning custom-element-user template\n    var element; // target element\n    var attr;\n    if (attrRepository.isLocalizableAttribute(element, attr.name)) {\n      // make localizalbe-attr1 localizable\n    }\n```\n```\n    // custom-element-user.html\n    <dom-module id=\"custom-element-user\">\n      <template>\n        <custom-element id=\"custom\"\n                        localizable-attr1=\"UI Text Label 1\"\n                        localizable-attr2=\"UI Text Label 2\">\n        </custom-element>\n      </template>\n      <script>\n        Polymer({\n          is: 'custom-element-user',\n          behaviors: [ BehaviorsStore.I18nBehavior ]\n        });\n      </ script>\n    </dom-module>\n```\n```\n    // template for custom-element-user after localization binding\n    <template>\n      <custom-element id=\"custom\"\n                      localizable-attr1=\"{{model.custom.localizable-attr1}}\"\n                      localizable-attr2=\"{{model.custom.localizable-attr2}}\">\n      </custom-element>\n    </template>\n```\n```\n    // extracted localizable texts in custom-element-user element\n    this.model = {\n      \"custom\": {\n        \"localizable-attr1\": \"UI Text Label 1\",\n        \"localizable-attr2\": \"UI Text Label 2\"\n      }\n    }\n```\n\nSince dependent elements should be registered prior to a custom element being registered,\nthe repository can always maintain the complete list of localizable attributes for registered custom elements.\n\n- - -\n\n### Note\n\nThe described processes above are for debug builds with runtime localization traversal of templates\nby `I18nBehavior`.\n\nFor production builds, the build system can perform the same processes at build time so that \n`I18nBehavior` at clients can skip runtime traversal of templates.\n\n- - -\n\n### TODO\n\nHandle and judge JSON object attributes.",
+      "summary": "",
+      "path": "i18n-attr-repo.js",
+      "properties": [
+        {
+          "name": "importMeta",
+          "type": "?",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 228,
+              "column": 2
+            },
+            "end": {
+              "line": 228,
+              "column": 25
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": false
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "created",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 231,
+              "column": 2
+            },
+            "end": {
+              "line": 242,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_created",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 244,
+              "column": 2
+            },
+            "end": {
+              "line": 260,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "isLocalizableAttribute",
+          "description": "Judge if a specific attribute of an element requires localization.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 269,
+              "column": 2
+            },
+            "end": {
+              "line": 287,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "element",
+              "type": "HTMLElement",
+              "description": "Target element."
+            },
+            {
+              "name": "attr",
+              "type": "string",
+              "description": "Target attribute name."
+            }
+          ]
+        },
+        {
+          "name": "_getType",
+          "description": "Get the type name or '$' for a specific attribute of an element from the attributes repository",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 296,
+              "column": 2
+            },
+            "end": {
+              "line": 323,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "element",
+              "type": "HTMLElement",
+              "description": "Target element."
+            },
+            {
+              "name": "value",
+              "type": "object",
+              "description": "this.data[tagName][attr]"
+            }
+          ]
+        },
+        {
+          "name": "_matchAttribute",
+          "description": "Get the type name or '$' for a specific attribute of an element from the attributes repository\n\nFormat for selectors:\n - `attr=value` - Value of `attr` matches Regex `^value$`\n - `!boolean-attr` - Boolean attribute does not exist\n - `boolean-attr` - Boolean attribute exists with empty value\n - empty string `''` - Always matches",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 338,
+              "column": 2
+            },
+            "end": {
+              "line": 374,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "element",
+              "type": "HTMLElement",
+              "description": "Target element."
+            },
+            {
+              "name": "selector",
+              "type": "string",
+              "description": "Matching condition for target attribute."
+            }
+          ],
+          "return": {
+            "type": "boolean",
+            "desc": "true - matching, false - not matching"
+          }
+        },
+        {
+          "name": "_compareSelectors",
+          "description": "Comparator for attribute selectors",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 383,
+              "column": 2
+            },
+            "end": {
+              "line": 387,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "s1",
+              "type": "string",
+              "description": "selector 1"
+            },
+            {
+              "name": "s2",
+              "type": "string",
+              "description": "selector 2"
+            }
+          ],
+          "return": {
+            "type": "number",
+            "desc": "comparison result as -1, 0, or 1"
+          }
+        },
+        {
+          "name": "setLocalizableAttribute",
+          "description": "Add a new localizable attribute of an element to the repository.\n\nFormat for selector values for defining I18N-target attributes:\n  - `attr1=value1,attr2=value2,boolean-attr,!boolean-attr` - Attribute value matching condition for property\n  - `attr1=value1,attr2=value2,$` - Attribute value matching condition for attribute\n  - `boolean-attr=` - Boolean attribute condition\n  - `attr1=value1,type` - Attribute value condition with type name (type is currently ineffective)",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 402,
+              "column": 2
+            },
+            "end": {
+              "line": 439,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "element",
+              "type": "string",
+              "description": "Target element name."
+            },
+            {
+              "name": "attr",
+              "type": "string",
+              "description": "Target attribute name."
+            },
+            {
+              "name": "value",
+              "type": "?*",
+              "description": "Selector value"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "registerLocalizableAttributes",
+          "description": "Pick up localizable attributes description for a custom element\nfrom `text-attr` attribute and register them to the repository.\nThe `text-attr` attribute is used in the template of a custom\nelement to declare localizable attributes of its own element.\n\nFormat:\n\n Type 1: `<template text-attr=\"localizable-attr1 attr2\">`\n\n Type 2: `<template text-attr localizable-attr1 attr2=\"value2\">`",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 456,
+              "column": 2
+            },
+            "end": {
+              "line": 490,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "element",
+              "type": "string",
+              "description": "Target element name."
+            },
+            {
+              "name": "template",
+              "type": "HTMLTemplateElement",
+              "description": "Template of the element."
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_traverseTemplateTree",
+          "description": "Traverse the template of `i18n-attr-repo` in the ready() callback\nand construct the localizable attributes repository object. The method calls itself\nrecursively for traversal.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 499,
+              "column": 2
+            },
+            "end": {
+              "line": 513,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "node",
+              "type": "HTMLElement",
+              "description": "The target HTML node for traversing."
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 227,
+          "column": 8
+        },
+        "end": {
+          "line": 514,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "attributes": [],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "i18n-attr-repo"
+    },
+    {
+      "description": "",
+      "summary": "",
+      "path": "demo/preprocess/i18n-behavior-demo.js",
+      "properties": [
+        {
+          "name": "recipientsLength",
+          "type": "number | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 161,
+              "column": 4
+            },
+            "end": {
+              "line": 164,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          },
+          "defaultValue": "2"
+        },
+        {
+          "name": "recipientsIndex",
+          "type": "number | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 165,
+              "column": 4
+            },
+            "end": {
+              "line": 168,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          },
+          "defaultValue": "0"
+        },
+        {
+          "name": "langIndex",
+          "type": "number | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 169,
+              "column": 4
+            },
+            "end": {
+              "line": 172,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          },
+          "defaultValue": "0"
+        },
+        {
+          "name": "langList",
+          "type": "Array | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 173,
+              "column": 4
+            },
+            "end": {
+              "line": 178,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Array"
+            }
+          },
+          "defaultValue": "[\"en\",\"fr\",\"ja\"]"
+        },
+        {
+          "name": "recipients",
+          "type": "Array | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 179,
+              "column": 4
+            },
+            "end": {
+              "line": 181,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Array"
+            }
+          }
+        },
+        {
+          "name": "markdown",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 182,
+              "column": 4
+            },
+            "end": {
+              "line": 187,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true,
+              "observer": "\"_markdownChanged\"",
+              "attributeType": "String"
+            }
+          },
+          "defaultValue": "\"\""
+        },
+        {
+          "name": "importMeta",
+          "type": "?",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 24,
+              "column": 2
+            },
+            "end": {
+              "line": 24,
+              "column": 25
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": false
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "attached",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 198,
+              "column": 2
+            },
+            "end": {
+              "line": 201,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_langUpdated",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 203,
+              "column": 2
+            },
+            "end": {
+              "line": 205,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_update",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 207,
+              "column": 2
+            },
+            "end": {
+              "line": 210,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "lang"
+            },
+            {
+              "name": "recipientsLength"
+            },
+            {
+              "name": "recipientsIndex"
+            },
+            {
+              "name": "rawRecipients"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_markdownChanged",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 212,
+              "column": 2
+            },
+            "end": {
+              "line": 214,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "markdown"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_getStringifiedRecipients",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 216,
+              "column": 2
+            },
+            "end": {
+              "line": 229,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "recipients"
+            }
+          ]
+        },
+        {
+          "name": "_getStringifiedUser",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 231,
+              "column": 2
+            },
+            "end": {
+              "line": 233,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "user"
+            }
+          ]
+        },
+        {
+          "name": "_getMarkDown",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 235,
+              "column": 2
+            },
+            "end": {
+              "line": 318,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_getRecipients",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 320,
+              "column": 2
+            },
+            "end": {
+              "line": 331,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "rawRecipients"
+            },
+            {
+              "name": "recipientsLength"
+            },
+            {
+              "name": "recipientsIndex"
+            }
+          ]
+        },
+        {
+          "name": "_jsonStringify",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 333,
+              "column": 2
+            },
+            "end": {
+              "line": 335,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ]
+        },
+        {
+          "name": "_getLangName",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 337,
+              "column": 2
+            },
+            "end": {
+              "line": 339,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "lang"
+            },
+            {
+              "name": "langNames"
+            }
+          ]
+        },
+        {
+          "name": "_updateParameters",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 341,
+              "column": 2
+            },
+            "end": {
+              "line": 355,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 23,
+          "column": 8
+        },
+        "end": {
+          "line": 356,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "attributes": [
+        {
+          "name": "recipients-length",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 161,
+              "column": 4
+            },
+            "end": {
+              "line": 164,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "number | null | undefined"
+        },
+        {
+          "name": "recipients-index",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 165,
+              "column": 4
+            },
+            "end": {
+              "line": 168,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "number | null | undefined"
+        },
+        {
+          "name": "lang-index",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 169,
+              "column": 4
+            },
+            "end": {
+              "line": 172,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "number | null | undefined"
+        },
+        {
+          "name": "lang-list",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 173,
+              "column": 4
+            },
+            "end": {
+              "line": 178,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Array | null | undefined"
+        },
+        {
+          "name": "recipients",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 179,
+              "column": 4
+            },
+            "end": {
+              "line": 181,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Array | null | undefined"
+        },
+        {
+          "name": "markdown",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 182,
+              "column": 4
+            },
+            "end": {
+              "line": 187,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "markdown-changed",
+          "description": "Fired when the `markdown` property changes.",
+          "metadata": {}
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "i18n-behavior-demo"
+    }
+  ],
+  "metadata": {
+    "polymer": {
+      "behaviors": [
+        {
+          "description": "Apply `BehaviorsStore.I18nControllerBehavior` to manipulate internal variables for I18N\n\nNote: This behavior is not for normal custom elements to apply I18N. UI is not expected.",
+          "summary": "",
+          "path": "i18n-behavior.js",
+          "properties": [
+            {
+              "name": "isI18nController",
+              "type": "boolean | null | undefined",
+              "description": "Flag for detection of `I18nControllerBehavior`\n\n`true` if I18nControllerBehavior is applied\n\nNote: Module-specific JSON resources are NOT fetched for `I18nControllerBehavior`",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 93,
+                  "column": 4
+                },
+                "end": {
+                  "line": 97,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "readOnly": true,
+                  "attributeType": "Boolean"
+                }
+              },
+              "defaultValue": "true"
+            },
+            {
+              "name": "html",
+              "type": "Object | null | undefined",
+              "description": "HTML element object for the current document",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 102,
+                  "column": 4
+                },
+                "end": {
+                  "line": 105,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "attributeType": "Object"
+                }
+              }
+            },
+            {
+              "name": "masterBundles",
+              "type": "Object | null | undefined",
+              "description": "Master bundles object for storing all the localized and default resources",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 110,
+                  "column": 4
+                },
+                "end": {
+                  "line": 113,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "attributeType": "Object"
+                }
+              }
+            },
+            {
+              "name": "defaultLang",
+              "type": "string | null | undefined",
+              "description": "Default lang for the document, i.e., the initial value of `<html lang>` attribute",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 118,
+                  "column": 4
+                },
+                "end": {
+                  "line": 122,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "readOnly": true,
+                  "attributeType": "String"
+                }
+              }
+            },
+            {
+              "name": "bundleFetchingInstances",
+              "type": "Object | null | undefined",
+              "description": "List of elements which are fetching bundles",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 127,
+                  "column": 4
+                },
+                "end": {
+                  "line": 130,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "attributeType": "Object"
+                }
+              }
+            },
+            {
+              "name": "startUrl",
+              "type": "string | null | undefined",
+              "description": "Root URL path of the application ends with '/' to fetch bundles",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 135,
+                  "column": 4
+                },
+                "end": {
+                  "line": 139,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "readOnly": true,
+                  "attributeType": "String"
+                }
+              }
+            },
+            {
+              "name": "localesPath",
+              "type": "string | null | undefined",
+              "description": "Path for locales\n\nDefault value is `'locales'`",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 146,
+                  "column": 4
+                },
+                "end": {
+                  "line": 150,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "readOnly": true,
+                  "attributeType": "String"
+                }
+              }
+            },
+            {
+              "name": "attributesRepository",
+              "type": "Object | null | undefined",
+              "description": "<i18n-attr-repo> element to store attributes repository",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 155,
+                  "column": 4
+                },
+                "end": {
+                  "line": 159,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "readOnly": true,
+                  "attributeType": "Object"
+                }
+              }
+            },
+            {
+              "name": "userPreference",
+              "type": "Object | null | undefined",
+              "description": "<i18n-preference> element",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 164,
+                  "column": 4
+                },
+                "end": {
+                  "line": 168,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "readOnly": true,
+                  "attributeType": "Object"
+                }
+              }
+            }
+          ],
+          "methods": [],
+          "staticMethods": [],
+          "demos": [],
+          "metadata": {},
+          "sourceRange": {
+            "start": {
+              "line": 83,
+              "column": 13
+            },
+            "end": {
+              "line": 170,
+              "column": 1
+            }
+          },
+          "privacy": "public",
+          "name": "I18nControllerBehavior",
+          "attributes": [
+            {
+              "name": "is-i18n-controller",
+              "description": "Flag for detection of `I18nControllerBehavior`\n\n`true` if I18nControllerBehavior is applied\n\nNote: Module-specific JSON resources are NOT fetched for `I18nControllerBehavior`",
+              "sourceRange": {
+                "start": {
+                  "line": 93,
+                  "column": 4
+                },
+                "end": {
+                  "line": 97,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "boolean | null | undefined"
+            },
+            {
+              "name": "html",
+              "description": "HTML element object for the current document",
+              "sourceRange": {
+                "start": {
+                  "line": 102,
+                  "column": 4
+                },
+                "end": {
+                  "line": 105,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "Object | null | undefined"
+            },
+            {
+              "name": "master-bundles",
+              "description": "Master bundles object for storing all the localized and default resources",
+              "sourceRange": {
+                "start": {
+                  "line": 110,
+                  "column": 4
+                },
+                "end": {
+                  "line": 113,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "Object | null | undefined"
+            },
+            {
+              "name": "default-lang",
+              "description": "Default lang for the document, i.e., the initial value of `<html lang>` attribute",
+              "sourceRange": {
+                "start": {
+                  "line": 118,
+                  "column": 4
+                },
+                "end": {
+                  "line": 122,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "string | null | undefined"
+            },
+            {
+              "name": "bundle-fetching-instances",
+              "description": "List of elements which are fetching bundles",
+              "sourceRange": {
+                "start": {
+                  "line": 127,
+                  "column": 4
+                },
+                "end": {
+                  "line": 130,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "Object | null | undefined"
+            },
+            {
+              "name": "start-url",
+              "description": "Root URL path of the application ends with '/' to fetch bundles",
+              "sourceRange": {
+                "start": {
+                  "line": 135,
+                  "column": 4
+                },
+                "end": {
+                  "line": 139,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "string | null | undefined"
+            },
+            {
+              "name": "locales-path",
+              "description": "Path for locales\n\nDefault value is `'locales'`",
+              "sourceRange": {
+                "start": {
+                  "line": 146,
+                  "column": 4
+                },
+                "end": {
+                  "line": 150,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "string | null | undefined"
+            },
+            {
+              "name": "attributes-repository",
+              "description": "<i18n-attr-repo> element to store attributes repository",
+              "sourceRange": {
+                "start": {
+                  "line": 155,
+                  "column": 4
+                },
+                "end": {
+                  "line": 159,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "Object | null | undefined"
+            },
+            {
+              "name": "user-preference",
+              "description": "<i18n-preference> element",
+              "sourceRange": {
+                "start": {
+                  "line": 164,
+                  "column": 4
+                },
+                "end": {
+                  "line": 168,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "Object | null | undefined"
+            }
+          ],
+          "events": [],
+          "styling": {
+            "cssVariables": [],
+            "selectors": []
+          },
+          "slots": []
+        },
+        {
+          "description": "Apply `BehaviorsStore.I18nBehavior` to implement localizable elements.\n\n    <dom-module id=\"custom-element\">\n      <template>\n        <span>Hard-coded UI texts are automatically made localizable</span>\n      </template>\n      <﻿﻿script﻿﻿>\n        Polymer({\n          is: 'custom-element',\n          behaviors: [\n            BehaviorsStore.I18nBehavior  // Add this behavior\n          ]\n        });\n      <﻿﻿/script﻿﻿>\n    </dom-module>\n\n`I18nBehavior` automatically extracts UI texts from `template` and\nbinds them to localizable variables in `this.text` object.\n\nAccording to the `lang` attribute value, `this.text`, and thus the bound UI texts,\ndynamically mutates by loading localized values from a JSON file in the `locales` directory.\nBy default, `lang` attribute values of all the localizable elements with `I18nBehavior` are\nautomatically updated according to `<html lang>` attribute value.\n\nThe UI text externalization can be processed at build time as well by `gulp-*` task\nso that `I18nBehavior` can immediately recognize the extracted texts in JSON and\nskip run-time externalization.\n\nRun-time externalization is suitable for development and debugging\nsince the code changes are immediately reflected at reloading without build-time preprocesses.\nIn contrast, build-time externalization is suitable for production builds\nsince it eliminates run-time externalization overheads.\n\n### Steps to localize a custom element\n\n1. [JavaScript] Add `BehaviorsStore.I18nBehavior` to `behaviors`\n1. [gulp] Add `gulp-*` filter for `custom-element.html` and generate `custom-element.json`\n1. [locales] Put `custom-element.lang.json` in `locales` directory\n1. [translation] Translate `locales/custom-element.lang.json`\n\n- - -\n\n### Directory structure of bundle files\n\nNormal bundles (`/element-root/locales/element-name.*.json`) for elements\nare stored under their root directories.\n\nShared bundles (`/locales/bundle.*.json`) are generated at build time\nby merging all the targeted bundles of the localizable elements.\n\nOnce the shared bundles are loaded, there should be no need to search for\nnormal bundles per element unless the element is intentionally excluded\nfrom the shared bundles.\n\n```\n     /bundle.json\n     /locales/bundle.ja.json\n             /bundle.fr.json\n             /bundle.zh-Hans.json\n\n     /elements/my-list/my-list.json\n                      /locales/my-list.ja.json\n                              /my-list.zh-Hans.json\n\n              /google-chart-demo/google-chart-demo.json\n                                /locales/google-chart-demo.ja.json\n                                        /google-chart-demo.fr.json\n```\n\n- - -\n\n### Localizable `<template is=\"i18n-dom-bind\" id=\"app\">` element\n\n`<template is=\"i18n-dom-bind\">` template element extends\n`<template is=\"dom-bind\">` template element with all the capabilities of\n`I18nBehavior`.\n\nThe `id` attribute value is used for naming bundle files instead of the element name.\n\nThe bundle files are stored at the locales directory under the application root.\n\n```\n     /app.json\n     /locales/app.ja.json\n             /app.fr.json\n             /app.zh-Hans.json\n```\n\n- - -\n\n### TODOs\n\n- Support user locale preference per user",
+          "summary": "",
+          "path": "i18n-behavior.js",
+          "properties": [
+            {
+              "name": "_lang",
+              "type": "string | null | undefined",
+              "description": "Mirrored property for this.lang",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 303,
+                  "column": 4
+                },
+                "end": {
+                  "line": 308,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "observer": "\"_langChanged\"",
+                  "attributeType": "String"
+                }
+              }
+            },
+            {
+              "name": "text",
+              "type": "Object | null | undefined",
+              "description": "Text message bundle object for the current locale.\nThe object is shared among all the instances of the same element.\nThe value is updated when `lang-updated` event is fired.",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 315,
+                  "column": 4
+                },
+                "end": {
+                  "line": 318,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "readOnly": true,
+                  "attributeType": "Object"
+                }
+              }
+            },
+            {
+              "name": "model",
+              "type": "Object | null | undefined",
+              "description": "Data model bundle object for the current locale.\nThe data are bound to localizable attribute values in the element template.\nThe object is cloned from `this.text.model` per instance.\nThe value is NOT automatically updated in sync with `this.text`.\n\nHow to manually update the model object when `lang-updated` event is fired:\n```\n    this.model = deepcopy(this.text.model);\n```",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 331,
+                  "column": 4
+                },
+                "end": {
+                  "line": 334,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "notify": true,
+                  "attributeType": "Object"
+                }
+              }
+            },
+            {
+              "name": "templateDefaultLang",
+              "type": "string | null | undefined",
+              "description": "The locale of the hard-coded texts in the element's template.\nThe read-only value can be specified by the `lang` attribute of the element's `template`.\nThe default value is 'en' if not specified in the `template` element.\n\n```\n <dom-module id=\"custom-element\">\n   <template lang=\"en\">\n     <span>Hard-coded text in English</span>\n   </template>\n <dom-module>\n```",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 349,
+                  "column": 4
+                },
+                "end": {
+                  "line": 352,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "attributeType": "String"
+                }
+              },
+              "defaultValue": "\"en\""
+            },
+            {
+              "name": "effectiveLang",
+              "type": "string | null | undefined",
+              "description": "The effective locale of the element.\nThe value is updated when the localized texts are loaded and `lang-updated` event is fired.",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 358,
+                  "column": 4
+                },
+                "end": {
+                  "line": 360,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "attributeType": "String"
+                }
+              }
+            },
+            {
+              "name": "observeHtmlLang",
+              "type": "boolean | null | undefined",
+              "description": "Boolean flag to synchronize with the value of  `<html lang>` attribute.",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 365,
+                  "column": 4
+                },
+                "end": {
+                  "line": 369,
+                  "column": 5
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "observer": "\"_observeHtmlLangChanged\"",
+                  "attributeType": "Boolean"
+                }
+              },
+              "defaultValue": "true"
+            },
+            {
+              "name": "hostAttributes",
+              "type": "Object",
+              "description": "The locale of the element.\nThe default value is copied from `<html lang>` attribute of the current page.\nIf `<html lang>` is not specified, `''` is set to use the template default language.\n\nThe value is synchronized with `<html lang>` attribute of the current page by default.\n\n### Note:\n - The value may not reflect the current UI locale until the localized texts are loaded.\n   ",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 295,
+                  "column": 2
+                },
+                "end": {
+                  "line": 297,
+                  "column": 3
+                }
+              },
+              "metadata": {
+                "polymer": {
+                  "readOnly": false
+                }
+              }
+            }
+          ],
+          "methods": [
+            {
+              "name": "_getBundle",
+              "description": "The backend logic for `this.text` object.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 446,
+                  "column": 2
+                },
+                "end": {
+                  "line": 503,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "lang",
+                  "type": "string",
+                  "description": "Locale for the text message bundle."
+                }
+              ],
+              "return": {
+                "type": "Object",
+                "desc": "Text message bundle for the locale."
+              }
+            },
+            {
+              "name": "_enumerateFallbackLanguages",
+              "description": "Enumerate fallback locales for the target locale.\n\nSubset implementation of BCP47 (https://tools.ietf.org/html/bcp47).\n\n### Examples:\n\n| Target Locale | Fallback 1 | Fallback 2 | Fallback 3 |\n|:--------------|:-----------|:-----------|:-----------|\n| ru            | N/A        | N/A        | N/A        |\n| en-GB         | en         | N/A        | N/A        |\n| en-Latn-GB    | en-GB      | en-Latn    | en         |\n| fr-CA         | fr         | N/A        | N/A        |\n| zh-Hans-CN    | zh-Hans    | zh         | N/A        |\n| zh-CN         | zh-Hans    | zh         | N/A        |\n| zh-TW         | zh-Hant    | zh         | N/A        |\n\n#### Note:\n\nFor zh language, the script Hans or Hant is supplied as its default script when a country/region code is supplied.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 529,
+                  "column": 2
+                },
+                "end": {
+                  "line": 642,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "lang",
+                  "type": "string",
+                  "description": "Target locale."
+                }
+              ],
+              "return": {
+                "type": "Array",
+                "desc": "List of fallback locales including the target locale at the index 0."
+              }
+            },
+            {
+              "name": "_handleLangAttributeChange",
+              "description": "MutationObserver callback of `lang` attribute for Safari 7",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 649,
+                  "column": 2
+                },
+                "end": {
+                  "line": 676,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "mutations",
+                  "type": "Array",
+                  "description": "Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_langChanged",
+              "description": "Observer of `this.lang` changes.\n\nUpdate `this.text` object if the text message bundle of the new `lang` is locally available.\n\nTrigger fetching of the text message bundle of the new `lang` if the bundle is not locally available.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 688,
+                  "column": 2
+                },
+                "end": {
+                  "line": 717,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "lang",
+                  "type": "string",
+                  "description": "New value of `lang`."
+                },
+                {
+                  "name": "oldLang",
+                  "type": "string",
+                  "description": "Old value of `lang`."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_updateEffectiveLang",
+              "description": "Called on `lang-updated` events and update `this.effectiveLang` with the value of `this.lang`.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 722,
+                  "column": 2
+                },
+                "end": {
+                  "line": 727,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "event"
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_fetchLanguage",
+              "description": "Trigger fetching of the appropriate text message bundle of the target locale.\n\n### Two Layers of Fallbacks:\n\n1. Missing bundles fall back to those of their fallback locales.\n1. Missing texts in the non-default bundles fall back to those in the default bundle.\n\n### Fallback Examples:\n\n| Locale      | Bundle Status                    |\n|:------------|:---------------------------------|\n| fr-CA       | existent with sparse texts       |\n| fr          | existent with full texts         |\n| ja          | existent with some missing texts |\n| zh-Hans-CN  | missing                          |\n| zh-Hans     | existent with some missing texts |\n| zh          | missing                          |\n| en          | existent with full texts         |\n| ''(default) | existent with full texts         |\n\n| Target      | Fallback bundle       | Resolved locale |\n|:------------|:----------------------|:----------------|\n| en          | en                    | en              |\n| ja          | ja + ''(default)      | ja              |\n| fr-CA       | fr-CA + fr            | fr-CA           |\n| zh-Hans-CN  | zh-Hans + ''(default) | zh-Hans         |",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 759,
+                  "column": 2
+                },
+                "end": {
+                  "line": 766,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "lang",
+                  "type": "string",
+                  "description": "Target locale."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_fetchBundle",
+              "description": "Fetch the text message bundle of the target locale\ncooperatively with other instances.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 774,
+                  "column": 2
+                },
+                "end": {
+                  "line": 915,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "lang",
+                  "type": "string",
+                  "description": "Target locale."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_handleResponse",
+              "description": "Handle Ajax success response for a bundle.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 922,
+                  "column": 2
+                },
+                "end": {
+                  "line": 965,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "event",
+                  "type": "Object",
+                  "description": "`iron-ajax` success event."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_handleError",
+              "description": "Handle Ajax error response for a bundle.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 972,
+                  "column": 2
+                },
+                "end": {
+                  "line": 1013,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "event",
+                  "type": "Object",
+                  "description": "`iron-ajax` error event."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_forwardLangEvent",
+              "description": "Forward `lang-updated` event to other instances of the same element.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 1020,
+                  "column": 2
+                },
+                "end": {
+                  "line": 1031,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "event",
+                  "type": "Object",
+                  "description": "`lang-updated` event object."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_handleBundleFetched",
+              "description": "Handle `bundle-fetched` event.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 1038,
+                  "column": 2
+                },
+                "end": {
+                  "line": 1046,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "event",
+                  "type": "Object",
+                  "description": "`bundle-fetched` event object."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_observeHtmlLangChanged",
+              "description": "Handle changes of `observeHtmlLang` property.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 1053,
+                  "column": 2
+                },
+                "end": {
+                  "line": 1064,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "value",
+                  "type": "Boolean",
+                  "description": "Value of `observeHtmlLang`"
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_handleHtmlLangChange",
+              "description": "MutationObserver callback of `<html lang>` attribute.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 1071,
+                  "column": 2
+                },
+                "end": {
+                  "line": 1083,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "mutations",
+                  "type": "Array",
+                  "description": "Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_constructBundle",
+              "description": "Construct the text message bundle of the target locale with fallback of missing texts.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 1090,
+                  "column": 2
+                },
+                "end": {
+                  "line": 1121,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "lang",
+                  "type": "strings",
+                  "description": "Target locale."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_deepMap",
+              "description": "Recursively map the source object onto the target object with the specified map function.\n\nThe method is used to merge a bundle into its fallback bundle.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 1132,
+                  "column": 2
+                },
+                "end": {
+                  "line": 1164,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "target",
+                  "type": "Object",
+                  "description": "Target object."
+                },
+                {
+                  "name": "source",
+                  "type": "Object",
+                  "description": "Source object."
+                },
+                {
+                  "name": "map",
+                  "type": "Function",
+                  "description": "Mapping function."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_constructDefaultBundle",
+              "description": "Construct the default bundle from the element's template.\n\nExtract the default bundle from the template if it is embedded as JSON at build time.\n\n### Hard-coded UI text example:\n```\n  <dom-module id=\"custom-element\">\n    <template>\n      <span id=\"label\">UI Text Label:</span>\n      <input id=\"input-el\"\n             value=\"{{keyword}}\"\n             placeholder=\"Keyword\">\n    </template>\n  </dom-module>\n```\n\n### Constructed default bundle for the above example:\n```\n  {\n    \"model\" : {\n      \"input-el\": {\n        \"placeholder\": \"Keyword\"\n      }\n    },\n    \"label\": \"UI Text Label:\"\n  }\n```\n\n### Processed template with bound annotations for the above example:\n```\n  <dom-module id=\"custom-element\">\n    <template localizable-text=\"embedded\">\n      <span id=\"label\">{{text.label}}</span>\n      <input id=\"input-el\"\n        value=\"{{keyword}}\"\n        placeholder=\"{{model.input-el.placeholder}}\">\n    </template>\n  </dom-module>\n```\n\n### Embedded JSON bundle format for the above example:\n```\n  <dom-module id=\"custom-element\">\n    <template localizable-text=\"embedded\">\n      <span id=\"label\">{{text.label}}</span>\n      <input id=\"input-el\"\n        value=\"{{keyword}}\"\n        placeholder=\"{{model.input-el.placeholder}}\">\n      <template id=\"localizable-text\">\n        <json-data>{\n          \"model\" : {\n            \"input-el\": {\n              \"placeholder\": \"Keyword\"\n            }\n          },\n          \"label\": \"UI Text Label:\"\n        }</json-data>\n      </template>\n    </template>\n  </dom-module>\n```",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 1229,
+                  "column": 2
+                },
+                "end": {
+                  "line": 1302,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "_template"
+                },
+                {
+                  "name": "_id"
+                }
+              ]
+            },
+            {
+              "name": "_traverseAttributes",
+              "description": "Traverse localizable attributes of the target element node and\nadd them to the target bundle under the `model` object.\n\nThe `<i18n-attr-repo>` object is used\nto judge if the target attributes are localizable.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 1315,
+                  "column": 2
+                },
+                "end": {
+                  "line": 1469,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "node",
+                  "type": "Object",
+                  "description": "Target element node."
+                },
+                {
+                  "name": "path",
+                  "type": "string",
+                  "description": "Path to the target node."
+                },
+                {
+                  "name": "bundle",
+                  "type": "Object",
+                  "description": "Default bundle."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_traverseTemplateTree",
+              "description": "Recursively traverse text contents of the target element node\nand add them to the target bundle object.\n\nTraversed text contents are replaced with annotations\nfor the corresponding text in the bundle.\n\n- - -\n\nThere are some special treatments in the following cases.\n\n### Sentence with parameterized child parameter-like elements:\n\nAs the order of the parameters can change in different languages,\n`<i18n-format>` element is used to make the sentence localizable.\n\n### Before processing\n\n```\n  <p id=\"p\"><code>i18n-format</code> is\n    used for\n    <a href=\"https://www.google.com\">parameterized</a>\n    sentences.</p>\n```\n\n### After processing\n\n```\n  <p id=\"p\">\n    <i18n-format lang=\"{{effectiveLang}}\">\n      <span>{{text.p.0}}</span>\n      <code>{{text.p.1}}</code>\n      <a href=\"https://www.google.com\">{{text.p.2}}</a>\n    </i18n-format>\n  </p>\n```\n\n### Constructed bundle data: Texts are stored in an Array of strings.\n\n```\n  {\n    \"p\" : [\n      \"{1} is\\n used for\\n {2}\\n sentences.\",\n      \"i18n-format\",\n      \"parameterized\"\n    ]\n  }\n```\n\n- - -\n\n### `<i18n-format>` element with compound templates:\n\nTexts with compound templates for `<i18n-format>` element are\nprocessed as below.\n\n`lang=\"{{effectiveLang}}\"` attribute is added to `<i18n-format>` node\nas well as `<i18n-number>` node.\n\n### Before processing\n\n```\n<i18n-format id=\"sentence\">\n  <json-data>{\n    \"0\": \"You ({3}) gave no gifts.\",\n    \"1\": {\n      \"male\": \"You ({3}) gave him ({4}) {5}.\",\n      \"female\": \"You ({3}) gave her ({4}) {5}.\",\n      \"other\": \"You ({3}) gave them ({4}) {5}.\"\n    },\n    \"one\": {\n      \"male\":\n        \"You ({3}) gave him ({4}) and one other {5}.\",\n      \"female\":\n        \"You ({3}) gave her ({4}) and one other {5}.\",\n      \"other\":\n        \"You ({3}) gave them ({4}) and one other {5}.\"\n    },\n    \"other\":\n      \"You ({3}) gave them ({4}) and {1} others gifts.\"\n  }</json-data>\n  <i18n-number\n    offset=\"1\"\n    >{{recipients.length}}</i18n-number>\n  <span>{{recipients.0.gender}}</span>\n  <span>{{sender.name}}</span>\n  <span>{{recipients.0.name}}</span>\n  <span>a gift</span>\n</i18n-format>\n```\n\n### After processing\n\n```\n<i18n-format id=\"sentence\"\n             lang=\"{{effectiveLang}}\">\n  <json-data>{{serialize(text.sentence.0)}}</json-data>\n  <i18n-number\n    offset=\"1\"\n    lang=\"{{effectiveLang}}\"\n    >{{recipients.length}}</i18n-number>\n  <span>{{recipients.0.gender}}</span>\n  <span>{{sender.name}}</span>\n  <span>{{recipients.0.name}}</span>\n  <span>{{text.sentence.5}}</span>\n</i18n-format>\n```\n\n### Constructed bundle data:\n\n```\n{\n  \"sentence\" : [\n    {\n      \"0\": \"You ({3}) gave no gifts.\",\n      \"1\": {\n        \"male\": \"You ({3}) gave him ({4}) {5}.\",\n        \"female\": \"You ({3}) gave her ({4}) {5}.\",\n        \"other\": \"You ({3}) gave them ({4}) {5}.\"\n      },\n      \"one\": {\n        \"male\":\n        \"You ({3}) gave him ({4}) and one other {5}.\",\n        \"female\":\n        \"You ({3}) gave her ({4}) and one other {5}.\",\n        \"other\":\n        \"You ({3}) gave them ({4}) and one other {5}.\"\n      },\n      \"other\":\n      \"You ({3}) gave them ({4}) and {1} others gifts.\"\n    },\n    \"{{recipients.length - 1}}\",\n    \"{{recipients.0.gender}}\",\n    \"{{sender.name}}\",\n    \"{{recipients.0.name}}\",\n    \"a gift\"\n  ]\n}\n```",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 1616,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2173,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "node",
+                  "type": "Object",
+                  "description": "Target element node."
+                },
+                {
+                  "name": "path",
+                  "type": "string",
+                  "description": "Path to the target node."
+                },
+                {
+                  "name": "bundle",
+                  "type": "Object",
+                  "description": "Default bundle."
+                },
+                {
+                  "name": "index",
+                  "type": "Number",
+                  "description": "Index in the siblings of the target node excluding whitespace nodes."
+                }
+              ]
+            },
+            {
+              "name": "_isCompoundAnnotatedText",
+              "description": "Check if the text has compound annotation",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2181,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2184,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "text",
+                  "type": "string",
+                  "description": "target text to check compound annotation"
+                }
+              ],
+              "return": {
+                "type": "Boolean",
+                "desc": "true if the text contains compound annotation"
+              }
+            },
+            {
+              "name": "_hasAnnotatedText",
+              "description": "Check if the text has annotation",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2192,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2194,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "text",
+                  "type": "string",
+                  "description": "target text to check annotation"
+                }
+              ],
+              "return": {
+                "type": "Boolean",
+                "desc": "true if the text contains annotation"
+              }
+            },
+            {
+              "name": "_compoundAnnotationToSpan",
+              "description": "Convert compound annotations to span elements",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2202,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2248,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "node",
+                  "type": "Text",
+                  "description": "target text node to convert compound annotations"
+                }
+              ],
+              "return": {
+                "type": "Array.<Object>",
+                "desc": "Array of Text or span elements"
+              }
+            },
+            {
+              "name": "_setBundleValue",
+              "description": "Add the value to the target default bundle with the specified message Id",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2257,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2275,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "bundle",
+                  "type": "Object",
+                  "description": "Default bundle."
+                },
+                {
+                  "name": "messageId",
+                  "type": "string",
+                  "description": "ID string of the value."
+                },
+                {
+                  "name": "value",
+                  "type": "Object",
+                  "description": "Value of the text message. Normally a string."
+                }
+              ],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_generateMessageId",
+              "description": "Generate a message ID from the specified path and id.\n\n### TODO:\n\n- Shorten or optimize ids",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2287,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2315,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "path",
+                  "type": "Array",
+                  "description": "List of ascestor elements of the current node in traversal."
+                },
+                {
+                  "name": "id",
+                  "type": "id",
+                  "description": "Value of `id` or `text-id` attribute of the current node."
+                }
+              ]
+            },
+            {
+              "name": "or",
+              "description": "Return the first non-null argument.\n\nUtility method for use in annotations.\n\n### Example Usage:\n```\n  <input is=\"iron-input\" class=\"flex\"\n    type=\"search\" id=\"query\" bind-value=\"{{query}}\"\n    autocomplete=\"off\"\n    placeholder=\"{{or(placeholder,text.search)}}\">\n```",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 2332,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2339,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": []
+            },
+            {
+              "name": "tr",
+              "description": "Translate a string by a message table.\n\nUtility method for use in annotations.\n\n### Example Usage:\n```\n  <span>{{tr(status,text.statusMsgs)}}</span>\n  <span>{{tr(errorId,text)}}</span>\n  <template>\n    <json-data text-id=\"statusMsgs\">{\n      \"signed-in\": \"Authenticated\",\n      \"signed-out\": \"Not Authenticated\",\n      \"error\": \"Error in Authentication\",\n      \"default\": \"Unknown Status in Authentication\"\n    }</json-data>\n    <span text-id=\"http-404\">File Not Found</span>\n    <span text-id=\"http-301\">Moved Permanently</span>\n  </template>\n```\n\nNote: The second `table` parameter should always be specified in order\nto trigger automatic updates on `this.text` mutations, i.e., updates of `this.effectiveLang`.",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 2370,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2392,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "key",
+                  "type": "string",
+                  "description": "Key of the message."
+                },
+                {
+                  "name": "table",
+                  "type": "Object",
+                  "description": "The message table object or this.text itself if omitted"
+                }
+              ],
+              "return": {
+                "type": "string",
+                "desc": "Translated string, `table.default` if `table[key]` is undefined, or key string if table.default is undefined."
+              }
+            },
+            {
+              "name": "i18nFormat",
+              "description": "Format a parameterized string.\n\nUtility method for use in annotations.\n\n### Example Usage:\n```\n  <span attr=\"{{i18nFormat(text.param.0,text.textparam1,text.textparam2)}}\"></span>\n  <template>\n    <json-data text-id=\"param\">[\n      \"String with {1} and {2} are formetted\",\n      \"[[text.textparam1]]\",\n      \"[[text.textparam2]]\"\n    ]</json-data>\n    <span text-id=\"textparam1\">Parameter 1</span>\n    <span text-id=\"textparam2\">Parameter 2</span>\n  </template>\n```\n\nNote: Compound bindings in attributes are automatically converted to {{i18nFormat()}} in preprocessing.",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 2418,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2426,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [],
+              "return": {
+                "type": "string",
+                "desc": "Formatted string"
+              }
+            },
+            {
+              "name": "registered",
+              "description": "Lifecycle callback at registration of the custom element.\n\nthis._fetchStatus is initialized per registration.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2435,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2478,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "created",
+              "description": "Lifecycle callback on instance creation",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2483,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2501,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "ready",
+              "description": "Lifecycle callback when the template children are ready.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2506,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2518,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "attached",
+              "description": "attached lifecycle callback.",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2523,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2529,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "_onDomChange",
+              "description": "Handle `dom-change` event for `i18n-dom-bind`",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2534,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2543,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [],
+              "return": {
+                "type": "void"
+              }
+            },
+            {
+              "name": "detached",
+              "description": "detached lifecycle callback",
+              "privacy": "protected",
+              "sourceRange": {
+                "start": {
+                  "line": 2548,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2552,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [],
+              "return": {
+                "type": "void"
+              }
+            }
+          ],
+          "staticMethods": [],
+          "demos": [
+            {
+              "url": "demo/src/index.html",
+              "description": "i18n-behavior demo (raw src)"
+            },
+            {
+              "url": "demo/preprocess/index.html",
+              "description": "i18n-behavior demo (preprocessed)"
+            }
+          ],
+          "metadata": {},
+          "sourceRange": {
+            "start": {
+              "line": 271,
+              "column": 4
+            },
+            "end": {
+              "line": 2553,
+              "column": 1
+            }
+          },
+          "privacy": "public",
+          "name": "I18nBehavior",
+          "attributes": [
+            {
+              "name": "text",
+              "description": "Text message bundle object for the current locale.\nThe object is shared among all the instances of the same element.\nThe value is updated when `lang-updated` event is fired.",
+              "sourceRange": {
+                "start": {
+                  "line": 315,
+                  "column": 4
+                },
+                "end": {
+                  "line": 318,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "Object | null | undefined"
+            },
+            {
+              "name": "model",
+              "description": "Data model bundle object for the current locale.\nThe data are bound to localizable attribute values in the element template.\nThe object is cloned from `this.text.model` per instance.\nThe value is NOT automatically updated in sync with `this.text`.\n\nHow to manually update the model object when `lang-updated` event is fired:\n```\n    this.model = deepcopy(this.text.model);\n```",
+              "sourceRange": {
+                "start": {
+                  "line": 331,
+                  "column": 4
+                },
+                "end": {
+                  "line": 334,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "Object | null | undefined"
+            },
+            {
+              "name": "template-default-lang",
+              "description": "The locale of the hard-coded texts in the element's template.\nThe read-only value can be specified by the `lang` attribute of the element's `template`.\nThe default value is 'en' if not specified in the `template` element.\n\n```\n <dom-module id=\"custom-element\">\n   <template lang=\"en\">\n     <span>Hard-coded text in English</span>\n   </template>\n <dom-module>\n```",
+              "sourceRange": {
+                "start": {
+                  "line": 349,
+                  "column": 4
+                },
+                "end": {
+                  "line": 352,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "string | null | undefined"
+            },
+            {
+              "name": "effective-lang",
+              "description": "The effective locale of the element.\nThe value is updated when the localized texts are loaded and `lang-updated` event is fired.",
+              "sourceRange": {
+                "start": {
+                  "line": 358,
+                  "column": 4
+                },
+                "end": {
+                  "line": 360,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "string | null | undefined"
+            },
+            {
+              "name": "observe-html-lang",
+              "description": "Boolean flag to synchronize with the value of  `<html lang>` attribute.",
+              "sourceRange": {
+                "start": {
+                  "line": 365,
+                  "column": 4
+                },
+                "end": {
+                  "line": 369,
+                  "column": 5
+                }
+              },
+              "metadata": {},
+              "type": "boolean | null | undefined"
+            }
+          ],
+          "events": [
+            {
+              "type": "CustomEvent",
+              "name": "bundle-fetched",
+              "description": "Fired when a shared bundle is fetched.",
+              "metadata": {}
+            },
+            {
+              "type": "CustomEvent",
+              "name": "lang-updated",
+              "description": "Fired when the text message bundle object (`this.text`) is updated after `this.lang` is changed.",
+              "metadata": {}
+            },
+            {
+              "type": "CustomEvent",
+              "name": "model-changed",
+              "description": "Fired when the `model` property changes.",
+              "metadata": {}
+            }
+          ],
+          "styling": {
+            "cssVariables": [],
+            "selectors": []
+          },
+          "slots": []
+        }
+      ]
+    }
+  }
+}

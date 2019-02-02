@@ -1,13 +1,15 @@
 {
-  "entrypoint": "index.html",
+  "entrypoint": "demo/preprocess/index.html",
   "shell": "demo/preprocess/index.js",
   "sources": [
   ],
   "extraDependencies": [
-    "node_modules/intl/**",
+    "node_modules/@polymer/**",
     "node_modules/@webcomponents/webcomponentsjs/**",
     "demo/preprocess/locales/**",
-    "demo/preprocess/*.json"
+    "demo/preprocess/*.json",
+    "demo/preprocess/index.html",
+    "analysis.json"
   ],
   "builds": [
     {

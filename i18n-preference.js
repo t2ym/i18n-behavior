@@ -24,7 +24,6 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
 @group I18nBehavior
 @element i18n-preference
 @hero hero.svg
-@demo demo/index.html
 */
 
 import '@polymer/iron-localstorage/iron-localstorage.js';

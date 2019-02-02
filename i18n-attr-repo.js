@@ -224,7 +224,6 @@ Handle and judge JSON object attributes.
 @group I18nBehavior
 @element i18n-attr-repo
 @hero hero.svg
-@demo demo/index.html
 */
 Polymer({
   importMeta: import.meta,

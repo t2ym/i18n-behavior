@@ -8,7 +8,7 @@ import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-styles/demo-pages.js';
-import '../../i18n-behavior.js';
+import { I18nBehavior } from '../../i18n-behavior.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
@@ -155,7 +155,7 @@ Polymer({
   is: 'i18n-behavior-demo',
 
   behaviors: [
-    BehaviorsStore.I18nBehavior
+    I18nBehavior
   ],
 
   properties: {

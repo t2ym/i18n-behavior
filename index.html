@@ -1,16 +1,52 @@
+<!doctype html>
 <!--
-@license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
-Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <meta name="app-root" content="/demo/preprocess/">
-    <title>i18n-behavior Demo</title>
-    <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-    <script type="module" src="./demo/preprocess/index.js"></script>
-  </head>
-  <body unresolved>
-  </body>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+  <script type="module">
+    import "@polymer/iron-component-page/iron-component-page.js";
+  </script>
+  <style>
+    iron-component-page {
+      --iron-component-page-header-color: dimgrey;
+    }
+
+    th {
+      font-size: 14px;
+    }
+
+    td {
+      font-size: 14px;
+    }
+    
+    li {
+      font-size: 14px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  </style>
+
+</head>
+<body unresolved>
+  <!-- Note: if the main element for this repository doesn't
+       match the folder name, add a src="&lt;main-component&gt;.html" attribute,
+       where &lt;main-component&gt;.html" is a file that imports all of the
+       components you want documented. -->
+  <iron-component-page></iron-component-page>
+
+</body>
 </html>
