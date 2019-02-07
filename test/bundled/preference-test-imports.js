@@ -5193,7 +5193,280 @@ if(!(p in metaProps)){let pd=Object.getOwnPropertyDescriptor(info,p);if(pd){Obje
 mixinBehaviors(info.behaviors,HTMLElement):LegacyElementMixin(HTMLElement);const baseWithMixin=mixin?mixin(baseWithBehaviors):baseWithBehaviors;const klass=GenerateClassFromInfo(info,baseWithMixin);// decorate klass with registration info
 klass.is=info.is;return klass;};var _class={mixinBehaviors:mixinBehaviors,Class:Class};const Polymer$1=function(info){// if input is a `class` (aka a function with a prototype), use the prototype
 // remember that the `constructor` will never be called
-let klass;if(typeof info==='function'){klass=info;}else{klass=Polymer$1.Class(info);}customElements.define(klass.is,/** @type {!HTMLElement} */klass);return klass;};Polymer$1.Class=Class;var polymerFn={Polymer:Polymer$1};function mutablePropertyChange(inst,property,value,old,mutableData){let isObject;if(mutableData){isObject=typeof value==='object'&&value!==null;// Pull `old` for Objects from temp cache, but treat `null` as a primitive
+let klass;if(typeof info==='function'){klass=info;}else{klass=Polymer$1.Class(info);}customElements.define(klass.is,/** @type {!HTMLElement} */klass);return klass;};Polymer$1.Class=Class;var polymerFn={Polymer:Polymer$1};const bundledImportMeta$2={...import.meta,url:new URL('../../i18n-attr-repo.js',import.meta.url).href};const $_documentContainer=document.createElement('template');$_documentContainer.innerHTML=`<template id="i18n-attr-repo">
+    <template id="standard">
+      <!-- Standard HTML5 -->
+      <input placeholder="" value="type=button|submit">
+      <any-elements title="" aria-label="\$" aria-valuetext="\$"></any-elements>
+
+      <!-- Standard Polymer Elements -->
+      <paper-input label="" error-message="" placeholder=""></paper-input>
+      <paper-textarea label="" error-message="" placeholder=""></paper-textarea>
+      <paper-dropdown-menu label=""></paper-dropdown-menu>
+      <paper-toast text=""></paper-toast>
+      <paper-badge label=""></paper-badge>
+      <google-chart options="" cols="" rows="" data=""></google-chart>
+      <google-signin label-signin="" label-signout="" label-additional=""></google-signin>
+      <platinum-push-messaging title="" message=""></platinum-push-messaging>
+
+      <!-- Specific to i18n-behavior -->
+      <json-data any-attributes=""></json-data>
+    </template>
+</template>`;// shared data
+var sharedData={};// imperative synchronous registration of the template for Polymer 2.x
+var template=$_documentContainer.content.querySelector('template#i18n-attr-repo');var domModule$1=document.createElement('dom-module');domModule$1.appendChild(template);domModule$1.register('i18n-attr-repo');window.BehaviorsStore=window.BehaviorsStore||{};// Polymer function for iron-component-page documentation
+var Polymer$2=function(proto){BehaviorsStore._I18nAttrRepo=proto;BehaviorsStore._I18nAttrRepo._created();return Polymer$1(proto);};/*
+   `<i18n-attr-repo>` maintains a list of attributes targeted for UI localization.  
+   It judges whether a specific attribute of an element requires localization or not. 
+   
+       var attrRepository = 
+         document.createElement('i18n-attr-repo');
+   
+       attrRepository.registerLocalizableAttributes(
+         'custom-element',
+         Polymer.DomModule.import('custom-element', 'template')
+       );
+       attrRepository.isLocalizableAttribute(inputElement, 'placeholder');
+   
+   ### Interactions with `BehaviorsStore.I18nBehavior`
+   
+   The element is not meant for DOM attachment. The object is
+   a singleton object dedicated for `BehaviorsStore.I18nBehavior`.
+   `I18nBehavior` interacts with the localizable attributes repository in these 3 ways.
+   
+   ### 1) Construct the repository for the standard elements from its own static template at the object creation.
+   
+   ```
+       // i18n-behavior.html
+       var attrRepository = 
+         document.createElement('i18n-attr-repo');
+   ```
+   
+   Pre-defined I18N-target attributes in the static template of `i18n-attr-repo`:
+   
+   ```
+       <dom-module id="i18n-attr-repo">
+         <template>
+           <template id="standard">
+             <input placeholder>
+             <any-elements title aria-label="$" aria-valuetext="$"></any-elements>
+   
+             <paper-input label error-message placeholder></paper-input>
+             <paper-textarea label error-message placeholder></paper-textarea>
+             <paper-dropdown-menu label></paper-dropdown-menu>
+             <paper-toast text></paper-toast>
+             <google-chart options cols rows data></google-chart>
+             <google-signin label-signin label-signout label-additional></google-signin>
+             <platinum-push-messaging title message></platinum-push-messaging>
+   
+             <json-data any-attributes></json-data>
+           </template>
+         </template>
+       </dom-module>
+   ```
+   
+   This static list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for
+   build-time automatic I18N of hard-coded string attributes.
+   
+   ### 2) Register I18N-target attributes of custom elements from a template with id="custom" in its light DOM.
+   
+   I18N-target attributes for custom elements without I18nBehavior can be registered to the respository by this method. 
+   
+   Example I18N-target attributes in a static template in the light DOM of `i18n-attr-repo`:
+   
+   ```
+       <i18n-attr-repo>
+         <template id="custom">
+           <shop-md-decorator error-message="$"></shop-md-decorator>
+           <input value="type=submit|button">
+           <my-element i18n-target-attr="attr=value,boolean-attr,!boolean-attr"></my-element>
+           <my-element i18n-target-attr="attr1=value1,attr2=value2,type-name"></my-element>
+           <my-element i18n-target-attr="boolean-attr="></my-element>
+           <my-element i18n-target-attr="type-name2"></my-element>
+         </template>
+       </i18n-attr-repo>
+   ```
+   
+   This list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for
+   build-time automatic I18N of hard-coded string attributes.
+   
+   Note: Type name feature is currently ineffective and reserved for further expansion of the attribute I18N features.
+   
+   ### 3) Register localizable attributes of the newly registered elements from the `text-attr` attribute of the element's template.
+   
+   ```
+       // i18n-behavior.html, scanning custom-element template
+       var id = 'custom-element';
+       attrRepository.registerLocalizableAttributes(
+         id, 
+         Polymer.DomModule.import(id, 'template')
+       );
+   ```
+   ```
+       // custom-element.html
+       <dom-module id="custom-element">
+         <template text-attr="localizable-attr1 localizable-attr2">
+           <span>{{localizableAttr1}}</span>
+           <span>{{localizableAttr2}}</span>
+         </template>
+         <script>
+           Polymer({
+             is: 'custom-element',
+             behaviors: [ BehaviorsStore.I18nBehavior ],
+             properties: {
+               localizableAttr1: {
+                 type: String
+               },
+               localizableAttr2: {
+                 type: String
+               }
+             }
+           });
+         </ script>
+       </dom-module>
+   ```
+   
+   `text-attr` attributes are also traversed for build-time automatic I18N of 
+   hard-coded UI string attributes by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter.
+   
+   ### 4) Judge localizability of attributes for the local DOM elements of the newly registered element.
+   
+   ```
+       // i18n-behavior.html, scanning custom-element-user template
+       var element; // target element
+       var attr;
+       if (attrRepository.isLocalizableAttribute(element, attr.name)) {
+         // make localizalbe-attr1 localizable
+       }
+   ```
+   ```
+       // custom-element-user.html
+       <dom-module id="custom-element-user">
+         <template>
+           <custom-element id="custom"
+                           localizable-attr1="UI Text Label 1"
+                           localizable-attr2="UI Text Label 2">
+           </custom-element>
+         </template>
+         <script>
+           Polymer({
+             is: 'custom-element-user',
+             behaviors: [ BehaviorsStore.I18nBehavior ]
+           });
+         </ script>
+       </dom-module>
+   ```
+   ```
+       // template for custom-element-user after localization binding
+       <template>
+         <custom-element id="custom"
+                         localizable-attr1="{{model.custom.localizable-attr1}}"
+                         localizable-attr2="{{model.custom.localizable-attr2}}">
+         </custom-element>
+       </template>
+   ```
+   ```
+       // extracted localizable texts in custom-element-user element
+       this.model = {
+         "custom": {
+           "localizable-attr1": "UI Text Label 1",
+           "localizable-attr2": "UI Text Label 2"
+         }
+       }
+   ```
+   
+   Since dependent elements should be registered prior to a custom element being registered,
+   the repository can always maintain the complete list of localizable attributes for registered custom elements.
+   
+   - - -
+   
+   ### Note
+   
+   The described processes above are for debug builds with runtime localization traversal of templates
+   by `I18nBehavior`.
+   
+   For production builds, the build system can perform the same processes at build time so that 
+   `I18nBehavior` at clients can skip runtime traversal of templates.
+   
+   - - -
+   
+   ### TODO
+   
+   Handle and judge JSON object attributes.
+   
+   @group I18nBehavior
+   @element i18n-attr-repo
+   @hero hero.svg
+   */Polymer$2({importMeta:bundledImportMeta$2,is:'i18n-attr-repo',created:function(){this.data=sharedData;var customAttributes=this.querySelector('template#custom');// traverse custom attributes repository
+if(customAttributes&&!this.hasAttribute('processed')){this._traverseTemplateTree(customAttributes._content||customAttributes.content);this.setAttribute('processed','');}this._created();},_created:function(){this.data=sharedData;if(this.data.__ready__){return;// traverse standard attributes only once
+}this.data.__ready__=true;var standardTemplate;if(!this.$){var t=DomModule.import(this.is,'template');standardTemplate=(t._content||t.content).querySelector('template#standard');}else{standardTemplate=this.$.standard;}this._traverseTemplateTree(standardTemplate._content||standardTemplate.content);},/**
+   * Judge if a specific attribute of an element requires localization.
+   *
+   * @param {HTMLElement} element Target element.
+   * @param {string} attr Target attribute name.
+   * @return {string or boolean} true - property, '$' - attribute, false - not targeted, 'type-name' - type name
+   */isLocalizableAttribute:function(element,attr){var tagName=element.tagName.toLowerCase();if(!this.data){this._created();this.data=sharedData;}attr=attr.replace(/\$$/,'');if(this.data['any-elements']&&this.data['any-elements'][attr]){return this.data['any-elements'][attr];}else if(this.data[tagName]){return this.data[tagName]['any-attributes']||this._getType(element,this.data[tagName][attr]);}else{return false;}},/**
+   * Get the type name or '$' for a specific attribute of an element from the attributes repository
+   *
+   * @param {HTMLElement} element Target element.
+   * @param {object} value this.data[tagName][attr]
+   * @return {string or boolean} true - property, '$' - attribute, false - not targeted, 'type-name' - type name
+   */_getType:function(element,value){var selector;var result;if(typeof value==='object'){for(selector in value){if(selector){if(this._matchAttribute(element,selector)){result=this._getType(element,value[selector]);if(result){return result;}}}}if(value['']){if(this._matchAttribute(element,'')){result=this._getType(element,value['']);if(result){return result;}}}return false;}else{return value;}},/**
+   * Get the type name or '$' for a specific attribute of an element from the attributes repository
+   *
+   * Format for selectors:
+   *  - `attr=value` - Value of `attr` matches Regex `^value$`
+   *  - `!boolean-attr` - Boolean attribute does not exist
+   *  - `boolean-attr` - Boolean attribute exists with empty value
+   *  - empty string `''` - Always matches
+   *
+   * @param {HTMLElement} element Target element.
+   * @param {string} selector Matching condition for target attribute.
+   * @return {boolean} true - matching, false - not matching
+   */_matchAttribute:function(element,selector){var value;var match;// default ''
+if(selector===''){return true;}// attr=value Regex ^value$
+match=selector.match(/^([^!=]*)=(.*)$/);if(match){if(element.hasAttribute(match[1])){value=element.getAttribute(match[1]);return!!value.match(new RegExp('^'+match[2]+'$'));}else{return false;}}// !boolean-attr
+match=selector.match(/^!([^!=]*)$/);if(match){return!element.hasAttribute(match[1]);}// boolean-attr or empty-attr
+match=selector.match(/^([^!=]*)$/);if(match){if(element.hasAttribute(match[1])){value=element.getAttribute(match[1]);return!value;}else{return false;}}// no matching
+return false;},/**
+   * Comparator for attribute selectors
+   *
+   * @param {string} s1 selector 1
+   * @param {string} s2 selector 2
+   * @return {number} comparison result as -1, 0, or 1
+   */_compareSelectors:function(s1,s2){var name1=s1.replace(/^!/,'').replace(/=.*$/,'').toLowerCase();var name2=s2.replace(/^!/,'').replace(/=.*$/,'').toLowerCase();return name1.localeCompare(name2);},/**
+   * Add a new localizable attribute of an element to the repository.
+   *
+   * Format for selector values for defining I18N-target attributes:
+   *   - `attr1=value1,attr2=value2,boolean-attr,!boolean-attr` - Attribute value matching condition for property
+   *   - `attr1=value1,attr2=value2,$` - Attribute value matching condition for attribute
+   *   - `boolean-attr=` - Boolean attribute condition
+   *   - `attr1=value1,type` - Attribute value condition with type name (type is currently ineffective)
+   *
+   * @param {string} element Target element name.
+   * @param {string} attr Target attribute name.
+   * @param {?*} value Selector value
+   */setLocalizableAttribute:function(element,attr,value){this.data[element]=this.data[element]||{};var cursor=this.data[element];var prev=attr;var type=true;var selectors=[];if(typeof value==='string'&&value){selectors=value.split(',');if(selectors[selectors.length-1].match(/^[^!=][^=]*$/)){type=selectors.pop();}selectors=selectors.map(function(selector){return selector.replace(/=$/,'');});selectors.sort(this._compareSelectors);while(selectors[0]===''){selectors.shift();}}selectors.forEach(function(selector,index){if(typeof cursor[prev]!=='object'){cursor[prev]=cursor[prev]?{'':cursor[prev]}:{};}cursor[prev][selector]=cursor[prev][selector]||{};cursor=cursor[prev];prev=selector;});if(typeof cursor[prev]==='object'&&cursor[prev]&&Object.keys(cursor[prev]).length){cursor=cursor[prev];prev='';}cursor[prev]=type;},/**
+   * Pick up localizable attributes description for a custom element 
+   * from `text-attr` attribute and register them to the repository.
+   * The `text-attr` attribute is used in the template of a custom
+   * element to declare localizable attributes of its own element.
+   *
+   * Format:
+   *
+   *  Type 1: `<template text-attr="localizable-attr1 attr2">`
+   *
+   *  Type 2: `<template text-attr localizable-attr1 attr2="value2">`
+   *
+   * @param {string} element Target element name.
+   * @param {HTMLTemplateElement} template Template of the element.
+   */registerLocalizableAttributes:function(element,template){if(!this.data){this._created();this.data=sharedData;}if(!element){element=template.getAttribute('id');}if(element){var attrs=(template.getAttribute('text-attr')||'').split(' ');var textAttr=false;attrs.forEach(function(attr){if(attr){this.setLocalizableAttribute(element,attr,true);}},this);Array.prototype.forEach.call(template.attributes,function(attr){switch(attr.name){case'id':case'lang':case'localizable-text':case'assetpath':break;case'text-attr':textAttr=true;break;default:if(textAttr){this.setLocalizableAttribute(element,attr.name,attr.value);}break;}}.bind(this));}},/**
+   * Traverse the template of `i18n-attr-repo` in the ready() callback
+   * and construct the localizable attributes repository object. The method calls itself
+   * recursively for traversal.
+   *
+   * @param {HTMLElement} node The target HTML node for traversing.
+   */_traverseTemplateTree:function(node){var name;if(node.nodeType===node.ELEMENT_NODE){name=node.nodeName.toLowerCase();Array.prototype.forEach.call(node.attributes,function(attribute){this.data[name]=this.data[name]||{};this.setLocalizableAttribute(name,attribute.name,attribute.value);},this);}if(node.childNodes.length>0){for(var i=0;i<node.childNodes.length;i++){this._traverseTemplateTree(node.childNodes[i]);}}}});function mutablePropertyChange(inst,property,value,old,mutableData){let isObject;if(mutableData){isObject=typeof value==='object'&&value!==null;// Pull `old` for Objects from temp cache, but treat `null` as a primitive
 if(isObject){old=inst.__dataTemp[property];}}// Strict equality check, but return false for NaN===NaN
 let shouldChange=old!==value&&(old===old||value===value);// Objects are stored in temporary cache (cleared at end of
 // turn), which is used for dirty-checking
@@ -6477,282 +6750,7 @@ customStyleInterface$1.processStyles();},/**
    * @return {boolean} Whether the property should be considered a change
    * @this {this}
    * @protected
-   */_shouldPropertyChange(property,value,old){return mutablePropertyChange$1(this,property,value,old,this.mutableData);}};var mutableDataBehavior={MutableDataBehavior:MutableDataBehavior,OptionalMutableDataBehavior:OptionalMutableDataBehavior};const Base=LegacyElementMixin(HTMLElement).prototype;var polymerLegacy={Base:Base,Polymer:Polymer$1,html:html};const bundledImportMeta$2={...import.meta,url:new URL('../../i18n-attr-repo.js',import.meta.url).href};const $_documentContainer=document.createElement('template');$_documentContainer.innerHTML=`<template id="i18n-attr-repo">
-    <template id="standard">
-      <!-- Standard HTML5 -->
-      <input placeholder="" value="type=button|submit">
-      <any-elements title="" aria-label="\$" aria-valuetext="\$"></any-elements>
-
-      <!-- Standard Polymer Elements -->
-      <paper-input label="" error-message="" placeholder=""></paper-input>
-      <paper-textarea label="" error-message="" placeholder=""></paper-textarea>
-      <paper-dropdown-menu label=""></paper-dropdown-menu>
-      <paper-toast text=""></paper-toast>
-      <paper-badge label=""></paper-badge>
-      <google-chart options="" cols="" rows="" data=""></google-chart>
-      <google-signin label-signin="" label-signout="" label-additional=""></google-signin>
-      <platinum-push-messaging title="" message=""></platinum-push-messaging>
-
-      <!-- Specific to i18n-behavior -->
-      <json-data any-attributes=""></json-data>
-    </template>
-</template>`;//document.head.appendChild($_documentContainer.content);
-// shared data
-var sharedData={};// imperative synchronous registration of the template for Polymer 2.x
-var template=$_documentContainer.content.querySelector('template#i18n-attr-repo');var domModule$1=document.createElement('dom-module');domModule$1.appendChild(template);domModule$1.register('i18n-attr-repo');window.BehaviorsStore=window.BehaviorsStore||{};// Polymer function for iron-component-page documentation
-var Polymer$2=function(proto){BehaviorsStore._I18nAttrRepo=proto;BehaviorsStore._I18nAttrRepo._created();return Polymer$1(proto);};/*
-   `<i18n-attr-repo>` maintains a list of attributes targeted for UI localization.  
-   It judges whether a specific attribute of an element requires localization or not. 
-   
-       var attrRepository = 
-         document.createElement('i18n-attr-repo');
-   
-       attrRepository.registerLocalizableAttributes(
-         'custom-element',
-         Polymer.DomModule.import('custom-element', 'template')
-       );
-       attrRepository.isLocalizableAttribute(inputElement, 'placeholder');
-   
-   ### Interactions with `BehaviorsStore.I18nBehavior`
-   
-   The element is not meant for DOM attachment. The object is
-   a singleton object dedicated for `BehaviorsStore.I18nBehavior`.
-   `I18nBehavior` interacts with the localizable attributes repository in these 3 ways.
-   
-   ### 1) Construct the repository for the standard elements from its own static template at the object creation.
-   
-   ```
-       // i18n-behavior.html
-       var attrRepository = 
-         document.createElement('i18n-attr-repo');
-   ```
-   
-   Pre-defined I18N-target attributes in the static template of `i18n-attr-repo`:
-   
-   ```
-       <dom-module id="i18n-attr-repo">
-         <template>
-           <template id="standard">
-             <input placeholder>
-             <any-elements title aria-label="$" aria-valuetext="$"></any-elements>
-   
-             <paper-input label error-message placeholder></paper-input>
-             <paper-textarea label error-message placeholder></paper-textarea>
-             <paper-dropdown-menu label></paper-dropdown-menu>
-             <paper-toast text></paper-toast>
-             <google-chart options cols rows data></google-chart>
-             <google-signin label-signin label-signout label-additional></google-signin>
-             <platinum-push-messaging title message></platinum-push-messaging>
-   
-             <json-data any-attributes></json-data>
-           </template>
-         </template>
-       </dom-module>
-   ```
-   
-   This static list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for
-   build-time automatic I18N of hard-coded string attributes.
-   
-   ### 2) Register I18N-target attributes of custom elements from a template with id="custom" in its light DOM.
-   
-   I18N-target attributes for custom elements without I18nBehavior can be registered to the respository by this method. 
-   
-   Example I18N-target attributes in a static template in the light DOM of `i18n-attr-repo`:
-   
-   ```
-       <i18n-attr-repo>
-         <template id="custom">
-           <shop-md-decorator error-message="$"></shop-md-decorator>
-           <input value="type=submit|button">
-           <my-element i18n-target-attr="attr=value,boolean-attr,!boolean-attr"></my-element>
-           <my-element i18n-target-attr="attr1=value1,attr2=value2,type-name"></my-element>
-           <my-element i18n-target-attr="boolean-attr="></my-element>
-           <my-element i18n-target-attr="type-name2"></my-element>
-         </template>
-       </i18n-attr-repo>
-   ```
-   
-   This list is also referenced by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter for
-   build-time automatic I18N of hard-coded string attributes.
-   
-   Note: Type name feature is currently ineffective and reserved for further expansion of the attribute I18N features.
-   
-   ### 3) Register localizable attributes of the newly registered elements from the `text-attr` attribute of the element's template.
-   
-   ```
-       // i18n-behavior.html, scanning custom-element template
-       var id = 'custom-element';
-       attrRepository.registerLocalizableAttributes(
-         id, 
-         Polymer.DomModule.import(id, 'template')
-       );
-   ```
-   ```
-       // custom-element.html
-       <dom-module id="custom-element">
-         <template text-attr="localizable-attr1 localizable-attr2">
-           <span>{{localizableAttr1}}</span>
-           <span>{{localizableAttr2}}</span>
-         </template>
-         <script>
-           Polymer({
-             is: 'custom-element',
-             behaviors: [ BehaviorsStore.I18nBehavior ],
-             properties: {
-               localizableAttr1: {
-                 type: String
-               },
-               localizableAttr2: {
-                 type: String
-               }
-             }
-           });
-         </ script>
-       </dom-module>
-   ```
-   
-   `text-attr` attributes are also traversed for build-time automatic I18N of 
-   hard-coded UI string attributes by [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) filter.
-   
-   ### 4) Judge localizability of attributes for the local DOM elements of the newly registered element.
-   
-   ```
-       // i18n-behavior.html, scanning custom-element-user template
-       var element; // target element
-       var attr;
-       if (attrRepository.isLocalizableAttribute(element, attr.name)) {
-         // make localizalbe-attr1 localizable
-       }
-   ```
-   ```
-       // custom-element-user.html
-       <dom-module id="custom-element-user">
-         <template>
-           <custom-element id="custom"
-                           localizable-attr1="UI Text Label 1"
-                           localizable-attr2="UI Text Label 2">
-           </custom-element>
-         </template>
-         <script>
-           Polymer({
-             is: 'custom-element-user',
-             behaviors: [ BehaviorsStore.I18nBehavior ]
-           });
-         </ script>
-       </dom-module>
-   ```
-   ```
-       // template for custom-element-user after localization binding
-       <template>
-         <custom-element id="custom"
-                         localizable-attr1="{{model.custom.localizable-attr1}}"
-                         localizable-attr2="{{model.custom.localizable-attr2}}">
-         </custom-element>
-       </template>
-   ```
-   ```
-       // extracted localizable texts in custom-element-user element
-       this.model = {
-         "custom": {
-           "localizable-attr1": "UI Text Label 1",
-           "localizable-attr2": "UI Text Label 2"
-         }
-       }
-   ```
-   
-   Since dependent elements should be registered prior to a custom element being registered,
-   the repository can always maintain the complete list of localizable attributes for registered custom elements.
-   
-   - - -
-   
-   ### Note
-   
-   The described processes above are for debug builds with runtime localization traversal of templates
-   by `I18nBehavior`.
-   
-   For production builds, the build system can perform the same processes at build time so that 
-   `I18nBehavior` at clients can skip runtime traversal of templates.
-   
-   - - -
-   
-   ### TODO
-   
-   Handle and judge JSON object attributes.
-   
-   @group I18nBehavior
-   @element i18n-attr-repo
-   @hero hero.svg
-   @demo demo/index.html
-   */Polymer$2({importMeta:bundledImportMeta$2,is:'i18n-attr-repo',created:function(){this.data=sharedData;var customAttributes=this.querySelector('template#custom');// traverse custom attributes repository
-if(customAttributes&&!this.hasAttribute('processed')){this._traverseTemplateTree(customAttributes._content||customAttributes.content);this.setAttribute('processed','');}this._created();},_created:function(){this.data=sharedData;if(this.data.__ready__){return;// traverse standard attributes only once
-}this.data.__ready__=true;var standardTemplate;if(!this.$){var t=DomModule.import(this.is,'template');standardTemplate=(t._content||t.content).querySelector('template#standard');}else{standardTemplate=this.$.standard;}this._traverseTemplateTree(standardTemplate._content||standardTemplate.content);},/**
-   * Judge if a specific attribute of an element requires localization.
-   *
-   * @param {HTMLElement} element Target element.
-   * @param {string} attr Target attribute name.
-   * @return {string or boolean} true - property, '$' - attribute, false - not targeted, 'type-name' - type name
-   */isLocalizableAttribute:function(element,attr){var tagName=element.tagName.toLowerCase();if(!this.data){this._created();this.data=sharedData;}attr=attr.replace(/\$$/,'');if(this.data['any-elements']&&this.data['any-elements'][attr]){return this.data['any-elements'][attr];}else if(this.data[tagName]){return this.data[tagName]['any-attributes']||this._getType(element,this.data[tagName][attr]);}else{return false;}},/**
-   * Get the type name or '$' for a specific attribute of an element from the attributes repository
-   *
-   * @param {HTMLElement} element Target element.
-   * @param {object} value this.data[tagName][attr]
-   * @return {string or boolean} true - property, '$' - attribute, false - not targeted, 'type-name' - type name
-   */_getType:function(element,value){var selector;var result;if(typeof value==='object'){for(selector in value){if(selector){if(this._matchAttribute(element,selector)){result=this._getType(element,value[selector]);if(result){return result;}}}}if(value['']){if(this._matchAttribute(element,'')){result=this._getType(element,value['']);if(result){return result;}}}return false;}else{return value;}},/**
-   * Get the type name or '$' for a specific attribute of an element from the attributes repository
-   *
-   * Format for selectors:
-   *  - `attr=value` - Value of `attr` matches Regex `^value$`
-   *  - `!boolean-attr` - Boolean attribute does not exist
-   *  - `boolean-attr` - Boolean attribute exists with empty value
-   *  - empty string `''` - Always matches
-   *
-   * @param {HTMLElement} element Target element.
-   * @param {string} selector Matching condition for target attribute.
-   * @return {boolean} true - matching, false - not matching
-   */_matchAttribute:function(element,selector){var value;var match;// default ''
-if(selector===''){return true;}// attr=value Regex ^value$
-match=selector.match(/^([^!=]*)=(.*)$/);if(match){if(element.hasAttribute(match[1])){value=element.getAttribute(match[1]);return!!value.match(new RegExp('^'+match[2]+'$'));}else{return false;}}// !boolean-attr
-match=selector.match(/^!([^!=]*)$/);if(match){return!element.hasAttribute(match[1]);}// boolean-attr or empty-attr
-match=selector.match(/^([^!=]*)$/);if(match){if(element.hasAttribute(match[1])){value=element.getAttribute(match[1]);return!value;}else{return false;}}// no matching
-return false;},/**
-   * Comparator for attribute selectors
-   *
-   * @param {string} s1 selector 1
-   * @param {string} s2 selector 2
-   * @return {number} comparison result as -1, 0, or 1
-   */_compareSelectors:function(s1,s2){var name1=s1.replace(/^!/,'').replace(/=.*$/,'').toLowerCase();var name2=s2.replace(/^!/,'').replace(/=.*$/,'').toLowerCase();return name1.localeCompare(name2);},/**
-   * Add a new localizable attribute of an element to the repository.
-   *
-   * Format for selector values for defining I18N-target attributes:
-   *   - `attr1=value1,attr2=value2,boolean-attr,!boolean-attr` - Attribute value matching condition for property
-   *   - `attr1=value1,attr2=value2,$` - Attribute value matching condition for attribute
-   *   - `boolean-attr=` - Boolean attribute condition
-   *   - `attr1=value1,type` - Attribute value condition with type name (type is currently ineffective)
-   *
-   * @param {string} element Target element name.
-   * @param {string} attr Target attribute name.
-   * @param {?*} value Selector value
-   */setLocalizableAttribute:function(element,attr,value){this.data[element]=this.data[element]||{};var cursor=this.data[element];var prev=attr;var type=true;var selectors=[];if(typeof value==='string'&&value){selectors=value.split(',');if(selectors[selectors.length-1].match(/^[^!=][^=]*$/)){type=selectors.pop();}selectors=selectors.map(function(selector){return selector.replace(/=$/,'');});selectors.sort(this._compareSelectors);while(selectors[0]===''){selectors.shift();}}selectors.forEach(function(selector,index){if(typeof cursor[prev]!=='object'){cursor[prev]=cursor[prev]?{'':cursor[prev]}:{};}cursor[prev][selector]=cursor[prev][selector]||{};cursor=cursor[prev];prev=selector;});if(typeof cursor[prev]==='object'&&cursor[prev]&&Object.keys(cursor[prev]).length){cursor=cursor[prev];prev='';}cursor[prev]=type;},/**
-   * Pick up localizable attributes description for a custom element 
-   * from `text-attr` attribute and register them to the repository.
-   * The `text-attr` attribute is used in the template of a custom
-   * element to declare localizable attributes of its own element.
-   *
-   * Format:
-   *
-   *  Type 1: `<template text-attr="localizable-attr1 attr2">`
-   *
-   *  Type 2: `<template text-attr localizable-attr1 attr2="value2">`
-   *
-   * @param {string} element Target element name.
-   * @param {HTMLTemplateElement} template Template of the element.
-   */registerLocalizableAttributes:function(element,template){if(!this.data){this._created();this.data=sharedData;}if(!element){element=template.getAttribute('id');}if(element){var attrs=(template.getAttribute('text-attr')||'').split(' ');var textAttr=false;attrs.forEach(function(attr){if(attr){this.setLocalizableAttribute(element,attr,true);}},this);Array.prototype.forEach.call(template.attributes,function(attr){switch(attr.name){case'id':case'lang':case'localizable-text':case'assetpath':break;case'text-attr':textAttr=true;break;default:if(textAttr){this.setLocalizableAttribute(element,attr.name,attr.value);}break;}}.bind(this));}},/**
-   * Traverse the template of `i18n-attr-repo` in the ready() callback
-   * and construct the localizable attributes repository object. The method calls itself
-   * recursively for traversal.
-   *
-   * @param {HTMLElement} node The target HTML node for traversing.
-   */_traverseTemplateTree:function(node){var name;if(node.nodeType===node.ELEMENT_NODE){name=node.nodeName.toLowerCase();Array.prototype.forEach.call(node.attributes,function(attribute){this.data[name]=this.data[name]||{};this.setLocalizableAttribute(name,attribute.name,attribute.value);},this);}if(node.childNodes.length>0){for(var i=0;i<node.childNodes.length;i++){this._traverseTemplateTree(node.childNodes[i]);}}}});Polymer$1({is:'iron-request',hostAttributes:{hidden:true},properties:{/**
+   */_shouldPropertyChange(property,value,old){return mutablePropertyChange$1(this,property,value,old,this.mutableData);}};var mutableDataBehavior={MutableDataBehavior:MutableDataBehavior,OptionalMutableDataBehavior:OptionalMutableDataBehavior};const Base=LegacyElementMixin(HTMLElement).prototype;var polymerLegacy={Base:Base,Polymer:Polymer$1,html:html};Polymer$1({is:'iron-request',hostAttributes:{hidden:true},properties:{/**
      * A reference to the XMLHttpRequest instance used to generate the
      * network request.
      *
@@ -7347,7 +7345,7 @@ templateObject='';console.warn('i18n-format: cannot find a template');}}}if(type
    * Render the template text.
    */render:function(){var templateText=this._selectTemplateText();var tmpNode=document.createElement('span');var paramPlaceholder;var childNodes=[];var i;var shadyDomV1=!!window.ShadyDOM;if(templateText===this.lastTemplateText){//console.log('i18n-format: skipping rendering as the templateText has not changed');
 return;}else if(typeof templateText==='undefined'){return;}else{this.lastTemplateText=templateText;//console.log('i18n-format: ' + this.id + '.render() templateText = ' + templateText);
-}i=1;while(this.elements&&i<this.elements.length){paramPlaceholder=this.paramFormat.replace('n',i);templateText=templateText.replace(paramPlaceholder,'<slot name="'+i+'"></slot>');i++;}tmpNode.innerHTML=templateText;/*
+}templateText=templateText.replace(/</g,'&lt;');i=1;while(this.elements&&i<this.elements.length){paramPlaceholder=this.paramFormat.replace('n',i);templateText=templateText.replace(paramPlaceholder,'<slot name="'+i+'"></slot>');i++;}tmpNode.innerHTML=templateText;/*
                                       if (this.root === this) {
                                         this.attachShadow({ mode: 'open' });
                                         this.root = this.shadowRoot;
@@ -7517,73 +7515,61 @@ this.errorMessage=ex.message;Base._error('Could not save to localStorage. Incogn
          */});const bundledImportMeta$5={...import.meta,url:new URL('../../i18n-preference.js',import.meta.url).href};const $_documentContainer$1=document.createElement('template');$_documentContainer$1.innerHTML=`<template id="i18n-preference">
   <iron-localstorage id="storage" name="i18n-behavior-preference" on-iron-localstorage-load-empty="_onLoadEmptyStorage" on-iron-localstorage-load="_onLoadStorage" on-value-changed="_onStorageValueChange">
   </iron-localstorage>
-</template><div id="dom-module-placeholder"></div>`;//document.head.appendChild($_documentContainer.content);
-//(function(document) { // ES Modules do not need closures
-//'use strict'; // ES Modules are always strict mode
-// html element of this document
+</template><div id="dom-module-placeholder"></div>`;// html element of this document
 var html$1=document.querySelector('html');// app global default language
 var defaultLang=html$1.hasAttribute('lang')?html$1.getAttribute('lang'):'';// imperative synchronous registration of the template for Polymer 2.x
-var template$1=$_documentContainer$1.content.querySelector('template#i18n-preference');var domModule$2=document.createElement('dom-module');//var currentScript = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
-var registerI18nPreference=function(){//currentScript.ownerDocument.querySelector('div#dom-module-placeholder').appendChild(domModule);
-domModule$2.appendChild(template$1);domModule$2.register('i18n-preference');Polymer$1({importMeta:bundledImportMeta$5,is:'i18n-preference',properties:{/**
-       * Persistence of preference 
-       */persist:{type:Boolean,value:false,reflectToAttribute:true,notify:true,observer:'_onPersistChange'}},/**
-     * Ready callback to initialize this.lang
-     */ready:function(){if(this.persist){// delay this.lang update
+var template$1=$_documentContainer$1.content.querySelector('template#i18n-preference');var domModule$2=document.createElement('dom-module');domModule$2.appendChild(template$1);domModule$2.register('i18n-preference');Polymer$1({importMeta:bundledImportMeta$5,is:'i18n-preference',properties:{/**
+     * Persistence of preference 
+     */persist:{type:Boolean,value:false,reflectToAttribute:true,notify:true,observer:'_onPersistChange'}},/**
+   * Ready callback to initialize this.lang
+   */ready:function(){if(this.persist){// delay this.lang update
 }else{//this.$.storage.value = undefined;
 }this.isReady=true;},/**
-     * Attached callback to initialize html.lang and its observation
-     */attached:function(){this._observe();if(this.persist){// delay html.lang update
+   * Attached callback to initialize html.lang and its observation
+   */attached:function(){this._observe();if(this.persist){// delay html.lang update
 }else{if(!html$1.hasAttribute('preferred')){html$1.setAttribute('lang',navigator.language||navigator.browserLanguage);}}},/**
-     * Detached callback to diconnect html.lang observation
-     */detached:function(){this._disconnect();},/**
-     * Initialize an empty localstorage
-     */_onLoadEmptyStorage:function(){if(this.isReady){if(this.persist){if(this.isInitialized){// store html.lang value
+   * Detached callback to diconnect html.lang observation
+   */detached:function(){this._disconnect();},/**
+   * Initialize an empty localstorage
+   */_onLoadEmptyStorage:function(){if(this.isReady){if(this.persist){if(this.isInitialized){// store html.lang value
 this.$.storage.value=html$1.getAttribute('lang');}else{if(html$1.hasAttribute('preferred')){this.$.storage.value=html$1.getAttribute('lang');}else{this.$.storage.value=navigator.language||navigator.browserLanguage;if(html$1.getAttribute('lang')!==this.$.storage.value){html$1.setAttribute('lang',this.$.storage.value);}}this.isInitialized=true;}}else{// leave the empty storage as it is
 }}},/**
-     * Handle the loaded storage value
-     */_onLoadStorage:function(){if(this.isReady){if(this.persist){// preferred attribute in html to put higher priority
+   * Handle the loaded storage value
+   */_onLoadStorage:function(){if(this.isReady){if(this.persist){// preferred attribute in html to put higher priority
 // in the default html language than navigator.language
 if(html$1.hasAttribute('preferred')){if(this.$.storage.value!==defaultLang){// overwrite the storage by the app default language
 this.$.storage.value=defaultLang;}}else{// load the value from the storage
 html$1.setAttribute('lang',this.$.storage.value);}}else{// empty the storage
 this.$.storage.value=undefined;}}},/**
-     * Handle persist changes
-     *
-     * @param {Boolean} value new this.persist value
-     */_onPersistChange:function(value){if(this.isReady){if(value){if(this.$.storage.value!==html$1.getAttribute('lang')){// save to the storage
+   * Handle persist changes
+   *
+   * @param {Boolean} value new this.persist value
+   */_onPersistChange:function(value){if(this.isReady){if(value){if(this.$.storage.value!==html$1.getAttribute('lang')){// save to the storage
 this.$.storage.value=html$1.getAttribute('lang');}}else{// empty the storage
 this.$.storage.value=undefined;}}},/**
-     * Handle storage value changes
-     *
-     * @param {Event} e value-changed event on the storage
-     */_onStorageValueChange:function(e){var value=e.detail.value;if(this.isReady){if(this.persist){if(value){if(value!==html$1.getAttribute('lang')){// save to the lang
+   * Handle storage value changes
+   *
+   * @param {Event} e value-changed event on the storage
+   */_onStorageValueChange:function(e){var value=e.detail.value;if(this.isReady){if(this.persist){if(value){if(value!==html$1.getAttribute('lang')){// save to the lang
 html$1.setAttribute('lang',value);}}else{// update the storage
 this.$.storage.value=html$1.getAttribute('lang');}}else{if(value){// empty the storage
 this.$.storage.value=undefined;}}}},/**
-     * Handle value changes on localstorage
-     *
-     * @param {MutationRecord[]} mutations Array of MutationRecords for html.lang
-     *
-     * Note: 
-     *   - Bound to this element
-     */_htmlLangMutationObserverCallback:function(mutations){mutations.forEach(function(mutation){switch(mutation.type){case'attributes':if(mutation.attributeName==='lang'){if(this.$.storage.value!==mutation.target.getAttribute('lang')){this.$.storage.value=mutation.target.getAttribute('lang');}}break;default:break;}}.bind(this));},/**
-     * Set up html.lang mutation observer
-     */_observe:function(){// observe html lang mutations
+   * Handle value changes on localstorage
+   *
+   * @param {MutationRecord[]} mutations Array of MutationRecords for html.lang
+   *
+   * Note: 
+   *   - Bound to this element
+   */_htmlLangMutationObserverCallback:function(mutations){mutations.forEach(function(mutation){switch(mutation.type){case'attributes':if(mutation.attributeName==='lang'){if(this.$.storage.value!==mutation.target.getAttribute('lang')){this.$.storage.value=mutation.target.getAttribute('lang');}}break;default:break;}}.bind(this));},/**
+   * Set up html.lang mutation observer
+   */_observe:function(){// observe html lang mutations
 if(!this._htmlLangMutationObserver){this._htmlLangMutationObserverCallbackBindThis=this._htmlLangMutationObserverCallback.bind(this);this._htmlLangMutationObserver=new MutationObserver(this._htmlLangMutationObserverCallbackBindThis);}this._htmlLangMutationObserver.observe(html$1,{attributes:true});},/**
-     * Disconnect html.lang mutation observer
-     */_disconnect:function(){if(this._htmlLangMutationObserver){this._htmlLangMutationObserver.disconnect();}}});};//if ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative)) { // Drop HTML Imports support
-registerI18nPreference();//}
-/*
-else {
-  HTMLImports.whenReady(registerI18nPreference);
-}
-*/ //})(document); // ES Modules do not need closures
-/*!
- * @license deepcopy.js Copyright(c) 2013 sasa+1
- * https://github.com/sasaplus1/deepcopy.js
- * Released under the MIT license.
- */var deepcopy=function(){return(/******/function(modules){// webpackBootstrap
+   * Disconnect html.lang mutation observer
+   */_disconnect:function(){if(this._htmlLangMutationObserver){this._htmlLangMutationObserver.disconnect();}}});/*!
+     * @license deepcopy.js Copyright(c) 2013 sasa+1
+     * https://github.com/sasaplus1/deepcopy.js
+     * Released under the MIT license.
+     */var deepcopy=function(){return(/******/function(modules){// webpackBootstrap
 /******/ // The module cache
 /******/var installedModules={};/******/ // The require function
 /******/function __webpack_require__(moduleId){/******/ // Check if module is in cache
@@ -7673,44 +7659,7 @@ return resultValue;}var resultCollection=(0,_copy.copyCollection)(target,customi
 return recursiveCopy(target,customizer,clone,visited,reference);}function recursiveCopy(target,customizer,clone,visited,reference){if(target===null){// copy null
 return null;}var resultValue=(0,_copy.copyValue)(target);if(resultValue!==null){// copy some primitive types
 return resultValue;}var keys=(0,_polyfill.getKeys)(target).concat((0,_polyfill.getSymbols)(target));var i=void 0,len=void 0;var key=void 0,value=void 0,index=void 0,resultCopy=void 0,result=void 0,ref=void 0;for(i=0,len=keys.length;i<len;++i){key=keys[i];value=target[key];index=(0,_polyfill.indexOf)(visited,value);resultCopy=void 0;result=void 0;ref=void 0;if(index===-1){resultCopy=(0,_copy.copy)(value,customizer);result=resultCopy!==null?resultCopy:value;if(value!==null&&/^(?:function|object)$/.test(typeof value)){visited.push(value);reference.push(result);}}else{// circular reference
-ref=reference[index];}clone[key]=ref||recursiveCopy(value,customizer,result,visited,reference);}return clone;}exports['default']=deepcopy;module.exports=exports['default'];/***/}]/******/));}();var deepcopy$1={default:deepcopy};/**
-   @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
-   Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
-   */ /* For earlier initialization on Polymer 2.x */ /* TODO: convert to HTML import to avoid multiple deepcopy registration */ /*
-                                                                                                                                   FIXME(polymer-modulizer): the above comments were extracted
-                                                                                                                                   from HTML and may be out of place here. Review them and
-                                                                                                                                   then delete this comment!
-                                                                                                                                 */ //import { Base } from '@polymer/polymer/polymer-legacy.js'; // Use document.createElement() instead of Base.create()
-//$_documentContainer.innerHTML = `<i18n-attr-repo></i18n-attr-repo>`;
-//document.head.appendChild($_documentContainer.content);
-/* jshint -W100 */ // (function(document) { // ES Modules do not need closures
-//  'use strict'; // ES Modules are always strict mode
-var html$2=document.querySelector('html');/* ShadowDOMPolyfill is deprecated by ShadyDOM, while ShadowDOMPolyfill is still documented at https://www.webcomponents.org/polyfills
-                                             if (window.ShadowDOMPolyfill) {
-                                             // Fix #38. Add reflectToAttribute effect on html.lang property
-                                             // for supplementing Shadow DOM MutationObserver polyfill
-                                             Object.defineProperty(html, 'lang', {
-                                               get: function () {
-                                                 return this.getAttribute('lang');
-                                               },
-                                               set: function (value) {
-                                                 this.setAttribute('lang', value);
-                                               }
-                                             });
-                                             }
-                                             */ // Safari 7 predefines non-configurable standard properties
-// Note: They become configurable with ShadowDOMPolyfill, which wraps them.
-/*
-var isStandardPropertyConfigurable = (function () {
-  var langPropertyDescriptor = Object.getOwnPropertyDescriptor(document.createElement('span'), 'lang');
-  return !langPropertyDescriptor || langPropertyDescriptor.configurable;
-})();
-*/ // Polymer 1.4.0 on Safari 7 inserts extra unexpected whitepace node at the beginning of template
-//var extraWhiteSpaceNode = !isStandardPropertyConfigurable; // Drop Safari 7 support
-//if (ElementMixin) { // ElementMixin is always truthy
-//var isStandardPropertyConfigurable = false;
-//}
-// app global bundle storage
+ref=reference[index];}clone[key]=ref||recursiveCopy(value,customizer,result,visited,reference);}return clone;}exports['default']=deepcopy;module.exports=exports['default'];/***/}]/******/));}();var deepcopy$1={default:deepcopy};var html$2=document.querySelector('html');// app global bundle storage
 var bundles={'':{}};// with an empty default bundle
 // app global default language
 var defaultLang$1=html$2.hasAttribute('lang')?html$2.getAttribute('lang'):'';// shared fetching instances for bundles
@@ -7718,20 +7667,20 @@ var bundleFetchingInstances={};// path for start URL
 var startUrl=function(){var path=window.location.pathname;if(document.querySelector('meta[name=app-root]')&&document.querySelector('meta[name=app-root]').getAttribute('content')){// <meta name="app-root" content="/"> to customize application root
 path=document.querySelector('meta[name=app-root]').getAttribute('content');}else if(document.querySelector('link[rel=manifest]')&&document.querySelector('link[rel=manifest]').getAttribute('href')&&document.querySelector('link[rel=manifest]').getAttribute('href').match(/^\//)){// assume manifest is located at the application root folder
 path=document.querySelector('link[rel=manifest]').getAttribute('href');}return path.replace(/\/[^\/]*$/,'/');}();// path for locales from <html locales-path="locales">
-var localesPath=html$2.hasAttribute('locales-path')?html$2.getAttribute('locales-path'):'locales';// Support ShadowDOM V1 on Polymer 2.x
-var paramAttribute='slot';// ElementMixin ? 'slot' : 'param'; // ElementMixin is always truthy
-var attributesRepository=document.createElement('i18n-attr-repo');// ((!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript)).ownerDocument.querySelector('i18n-attr-repo');
-// set up userPreference
+var localesPath=html$2.hasAttribute('locales-path')?html$2.getAttribute('locales-path'):'locales';// Support ShadowDOM V1
+var paramAttribute='slot';var attributesRepository=document.createElement('i18n-attr-repo');// set up userPreference
 var userPreference=document.querySelector('i18n-preference');if(!userPreference){userPreference=document.createElement('i18n-preference');// append to body
 addEventListener('load',function(event){if(!document.querySelector('i18n-preference')){document.querySelector('body').appendChild(userPreference);}});setTimeout(function(){if(!document.querySelector('i18n-preference')){document.querySelector('body').appendChild(userPreference);}},0);}// debug log when <html debug> attribute exists
 var debuglog=html$2.hasAttribute('debug')?function(arg){console.log(arg);}:function(){};window.BehaviorsStore=window.BehaviorsStore||{};/**
+                                                      * @namespace BehaviorsStore
+                                                      */const BehaviorsStore$1=window.BehaviorsStore;/**
                                                       * Apply `BehaviorsStore.I18nControllerBehavior` to manipulate internal variables for I18N
                                                       *
                                                       * Note: This behavior is not for normal custom elements to apply I18N. UI is not expected.
                                                       *
-                                                      * @polymerBehavior BehaviorsStore.I18nControllerBehavior
-                                                      * @group I18nBehavior
-                                                      */BehaviorsStore.I18nControllerBehavior={properties:{/**
+                                                      * @polymerBehavior I18nControllerBehavior
+                                                      * @memberof BehaviorsStore
+                                                      */const I18nControllerBehavior={properties:{/**
      * Flag for detection of `I18nControllerBehavior`
      *
      * `true` if I18nControllerBehavior is applied
@@ -7755,106 +7704,104 @@ var debuglog=html$2.hasAttribute('debug')?function(arg){console.log(arg);}:funct
      * <i18n-attr-repo> element to store attributes repository
      */attributesRepository:{type:Object,value:attributesRepository,readOnly:true},/**
      * <i18n-preference> element
-     */userPreference:{type:Object,value:userPreference,readOnly:true}}};/**
-    * Apply `BehaviorsStore.I18nBehavior` to implement localizable elements.
-    *
-    *     <dom-module id="custom-element">
-    *       <template>
-    *         <span>Hard-coded UI texts are automatically made localizable</span>
-    *       </template>
-    *       <﻿﻿script﻿﻿>
-    *         Polymer({
-    *           is: 'custom-element',
-    *           behaviors: [ 
-    *             BehaviorsStore.I18nBehavior  // Add this behavior
-    *           ]
-    *         });
-    *       <﻿﻿/script﻿﻿>
-    *     </dom-module>
-    *
-    * `I18nBehavior` automatically extracts UI texts from `template` and 
-    * binds them to localizable variables in `this.text` object.
-    *
-    * According to the `lang` attribute value, `this.text`, and thus the bound UI texts,
-    * dynamically mutates by loading localized values from a JSON file in the `locales` directory.
-    * By default, `lang` attribute values of all the localizable elements with `I18nBehavior` are
-    * automatically updated according to `<html lang>` attribute value.
-    *
-    * The UI text externalization can be processed at build time as well by `gulp-*` task
-    * so that `I18nBehavior` can immediately recognize the extracted texts in JSON and 
-    * skip run-time externalization.
-    *
-    * Run-time externalization is suitable for development and debugging 
-    * since the code changes are immediately reflected at reloading without build-time preprocesses.
-    * In contrast, build-time externalization is suitable for production builds 
-    * since it eliminates run-time externalization overheads.
-    * 
-    * ### Steps to localize a custom element
-    *
-    * 1. [JavaScript] Add `BehaviorsStore.I18nBehavior` to `behaviors`
-    * 1. [gulp] Add `gulp-*` filter for `custom-element.html` and generate `custom-element.json`
-    * 1. [locales] Put `custom-element.lang.json` in `locales` directory
-    * 1. [translation] Translate `locales/custom-element.lang.json`
-    *
-    * - - -
-    *
-    * ### Directory structure of bundle files
-    *
-    * Normal bundles (`/element-root/locales/element-name.*.json`) for elements
-    * are stored under their root directories.
-    *
-    * Shared bundles (`/locales/bundle.*.json`) are generated at build time 
-    * by merging all the targeted bundles of the localizable elements. 
-    *
-    * Once the shared bundles are loaded, there should be no need to search for 
-    * normal bundles per element unless the element is intentionally excluded 
-    * from the shared bundles.
-    *
-    * ```
-    *      /bundle.json 
-    *      /locales/bundle.ja.json
-    *              /bundle.fr.json
-    *              /bundle.zh-Hans.json
-    *
-    *      /elements/my-list/my-list.json
-    *                       /locales/my-list.ja.json
-    *                               /my-list.zh-Hans.json
-    *
-    *               /google-chart-demo/google-chart-demo.json
-    *                                 /locales/google-chart-demo.ja.json
-    *                                         /google-chart-demo.fr.json
-    * ```
-    *
-    * - - -
-    *
-    * ### Localizable `<template is="i18n-dom-bind" id="app">` element
-    *
-    * `<template is="i18n-dom-bind">` template element extends 
-    * `<template is="dom-bind">` template element with all the capabilities of 
-    * `I18nBehavior`.  
-    *
-    * The `id` attribute value is used for naming bundle files instead of the element name.
-    * 
-    * The bundle files are stored at the locales directory under the application root. 
-    *
-    * ```
-    *      /app.json
-    *      /locales/app.ja.json
-    *              /app.fr.json
-    *              /app.zh-Hans.json
-    * ```
-    *
-    * - - -
-    *
-    * ### TODOs
-    *
-    * - Support user locale preference per user
-    *
-    * @polymerBehavior BehaviorsStore.I18nBehavior
-    * @group I18nBehavior
-    * @hero hero.svg
-    * @demo demo/index.html
-    */BehaviorsStore.I18nBehavior={/**
+     */userPreference:{type:Object,value:userPreference,readOnly:true}}};BehaviorsStore$1.I18nControllerBehavior=I18nControllerBehavior;/**
+                                                                  * Apply `BehaviorsStore.I18nBehavior` to implement localizable elements.
+                                                                  *
+                                                                  *     <dom-module id="custom-element">
+                                                                  *       <template>
+                                                                  *         <span>Hard-coded UI texts are automatically made localizable</span>
+                                                                  *       </template>
+                                                                  *       <﻿﻿script﻿﻿>
+                                                                  *         Polymer({
+                                                                  *           is: 'custom-element',
+                                                                  *           behaviors: [ 
+                                                                  *             BehaviorsStore.I18nBehavior  // Add this behavior
+                                                                  *           ]
+                                                                  *         });
+                                                                  *       <﻿﻿/script﻿﻿>
+                                                                  *     </dom-module>
+                                                                  *
+                                                                  * `I18nBehavior` automatically extracts UI texts from `template` and 
+                                                                  * binds them to localizable variables in `this.text` object.
+                                                                  *
+                                                                  * According to the `lang` attribute value, `this.text`, and thus the bound UI texts,
+                                                                  * dynamically mutates by loading localized values from a JSON file in the `locales` directory.
+                                                                  * By default, `lang` attribute values of all the localizable elements with `I18nBehavior` are
+                                                                  * automatically updated according to `<html lang>` attribute value.
+                                                                  *
+                                                                  * The UI text externalization can be processed at build time as well by `gulp-*` task
+                                                                  * so that `I18nBehavior` can immediately recognize the extracted texts in JSON and 
+                                                                  * skip run-time externalization.
+                                                                  *
+                                                                  * Run-time externalization is suitable for development and debugging 
+                                                                  * since the code changes are immediately reflected at reloading without build-time preprocesses.
+                                                                  * In contrast, build-time externalization is suitable for production builds 
+                                                                  * since it eliminates run-time externalization overheads.
+                                                                  * 
+                                                                  * ### Steps to localize a custom element
+                                                                  *
+                                                                  * 1. [JavaScript] Add `BehaviorsStore.I18nBehavior` to `behaviors`
+                                                                  * 1. [gulp] Add `gulp-*` filter for `custom-element.html` and generate `custom-element.json`
+                                                                  * 1. [locales] Put `custom-element.lang.json` in `locales` directory
+                                                                  * 1. [translation] Translate `locales/custom-element.lang.json`
+                                                                  *
+                                                                  * - - -
+                                                                  *
+                                                                  * ### Directory structure of bundle files
+                                                                  *
+                                                                  * Normal bundles (`/element-root/locales/element-name.*.json`) for elements
+                                                                  * are stored under their root directories.
+                                                                  *
+                                                                  * Shared bundles (`/locales/bundle.*.json`) are generated at build time 
+                                                                  * by merging all the targeted bundles of the localizable elements. 
+                                                                  *
+                                                                  * Once the shared bundles are loaded, there should be no need to search for 
+                                                                  * normal bundles per element unless the element is intentionally excluded 
+                                                                  * from the shared bundles.
+                                                                  *
+                                                                  * ```
+                                                                  *      /bundle.json 
+                                                                  *      /locales/bundle.ja.json
+                                                                  *              /bundle.fr.json
+                                                                  *              /bundle.zh-Hans.json
+                                                                  *
+                                                                  *      /elements/my-list/my-list.json
+                                                                  *                       /locales/my-list.ja.json
+                                                                  *                               /my-list.zh-Hans.json
+                                                                  *
+                                                                  *               /google-chart-demo/google-chart-demo.json
+                                                                  *                                 /locales/google-chart-demo.ja.json
+                                                                  *                                         /google-chart-demo.fr.json
+                                                                  * ```
+                                                                  *
+                                                                  * - - -
+                                                                  *
+                                                                  * ### Localizable `<template is="i18n-dom-bind" id="app">` element
+                                                                  *
+                                                                  * `<template is="i18n-dom-bind">` template element extends 
+                                                                  * `<template is="dom-bind">` template element with all the capabilities of 
+                                                                  * `I18nBehavior`.  
+                                                                  *
+                                                                  * The `id` attribute value is used for naming bundle files instead of the element name.
+                                                                  * 
+                                                                  * The bundle files are stored at the locales directory under the application root. 
+                                                                  *
+                                                                  * ```
+                                                                  *      /app.json
+                                                                  *      /locales/app.ja.json
+                                                                  *              /app.fr.json
+                                                                  *              /app.zh-Hans.json
+                                                                  * ```
+                                                                  *
+                                                                  * - - -
+                                                                  *
+                                                                  * ### TODOs
+                                                                  *
+                                                                  * - Support user locale preference per user
+                                                                  *
+                                                                  * @polymerBehavior I18nBehavior
+                                                                  * @memberof BehaviorsStore
+                                                                  */let I18nBehavior={/**
    * Fired when the text message bundle object (`this.text`) is updated after `this.lang` is changed.
    *
    * @event lang-updated
@@ -7862,20 +7809,22 @@ var debuglog=html$2.hasAttribute('debug')?function(arg){console.log(arg);}:funct
        * Fired when a shared bundle is fetched.
        *
        * @event bundle-fetched
-       */properties:{/**
-     * The locale of the element.
-     * The default value is copied from `<html lang>` attribute of the current page.
-     * If `<html lang>` is not specified, `''` is set to use the template default language.
-     *
-     * The value is synchronized with `<html lang>` attribute of the current page by default.
-     *
-     * ### Note:
-     *  - The value may not reflect the current UI locale until the localized texts are loaded.
-     */lang:{type:String,value:defaultLang$1,reflectToAttribute:true,observer:'_langChanged'},/**
+       */ /**
+           * The locale of the element.
+           * The default value is copied from `<html lang>` attribute of the current page.
+           * If `<html lang>` is not specified, `''` is set to use the template default language.
+           *
+           * The value is synchronized with `<html lang>` attribute of the current page by default.
+           *
+           * ### Note:
+           *  - The value may not reflect the current UI locale until the localized texts are loaded.
+           */hostAttributes:{'lang':defaultLang$1},properties:{/**
+     * Mirrored property for this.lang
+     */_lang:{type:String,value:defaultLang$1,reflectToAttribute:false,observer:'_langChanged'},/**
      * Text message bundle object for the current locale.
      * The object is shared among all the instances of the same element.
      * The value is updated when `lang-updated` event is fired.
-     */text:{type:Object,computed:'_getBundle(lang)'},/**
+     */text:{type:Object,computed:'_getBundle(_lang)'},/**
      * Data model bundle object for the current locale.
      * The data are bound to localizable attribute values in the element template.
      * The object is cloned from `this.text.model` per instance.
@@ -7963,7 +7912,7 @@ var debuglog=html$2.hasAttribute('debug')?function(arg){console.log(arg);}:funct
        * @param {string} lang Locale for the text message bundle.
        * @return {Object} Text message bundle for the locale.
        */_getBundle:function(lang){//console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
-var resolved;var id=this.is==='i18n-dom-bind'||/* ElementMixin && */this.constructor.is==='i18n-dom-bind'?this.id:this.is;if(lang&&lang.length>0){var fallbackLanguageList=this._enumerateFallbackLanguages(lang);var tryLang;while(tryLang=fallbackLanguageList.shift()){if(!bundles[tryLang]){// set up an empty bundle for the language if missing
+var resolved;var id=this.is==='i18n-dom-bind'||this.constructor.is==='i18n-dom-bind'?this.id:this.is;if(lang&&lang.length>0){var fallbackLanguageList=this._enumerateFallbackLanguages(lang);var tryLang;while(tryLang=fallbackLanguageList.shift()){if(!bundles[tryLang]){// set up an empty bundle for the language if missing
 bundles[tryLang]={};}if(bundles[tryLang][id]){// bundle found
 resolved=bundles[tryLang][id];break;}}}else{// lang is not specified
 lang='';resolved=bundles[lang][id];}// Fallback priorities: last > app default > element default > fallback > {}
@@ -8024,33 +7973,10 @@ parts.splice(isExtLangCode,1);result.push(parts.join('-'));parts.splice(isExtLan
 parts.splice(isExtLangCode,1);result.push(parts.join('-'));parts.splice(isExtLangCode,0,extLangCode);}if(!isScriptCode&&!isExtLangCode&&isCountryCode&&parts.length==2){// default script code can be added in certain cases with country codes
 // e.g. zh-CN -> zh-Hans-CN, zh-TW -> zh-Hant-TW
 switch(result[result.length-1]){case'zh-CN':case'zh-CHS':result.push('zh-Hans');break;case'zh-TW':case'zh-SG':case'zh-HK':case'zh-CHT':result.push('zh-Hant');break;default:break;}}parts.pop();}}return result;},/**
-   * Get the next fallback locale for the target locale.
-   * 
-   * Subset implementation of BCP47 (https://tools.ietf.org/html/bcp47).
+   * MutationObserver callback of `lang` attribute for Safari 7
    *
-   * ### Examples:
-   *
-   *| Target Locale | Next Fallback |
-   *|:--------------|:--------------|
-   *| ru            | null          |
-   *| en-GB         | en            |
-   *| fr-CA         | fr            |
-   *| zh-Hans-CN    | zh-Hans       |
-   *
-   * @param {string} lang Target locale.
-   * @return {string} Next fallback locale. `null` if there are no fallback languages.
-   */ /*
-      _getNextFallbackLanguage: function (lang) {
-        var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
-        fallbackLanguageList.shift();
-        var nextFallbackLanguage = fallbackLanguageList.shift();
-        return nextFallbackLanguage ? nextFallbackLanguage : null;
-      },
-      */ /**
-          * MutationObserver callback of `lang` attribute for Safari 7
-          *
-          * @param {Array} mutations Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
-          */_handleLangAttributeChange:function(mutations){mutations.forEach(function(mutation){switch(mutation.type){case'attributes':if(mutation.attributeName==='lang'){//console.log('_handleLangAttributeChange lang = ' + this.lang + ' oldValue = ' + mutation.oldValue +
+   * @param {Array} mutations Array of MutationRecord (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
+   */_handleLangAttributeChange:function(mutations){mutations.forEach(function(mutation){switch(mutation.type){case'attributes':if(mutation.attributeName==='lang'){//console.log('_handleLangAttributeChange lang = ' + this.lang + ' oldValue = ' + mutation.oldValue +
 //            ' typeof oldValue = ' + typeof mutation.oldValue);
 if(!(typeof mutation.oldValue==='object'&&!mutation.oldValue)&&mutation.oldValue!==this.lang){if(this._lang!==mutation.oldValue){//console.log('assigning this._lang = ' + mutation.oldValue + ' from old value');
 this._lang=mutation.oldValue;}//console.log('assigning this._lang = ' + this.lang);
@@ -8068,45 +7994,40 @@ this._lang=this.lang;}}break;default:/* istanbul ignore next: mutation.type is a
 var id=(this.is||this.getAttribute('is'))==='i18n-dom-bind'?this.id:this.is;lang=lang||'';// undefined and null are treated as default ''
 oldLang=oldLang||'';if(lang!==oldLang&&bundles[oldLang]&&bundles[oldLang][id]){this._fetchStatus.lastLang=oldLang;}if(bundles[lang]&&bundles[lang][id]){// bundle available for the new language
 if(this._fetchStatus&&lang!==this._fetchStatus.ajaxLang){// reset error status
-this._fetchStatus.error=null;}if(/* !ElementMixin || */ /* ElementMixin && */this.__data){this.notifyPath('text',this._getBundle(this.lang));}this.effectiveLang=lang;this.fire('lang-updated',{lang:this.lang,oldLang:oldLang,lastLang:this._fetchStatus.lastLang});}else{// fetch the missing bundle
+this._fetchStatus.error=null;}if(this.__data){this.notifyPath('text',this._getBundle(this.lang));}this.effectiveLang=lang;this.fire('lang-updated',{lang:this.lang,oldLang:oldLang,lastLang:this._fetchStatus.lastLang});}else{// fetch the missing bundle
 this._fetchLanguage(lang);}},/**
    * Called on `lang-updated` events and update `this.effectiveLang` with the value of `this.lang`.
-   */ /* _updateEffectiveLang will always be overridden later in this code
-      _updateEffectiveLang: function (event) {
-        if (dom(event).rootTarget === this) {
-          //console.log('_updateEffectiveLang: lang = ' + this.lang);
-          this.effectiveLang = this.lang;
-        }
-      }, */ /**
-             * Trigger fetching of the appropriate text message bundle of the target locale.
-             *
-             * ### Two Layers of Fallbacks:
-             *
-             * 1. Missing bundles fall back to those of their fallback locales.
-             * 1. Missing texts in the non-default bundles fall back to those in the default bundle. 
-             *
-             * ### Fallback Examples:
-             *
-             *| Locale      | Bundle Status                    |
-             *|:------------|:---------------------------------|
-             *| fr-CA       | existent with sparse texts       |
-             *| fr          | existent with full texts         |
-             *| ja          | existent with some missing texts |
-             *| zh-Hans-CN  | missing                          |
-             *| zh-Hans     | existent with some missing texts |
-             *| zh          | missing                          |
-             *| en          | existent with full texts         |
-             *| ''(default) | existent with full texts         |
-             *
-             *| Target      | Fallback bundle       | Resolved locale |
-             *|:------------|:----------------------|:----------------|
-             *| en          | en                    | en              |
-             *| ja          | ja + ''(default)      | ja              |
-             *| fr-CA       | fr-CA + fr            | fr-CA           |
-             *| zh-Hans-CN  | zh-Hans + ''(default) | zh-Hans         |
-             *
-             * @param {string} lang Target locale.
-             */_fetchLanguage:function(lang){if(this._fetchStatus){this._fetchStatus.fallbackLanguageList=this._enumerateFallbackLanguages(lang);this._fetchStatus.fallbackLanguageList.push('');this._fetchStatus.targetLang=this._fetchStatus.fallbackLanguageList.shift();this._fetchBundle(this._fetchStatus.targetLang);}},/**
+   */_updateEffectiveLang:function(event){if(event.composedPath()[0]===this){//console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
+this.effectiveLang=this._lang;}},/**
+   * Trigger fetching of the appropriate text message bundle of the target locale.
+   *
+   * ### Two Layers of Fallbacks:
+   *
+   * 1. Missing bundles fall back to those of their fallback locales.
+   * 1. Missing texts in the non-default bundles fall back to those in the default bundle. 
+   *
+   * ### Fallback Examples:
+   *
+   *| Locale      | Bundle Status                    |
+   *|:------------|:---------------------------------|
+   *| fr-CA       | existent with sparse texts       |
+   *| fr          | existent with full texts         |
+   *| ja          | existent with some missing texts |
+   *| zh-Hans-CN  | missing                          |
+   *| zh-Hans     | existent with some missing texts |
+   *| zh          | missing                          |
+   *| en          | existent with full texts         |
+   *| ''(default) | existent with full texts         |
+   *
+   *| Target      | Fallback bundle       | Resolved locale |
+   *|:------------|:----------------------|:----------------|
+   *| en          | en                    | en              |
+   *| ja          | ja + ''(default)      | ja              |
+   *| fr-CA       | fr-CA + fr            | fr-CA           |
+   *| zh-Hans-CN  | zh-Hans + ''(default) | zh-Hans         |
+   *
+   * @param {string} lang Target locale.
+   */_fetchLanguage:function(lang){if(this._fetchStatus){this._fetchStatus.fallbackLanguageList=this._enumerateFallbackLanguages(lang);this._fetchStatus.fallbackLanguageList.push('');this._fetchStatus.targetLang=this._fetchStatus.fallbackLanguageList.shift();this._fetchBundle(this._fetchStatus.targetLang);}},/**
    * Fetch the text message bundle of the target locale 
    * cooperatively with other instances.
    *
@@ -8117,7 +8038,7 @@ if(defaultLang$1&&defaultLang$1.length>0){lang=defaultLang$1;// app default lang
 }else if(this.templateDefaultLang&&this.templateDefaultLang.length>0){lang=this.templateDefaultLang;// element default language
 }else{lang='';// fallback default language
 }}// set up an empty bundle if inexistent
-bundles[lang]=bundles[lang]||{};var id=this.is==='i18n-dom-bind'||/* ElementMixin && */this.constructor.is==='i18n-dom-bind'?this.id:this.is;if(bundles[lang][id]){// bundle is available; no need to fetch
+bundles[lang]=bundles[lang]||{};var id=this.is==='i18n-dom-bind'||this.constructor.is==='i18n-dom-bind'?this.id:this.is;if(bundles[lang][id]){// bundle is available; no need to fetch
 if(this._fetchStatus.targetLang===lang){// reset error status
 this._fetchStatus.error=null;if(this.lang===lang){this.notifyPath('text',this._getBundle(this.lang));this.fire('lang-updated',{lang:this.lang,lastLang:this._fetchStatus.lastLang});}else{this.lang=lang;// trigger lang-updated event
 }}else{var nextFallbackLanguage=this._fetchStatus.fallbackLanguageList.shift();// bundle is available; no need to fetch
@@ -8180,29 +8101,14 @@ event.target.removeEventListener(event.type,this._handleBundleFetchedBindThis);i
    * @param {strings} lang Target locale.
    */_constructBundle:function(lang){var fallbackLanguageList=this._enumerateFallbackLanguages(lang);var bundle={};var raw;var baseLang;var id=this.is==='i18n-dom-bind'?this.id:this.is;var i;fallbackLanguageList.push('');for(i=0;i<fallbackLanguageList.length;i++){if(bundles[fallbackLanguageList[i]]&&bundles[fallbackLanguageList[i]][id]){break;}}fallbackLanguageList.splice(i+1,fallbackLanguageList.length);while((baseLang=fallbackLanguageList.pop())!==undefined){if(bundles[baseLang][id]){bundle=deepcopy(bundles[baseLang][id]);}else{raw=this._fetchStatus.rawResponses[baseLang];if(raw){this._deepMap(bundle,raw,function(text){return text;});}}}// store the constructed bundle
 if(!bundles[lang]){bundles[lang]={};}bundles[lang][id]=bundle;},/**
-   * Construct a pseudo-bundle for the target locale. (Not used for now)
+   * Recursively map the source object onto the target object with the specified map function.
+   * 
+   * The method is used to merge a bundle into its fallback bundle.
    *
-   * @param {string} lang Target locale.
-   */ /*
-      _constructPseudoBundle: function (lang) {
-        var bundle = {};
-        var id = this.is === 'i18n-dom-bind' ? this.id : this.is;
-        this._deepMap(bundle, bundles[''][id], function (value) {
-          return typeof value === 'string' ? lang + ' ' + value : value;
-        });
-        bundles[lang] = bundles[lang] || {};
-        bundles[lang][id] = bundle;
-        return bundle;
-      },
-      */ /**
-          * Recursively map the source object onto the target object with the specified map function.
-          * 
-          * The method is used to merge a bundle into its fallback bundle.
-          *
-          * @param {Object} target Target object.
-          * @param {Object} source Source object.
-          * @param {Function} map Mapping function.
-          */_deepMap:function(target,source,map){var value;for(var prop in source){value=source[prop];switch(typeof value){case'string':case'number':case'boolean':if(typeof target==='object'){target[prop]=map(value,prop);}break;case'object':if(typeof target==='object'){if(Array.isArray(value)){// TODO: cannot handle deep objects properly
+   * @param {Object} target Target object.
+   * @param {Object} source Source object.
+   * @param {Function} map Mapping function.
+   */_deepMap:function(target,source,map){var value;for(var prop in source){value=source[prop];switch(typeof value){case'string':case'number':case'boolean':if(typeof target==='object'){target[prop]=map(value,prop);}break;case'object':if(typeof target==='object'){if(Array.isArray(value)){// TODO: cannot handle deep objects properly
 target[prop]=target[prop]||[];this._deepMap(target[prop],value,map);}else{target[prop]=target[prop]||{};this._deepMap(target[prop],value,map);}}break;default:if(typeof target==='object'){target[prop]=value;}break;}}},/**
    * Construct the default bundle from the element's template.
    *
@@ -8268,13 +8174,9 @@ target[prop]=target[prop]||[];this._deepMap(target[prop],value,map);}else{target
    */_constructDefaultBundle:function(_template,_id){var template;var id=_id||this.is;if(this.is==='i18n-dom-bind'){template=_template||this;id=this.id;/* istanbul ignore if */if(template.content&&template.content.childNodes.length===0){// Find the real template in Internet Explorer 11 when i18n-dom-bind is concealed in a parent template
 // This does not happen on Polymer 1.3.1 or later.  So ignore this 'if' statement in code coverage.
 template=Array.prototype.map.call(document.querySelectorAll('template'),function(parentTemplate){return parentTemplate.content.querySelector('template#'+id+'[is="i18n-dom-bind"]');}).reduce(function(prev,current){return prev||current;});// Patch this.content with the real one
-if(template){this.content=template.content;}}}else{template=_template||DomModule.import(id,'template');}if(template){this.templateDefaultLang=template.hasAttribute('lang')?template.lang:'en';}else{this.templateDefaultLang='en';}var bundle={model:{}};var path=[];var templateDefaultLang=this.templateDefaultLang;var localizableText,jsonData;if(template){// register localizable attributes of the element itself
-if(attributesRepository.registerLocalizableAttributes){attributesRepository.registerLocalizableAttributes(id,template);}else{BehaviorsStore._I18nAttrRepo._created();BehaviorsStore._I18nAttrRepo.registerLocalizableAttributes(id,template);}if(template.getAttribute('localizable-text')==='embedded'){// pick up embedded JSON from the template
-localizableText=template.content.querySelector('#localizable-text');if(localizableText){jsonData=localizableText.content.querySelector('json-data');if(jsonData){bundle=JSON.parse(jsonData.textContent);}else{console.error('<json-data> not found in <template id=\"localizable-text\">');}}else{console.error('<template id=\"localizable-text\"> not found');}}else{/* Drop Safari 7 support
-        if (extraWhiteSpaceNode) {
-          template.setAttribute('strip-whitespace', '');
-        }
-        */ // traverse template to generate bundle
+if(template){this.content=template.content;}}}else{template=_template;}if(template){this.templateDefaultLang=template.hasAttribute('lang')?template.lang:'en';}else{this.templateDefaultLang='en';}var bundle={model:{}};var path=[];var templateDefaultLang=this.templateDefaultLang;var localizableText,jsonData;if(template){// register localizable attributes of the element itself
+if(attributesRepository.registerLocalizableAttributes){attributesRepository.registerLocalizableAttributes(id,template);}else{BehaviorsStore$1._I18nAttrRepo._created();BehaviorsStore$1._I18nAttrRepo.registerLocalizableAttributes(id,template);}if(template.getAttribute('localizable-text')==='embedded'){// pick up embedded JSON from the template
+localizableText=template.content.querySelector('#localizable-text');if(localizableText){jsonData=localizableText.content.querySelector('json-data');if(jsonData){bundle=JSON.parse(jsonData.textContent);}else{console.error('<json-data> not found in <template id=\"localizable-text\">');}}else{console.error('<template id=\"localizable-text\"> not found');}}else{// traverse template to generate bundle
 this._traverseTemplateTree(template.content,path,bundle,0);}}bundles[''][id]=bundle;bundles[templateDefaultLang]=bundles[templateDefaultLang]||{};bundles[templateDefaultLang][id]=bundle;//console.log('text = ');
 //console.log(JSON.stringify(bundle, null, 2));
 return true;},/**
@@ -8289,7 +8191,7 @@ return true;},/**
    * @param {Object} bundle Default bundle.
    */_traverseAttributes:function(node,path,bundle){var name=node.nodeName.toLowerCase();var id=node.getAttribute?node.getAttribute('text-id')||node.getAttribute('id'):null;var text;var messageId;var attrId;var isLocalizable;var dummy;var renamedAttributes=[];// pick up element attributes
 Array.prototype.forEach.call(node.attributes,function(attribute){text=attribute.value;switch(attribute.name){case'id':case'text-id':case'is':case'lang':case'class':// verification required before removing these attributes
-case'href':case'src':case'style':case'url':case'selected':break;default:if(!(isLocalizable=BehaviorsStore._I18nAttrRepo.isLocalizableAttribute(node,attribute.name))){break;}if(text.length===0){// skip empty value attribute
+case'href':case'src':case'style':case'url':case'selected':break;default:if(!(isLocalizable=BehaviorsStore$1._I18nAttrRepo.isLocalizableAttribute(node,attribute.name))){break;}if(text.length===0){// skip empty value attribute
 }else if(text.match(/^{{[^{}]*}}$/)||text.match(/^\[\[[^\[\]]*\]\]$/)){// skip annotation attribute
 }else if(text.replace(/\n/g,' ').match(/^{.*}|\[.*\]$/g)&&!text.match(/^{{[^{}]*}}|\[\[[^\[\]]*\]\]/)&&!text.match(/{{[^{}]*}}|\[\[[^\[\]]*\]\]$/)){// generate message id
 messageId=this._generateMessageId(path,id);try{//console.log(messageId + ' parsing attribute ' + attribute.name + ' = ' + text);
@@ -8466,13 +8368,7 @@ parsedValue.shift();parsedValue.splice(1,0,'serialize(');parsedValue.splice(3,0,
 if(!param.hasAttribute(paramAttribute)){param.setAttribute(paramAttribute,n);}if(param.tagName.toLowerCase()==='i18n-number'){if(!param.hasAttribute('lang')){param.setAttribute('lang','{{effectiveLang}}');}var offset=param.getAttribute('offset');if(offset){offset=' - '+offset;}else{offset='';}if(parsedValue){// convert to {{path - offset}}
 parsedValue.shift();parsedValue.splice(2,0,offset);value=parsedValue.join('');}else{param.textContent='{{text.'+messageId+'.'+n+'}}';}}else{if(!parsedValue){param.textContent='{{text.'+messageId+'.'+n+'}}';}}}return value;},this);debuglog(messageId+' = '+text);this._setBundleValue(bundle,messageId,text);break;case'template':// traverse into its content
 //console.log(path.join(':') + ':' + node.content.nodeName + ':' + 0);
-/* Drop Safari 7 support
-            if (extraWhiteSpaceNode) {
-              //if (node.hasAttribute('is') && node.getAttribute('is').match(/^(i18n-)?dom-/)) {
-                node.setAttribute('strip-whitespace', '');
-              //}
-            }
-            */this._traverseTemplateTree(node.content,path,bundle,0);break;default:// element node
+this._traverseTemplateTree(node.content,path,bundle,0);break;default:// element node
 if(name==='i18n-number'||name==='i18n-datetime'){if(!node.hasAttribute('lang')){node.setAttribute('lang','{{effectiveLang}}');}}// pick up element attributes
 this._traverseAttributes(node,path,bundle);// check annonated node
 isCompoundAnnotatedNode=false;if(node.childElementCount===0){if(node.textContent){isCompoundAnnotatedNode=this._isCompoundAnnotatedText(node.textContent);}}if(node.childElementCount===0&&!isCompoundAnnotatedNode){if(node.textContent){// use textContent for Firefox compatibility
@@ -8516,22 +8412,9 @@ prev.text.push('<template>');current.node.textContent='';}else if(textContent.ma
 prev.text.push('<template>');current.node.textContent=' ';}else if(textContent.match(/^[\s]*({{.*}}|\[\[.*\]\])[\s]*$/)){// tag with annotation
 prev.text.push(textContent);// textContent is untouched
 }else{prev.text.push(textContent.replace(/^[\s]*[\s]/,' ').replace(/[\s][\s]*$/,' '));current.node.textContent='{{text.'+messageId+'.'+n+'}}';}span=document.createElement('span');span.setAttribute(paramAttribute,n.toString());current.templateNode.content.removeChild(current.node);span.appendChild(current.node);current.templateNode.content.appendChild(span);prev.params.push(current.templateNode);}}return prev;}.bind(this),{text:[''],params:['{{text.'+messageId+'.0}}']});// clear original childNodes before implicit removals by appendChild to i18n-format for ShadyDOM compatibility
-//if (ElementMixin) { // ElementMixin is always truthy
-// Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
-node.innerHTML='';//}
-templateText=document.createElement('i18n-format');templateText.setAttribute('lang','{{effectiveLang}}');//if (ElementMixin) { // ElementMixin is always truthy
-// Avoid ShadyDOM issue for Polymer 2.x (Implicit removal by appendChild to another element introduces inconsistencies)
-// insert i18n-format
-node.appendChild(templateText);//}
-span=document.createElement('span');// span.innerText does not set an effective value in Firefox
-span.textContent=templateTextParams.params.shift();templateText.appendChild(span);Array.prototype.forEach.call(templateTextParams.params,function(param){templateText.appendChild(param);});/* ElementMixin is always truthy
-                    if (!ElementMixin) {
-                      // Avoid ShadyDOM issue for Polymer 1.x (Clearance of innerHTML unexpectedly removes textContent of child nodes)
-                      // insert i18n-format
-                      node.innerHTML = '';
-                      dom(node).appendChild(templateText);
-                    }
-                    */ // store the text message
+node.innerHTML='';templateText=document.createElement('i18n-format');templateText.setAttribute('lang','{{effectiveLang}}');// insert i18n-format
+node.appendChild(templateText);span=document.createElement('span');// span.innerText does not set an effective value in Firefox
+span.textContent=templateTextParams.params.shift();templateText.appendChild(span);Array.prototype.forEach.call(templateTextParams.params,function(param){templateText.appendChild(param);});// store the text message
 templateTextParams.text[0]=templateTextParams.text[0].replace(/^[\s]*[\s]/,' ').replace(/[\s][\s]*$/,' ');this._setBundleValue(bundle,messageId,templateTextParams.text);if(!id){//node.id = messageId;
 //console.warn('add missing node id as ' + messageId + ' for ' + templateTextParams.text[0]);
 }debuglog(messageId+' = '+templateTextParams.text);}else{// traverse childNodes
@@ -8584,34 +8467,20 @@ result=[node];}return result;},/**
    * @param {Array} path List of ascestor elements of the current node in traversal.
    * @param {id} id Value of `id` or `text-id` attribute of the current node.
    */_generateMessageId:function(path,id){var messageId;if(!id||id.length===0){for(var i=1;i<path.length;i++){if(path[i][0]==='#'){if(path[i]!=='#document-fragment'){if(messageId&&path[i].substr(0,5)==='#text'){messageId+=':'+path[i].substr(1);}else{messageId=path[i].substr(1);}}}else{if(messageId){messageId+=':'+path[i];}else{messageId=path[i];}}}}else{messageId=id;}return messageId;},/**
-   * Merge `this.defaultText` into the target default bundle.
-   * 
-   * ### TODO: 
+   * Return the first non-null argument.
    *
-   * - Need more research on the effective usage of this feature.
+   * Utility method for use in annotations.
    *
-   * @param {Object} bundle Default bundle.
-   */ /*
-      _mergeDefaultText: function (bundle) {
-        if (this.defaultText) {
-          this._deepMap(bundle, this.defaultText, function (text) { return text; });
-        }
-      },
-      */ /**
-          * Return the first non-null argument.
-          *
-          * Utility method for use in annotations.
-          *
-          * ### Example Usage:
-          * ```
-          *   <input is="iron-input" class="flex"
-          *     type="search" id="query" bind-value="{{query}}"
-          *     autocomplete="off"
-          *     placeholder="{{or(placeholder,text.search)}}">
-          * ```
-          *
-          * @param {*} arguments List of arguments.
-          */or:function(){var result=arguments[0];var i=1;while(!result&&i<arguments.length){result=arguments[i++];}return result;},/**
+   * ### Example Usage:
+   * ```
+   *   <input is="iron-input" class="flex"
+   *     type="search" id="query" bind-value="{{query}}"
+   *     autocomplete="off"
+   *     placeholder="{{or(placeholder,text.search)}}">
+   * ```
+   *
+   * @param {*} arguments List of arguments.
+   */or:function(){var result=arguments[0];var i=1;while(!result&&i<arguments.length){result=arguments[i++];}return result;},/**
    * Translate a string by a message table.
    *
    * Utility method for use in annotations.
@@ -8663,195 +8532,27 @@ result=[node];}return result;},/**
    * @return {string} Formatted string
    */i18nFormat:function(){if(arguments.length>0){var formatted=arguments[0]||'';for(var n=1;n<arguments.length;n++){formatted=formatted.replace('{'+n+'}',arguments[n]);}}return formatted;},// Lifecycle callbacks
 /**
-   * Lifecycle callback before registration of the custom element.
-   *
-   * The default bundle is constructed via traversal of the element's template at this timing per registration.
-   *
-   * ### Notes: 
-   *
-   * - For `i18n-dom-bind` elements, bundle construction is put off until `ready` lifecycle callback.
-   * - As called twice per custom element registration, the method skips bundle construction at the second call.
-   */beforeRegister:function(){//if (ElementMixin) { // ElementMixin is always truthy
-return;//}
-/* Unreacheable code
-    if (this.is !== 'i18n-dom-bind') {
-      if (!this._templateLocalizable) {
-        this._templateLocalizable = this._constructDefaultBundle();
-      }
-    }
-    */},/**
    * Lifecycle callback at registration of the custom element.
    *
    * this._fetchStatus is initialized per registration.
-   */registered:function(){if(this.is!=='i18n-dom-bind'){var template=this._template||DomModule.import(this.is,'template');if(!template){var id=this.is;/* Drop HTML Imports support; document.currentScript is always undefined
-                          var current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
-                                                              : (document._currentScript || document.currentScript);
-                          */template=/* (current ? current.ownerDocument
-                    .querySelector('template[id=' + id + ']') : null) || */document.querySelector('template[id='+id+']');if(!template){template=document.createElement('template');template.setAttribute('id',id);}if(template){var domModule=document.createElement('dom-module');var _noTemplateDomModule=DomModule.import(this.is);var assetpath=_noTemplateDomModule?_noTemplateDomModule.assetpath:new URL(/* (current ? current.baseURI : null) ||
-                                                                                           (window.currentImport ? window.currentImport.baseURI : null) ||
-                                                                                           (current && current.ownerDocument ? current.ownerDocument.baseURI : null) || */document.baseURI).pathname;domModule.appendChild(template);domModule.setAttribute('assetpath',template.hasAttribute('basepath')?template.getAttribute('basepath'):template.hasAttribute('assetpath')?template.getAttribute('assetpath'):assetpath);domModule.register(id);this._template=template;}var bundle={model:{}};bundles[''][id]=bundle;bundles[defaultLang$1]=bundles[defaultLang$1]||{};bundles[defaultLang$1][id]=bundle;console.warn('I18nBehavior.registered: '+id+' has no template. Supplying an empty template');}this._fetchStatus=deepcopy({// per custom element
+   */registered:function(){if(this.is!=='i18n-dom-bind'){var template=this._template||DomModule.import(this.is,'template');if(!template){var id=this.is;template=document.querySelector('template[id='+id+']');if(!template){template=document.createElement('template');template.setAttribute('id',id);}if(template){var domModule=document.createElement('dom-module');var _noTemplateDomModule=DomModule.import(this.is);var assetpath=_noTemplateDomModule?_noTemplateDomModule.assetpath:new URL(document.baseURI).pathname;domModule.appendChild(template);domModule.setAttribute('assetpath',template.hasAttribute('basepath')?template.getAttribute('basepath'):template.hasAttribute('assetpath')?template.getAttribute('assetpath'):assetpath);domModule.register(id);this._template=template;}var bundle={model:{}};bundles[''][id]=bundle;bundles[defaultLang$1]=bundles[defaultLang$1]||{};bundles[defaultLang$1][id]=bundle;console.warn('I18nBehavior.registered: '+id+' has no template. Supplying an empty template');}this._fetchStatus=deepcopy({// per custom element
 fetchingInstance:null,ajax:null,ajaxLang:null,lastLang:null,fallbackLanguageList:null,targetLang:null,lastResponse:{},rawResponses:{}});}},/**
    * Lifecycle callback on instance creation
    */created:function(){// Fix #34. [Polymer 1.4.0] _propertyEffects have to be maintained per instance
-if(this.is==='i18n-dom-bind'){this._propertyEffects=deepcopy(this._propertyEffects);}else{var template=DomModule.import(this.is,'template');if(template&&template.hasAttribute('lang')){this.templateDefaultLang=template.getAttribute('lang')||'';}if(!this._fetchStatus){this._fetchStatus=deepcopy({// per custom element
-fetchingInstance:null,ajax:null,ajaxLang:null,lastLang:null,fallbackLanguageList:null,targetLang:null,lastResponse:{},rawResponses:{}});}}//if (!isStandardPropertyConfigurable) {
-// Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
-this.observer=new MutationObserver(this._handleLangAttributeChange.bind(this));this.observer.observe(this,{attributes:true,attributeFilter:['lang'],attributeOldValue:true});//}
-},/**
+if(this.is==='i18n-dom-bind'){this._propertyEffects=deepcopy(this._propertyEffects);}else{var template=DomModule.import(this.is,'template');if(template&&template.hasAttribute('lang')){this.templateDefaultLang=template.getAttribute('lang')||'';}}// Fix #36. Emulate lang's observer since Safari 7 predefines non-configurable lang property
+this.observer=new MutationObserver(this._handleLangAttributeChange.bind(this));this.observer.observe(this,{attributes:true,attributeFilter:['lang'],attributeOldValue:true});},/**
    * Lifecycle callback when the template children are ready.
-   */ready:function(){if(this.is==='i18n-dom-bind'){if(!this._templateLocalizable){this._templateLocalizable=this._constructDefaultBundle();}if(!this._fetchStatus){this._fetchStatus=deepcopy({// per instance
-fetchingInstance:null,ajax:null,ajaxLang:null,lastLang:null,fallbackLanguageList:null,targetLang:null,lastResponse:{},rawResponses:{}});}this._onDomChangeBindThis=this._onDomChange.bind(this);this.addEventListener('dom-change',this._onDomChangeBindThis);// Fix #34. [Polymer 1.4.0] Supply an empty object if this.__data__ is undefined
-this.__data__=this.__data__||Object.create(null);}else{//if (!isStandardPropertyConfigurable) {
-// Fix #36. Patch missing properties except for lang
-/* Drop fix for Polymer 1.x
-      for (var p in this._propertyEffects) {
-        if (this._propertyEffects[p] &&
-            !Object.getOwnPropertyDescriptor(this, p)) {
-          //console.log('ready: creating accessors for ' + p);
-          Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
-        }
-      }
-      */ //}
-if(/* ElementMixin && */!this.__data){this._initializeProperties();}this._langChanged(this.getAttribute('lang'),undefined);// model per instance
+   */ready:function(){if(this.is==='i18n-dom-bind'){this._onDomChangeBindThis=this._onDomChange.bind(this);this.addEventListener('dom-change',this._onDomChangeBindThis);}else{this._langChanged(this.getAttribute('lang'),undefined);// model per instance
 if(this.text){this.model=deepcopy(this.text.model);}}},/**
    * attached lifecycle callback.
-   */attached:function(){/*
-    if (this.is === 'i18n-dom-bind') {
-      if (this._properties) {
-        // Fix #35. [IE10] Restore properties for use in rendering
-        this.properties = this._properties;
-        delete this._properties;
-      }
-    }
-    */if(this.observeHtmlLang){this.lang=html$2.lang;// TODO: this call is redundant
+   */attached:function(){if(this.observeHtmlLang){this.lang=html$2.lang;// TODO: this call is redundant
 this._observeHtmlLangChanged(true);}},/**
    * Handle `dom-change` event for `i18n-dom-bind`
-   */_onDomChange:function(){/* Drop fix for Polymer 1.x
-    // Fix #16: [IE11][Polymer 1.3.0] On IE11, i18n-dom-bind does not work with Polymer 1.3.0
-    // Patch the broken lang property accessors manually if it is missing
-    // Fix #34: [IE11][Polymer 1.4.0] Create missing property accessors including lang
-    for (var p in this._propertyEffects) {
-      if (this._propertyEffects[p] &&
-          !Object.getOwnPropertyDescriptor(this, p)) {
-        Polymer.Bind._createAccessors(this, p, this._propertyEffects[p]);
-      }
-    }
-    */this.removeEventListener('dom-change',this._onDomChangeBindThis);if(this.text&&this.text.model){this.model=deepcopy(this.text.model);}/* Drop fix for Polymer 1.x
-      // Fix #17: [Polymer 1.3.0] observeHtmlLang is undefined in i18n-dom-bind
-      // Explicitly initialize observeHtmlLang if the value is undefined.
-      if (typeof this.observeHtmlLang === 'undefined' &&
-          !this.hasAttribute('observe-html-lang')) {
-        this.observeHtmlLang = true;
-      }
-      */if(this.observeHtmlLang){this.lang=html$2.lang;this._observeHtmlLangChanged(true);}},/**
+   */_onDomChange:function(){this.removeEventListener('dom-change',this._onDomChangeBindThis);if(this.text&&this.text.model){this.model=deepcopy(this.text.model);}if(this.observeHtmlLang){this.lang=html$2.lang;this._observeHtmlLangChanged(true);}},/**
    * detached lifecycle callback
-   */detached:function(){if(this.observeHtmlLang){this._observeHtmlLangChanged(false);}}};// Fix #36. Rename lang property as _lang to avoid conflict with the predefined lang property
-//if (!isStandardPropertyConfigurable) {
-var _properties=Object.create(null);for(var p$2 in BehaviorsStore.I18nBehavior.properties){if(p$2==='lang'){_properties._lang=BehaviorsStore.I18nBehavior.properties.lang;}else{_properties[p$2]=BehaviorsStore.I18nBehavior.properties[p$2];}}BehaviorsStore.I18nBehavior.properties=_properties;BehaviorsStore.I18nBehavior.properties._lang.reflectToAttribute=false;BehaviorsStore.I18nBehavior.properties.text.computed='_getBundle(_lang)';BehaviorsStore.I18nBehavior._updateEffectiveLang=function(event){if(/* (!ElementMixin && dom(event).rootTarget === this) || */ /* ElementMixin && */event.composedPath()[0]===this){//console.log('lang-updated: _updateEffectiveLang: assigning effectiveLang = ' + this._lang);
-this.effectiveLang=this._lang;}};BehaviorsStore.I18nBehavior.hostAttributes={'lang':defaultLang$1};//}
-//if (ElementMixin) { // ElementMixin is always truthy
-// Polymer 2.x
-BehaviorsStore._I18nBehavior=BehaviorsStore.I18nBehavior;BehaviorsStore.I18nBehavior=[BehaviorsStore._I18nBehavior];//if (!document.currentScript) { // document.currentScript is always falsy
-// Polymer 3.x
-BehaviorsStore.I18nBehavior.push({get _template(){if(this.__template){return this.__template;}if(this instanceof HTMLElement&&(this.constructor.name||/* name is undefined in IE11 */this.constructor.toString().replace(/^function ([^ \(]*)((.*|[\n]*)*)$/,'$1'))==='PolymerGenerated'&&!this.constructor.__finalizeClass){this.constructor.__finalizeClass=this.constructor._finalizeClass;let This=this;this.constructor._finalizeClass=function _finalizeClass(){let info=this.generatedFrom;if(!this._templateLocalizable){let template=DomModule.import(info.is,'template');if(info._template){if(!template){let m=document.createElement('dom-module');m.appendChild(info._template);m.register(info.is);}this._templateLocalizable=BehaviorsStore._I18nBehavior._constructDefaultBundle(This.__template=info._template,info.is);}else{if(template){this._templateLocalizable=BehaviorsStore._I18nBehavior._constructDefaultBundle(This.__template=template,info.is);}}}return this.__finalizeClass();};}return this.__template;},set _template(value){this.__template=value;}});if(!function F(){}.name){// IE11
+   */detached:function(){if(this.observeHtmlLang){this._observeHtmlLangChanged(false);}}};const _I18nBehavior=BehaviorsStore$1._I18nBehavior=I18nBehavior;BehaviorsStore$1.I18nBehavior=[BehaviorsStore$1._I18nBehavior];BehaviorsStore$1.I18nBehavior.push({get _template(){if(this.__template){return this.__template;}if(this instanceof HTMLElement&&(this.constructor.name||/* name is undefined in IE11 */this.constructor.toString().replace(/^function ([^ \(]*)((.*|[\n]*)*)$/,'$1'))==='PolymerGenerated'&&!this.constructor.__finalizeClass){this.constructor.__finalizeClass=this.constructor._finalizeClass;let This=this;this.constructor._finalizeClass=function _finalizeClass(){let info=this.generatedFrom;if(!this._templateLocalizable){let template=DomModule.import(info.is,'template');if(info._template){if(!template){let m=document.createElement('dom-module');m.appendChild(info._template);m.register(info.is);}this._templateLocalizable=BehaviorsStore$1._I18nBehavior._constructDefaultBundle(This.__template=info._template,info.is);}else{if(template){this._templateLocalizable=BehaviorsStore$1._I18nBehavior._constructDefaultBundle(This.__template=template,info.is);}}}return this.__finalizeClass();};}return this.__template;},set _template(value){this.__template=value;}});if(!function F(){}.name){// IE11
 // Note: In IE11, changes in this.text object do not propagate automatically and require MutableDataBehavior to propagate
-BehaviorsStore.I18nBehavior.push(MutableDataBehavior);}//}
-Object.defineProperty(BehaviorsStore.I18nBehavior,'0',{get:function(){//var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
-var ownerDocument=document;//current.ownerDocument;
-//if (ownerDocument.nodeType === ownerDocument.DOCUMENT_NODE) {
-// HTML Imports are flatten in the root document and not under document fragment nodes
-// Fix #62: Emulate a subset of "non-HTMLImports-link-traversing" querySelectorAll for latest Firefox 51
-// since currentScript.ownerDocument, HTML Imports polyfill, and querySelectorAll behave differently
-//var _tmpNode = current;
-// check for DOCUMENT_FRAGMENT_NODE for fail safe
-/* document.currentScript is always falsy
-    while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
-      _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &&
-      _tmpNode.nodeType !== _tmpNode.DOCUMENT_NODE) {
-      _tmpNode = _tmpNode.parentNode;
-    }
-    if (_tmpNode &&
-      (_tmpNode.nodeType === _tmpNode.DOCUMENT_FRAGMENT_NODE ||
-       _tmpNode.nodeType === _tmpNode.DOCUMENT_NODE)) {
-      ownerDocument = _tmpNode; // reach the containing document fragment
-    }
-    */ /* Drop support for HTML Imports polyfill
-       else if (_tmpNode && _tmpNode.import === _tmpNode) { // html-imports polyfill v1
-         ownerDocument = _tmpNode.children; // reach the immediate import link containing the currentScript
-         ownerDocument.querySelectorAll = function (selector) {
-           var match = selector.match(/^([a-zA-Z0-9-]{1,})(:not\(\[(processed)\]\))?(\[(legacy)\])?$/);
-           var list = [];
-           var node;
-           var tagName;
-           var i;
-           for (i = 0; i < this.length; i++) {
-             node = this[i];
-             tagName = node.tagName.toLowerCase();
-             switch (tagName) {
-             case 'link':
-               break;
-             case match[1]:
-               if (match[2]) {
-                 if (!node.hasAttribute(match[3])) {
-                   list.push(node);
-                 }
-               }
-               else if (match[4]) {
-                 if (node.hasAttribute(match[5])) {
-                   list.push(node);
-                 }
-               }
-               else {
-                 list.push(node);
-               }
-               break;
-             default:
-               Array.prototype.forEach.call(node.querySelectorAll(selector), function (child) { list.push(child); });
-               break;
-             }
-           }
-           return list;
-         }
-       }
-       */ //}
-var i18nAttrRepos=ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');var domModules=ownerDocument.querySelectorAll('dom-module[legacy]');if(domModules.length===0){domModules=ownerDocument.querySelectorAll('dom-module');if(domModules.length!==1){domModules=[];}}BehaviorsStore._I18nAttrRepo._created();Array.prototype.forEach.call(i18nAttrRepos,function(repo){if(!repo.hasAttribute('processed')){var customAttributes=repo.querySelector('template#custom');if(customAttributes){BehaviorsStore._I18nAttrRepo._traverseTemplateTree(customAttributes.content||customAttributes._content);}repo.setAttribute('processed','');}});Array.prototype.forEach.call(domModules,function(domModule){if(domModule&&domModule.id){var template=domModule.querySelector('template');if(template){BehaviorsStore._I18nBehavior._constructDefaultBundle(template,domModule.id);domModule.removeAttribute('legacy');}}});return BehaviorsStore._I18nBehavior;}});//}
-/*
-else {
-  // Polymer 1.x
-/**
- * `<template is="i18n-dom-bind">` element extends `dom-bind` template element with `I18nBehavior`
- *
- * @group I18nBehavior
- * @element i18n-dom-bind
- * /
-var i18nBehaviorDomBind = {};
-Base.extend(i18nBehaviorDomBind, BehaviorsStore.I18nBehavior);
-var i18nDomBind = {};
-var domBind = document.createElement('template', 'dom-bind');
-var domBindProto = Object.getPrototypeOf(domBind);
-if (typeof domBindProto.render !== 'function') {
-  domBindProto = domBind.__proto__; // fallback for IE10
-}
-Base.extend(i18nDomBind, domBindProto);
-i18nDomBind.is = 'i18n-dom-bind';
-if (!navigator.language && navigator.browserLanguage) { // Detect IE10
-  // Fix #35. [IE10] Hide properties until attached phase in IE10
-  // to avoid exceptions in overriding unconfigurable properties in Object.defineProperty
-  i18nBehaviorDomBind._properties = i18nBehaviorDomBind.properties;
-  i18nBehaviorDomBind.properties = Object.create(null);
-}
-/* As of Polymer 1.3.1, dom-bind does not have predefined behaviors * /
-/* istanbul ignore if * /
-if (i18nDomBind.behaviors) {
-  i18nDomBind.behaviors.push(i18nBehaviorDomBind);
-}
-else {
-  i18nDomBind.behaviors = [ i18nBehaviorDomBind ];
-}
-var _Polymer = Polymer$0;
-_Polymer(i18nDomBind);
-} */ // })(document); // ES Modules do not need closures
-"use strict";var fakeServerContents$1={"/commented-simple-text-element/commented-simple-text-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/commented-simple-text-element/locales/commented-simple-text-element.fr.json":"{\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}\n","/compound-binding-dom-bind.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": [\n    \" outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}","/compound-binding-element/compound-binding-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": [\n    \" outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}","/compound-binding-element/locales/compound-binding-element.fr.json":"{\n  \"model\": {},\n  \"text\": [\n    \" fr outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"fr outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" fr outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"fr simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"fr simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"fr simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"fr simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" fr simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" fr simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" fr simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"fr simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"fr great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"fr line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"fr line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"fr line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"fr line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"fr line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"fr line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"fr id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": [\n    \" fr outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}\n","/edge-case-dom-bind.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" name = {1} \",\n    \"{{text.name}}\"\n  ],\n  \"i18n-number_1\": \"1\",\n  \"i18n-format_2\": [\n    \"{{text.format}}\",\n    \"1\"\n  ],\n  \"i18n-format_3\": [\n    \"format\",\n    \"\"\n  ],\n  \"p_8\": [\n    \"hello {1}{2} {3} world\",\n    \"<br>\",\n    \"<span>\",\n    \"<span>\"\n  ],\n  \"p_9\": [\n    \"hello{1}world\",\n    \"<br>\"\n  ],\n  \"text_10\": \" hello \",\n  \"text_14\": \" world \"\n}","/edge-case/advanced-binding-element.json":"{\n  \"meta\": {},\n  \"model\": {\n    \"aria-attributes\": {\n      \"title\": \"tooltip text\",\n      \"aria-label\": \"aria label text\",\n      \"aria-valuetext\": \"aria value text\"\n    }\n  },\n  \"annotated-format\": [\n    \"{{tr(status,text.statusMessageFormats)}}\",\n    \"{{parameter}}\",\n    \"string parameter\"\n  ],\n  \"span_5\": [\n    \"{1} {2}\",\n    \"{{text.defaultValue}}\",\n    \"{{text.defaultValue}}\"\n  ],\n  \"statusMessages\": {\n    \"ok\": \"healthy status\",\n    \"busy\": \"busy status\",\n    \"error\": \"error status\",\n    \"default\": \"unknown status\"\n  },\n  \"defaultValue\": \"default value\",\n  \"statusMessageFormats\": {\n    \"ok\": \"healthy status\",\n    \"busy\": \"busy status with {2}\",\n    \"error\": \"error status with {1} and {2}\",\n    \"default\": \"unknown status\"\n  },\n  \"nodefault\": {\n    \"ok\": \"ok status\"\n  }\n}","/edge-case/complex-compound-binding-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"item-update2:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update2:text_2\": \" xxx \",\n  \"item-update2:dom-if_3:template:span:b\": \"IF CONTENT\",\n  \"item-update2:b_4\": \"abc\",\n  \"item-update2:dom-if_5:template:text\": \"IF CONTENT 2\",\n  \"item-update2:text_6\": \" hello \",\n  \"item-update:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update:text_2\": \" xxx \",\n  \"item-update:dom-if_3:template:b\": \"IF CONTENT\",\n  \"item-update:b_4\": \"abc\",\n  \"item-update:dom-if_5:template:text\": \"IF CONTENT 2\",\n  \"item-update:text_6\": \" hello \",\n  \"item-update3:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text_2\": \" xxx \",\n  \"item-update3:dom-if_3:template:b\": \"IF\",\n  \"item-update3:dom-if_3:template:b_1\": \"CONTENT\",\n  \"item-update3:b_4\": \"abc\",\n  \"item-update3:dom-if_5:template:text\": \"IF CONTENT 2\",\n  \"item-update3:text_6\": \" hello \",\n  \"item-update4:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:dom-repeat_1:template:text\": [\n    \" {1} = {2} \",\n    \"{{item.name}}\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:text_2\": \" xxx \",\n  \"item-update4:dom-if_3:template:b\": \"IF CONTENT\",\n  \"item-update4:b_4\": \"abc\",\n  \"item-update4:dom-if_5:template:text\": \"IF CONTENT 2\",\n  \"item-update4:text_6\": \" hello \",\n  \"paragraph:text\": \"A paragraph with \",\n  \"paragraph:text_2\": \" is converted to \",\n  \"paragraph:code_3\": \"<i18n-format>\",\n  \"paragraph:text_4\": \". \",\n  \"paragraph2:text\": \"A paragraph with deep \",\n  \"paragraph2:text_2\": \" is \",\n  \"paragraph2:b_3\": \"not\",\n  \"paragraph2:text_4\": \" converted to \",\n  \"paragraph2:code_5\": \"<i18n-format>\",\n  \"paragraph2:text_6\": \". \",\n  \"authors\": [\n    {\n      \"name\": \"Joe\"\n    },\n    {\n      \"name\": \"Alice\"\n    }\n  ],\n  \"updated\": \"Jan 1st, 2016\",\n  \"parameters\": [\n    \"parameter 1\",\n    \"parameter 2\"\n  ]\n}","/edge-case/empty-element.json":"{}","/edge-case/locales/advanced-binding-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {\n    \"aria-attributes\": {\n      \"title\": \"fr tooltip text\",\n      \"aria-label\": \"fr aria label text\",\n      \"aria-valuetext\": \"fr aria value text\"\n    }\n  },\n  \"annotated-format\": [\n    \"{{tr(status,text.statusMessageFormats)}}\",\n    \"{{parameter}}\",\n    \"fr string parameter\"\n  ],\n  \"span_5\": [\n    \"fr {1} {2}\",\n    \"{{text.defaultValue}}\",\n    \"{{text.defaultValue}}\"\n  ],\n  \"statusMessages\": {\n    \"ok\": \"fr healthy status\",\n    \"busy\": \"fr busy status\",\n    \"error\": \"fr error status\",\n    \"default\": \"fr unknown status\"\n  },\n  \"defaultValue\": \"fr default value\",\n  \"statusMessageFormats\": {\n    \"ok\": \"fr healthy status\",\n    \"busy\": \"fr busy status with {2}\",\n    \"error\": \"fr error status with {1} and {2}\",\n    \"default\": \"fr unknown status\"\n  },\n  \"nodefault\": {\n    \"ok\": \"fr ok status\"\n  }\n}","/edge-case/locales/complex-compound-binding-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"item-update2:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update2:text_2\": \" fr xxx \",\n  \"item-update2:dom-if_3:template:span:b\": \"fr IF CONTENT\",\n  \"item-update2:b_4\": \"fr abc\",\n  \"item-update2:dom-if_5:template:text\": \"fr IF CONTENT 2\",\n  \"item-update2:text_6\": \" fr hello \",\n  \"item-update:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update:text_2\": \" fr xxx \",\n  \"item-update:dom-if_3:template:b\": \"fr IF CONTENT\",\n  \"item-update:b_4\": \"fr abc\",\n  \"item-update:dom-if_5:template:text\": \"fr IF CONTENT 2\",\n  \"item-update:text_6\": \" fr hello \",\n  \"item-update3:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text_2\": \" fr xxx \",\n  \"item-update3:dom-if_3:template:b\": \"fr IF\",\n  \"item-update3:dom-if_3:template:b_1\": \"fr CONTENT\",\n  \"item-update3:b_4\": \"fr abc\",\n  \"item-update3:dom-if_5:template:text\": \"fr IF CONTENT 2\",\n  \"item-update3:text_6\": \" fr hello \",\n  \"item-update4:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:dom-repeat_1:template:text\": [\n    \" fr {1} = {2} \",\n    \"{{item.name}}\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:text_2\": \" fr xxx \",\n  \"item-update4:dom-if_3:template:b\": \"fr IF CONTENT\",\n  \"item-update4:b_4\": \"fr abc\",\n  \"item-update4:dom-if_5:template:text\": \"fr IF CONTENT 2\",\n  \"item-update4:text_6\": \" fr hello \",\n  \"paragraph:text\": \"fr A paragraph with \",\n  \"paragraph:text_2\": \" fr is converted to \",\n  \"paragraph:code_3\": \"fr <i18n-format>\",\n  \"paragraph:text_4\": \"fr . \",\n  \"paragraph2:text\": \"fr A paragraph with deep \",\n  \"paragraph2:text_2\": \" fr is \",\n  \"paragraph2:b_3\": \"fr not\",\n  \"paragraph2:text_4\": \" fr converted to \",\n  \"paragraph2:code_5\": \"fr <i18n-format>\",\n  \"paragraph2:text_6\": \"fr . \",\n  \"authors\": [\n    {\n      \"name\": \"fr Joe\"\n    },\n    {\n      \"name\": \"fr Alice\"\n    }\n  ],\n  \"updated\": \"fr Jan 1st, 2016\",\n  \"parameters\": [\n    \"fr parameter 1\",\n    \"fr parameter 2\"\n  ]\n}","/edge-case/locales/empty-element.fr.json":"{}","/fallback-text-element/fallback-text-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/fallback-text-element/locales/fallback-text-element.fr-CA.json":"{\n  \"model\": {},\n  \"text\": \"fr-CA  outermost text at the beginning \",\n  \"h1_3\": \"fr-CA outermost header 1\",\n  \"text_4\": \"fr-CA  outermost text in the middle \",\n  \"span_5\": \"fr-CA simple text without id\",\n  \"span_6\": \"fr-CA simple text without id 2\",\n  \"label-1\": \"fr-CA simple text with id\",\n  \"label-2\": \"fr-CA simple text with id 2\",\n  \"div_10:span_1\": \"fr-CA simple text within div\",\n  \"toplevel-div:span\": \"fr-CA simple text within div\",\n  \"toplevel-div:span_1\": \"fr-CA simple text within div 2\",\n  \"third-level-div\": \"fr-CA great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr-CA great grandchild text within div without id\",\n  \"p_13\": [\n    \"fr-CA A paragraph with {1} is converted to {2}.\",\n    \"fr-CA parameters\",\n    \"fr-CA <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr-CA A paragraph with {1} is converted to {2}.\",\n    \"fr-CA id\",\n    \"fr-CA <i18n-format>\"\n  ],\n  \"text_15\": \"fr-CA  outermost text at the end \"\n}\n","/fallback-text-element/locales/fallback-text-element.fr.json":"{\n  \"model\": {},\n  \"text\": \"fr  outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \"fr  outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \"fr  outermost text at the end \"\n}\n","/locales/compound-binding-dom-bind.fr.json":"{\n  \"model\": {},\n  \"text\": [\n    \" fr outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"fr outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" fr outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"fr simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"fr simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"fr simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"fr simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" fr simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" fr simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" fr simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"fr simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"fr great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"fr line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"fr line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"fr line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"fr line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"fr line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"fr line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"fr id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": [\n    \" fr outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}\n","/locales/simple-attribute-dom-bind.fr.json":"{\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"fr standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"fr standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"fr paper-input label\",\n      \"error-message\": \"fr paper-input error message\",\n      \"placeholder\": \"fr paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"fr paper-input label without id\",\n      \"error-message\": \"fr paper-input error message without id\",\n      \"placeholder\": \"fr paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"fr Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"fr Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"fr Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"fr Jan\",\n          31\n        ],\n        [\n          \"fr Feb\",\n          28\n        ],\n        [\n          \"fr Mar\",\n          31\n        ],\n        [\n          \"fr Apr\",\n          30\n        ],\n        [\n          \"fr May\",\n          31\n        ],\n        [\n          \"fr Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"fr Inventory\"\n      },\n      \"data\": [\n        [\n          \"fr Year\",\n          \"fr Things\",\n          \"fr Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"fr custom text attribute 1\",\n      \"custom-text-attr2\": \"fr custom text attribute 2\",\n      \"custom-text-attr3\": \"fr custom text attribute 3\"\n    },\n    \"selective-attr\": {\n      \"custom-text-attr4\": [\n        \"fr {1} custom-text-attr4 attribute with param {2} and param {3} {4}\",\n        \"{{text.ordinary-div}}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\",\n        \"{{text.ordinary-div}}\"\n      ],\n      \"custom-text-attr5\": [\n        \"[[text.ordinary-div]]\",\n        \" fr custom-text-attr5 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" fr and param \",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target\": [\n        \"fr i18n-target attribute with param {1} and param {2}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target2\": [\n        \"fr i18n-target2 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" fr and param \",\n        \"[[text.ordinary-div]]\"\n      ]\n    },\n    \"selective-attr2\": {\n      \"i18n-target\": \"fr i18n-target attribute 2\"\n    },\n    \"selective-attr3\": {\n      \"i18n-target6\": \"fr i18n-target6 attribute 2\"\n    },\n    \"selective-attr4\": {\n      \"i18n-target6\": \"fr i18n-target6 attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"fr this attr1 is extracted\",\n      \"i18n-target-attr\": \"fr this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"fr this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"fr this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"fr text 1\"\n}\n","/locales/simple-text-dom-bind.fr.json":"{\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}\n","/multiple-case/item-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"label\": \"A\"\n}","/multiple-case/locales/item-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"label\": \"fr A\"\n}","/multiple-case/locales/multiple-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {}\n}","/multiple-case/multiple-element.json":"{\n  \"meta\": {},\n  \"model\": {}\n}","/plural-gender-element/locales/plural-gender-element.fr.json":"{\n  \"model\": {},\n  \"compound-format-text\": [\n    {\n      \"0\": \"fr You ({3}) gave no gifts.\",\n      \"1\": {\n        \"male\": \"fr You ({3}) gave him ({4}) {5}.\",\n        \"female\": \"fr You ({3}) gave her ({4}) {5}.\",\n        \"other\": \"fr You ({3}) gave them ({4}) {5}.\"\n      },\n      \"one\": {\n        \"male\": \"fr You ({3}) gave him ({4}) and one other person {5}.\",\n        \"female\": \"fr You ({3}) gave her ({4}) and one other person {5}.\",\n        \"other\": \"fr You ({3}) gave them ({4}) and one other person {5}.\"\n      },\n      \"other\": \"fr You ({3}) gave them ({4}) and {1} other people gifts.\"\n    },\n    \"{{recipients.length - 1}}\",\n    \"{{recipients.0.gender}}\",\n    \"{{sender.name}}\",\n    \"{{recipients.0.name}}\",\n    \"fr a gift\"\n  ]\n}\n","/plural-gender-element/plural-gender-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"compound-format-text\": [\n    {\n      \"0\": \"You ({3}) gave no gifts.\",\n      \"1\": {\n        \"male\": \"You ({3}) gave him ({4}) {5}.\",\n        \"female\": \"You ({3}) gave her ({4}) {5}.\",\n        \"other\": \"You ({3}) gave them ({4}) {5}.\"\n      },\n      \"one\": {\n        \"male\": \"You ({3}) gave him ({4}) and one other person {5}.\",\n        \"female\": \"You ({3}) gave her ({4}) and one other person {5}.\",\n        \"other\": \"You ({3}) gave them ({4}) and one other person {5}.\"\n      },\n      \"other\": \"You ({3}) gave them ({4}) and {1} other people gifts.\"\n    },\n    \"{{recipients.length - 1}}\",\n    \"{{recipients.0.gender}}\",\n    \"{{sender.name}}\",\n    \"{{recipients.0.name}}\",\n    \"a gift\"\n  ]\n}","/preference/preference-element.json":"{\n  \"meta\": {},\n  \"model\": {}\n}","/simple-attribute-dom-bind.json":"{\n  \"meta\": {},\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"paper-input label\",\n      \"error-message\": \"paper-input error message\",\n      \"placeholder\": \"paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"paper-input label without id\",\n      \"error-message\": \"paper-input error message without id\",\n      \"placeholder\": \"paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"Jan\",\n          31\n        ],\n        [\n          \"Feb\",\n          28\n        ],\n        [\n          \"Mar\",\n          31\n        ],\n        [\n          \"Apr\",\n          30\n        ],\n        [\n          \"May\",\n          31\n        ],\n        [\n          \"Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"Inventory\"\n      },\n      \"data\": [\n        [\n          \"Year\",\n          \"Things\",\n          \"Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"custom text attribute 1\",\n      \"custom-text-attr2\": \"custom text attribute 2\",\n      \"custom-text-attr3\": \"custom text attribute 3\"\n    },\n    \"selective-attr\": {\n      \"custom-text-attr4\": [\n        \"{1} custom-text-attr4 attribute with param {2} and param {3} {4}\",\n        \"{{text.ordinary-div}}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\",\n        \"{{text.ordinary-div}}\"\n      ],\n      \"custom-text-attr5\": [\n        \"[[text.ordinary-div]]\",\n        \" custom-text-attr5 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" and param \",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target\": [\n        \"i18n-target attribute with param {1} and param {2}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target2\": [\n        \"i18n-target2 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" and param \",\n        \"[[text.ordinary-div]]\"\n      ]\n    },\n    \"selective-attr2\": {\n      \"i18n-target\": \"i18n-target attribute 2\"\n    },\n    \"selective-attr3\": {\n      \"i18n-target6\": \"i18n-target6 attribute 2\"\n    },\n    \"selective-attr4\": {\n      \"i18n-target6\": \"i18n-target6 attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"this attr1 is extracted\",\n      \"i18n-target-attr\": \"this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"text 1\"\n}","/simple-attribute-element/locales/simple-attribute-element.fr.json":"{\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"fr standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"fr standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"fr paper-input label\",\n      \"error-message\": \"fr paper-input error message\",\n      \"placeholder\": \"fr paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"fr paper-input label without id\",\n      \"error-message\": \"fr paper-input error message without id\",\n      \"placeholder\": \"fr paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"fr Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"fr Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"fr Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"fr Jan\",\n          31\n        ],\n        [\n          \"fr Feb\",\n          28\n        ],\n        [\n          \"fr Mar\",\n          31\n        ],\n        [\n          \"fr Apr\",\n          30\n        ],\n        [\n          \"fr May\",\n          31\n        ],\n        [\n          \"fr Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"fr Inventory\"\n      },\n      \"data\": [\n        [\n          \"fr Year\",\n          \"fr Things\",\n          \"fr Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"fr custom text attribute 1\",\n      \"custom-text-attr2\": \"fr custom text attribute 2\",\n      \"custom-text-attr3\": \"fr custom text attribute 3\"\n    },\n    \"selective-attr\": {\n      \"custom-text-attr4\": [\n        \"fr {1} custom-text-attr4 attribute with param {2} and param {3} {4}\",\n        \"{{text.ordinary-div}}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\",\n        \"{{text.ordinary-div}}\"\n      ],\n      \"custom-text-attr5\": [\n        \"[[text.ordinary-div]]\",\n        \" fr custom-text-attr5 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" fr and param \",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target\": [\n        \"fr i18n-target attribute with param {1} and param {2}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target2\": [\n        \"fr i18n-target2 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" fr and param \",\n        \"[[text.ordinary-div]]\"\n      ]\n    },\n    \"selective-attr2\": {\n      \"i18n-target\": \"fr i18n-target attribute 2\"\n    },\n    \"selective-attr3\": {\n      \"i18n-target6\": \"fr i18n-target6 attribute 2\"\n    },\n    \"selective-attr4\": {\n      \"i18n-target6\": \"fr i18n-target6 attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"fr this attr1 is extracted\",\n      \"i18n-target-attr\": \"fr this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"fr this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"fr this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"fr text 1\"\n}\n","/simple-attribute-element/locales/text-attribute-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"span_4\": \"fr text\"\n}\n","/simple-attribute-element/simple-attribute-element.json":"{\n  \"meta\": {},\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"paper-input label\",\n      \"error-message\": \"paper-input error message\",\n      \"placeholder\": \"paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"paper-input label without id\",\n      \"error-message\": \"paper-input error message without id\",\n      \"placeholder\": \"paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"Jan\",\n          31\n        ],\n        [\n          \"Feb\",\n          28\n        ],\n        [\n          \"Mar\",\n          31\n        ],\n        [\n          \"Apr\",\n          30\n        ],\n        [\n          \"May\",\n          31\n        ],\n        [\n          \"Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"Inventory\"\n      },\n      \"data\": [\n        [\n          \"Year\",\n          \"Things\",\n          \"Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"custom text attribute 1\",\n      \"custom-text-attr2\": \"custom text attribute 2\",\n      \"custom-text-attr3\": \"custom text attribute 3\"\n    },\n    \"selective-attr\": {\n      \"custom-text-attr4\": [\n        \"{1} custom-text-attr4 attribute with param {2} and param {3} {4}\",\n        \"{{text.ordinary-div}}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\",\n        \"{{text.ordinary-div}}\"\n      ],\n      \"custom-text-attr5\": [\n        \"[[text.ordinary-div]]\",\n        \" custom-text-attr5 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" and param \",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target\": [\n        \"i18n-target attribute with param {1} and param {2}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target2\": [\n        \"i18n-target2 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" and param \",\n        \"[[text.ordinary-div]]\"\n      ]\n    },\n    \"selective-attr2\": {\n      \"i18n-target\": \"i18n-target attribute 2\"\n    },\n    \"selective-attr3\": {\n      \"i18n-target6\": \"i18n-target6 attribute 2\"\n    },\n    \"selective-attr4\": {\n      \"i18n-target6\": \"i18n-target6 attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"this attr1 is extracted\",\n      \"i18n-target-attr\": \"this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"text 1\"\n}","/simple-attribute-element/text-attribute-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"span_4\": \"text\"\n}","/simple-text-dom-bind.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/simple-text-element/locales/simple-text-element.fr.json":"{\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}\n","/simple-text-element/locales/simple-text-element.ru.json":"{\n  \"model\": {},\n  \"text\": \" ru outermost text at the beginning \",\n  \"h1_3\": \"ru outermost header 1\",\n  \"text_4\": \" ru outermost text in the middle \",\n  \"span_5\": \"ru simple text without id\",\n  \"span_6\": \"ru simple text without id 2\",\n  \"label-1\": \"ru simple text with id\",\n  \"label-2\": \"ru simple text with id 2\",\n  \"div_9:span\": \"ru simple text within div\",\n  \"div_9:span_1\": \"ru simple text within div 2\",\n  \"div_9:div_2:div\": \"ru great grandchild text within div\",\n  \"div_10:text\": \" ru simple text as the first element in div \",\n  \"div_10:span_1\": \"ru simple text within div\",\n  \"div_10:text_2\": \" ru simple text in the middle of div \",\n  \"div_10:span_3\": \"ru simple text within div 2\",\n  \"div_10:div_4:div\": \"ru great grandchild text within div\",\n  \"div_10:text_5\": \" ru simple text at the last element in div \",\n  \"toplevel-div:span\": \"ru simple text within div\",\n  \"toplevel-div:span_1\": \"ru simple text within div 2\",\n  \"third-level-div\": \"ru great grandchild text within div\",\n  \"second-level-div:div_1\": \"ru great grandchild text within div without id\",\n  \"div_12:ul:li\": \"ru line item without id 1\",\n  \"div_12:ul:li_1\": \"ru line item without id 2\",\n  \"div_12:ul:li_2\": \"ru line item without id 3\",\n  \"line-items:li\": \"ru line item with id 1\",\n  \"line-items:li_1\": \"ru line item with id 2\",\n  \"line-items:li_2\": \"ru line item with id 3\",\n  \"p_13\": [\n    \"ru A paragraph with {1} is converted to {2}.\",\n    \"ru parameters\",\n    \"ru <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"ru A paragraph with {1} is converted to {2}.\",\n    \"ru id\",\n    \"ru <i18n-format>\"\n  ],\n  \"text_15\": \" ru outermost text at the end \"\n}\n","/simple-text-element/simple-text-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/simple-text-id-element/locales/simple-text-id-element.fr.json":"{\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"second-level-div\": [\n    \" fr {1}\\n        {2} \",\n    \"fr great grandchild text within div\",\n    \"fr great grandchild text within div without id\"\n  ],\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items\": [\n    \" fr {1}\\n        {2}\\n        {3} \",\n    \"fr line item with id 1\",\n    \"fr line item with id 2\",\n    \"fr line item with id 3\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}\n","/simple-text-id-element/simple-text-id-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"second-level-div\": [\n    \" {1}\\n        {2} \",\n    \"great grandchild text within div\",\n    \"great grandchild text within div without id\"\n  ],\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items\": [\n    \" {1}\\n        {2}\\n        {3} \",\n    \"line item with id 1\",\n    \"line item with id 2\",\n    \"line item with id 3\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/template-default-lang/locales/null-template-default-lang-element.ja.json":"","/template-default-lang/locales/null-template-default-lang-element.zh-Hans-CN.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" zh-Hans-CN outermost text at the beginning \",\n  \"h1_3\": \"zh-Hans-CN outermost header 1\",\n  \"text_4\": \" zh-Hans-CN outermost text in the middle \",\n  \"span_5\": \"zh-Hans-CN simple text without id\",\n  \"span_6\": \"zh-Hans-CN simple text without id 2\",\n  \"label-1\": \"zh-Hans-CN simple text with id\",\n  \"label-2\": \"zh-Hans-CN simple text with id 2\",\n  \"div_9:span\": \"zh-Hans-CN simple text within div\",\n  \"div_9:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"div_9:div_2:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text\": \" zh-Hans-CN simple text as the first element in div \",\n  \"div_10:span_1\": \"zh-Hans-CN simple text within div\",\n  \"div_10:text_2\": \" zh-Hans-CN simple text in the middle of div \",\n  \"div_10:span_3\": \"zh-Hans-CN simple text within div 2\",\n  \"div_10:div_4:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text_5\": \" zh-Hans-CN simple text at the last element in div \",\n  \"toplevel-div:span\": \"zh-Hans-CN simple text within div\",\n  \"toplevel-div:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"third-level-div\": \"zh-Hans-CN great grandchild text within div\",\n  \"second-level-div:div_1\": \"zh-Hans-CN great grandchild text within div without id\",\n  \"div_12:ul:li\": \"zh-Hans-CN line item without id 1\",\n  \"div_12:ul:li_1\": \"zh-Hans-CN line item without id 2\",\n  \"div_12:ul:li_2\": \"zh-Hans-CN line item without id 3\",\n  \"line-items:li\": \"zh-Hans-CN line item with id 1\",\n  \"line-items:li_1\": \"zh-Hans-CN line item with id 2\",\n  \"line-items:li_2\": \"zh-Hans-CN line item with id 3\",\n  \"p_13\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN parameters\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN id\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"text_15\": \" zh-Hans-CN outermost text at the end \"\n}","/template-default-lang/locales/template-default-lang-element.zh-Hans-CN.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" zh-Hans-CN outermost text at the beginning \",\n  \"h1_3\": \"zh-Hans-CN outermost header 1\",\n  \"text_4\": \" zh-Hans-CN outermost text in the middle \",\n  \"span_5\": \"zh-Hans-CN simple text without id\",\n  \"span_6\": \"zh-Hans-CN simple text without id 2\",\n  \"label-1\": \"zh-Hans-CN simple text with id\",\n  \"label-2\": \"zh-Hans-CN simple text with id 2\",\n  \"div_9:span\": \"zh-Hans-CN simple text within div\",\n  \"div_9:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"div_9:div_2:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text\": \" zh-Hans-CN simple text as the first element in div \",\n  \"div_10:span_1\": \"zh-Hans-CN simple text within div\",\n  \"div_10:text_2\": \" zh-Hans-CN simple text in the middle of div \",\n  \"div_10:span_3\": \"zh-Hans-CN simple text within div 2\",\n  \"div_10:div_4:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text_5\": \" zh-Hans-CN simple text at the last element in div \",\n  \"toplevel-div:span\": \"zh-Hans-CN simple text within div\",\n  \"toplevel-div:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"third-level-div\": \"zh-Hans-CN great grandchild text within div\",\n  \"second-level-div:div_1\": \"zh-Hans-CN great grandchild text within div without id\",\n  \"div_12:ul:li\": \"zh-Hans-CN line item without id 1\",\n  \"div_12:ul:li_1\": \"zh-Hans-CN line item without id 2\",\n  \"div_12:ul:li_2\": \"zh-Hans-CN line item without id 3\",\n  \"line-items:li\": \"zh-Hans-CN line item with id 1\",\n  \"line-items:li_1\": \"zh-Hans-CN line item with id 2\",\n  \"line-items:li_2\": \"zh-Hans-CN line item with id 3\",\n  \"p_13\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN parameters\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN id\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"text_15\": \" zh-Hans-CN outermost text at the end \"\n}","/template-default-lang/null-template-default-lang-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/template-default-lang/template-default-lang-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}"};window.deepcopy=deepcopy;if(!Number.isNaN){// polyfill Number.isNaN for IE11
+BehaviorsStore$1.I18nBehavior.push(MutableDataBehavior);}Object.defineProperty(BehaviorsStore$1.I18nBehavior,'0',{get:function(){var ownerDocument=document;var i18nAttrRepos=ownerDocument.querySelectorAll('i18n-attr-repo:not([processed])');var domModules=ownerDocument.querySelectorAll('dom-module[legacy]');if(domModules.length===0){domModules=ownerDocument.querySelectorAll('dom-module');if(domModules.length!==1){domModules=[];}}BehaviorsStore$1._I18nAttrRepo._created();Array.prototype.forEach.call(i18nAttrRepos,function(repo){if(!repo.hasAttribute('processed')){var customAttributes=repo.querySelector('template#custom');if(customAttributes){BehaviorsStore$1._I18nAttrRepo._traverseTemplateTree(customAttributes.content||customAttributes._content);}repo.setAttribute('processed','');}});Array.prototype.forEach.call(domModules,function(domModule){if(domModule&&domModule.id){var template=domModule.querySelector('template');if(template){BehaviorsStore$1._I18nBehavior._constructDefaultBundle(template,domModule.id);domModule.removeAttribute('legacy');}}});return BehaviorsStore$1._I18nBehavior;}});I18nBehavior=BehaviorsStore$1.I18nBehavior;var i18nBehavior={BehaviorsStore:BehaviorsStore$1,I18nControllerBehavior:I18nControllerBehavior,_I18nBehavior:_I18nBehavior,get I18nBehavior(){return I18nBehavior;}};"use strict";var fakeServerContents$1={"/commented-simple-text-element/commented-simple-text-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/commented-simple-text-element/locales/commented-simple-text-element.fr.json":"{\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}\n","/compound-binding-dom-bind.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": [\n    \" outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}","/compound-binding-element/compound-binding-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": [\n    \" outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}","/compound-binding-element/locales/compound-binding-element.fr.json":"{\n  \"model\": {},\n  \"text\": [\n    \" fr outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"fr outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" fr outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"fr simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"fr simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"fr simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"fr simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" fr simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" fr simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" fr simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"fr simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"fr great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"fr line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"fr line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"fr line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"fr line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"fr line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"fr line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"fr id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": [\n    \" fr outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}\n","/edge-case-dom-bind.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": [\n    \" name = {1} \",\n    \"{{text.name}}\"\n  ],\n  \"i18n-number_1\": \"1\",\n  \"i18n-format_2\": [\n    \"{{text.format}}\",\n    \"1\"\n  ],\n  \"i18n-format_3\": [\n    \"format\",\n    \"\"\n  ],\n  \"p_8\": [\n    \"hello {1}{2} {3} world\",\n    \"<br>\",\n    \"<span>\",\n    \"<span>\"\n  ],\n  \"p_9\": [\n    \"hello{1}world\",\n    \"<br>\"\n  ],\n  \"text_10\": \" hello \",\n  \"text_14\": \" world \"\n}","/edge-case/advanced-binding-element.json":"{\n  \"meta\": {},\n  \"model\": {\n    \"aria-attributes\": {\n      \"title\": \"tooltip text\",\n      \"aria-label\": \"aria label text\",\n      \"aria-valuetext\": \"aria value text\"\n    }\n  },\n  \"annotated-format\": [\n    \"{{tr(status,text.statusMessageFormats)}}\",\n    \"{{parameter}}\",\n    \"string parameter\"\n  ],\n  \"span_5\": [\n    \"{1} {2}\",\n    \"{{text.defaultValue}}\",\n    \"{{text.defaultValue}}\"\n  ],\n  \"statusMessages\": {\n    \"ok\": \"healthy status\",\n    \"busy\": \"busy status\",\n    \"error\": \"error status\",\n    \"default\": \"unknown status\"\n  },\n  \"defaultValue\": \"default value\",\n  \"statusMessageFormats\": {\n    \"ok\": \"healthy status\",\n    \"busy\": \"busy status with {2}\",\n    \"error\": \"error status with {1} and {2}\",\n    \"default\": \"unknown status\"\n  },\n  \"nodefault\": {\n    \"ok\": \"ok status\"\n  }\n}","/edge-case/complex-compound-binding-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"item-update2:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update2:text_2\": \" xxx \",\n  \"item-update2:dom-if_3:template:span:b\": \"IF CONTENT\",\n  \"item-update2:b_4\": \"abc\",\n  \"item-update2:dom-if_5:template:text\": \"IF CONTENT 2\",\n  \"item-update2:text_6\": \" hello \",\n  \"item-update:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update:text_2\": \" xxx \",\n  \"item-update:dom-if_3:template:b\": \"IF CONTENT\",\n  \"item-update:b_4\": \"abc\",\n  \"item-update:dom-if_5:template:text\": \"IF CONTENT 2\",\n  \"item-update:text_6\": \" hello \",\n  \"item-update3:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text_2\": \" xxx \",\n  \"item-update3:dom-if_3:template:b\": \"IF\",\n  \"item-update3:dom-if_3:template:b_1\": \"CONTENT\",\n  \"item-update3:b_4\": \"abc\",\n  \"item-update3:dom-if_5:template:text\": \"IF CONTENT 2\",\n  \"item-update3:text_6\": \" hello \",\n  \"item-update4:text\": [\n    \"updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:dom-repeat_1:template:text\": [\n    \" {1} = {2} \",\n    \"{{item.name}}\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:text_2\": \" xxx \",\n  \"item-update4:dom-if_3:template:b\": \"IF CONTENT\",\n  \"item-update4:b_4\": \"abc\",\n  \"item-update4:dom-if_5:template:text\": \"IF CONTENT 2\",\n  \"item-update4:text_6\": \" hello \",\n  \"paragraph:text\": \"A paragraph with \",\n  \"paragraph:text_2\": \" is converted to \",\n  \"paragraph:code_3\": \"<i18n-format>\",\n  \"paragraph:text_4\": \". \",\n  \"paragraph2:text\": \"A paragraph with deep \",\n  \"paragraph2:text_2\": \" is \",\n  \"paragraph2:b_3\": \"not\",\n  \"paragraph2:text_4\": \" converted to \",\n  \"paragraph2:code_5\": \"<i18n-format>\",\n  \"paragraph2:text_6\": \". \",\n  \"authors\": [\n    {\n      \"name\": \"Joe\"\n    },\n    {\n      \"name\": \"Alice\"\n    }\n  ],\n  \"updated\": \"Jan 1st, 2016\",\n  \"parameters\": [\n    \"parameter 1\",\n    \"parameter 2\"\n  ]\n}","/edge-case/empty-element.json":"{}","/edge-case/locales/advanced-binding-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {\n    \"aria-attributes\": {\n      \"title\": \"fr tooltip text\",\n      \"aria-label\": \"fr aria label text\",\n      \"aria-valuetext\": \"fr aria value text\"\n    }\n  },\n  \"annotated-format\": [\n    \"{{tr(status,text.statusMessageFormats)}}\",\n    \"{{parameter}}\",\n    \"fr string parameter\"\n  ],\n  \"span_5\": [\n    \"fr {1} {2}\",\n    \"{{text.defaultValue}}\",\n    \"{{text.defaultValue}}\"\n  ],\n  \"statusMessages\": {\n    \"ok\": \"fr healthy status\",\n    \"busy\": \"fr busy status\",\n    \"error\": \"fr error status\",\n    \"default\": \"fr unknown status\"\n  },\n  \"defaultValue\": \"fr default value\",\n  \"statusMessageFormats\": {\n    \"ok\": \"fr healthy status\",\n    \"busy\": \"fr busy status with {2}\",\n    \"error\": \"fr error status with {1} and {2}\",\n    \"default\": \"fr unknown status\"\n  },\n  \"nodefault\": {\n    \"ok\": \"fr ok status\"\n  }\n}","/edge-case/locales/complex-compound-binding-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"item-update2:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update2:text_2\": \" fr xxx \",\n  \"item-update2:dom-if_3:template:span:b\": \"fr IF CONTENT\",\n  \"item-update2:b_4\": \"fr abc\",\n  \"item-update2:dom-if_5:template:text\": \"fr IF CONTENT 2\",\n  \"item-update2:text_6\": \" fr hello \",\n  \"item-update:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update:text_2\": \" fr xxx \",\n  \"item-update:dom-if_3:template:b\": \"fr IF CONTENT\",\n  \"item-update:b_4\": \"fr abc\",\n  \"item-update:dom-if_5:template:text\": \"fr IF CONTENT 2\",\n  \"item-update:text_6\": \" fr hello \",\n  \"item-update3:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update3:text_2\": \" fr xxx \",\n  \"item-update3:dom-if_3:template:b\": \"fr IF\",\n  \"item-update3:dom-if_3:template:b_1\": \"fr CONTENT\",\n  \"item-update3:b_4\": \"fr abc\",\n  \"item-update3:dom-if_5:template:text\": \"fr IF CONTENT 2\",\n  \"item-update3:text_6\": \" fr hello \",\n  \"item-update4:text\": [\n    \"fr updated: {1}, by: \",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:dom-repeat_1:template:text\": [\n    \" fr {1} = {2} \",\n    \"{{item.name}}\",\n    \"{{text.updated}}\"\n  ],\n  \"item-update4:text_2\": \" fr xxx \",\n  \"item-update4:dom-if_3:template:b\": \"fr IF CONTENT\",\n  \"item-update4:b_4\": \"fr abc\",\n  \"item-update4:dom-if_5:template:text\": \"fr IF CONTENT 2\",\n  \"item-update4:text_6\": \" fr hello \",\n  \"paragraph:text\": \"fr A paragraph with \",\n  \"paragraph:text_2\": \" fr is converted to \",\n  \"paragraph:code_3\": \"fr <i18n-format>\",\n  \"paragraph:text_4\": \"fr . \",\n  \"paragraph2:text\": \"fr A paragraph with deep \",\n  \"paragraph2:text_2\": \" fr is \",\n  \"paragraph2:b_3\": \"fr not\",\n  \"paragraph2:text_4\": \" fr converted to \",\n  \"paragraph2:code_5\": \"fr <i18n-format>\",\n  \"paragraph2:text_6\": \"fr . \",\n  \"authors\": [\n    {\n      \"name\": \"fr Joe\"\n    },\n    {\n      \"name\": \"fr Alice\"\n    }\n  ],\n  \"updated\": \"fr Jan 1st, 2016\",\n  \"parameters\": [\n    \"fr parameter 1\",\n    \"fr parameter 2\"\n  ]\n}","/edge-case/locales/empty-element.fr.json":"{}","/fallback-text-element/fallback-text-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/fallback-text-element/locales/fallback-text-element.fr-CA.json":"{\n  \"model\": {},\n  \"text\": \"fr-CA  outermost text at the beginning \",\n  \"h1_3\": \"fr-CA outermost header 1\",\n  \"text_4\": \"fr-CA  outermost text in the middle \",\n  \"span_5\": \"fr-CA simple text without id\",\n  \"span_6\": \"fr-CA simple text without id 2\",\n  \"label-1\": \"fr-CA simple text with id\",\n  \"label-2\": \"fr-CA simple text with id 2\",\n  \"div_10:span_1\": \"fr-CA simple text within div\",\n  \"toplevel-div:span\": \"fr-CA simple text within div\",\n  \"toplevel-div:span_1\": \"fr-CA simple text within div 2\",\n  \"third-level-div\": \"fr-CA great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr-CA great grandchild text within div without id\",\n  \"p_13\": [\n    \"fr-CA A paragraph with {1} is converted to {2}.\",\n    \"fr-CA parameters\",\n    \"fr-CA <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr-CA A paragraph with {1} is converted to {2}.\",\n    \"fr-CA id\",\n    \"fr-CA <i18n-format>\"\n  ],\n  \"text_15\": \"fr-CA  outermost text at the end \"\n}\n","/fallback-text-element/locales/fallback-text-element.fr.json":"{\n  \"model\": {},\n  \"text\": \"fr  outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \"fr  outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \"fr  outermost text at the end \"\n}\n","/locales/compound-binding-dom-bind.fr.json":"{\n  \"model\": {},\n  \"text\": [\n    \" fr outermost text at the beginning with compound {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"h1_3\": [\n    \"fr outermost header 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"text_4\": [\n    \" fr outermost text in the middle with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_5\": [\n    \"fr simple text without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"span_6\": [\n    \"fr simple text without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-1\": [\n    \"fr simple text with id and {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"label-2\": [\n    \"fr simple text with id and {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:span_1\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_9:div_2:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text\": [\n    \" fr simple text as the first element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_1\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_2\": [\n    \" fr simple text in the middle of div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:span_3\": [\n    \"fr simple text within div with {1} and {2} variables 2\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:div_4:div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_10:text_5\": [\n    \" fr simple text at the last element in div with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span\": [\n    \"fr simple text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"toplevel-div:span_1\": [\n    \"fr simple text within div 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"third-level-div\": [\n    \"fr great grandchild text within div with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"second-level-div:div_1\": [\n    \"fr great grandchild text within div without id with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li\": [\n    \"fr line item without id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_1\": [\n    \"fr line item without id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"div_12:ul:li_2\": [\n    \"fr line item without id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li\": [\n    \"fr line item with id 1 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_1\": [\n    \"fr line item with id 2 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"line-items:li_2\": [\n    \"fr line item with id 3 with {1} and {2} variables\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1}, {2}, and {3} is converted to {4}.\",\n    \"fr id\",\n    \"{{param1}}\",\n    \"{{param2}}\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": [\n    \" fr outermost text at the end with {1} and {2} variables \",\n    \"{{param1}}\",\n    \"{{param2}}\"\n  ]\n}\n","/locales/simple-attribute-dom-bind.fr.json":"{\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"fr standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"fr standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"fr paper-input label\",\n      \"error-message\": \"fr paper-input error message\",\n      \"placeholder\": \"fr paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"fr paper-input label without id\",\n      \"error-message\": \"fr paper-input error message without id\",\n      \"placeholder\": \"fr paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"fr Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"fr Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"fr Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"fr Jan\",\n          31\n        ],\n        [\n          \"fr Feb\",\n          28\n        ],\n        [\n          \"fr Mar\",\n          31\n        ],\n        [\n          \"fr Apr\",\n          30\n        ],\n        [\n          \"fr May\",\n          31\n        ],\n        [\n          \"fr Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"fr Inventory\"\n      },\n      \"data\": [\n        [\n          \"fr Year\",\n          \"fr Things\",\n          \"fr Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"fr custom text attribute 1\",\n      \"custom-text-attr2\": \"fr custom text attribute 2\",\n      \"custom-text-attr3\": \"fr custom text attribute 3\"\n    },\n    \"selective-attr\": {\n      \"custom-text-attr4\": [\n        \"fr {1} custom-text-attr4 attribute with param {2} and param {3} {4}\",\n        \"{{text.ordinary-div}}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\",\n        \"{{text.ordinary-div}}\"\n      ],\n      \"custom-text-attr5\": [\n        \"[[text.ordinary-div]]\",\n        \" fr custom-text-attr5 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" fr and param \",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target\": [\n        \"fr i18n-target attribute with param {1} and param {2}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target2\": [\n        \"fr i18n-target2 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" fr and param \",\n        \"[[text.ordinary-div]]\"\n      ]\n    },\n    \"selective-attr2\": {\n      \"i18n-target\": \"fr i18n-target attribute 2\"\n    },\n    \"selective-attr3\": {\n      \"i18n-target6\": \"fr i18n-target6 attribute 2\"\n    },\n    \"selective-attr4\": {\n      \"i18n-target6\": \"fr i18n-target6 attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"fr this attr1 is extracted\",\n      \"i18n-target-attr\": \"fr this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"fr this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"fr this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"fr text 1\"\n}\n","/locales/simple-text-dom-bind.fr.json":"{\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}\n","/multiple-case/item-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"label\": \"A\"\n}","/multiple-case/locales/item-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"label\": \"fr A\"\n}","/multiple-case/locales/multiple-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {}\n}","/multiple-case/multiple-element.json":"{\n  \"meta\": {},\n  \"model\": {}\n}","/plural-gender-element/locales/plural-gender-element.fr.json":"{\n  \"model\": {},\n  \"compound-format-text\": [\n    {\n      \"0\": \"fr You ({3}) gave no gifts.\",\n      \"1\": {\n        \"male\": \"fr You ({3}) gave him ({4}) {5}.\",\n        \"female\": \"fr You ({3}) gave her ({4}) {5}.\",\n        \"other\": \"fr You ({3}) gave them ({4}) {5}.\"\n      },\n      \"one\": {\n        \"male\": \"fr You ({3}) gave him ({4}) and one other person {5}.\",\n        \"female\": \"fr You ({3}) gave her ({4}) and one other person {5}.\",\n        \"other\": \"fr You ({3}) gave them ({4}) and one other person {5}.\"\n      },\n      \"other\": \"fr You ({3}) gave them ({4}) and {1} other people gifts.\"\n    },\n    \"{{recipients.length - 1}}\",\n    \"{{recipients.0.gender}}\",\n    \"{{sender.name}}\",\n    \"{{recipients.0.name}}\",\n    \"fr a gift\"\n  ]\n}\n","/plural-gender-element/plural-gender-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"compound-format-text\": [\n    {\n      \"0\": \"You ({3}) gave no gifts.\",\n      \"1\": {\n        \"male\": \"You ({3}) gave him ({4}) {5}.\",\n        \"female\": \"You ({3}) gave her ({4}) {5}.\",\n        \"other\": \"You ({3}) gave them ({4}) {5}.\"\n      },\n      \"one\": {\n        \"male\": \"You ({3}) gave him ({4}) and one other person {5}.\",\n        \"female\": \"You ({3}) gave her ({4}) and one other person {5}.\",\n        \"other\": \"You ({3}) gave them ({4}) and one other person {5}.\"\n      },\n      \"other\": \"You ({3}) gave them ({4}) and {1} other people gifts.\"\n    },\n    \"{{recipients.length - 1}}\",\n    \"{{recipients.0.gender}}\",\n    \"{{sender.name}}\",\n    \"{{recipients.0.name}}\",\n    \"a gift\"\n  ]\n}","/preference/preference-element.json":"{\n  \"meta\": {},\n  \"model\": {}\n}","/simple-attribute-dom-bind.json":"{\n  \"meta\": {},\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"paper-input label\",\n      \"error-message\": \"paper-input error message\",\n      \"placeholder\": \"paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"paper-input label without id\",\n      \"error-message\": \"paper-input error message without id\",\n      \"placeholder\": \"paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"Jan\",\n          31\n        ],\n        [\n          \"Feb\",\n          28\n        ],\n        [\n          \"Mar\",\n          31\n        ],\n        [\n          \"Apr\",\n          30\n        ],\n        [\n          \"May\",\n          31\n        ],\n        [\n          \"Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"Inventory\"\n      },\n      \"data\": [\n        [\n          \"Year\",\n          \"Things\",\n          \"Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"custom text attribute 1\",\n      \"custom-text-attr2\": \"custom text attribute 2\",\n      \"custom-text-attr3\": \"custom text attribute 3\"\n    },\n    \"selective-attr\": {\n      \"custom-text-attr4\": [\n        \"{1} custom-text-attr4 attribute with param {2} and param {3} {4}\",\n        \"{{text.ordinary-div}}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\",\n        \"{{text.ordinary-div}}\"\n      ],\n      \"custom-text-attr5\": [\n        \"[[text.ordinary-div]]\",\n        \" custom-text-attr5 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" and param \",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target\": [\n        \"i18n-target attribute with param {1} and param {2}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target2\": [\n        \"i18n-target2 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" and param \",\n        \"[[text.ordinary-div]]\"\n      ]\n    },\n    \"selective-attr2\": {\n      \"i18n-target\": \"i18n-target attribute 2\"\n    },\n    \"selective-attr3\": {\n      \"i18n-target6\": \"i18n-target6 attribute 2\"\n    },\n    \"selective-attr4\": {\n      \"i18n-target6\": \"i18n-target6 attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"this attr1 is extracted\",\n      \"i18n-target-attr\": \"this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"text 1\"\n}","/simple-attribute-element/locales/simple-attribute-element.fr.json":"{\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"fr standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"fr standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"fr paper-input label\",\n      \"error-message\": \"fr paper-input error message\",\n      \"placeholder\": \"fr paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"fr paper-input label without id\",\n      \"error-message\": \"fr paper-input error message without id\",\n      \"placeholder\": \"fr paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"fr Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"fr Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"fr Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"fr Jan\",\n          31\n        ],\n        [\n          \"fr Feb\",\n          28\n        ],\n        [\n          \"fr Mar\",\n          31\n        ],\n        [\n          \"fr Apr\",\n          30\n        ],\n        [\n          \"fr May\",\n          31\n        ],\n        [\n          \"fr Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"fr Inventory\"\n      },\n      \"data\": [\n        [\n          \"fr Year\",\n          \"fr Things\",\n          \"fr Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"fr custom text attribute 1\",\n      \"custom-text-attr2\": \"fr custom text attribute 2\",\n      \"custom-text-attr3\": \"fr custom text attribute 3\"\n    },\n    \"selective-attr\": {\n      \"custom-text-attr4\": [\n        \"fr {1} custom-text-attr4 attribute with param {2} and param {3} {4}\",\n        \"{{text.ordinary-div}}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\",\n        \"{{text.ordinary-div}}\"\n      ],\n      \"custom-text-attr5\": [\n        \"[[text.ordinary-div]]\",\n        \" fr custom-text-attr5 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" fr and param \",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target\": [\n        \"fr i18n-target attribute with param {1} and param {2}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target2\": [\n        \"fr i18n-target2 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" fr and param \",\n        \"[[text.ordinary-div]]\"\n      ]\n    },\n    \"selective-attr2\": {\n      \"i18n-target\": \"fr i18n-target attribute 2\"\n    },\n    \"selective-attr3\": {\n      \"i18n-target6\": \"fr i18n-target6 attribute 2\"\n    },\n    \"selective-attr4\": {\n      \"i18n-target6\": \"fr i18n-target6 attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"fr this attr1 is extracted\",\n      \"i18n-target-attr\": \"fr this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"fr this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"fr this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"fr text 1\"\n}\n","/simple-attribute-element/locales/text-attribute-element.fr.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"span_4\": \"fr text\"\n}\n","/simple-attribute-element/simple-attribute-element.json":"{\n  \"meta\": {},\n  \"model\": {\n    \"standard-input\": {\n      \"placeholder\": \"standard HTML5 attribute\"\n    },\n    \"outer-div:input_2\": {\n      \"placeholder\": \"standard HTML5 attribute without id\"\n    },\n    \"paper-input-element\": {\n      \"label\": \"paper-input label\",\n      \"error-message\": \"paper-input error message\",\n      \"placeholder\": \"paper-input placeholder\"\n    },\n    \"outer-div:paper-input_4\": {\n      \"label\": \"paper-input label without id\",\n      \"error-message\": \"paper-input error message without id\",\n      \"placeholder\": \"paper-input placeholder without id\"\n    },\n    \"pie-chart\": {\n      \"options\": {\n        \"title\": \"Distribution of days in 2001H1\"\n      },\n      \"cols\": [\n        {\n          \"label\": \"Month\",\n          \"type\": \"string\"\n        },\n        {\n          \"label\": \"Days\",\n          \"type\": \"number\"\n        }\n      ],\n      \"rows\": [\n        [\n          \"Jan\",\n          31\n        ],\n        [\n          \"Feb\",\n          28\n        ],\n        [\n          \"Mar\",\n          31\n        ],\n        [\n          \"Apr\",\n          30\n        ],\n        [\n          \"May\",\n          31\n        ],\n        [\n          \"Jun\",\n          30\n        ]\n      ]\n    },\n    \"column-chart\": {\n      \"options\": {\n        \"title\": \"Inventory\"\n      },\n      \"data\": [\n        [\n          \"Year\",\n          \"Things\",\n          \"Stuff\"\n        ],\n        [\n          \"2004\",\n          1000,\n          400\n        ],\n        [\n          \"2005\",\n          1170,\n          460\n        ],\n        [\n          \"2006\",\n          660,\n          1120\n        ],\n        [\n          \"2007\",\n          1030,\n          540\n        ]\n      ]\n    },\n    \"custom-attr\": {\n      \"custom-text-attr1\": \"custom text attribute 1\",\n      \"custom-text-attr2\": \"custom text attribute 2\",\n      \"custom-text-attr3\": \"custom text attribute 3\"\n    },\n    \"selective-attr\": {\n      \"custom-text-attr4\": [\n        \"{1} custom-text-attr4 attribute with param {2} and param {3} {4}\",\n        \"{{text.ordinary-div}}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\",\n        \"{{text.ordinary-div}}\"\n      ],\n      \"custom-text-attr5\": [\n        \"[[text.ordinary-div]]\",\n        \" custom-text-attr5 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" and param \",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target\": [\n        \"i18n-target attribute with param {1} and param {2}\",\n        \"{{text.ordinary-div}}\",\n        \"[[text.ordinary-div]]\"\n      ],\n      \"i18n-target2\": [\n        \"i18n-target2 attribute with param \",\n        \"{{or('',text.ordinary-div)}}\",\n        \" and param \",\n        \"[[text.ordinary-div]]\"\n      ]\n    },\n    \"selective-attr2\": {\n      \"i18n-target\": \"i18n-target attribute 2\"\n    },\n    \"selective-attr3\": {\n      \"i18n-target6\": \"i18n-target6 attribute 2\"\n    },\n    \"selective-attr4\": {\n      \"i18n-target6\": \"i18n-target6 attribute 3\"\n    },\n    \"json-data-id\": {\n      \"attr1\": \"this attr1 is extracted\",\n      \"i18n-target-attr\": \"this attribute is also extracted\"\n    },\n    \"template_2:json-data_1\": {\n      \"attr1\": \"this attr1 without id is extracted\",\n      \"i18n-target-attr\": \"this attribute without id is also extracted\"\n    }\n  },\n  \"ordinary-div\": \"text 1\"\n}","/simple-attribute-element/text-attribute-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"span_4\": \"text\"\n}","/simple-text-dom-bind.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/simple-text-element/locales/simple-text-element.fr.json":"{\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}\n","/simple-text-element/locales/simple-text-element.ru.json":"{\n  \"model\": {},\n  \"text\": \" ru outermost text at the beginning \",\n  \"h1_3\": \"ru outermost header 1\",\n  \"text_4\": \" ru outermost text in the middle \",\n  \"span_5\": \"ru simple text without id\",\n  \"span_6\": \"ru simple text without id 2\",\n  \"label-1\": \"ru simple text with id\",\n  \"label-2\": \"ru simple text with id 2\",\n  \"div_9:span\": \"ru simple text within div\",\n  \"div_9:span_1\": \"ru simple text within div 2\",\n  \"div_9:div_2:div\": \"ru great grandchild text within div\",\n  \"div_10:text\": \" ru simple text as the first element in div \",\n  \"div_10:span_1\": \"ru simple text within div\",\n  \"div_10:text_2\": \" ru simple text in the middle of div \",\n  \"div_10:span_3\": \"ru simple text within div 2\",\n  \"div_10:div_4:div\": \"ru great grandchild text within div\",\n  \"div_10:text_5\": \" ru simple text at the last element in div \",\n  \"toplevel-div:span\": \"ru simple text within div\",\n  \"toplevel-div:span_1\": \"ru simple text within div 2\",\n  \"third-level-div\": \"ru great grandchild text within div\",\n  \"second-level-div:div_1\": \"ru great grandchild text within div without id\",\n  \"div_12:ul:li\": \"ru line item without id 1\",\n  \"div_12:ul:li_1\": \"ru line item without id 2\",\n  \"div_12:ul:li_2\": \"ru line item without id 3\",\n  \"line-items:li\": \"ru line item with id 1\",\n  \"line-items:li_1\": \"ru line item with id 2\",\n  \"line-items:li_2\": \"ru line item with id 3\",\n  \"p_13\": [\n    \"ru A paragraph with {1} is converted to {2}.\",\n    \"ru parameters\",\n    \"ru <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"ru A paragraph with {1} is converted to {2}.\",\n    \"ru id\",\n    \"ru <i18n-format>\"\n  ],\n  \"text_15\": \" ru outermost text at the end \"\n}\n","/simple-text-element/simple-text-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/simple-text-id-element/locales/simple-text-id-element.fr.json":"{\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"second-level-div\": [\n    \" fr {1}\\n        {2} \",\n    \"fr great grandchild text within div\",\n    \"fr great grandchild text within div without id\"\n  ],\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items\": [\n    \" fr {1}\\n        {2}\\n        {3} \",\n    \"fr line item with id 1\",\n    \"fr line item with id 2\",\n    \"fr line item with id 3\"\n  ],\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}\n","/simple-text-id-element/simple-text-id-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"second-level-div\": [\n    \" {1}\\n        {2} \",\n    \"great grandchild text within div\",\n    \"great grandchild text within div without id\"\n  ],\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items\": [\n    \" {1}\\n        {2}\\n        {3} \",\n    \"line item with id 1\",\n    \"line item with id 2\",\n    \"line item with id 3\"\n  ],\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/template-default-lang/locales/null-template-default-lang-element.ja.json":"","/template-default-lang/locales/null-template-default-lang-element.zh-Hans-CN.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" zh-Hans-CN outermost text at the beginning \",\n  \"h1_3\": \"zh-Hans-CN outermost header 1\",\n  \"text_4\": \" zh-Hans-CN outermost text in the middle \",\n  \"span_5\": \"zh-Hans-CN simple text without id\",\n  \"span_6\": \"zh-Hans-CN simple text without id 2\",\n  \"label-1\": \"zh-Hans-CN simple text with id\",\n  \"label-2\": \"zh-Hans-CN simple text with id 2\",\n  \"div_9:span\": \"zh-Hans-CN simple text within div\",\n  \"div_9:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"div_9:div_2:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text\": \" zh-Hans-CN simple text as the first element in div \",\n  \"div_10:span_1\": \"zh-Hans-CN simple text within div\",\n  \"div_10:text_2\": \" zh-Hans-CN simple text in the middle of div \",\n  \"div_10:span_3\": \"zh-Hans-CN simple text within div 2\",\n  \"div_10:div_4:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text_5\": \" zh-Hans-CN simple text at the last element in div \",\n  \"toplevel-div:span\": \"zh-Hans-CN simple text within div\",\n  \"toplevel-div:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"third-level-div\": \"zh-Hans-CN great grandchild text within div\",\n  \"second-level-div:div_1\": \"zh-Hans-CN great grandchild text within div without id\",\n  \"div_12:ul:li\": \"zh-Hans-CN line item without id 1\",\n  \"div_12:ul:li_1\": \"zh-Hans-CN line item without id 2\",\n  \"div_12:ul:li_2\": \"zh-Hans-CN line item without id 3\",\n  \"line-items:li\": \"zh-Hans-CN line item with id 1\",\n  \"line-items:li_1\": \"zh-Hans-CN line item with id 2\",\n  \"line-items:li_2\": \"zh-Hans-CN line item with id 3\",\n  \"p_13\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN parameters\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN id\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"text_15\": \" zh-Hans-CN outermost text at the end \"\n}","/template-default-lang/locales/template-default-lang-element.zh-Hans-CN.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" zh-Hans-CN outermost text at the beginning \",\n  \"h1_3\": \"zh-Hans-CN outermost header 1\",\n  \"text_4\": \" zh-Hans-CN outermost text in the middle \",\n  \"span_5\": \"zh-Hans-CN simple text without id\",\n  \"span_6\": \"zh-Hans-CN simple text without id 2\",\n  \"label-1\": \"zh-Hans-CN simple text with id\",\n  \"label-2\": \"zh-Hans-CN simple text with id 2\",\n  \"div_9:span\": \"zh-Hans-CN simple text within div\",\n  \"div_9:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"div_9:div_2:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text\": \" zh-Hans-CN simple text as the first element in div \",\n  \"div_10:span_1\": \"zh-Hans-CN simple text within div\",\n  \"div_10:text_2\": \" zh-Hans-CN simple text in the middle of div \",\n  \"div_10:span_3\": \"zh-Hans-CN simple text within div 2\",\n  \"div_10:div_4:div\": \"zh-Hans-CN great grandchild text within div\",\n  \"div_10:text_5\": \" zh-Hans-CN simple text at the last element in div \",\n  \"toplevel-div:span\": \"zh-Hans-CN simple text within div\",\n  \"toplevel-div:span_1\": \"zh-Hans-CN simple text within div 2\",\n  \"third-level-div\": \"zh-Hans-CN great grandchild text within div\",\n  \"second-level-div:div_1\": \"zh-Hans-CN great grandchild text within div without id\",\n  \"div_12:ul:li\": \"zh-Hans-CN line item without id 1\",\n  \"div_12:ul:li_1\": \"zh-Hans-CN line item without id 2\",\n  \"div_12:ul:li_2\": \"zh-Hans-CN line item without id 3\",\n  \"line-items:li\": \"zh-Hans-CN line item with id 1\",\n  \"line-items:li_1\": \"zh-Hans-CN line item with id 2\",\n  \"line-items:li_2\": \"zh-Hans-CN line item with id 3\",\n  \"p_13\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN parameters\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"zh-Hans-CN A paragraph with {1} is converted to {2}.\",\n    \"zh-Hans-CN id\",\n    \"zh-Hans-CN <i18n-format>\"\n  ],\n  \"text_15\": \" zh-Hans-CN outermost text at the end \"\n}","/template-default-lang/null-template-default-lang-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" outermost text at the beginning \",\n  \"h1_3\": \"outermost header 1\",\n  \"text_4\": \" outermost text in the middle \",\n  \"span_5\": \"simple text without id\",\n  \"span_6\": \"simple text without id 2\",\n  \"label-1\": \"simple text with id\",\n  \"label-2\": \"simple text with id 2\",\n  \"div_9:span\": \"simple text within div\",\n  \"div_9:span_1\": \"simple text within div 2\",\n  \"div_9:div_2:div\": \"great grandchild text within div\",\n  \"div_10:text\": \" simple text as the first element in div \",\n  \"div_10:span_1\": \"simple text within div\",\n  \"div_10:text_2\": \" simple text in the middle of div \",\n  \"div_10:span_3\": \"simple text within div 2\",\n  \"div_10:div_4:div\": \"great grandchild text within div\",\n  \"div_10:text_5\": \" simple text at the last element in div \",\n  \"toplevel-div:span\": \"simple text within div\",\n  \"toplevel-div:span_1\": \"simple text within div 2\",\n  \"third-level-div\": \"great grandchild text within div\",\n  \"second-level-div:div_1\": \"great grandchild text within div without id\",\n  \"div_12:ul:li\": \"line item without id 1\",\n  \"div_12:ul:li_1\": \"line item without id 2\",\n  \"div_12:ul:li_2\": \"line item without id 3\",\n  \"line-items:li\": \"line item with id 1\",\n  \"line-items:li_1\": \"line item with id 2\",\n  \"line-items:li_2\": \"line item with id 3\",\n  \"p_13\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"parameters\",\n    \"<i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"A paragraph with {1} is converted to {2}.\",\n    \"id\",\n    \"<i18n-format>\"\n  ],\n  \"text_15\": \" outermost text at the end \"\n}","/template-default-lang/template-default-lang-element.json":"{\n  \"meta\": {},\n  \"model\": {},\n  \"text\": \" fr outermost text at the beginning \",\n  \"h1_3\": \"fr outermost header 1\",\n  \"text_4\": \" fr outermost text in the middle \",\n  \"span_5\": \"fr simple text without id\",\n  \"span_6\": \"fr simple text without id 2\",\n  \"label-1\": \"fr simple text with id\",\n  \"label-2\": \"fr simple text with id 2\",\n  \"div_9:span\": \"fr simple text within div\",\n  \"div_9:span_1\": \"fr simple text within div 2\",\n  \"div_9:div_2:div\": \"fr great grandchild text within div\",\n  \"div_10:text\": \" fr simple text as the first element in div \",\n  \"div_10:span_1\": \"fr simple text within div\",\n  \"div_10:text_2\": \" fr simple text in the middle of div \",\n  \"div_10:span_3\": \"fr simple text within div 2\",\n  \"div_10:div_4:div\": \"fr great grandchild text within div\",\n  \"div_10:text_5\": \" fr simple text at the last element in div \",\n  \"toplevel-div:span\": \"fr simple text within div\",\n  \"toplevel-div:span_1\": \"fr simple text within div 2\",\n  \"third-level-div\": \"fr great grandchild text within div\",\n  \"second-level-div:div_1\": \"fr great grandchild text within div without id\",\n  \"div_12:ul:li\": \"fr line item without id 1\",\n  \"div_12:ul:li_1\": \"fr line item without id 2\",\n  \"div_12:ul:li_2\": \"fr line item without id 3\",\n  \"line-items:li\": \"fr line item with id 1\",\n  \"line-items:li_1\": \"fr line item with id 2\",\n  \"line-items:li_2\": \"fr line item with id 3\",\n  \"p_13\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr parameters\",\n    \"fr <i18n-format>\"\n  ],\n  \"paragraph\": [\n    \"fr A paragraph with {1} is converted to {2}.\",\n    \"fr id\",\n    \"fr <i18n-format>\"\n  ],\n  \"text_15\": \" fr outermost text at the end \"\n}"};window.deepcopy=deepcopy;if(!Number.isNaN){// polyfill Number.isNaN for IE11
 Number.isNaN=function(value){return typeof value==='number'&&isNaN(value);};}// Inheritance of test parameters
 window.p=Object.setPrototypeOf||function(target,base){var obj=Object.create(base);for(var p in target){obj[p]=target[p];}return obj;};window.g=Object.getPrototypeOf;window._name='suite';window.suiteMap={null:{}};window.s=function(name,baseName,extension){if(suiteMap[name]){throw new Error('duplicate suite name '+name);}if(!suiteMap[baseName]){throw new Error('inexistent base suite name '+baseName);}extension[_name]=name;extension=p(extension,suiteMap[baseName]);suiteMap[name]=extension;return extension;};// Utility functions
 window.updateProperty=function updateProperty(element,properties){for(var name in properties){var path=name.split(/[.]/);if(path.length===1){element[name]=properties[name];}else{var cursor=element;var p=path.shift();while(p){if(path.length<1){cursor[p]=properties[name];element.notifyPath(name,properties[name],true);break;}else if(p==='PolymerDom'){cursor=dom(cursor);}else if(p==='html'){cursor=document.querySelector('html');}else{cursor=cursor[p];}p=path.shift();}}}};window.getProperty=function getProperty(target,name){var path=name.split(/[.]/);if(path.length===1){switch(name){case'textContent':return Array.prototype.map.call(target.childNodes,function(n){return n.nodeType===n.TEXT_NODE?n.textContent:'';}).join('');default:return target[name];break;}}else{var cursor=target;var p=path.shift();while(p){//console.log(p, cursor);
@@ -8969,4 +8670,4 @@ assert.equal(getProperty(nodes[0],p),translate(params.effectiveLang,p,childPath[
 }
 </json-data>
 </template>
-`),is:'preference-element',behaviors:[BehaviorsStore.I18nBehavior],listeners:{'lang-updated':'_langUpdated'},_langUpdated:function(e){if(dom(e).rootTarget===this){console.log(e.detail);console.log('navigator.language = '+navigator.language);if(!e.detail.lastLang||e.detail.lastLang==='en'){this.$.oldLang.lang=e.detail.oldLang;this.fire('local-dom-ready');}}}});}break;}suite('I18nElement with '+(window.location.href.indexOf('?dom=Shadow')>=0?'Shadow DOM':'Shady DOM')+(' in '+syntax+' syntax'),function(){var lang0='';var lang1='en';var lang2='fr';var lang3='ja';var lang4='fr-CA';var lang5='zh-Hans-CN';var lang6='ru';var lang7='zh-yue-Hans-CN';var lang8='zh-CN';var lang9='zh-TW';var lang10='zh-Hans-CN-x-Linux';var navigatorLanguage=navigator.language||navigator.browserLanguage;var isNavigatorLanguageEn=navigatorLanguage.match(/^en/);var suites=[s('preference',null,{fixture:'preference-element-fixture',fixtureModel:undefined,assign:undefined,lang:isNavigatorLanguageEn?lang1:lang0,effectiveLang:isNavigatorLanguageEn?lang1:lang0,templateDefaultLang:lang1,observeHtmlLang:true,event:'local-dom-ready',text:{model:{}},model:{},localDOM:[function F(){}.name&&!navigator.userAgent.match(/Version[/].* Safari[/]/)&&!navigator.userAgent.match(/Edge[/]/)?{select:'span#oldLang','lang.raw':navigatorLanguage}:{select:'span#oldLang'}],lightDOM:undefined})];suitesRunner(suites);});export{arraySelector as $arraySelector,customStyle as $customStyle,domBind as $domBind,domIf as $domIf,domModule as $domModule,domRepeat as $domRepeat,_class as $class,legacyElementMixin as $legacyElementMixin,mutableDataBehavior as $mutableDataBehavior,polymerFn as $polymerFn,polymer_dom as $polymerDom,templatizerBehavior as $templatizerBehavior,dirMixin as $dirMixin,elementMixin as $elementMixin,gestureEventListeners as $gestureEventListeners,mutableData as $mutableData,propertiesChanged as $propertiesChanged,propertiesMixin as $propertiesMixin,propertyAccessors as $propertyAccessors,propertyEffects as $propertyEffects,templateStamp as $templateStamp,arraySplice as $arraySplice,async as $async,caseMap$1 as $caseMap,debounce as $debounce,flattenedNodesObserver as $flattenedNodesObserver,flush$2 as $flush,gestures$1 as $gestures,htmlTag as $htmlTag,mixin as $mixin,path as $path,renderStatus as $renderStatus,resolveUrl$1 as $resolveUrl,settings as $settings,styleGather as $styleGather,templatize$1 as $templatize,polymerElement as $polymerElement,polymerLegacy as $polymerLegacy,applyShimUtils as $applyShimUtils,applyShim as $applyShim$1,commonRegex as $commonRegex,commonUtils as $commonUtils,cssParse as $cssParse,customStyleInterface as $customStyleInterface$1,documentWait$1 as $documentWait,styleSettings as $styleSettings,styleUtil as $styleUtil,templateMap$1 as $templateMap,unscopedStyleHandler as $unscopedStyleHandler,deepcopy$1 as $deepcopy,plurals$1 as $plurals,ArraySelectorMixin,ArraySelector,CustomStyle,DomBind,DomIf,DomModule,DomRepeat,mixinBehaviors,Class,LegacyElementMixin,MutableDataBehavior,OptionalMutableDataBehavior,Polymer$1 as Polymer,flush$1 as flush,enqueueDebouncer as addDebouncer,matchesSelector,DomApi,EventApi,dom,Templatizer,DirMixin,version,ElementMixin,instanceCount,registrations,register,dumpRegistrations,updateStyles,GestureEventListeners,MutableData,OptionalMutableData,PropertiesChanged,PropertiesMixin,PropertyAccessors,PropertyEffects,TemplateStamp,calculateSplices,timeOut,animationFrame,idlePeriod,microTask,dashToCamelCase,camelToDashCase,Debouncer,FlattenedNodesObserver,enqueueDebouncer,flush$1,gestures,recognizers,deepTargetFind,addListener,removeListener,register$1,setTouchAction,prevent,resetMouseCanceller,findOriginalTarget,add,remove,html,htmlLiteral,dedupingMixin,isPath,root,isAncestor,isDescendant,translate$1 as translate,matches,normalize,split,get,set,isDeep,flush as flush$2,beforeNextRender,afterNextRender,resolveUrl,resolveCss,pathFromUrl,useShadow,useNativeCSSProperties,useNativeCustomElements,rootPath,setRootPath,sanitizeDOMValue,setSanitizeDOMValue,passiveTouchGestures,setPassiveTouchGestures,strictTemplatePolicy,setStrictTemplatePolicy,allowTemplateFromDomModule,setAllowTemplateFromDomModule,stylesFromModules,stylesFromModule,stylesFromTemplate,stylesFromModuleImports,cssFromModules,cssFromModule,cssFromTemplate,cssFromModuleImports,templatize,modelForElement,TemplateInstanceBase,html as html$1,version as version$1,PolymerElement,Polymer$1,html as html$2,Base,invalidate,invalidateTemplate,isValid,templateIsValid,isValidating,templateIsValidating,startValidating,startValidatingTemplate,elementsAreInvalid,ApplyShim as $applyShimDefault,VAR_ASSIGN,MIXIN_MATCH,VAR_CONSUMED,ANIMATION_MATCH,MEDIA_MATCH,IS_VAR,BRACKETED,HOST_PREFIX,HOST_SUFFIX,updateNativeProperties,getComputedStyleValue,detectMixin,StyleNode,parse,stringify,removeCustomPropAssignment,types,CustomStyleProvider,CustomStyleInterface as $customStyleInterfaceDefault,CustomStyleInterfaceInterface,documentWait as $documentWaitDefault,nativeShadow,cssBuild,nativeCssVariables,toCssText,rulesForStyle,isKeyframesSelector,forEachRule,applyCss,createScopeStyle,applyStylePlaceHolder,applyStyle,isTargetedBuild,findMatchingParen,processVariableAndFallback,setElementClassRaw,wrap,getIsExtends,gatherStyleText,splitSelectorList,getCssBuild,elementHasBuiltCss,getBuildComment,isOptimalCssBuild,templateMap as $templateMapDefault,scopingAttribute,processUnscopedStyle,isUnscopedStyle,deepcopy as $deepcopyDefault,plurals as $pluralsDefault};
+`),is:'preference-element',behaviors:[BehaviorsStore.I18nBehavior],listeners:{'lang-updated':'_langUpdated'},_langUpdated:function(e){if(dom(e).rootTarget===this){console.log(e.detail);console.log('navigator.language = '+navigator.language);if(!e.detail.lastLang||e.detail.lastLang==='en'){this.$.oldLang.lang=e.detail.oldLang;this.fire('local-dom-ready');}}}});}break;}suite('I18nElement with '+(window.location.href.indexOf('?dom=Shadow')>=0?'Shadow DOM':'Shady DOM')+(' in '+syntax+' syntax'),function(){var lang0='';var lang1='en';var lang2='fr';var lang3='ja';var lang4='fr-CA';var lang5='zh-Hans-CN';var lang6='ru';var lang7='zh-yue-Hans-CN';var lang8='zh-CN';var lang9='zh-TW';var lang10='zh-Hans-CN-x-Linux';var navigatorLanguage=navigator.language||navigator.browserLanguage;var isNavigatorLanguageEn=navigatorLanguage.match(/^en/);var suites=[s('preference',null,{fixture:'preference-element-fixture',fixtureModel:undefined,assign:undefined,lang:isNavigatorLanguageEn?lang1:lang0,effectiveLang:isNavigatorLanguageEn?lang1:lang0,templateDefaultLang:lang1,observeHtmlLang:true,event:'local-dom-ready',text:{model:{}},model:{},localDOM:[function F(){}.name&&!navigator.userAgent.match(/Version[/].* Safari[/]/)&&!navigator.userAgent.match(/Edge[/]/)?{select:'span#oldLang','lang.raw':navigatorLanguage}:{select:'span#oldLang'}],lightDOM:undefined})];suitesRunner(suites);});export{i18nBehavior as $i18nBehavior,arraySelector as $arraySelector,customStyle as $customStyle,domBind as $domBind,domIf as $domIf,domModule as $domModule,domRepeat as $domRepeat,_class as $class,legacyElementMixin as $legacyElementMixin,mutableDataBehavior as $mutableDataBehavior,polymerFn as $polymerFn,polymer_dom as $polymerDom,templatizerBehavior as $templatizerBehavior,dirMixin as $dirMixin,elementMixin as $elementMixin,gestureEventListeners as $gestureEventListeners,mutableData as $mutableData,propertiesChanged as $propertiesChanged,propertiesMixin as $propertiesMixin,propertyAccessors as $propertyAccessors,propertyEffects as $propertyEffects,templateStamp as $templateStamp,arraySplice as $arraySplice,async as $async,caseMap$1 as $caseMap,debounce as $debounce,flattenedNodesObserver as $flattenedNodesObserver,flush$2 as $flush,gestures$1 as $gestures,htmlTag as $htmlTag,mixin as $mixin,path as $path,renderStatus as $renderStatus,resolveUrl$1 as $resolveUrl,settings as $settings,styleGather as $styleGather,templatize$1 as $templatize,polymerElement as $polymerElement,polymerLegacy as $polymerLegacy,applyShimUtils as $applyShimUtils,applyShim as $applyShim$1,commonRegex as $commonRegex,commonUtils as $commonUtils,cssParse as $cssParse,customStyleInterface as $customStyleInterface$1,documentWait$1 as $documentWait,styleSettings as $styleSettings,styleUtil as $styleUtil,templateMap$1 as $templateMap,unscopedStyleHandler as $unscopedStyleHandler,deepcopy$1 as $deepcopy,plurals$1 as $plurals,BehaviorsStore$1 as BehaviorsStore,I18nControllerBehavior,_I18nBehavior,I18nBehavior,ArraySelectorMixin,ArraySelector,CustomStyle,DomBind,DomIf,DomModule,DomRepeat,mixinBehaviors,Class,LegacyElementMixin,MutableDataBehavior,OptionalMutableDataBehavior,Polymer$1 as Polymer,flush$1 as flush,enqueueDebouncer as addDebouncer,matchesSelector,DomApi,EventApi,dom,Templatizer,DirMixin,version,ElementMixin,instanceCount,registrations,register,dumpRegistrations,updateStyles,GestureEventListeners,MutableData,OptionalMutableData,PropertiesChanged,PropertiesMixin,PropertyAccessors,PropertyEffects,TemplateStamp,calculateSplices,timeOut,animationFrame,idlePeriod,microTask,dashToCamelCase,camelToDashCase,Debouncer,FlattenedNodesObserver,enqueueDebouncer,flush$1,gestures,recognizers,deepTargetFind,addListener,removeListener,register$1,setTouchAction,prevent,resetMouseCanceller,findOriginalTarget,add,remove,html,htmlLiteral,dedupingMixin,isPath,root,isAncestor,isDescendant,translate$1 as translate,matches,normalize,split,get,set,isDeep,flush as flush$2,beforeNextRender,afterNextRender,resolveUrl,resolveCss,pathFromUrl,useShadow,useNativeCSSProperties,useNativeCustomElements,rootPath,setRootPath,sanitizeDOMValue,setSanitizeDOMValue,passiveTouchGestures,setPassiveTouchGestures,strictTemplatePolicy,setStrictTemplatePolicy,allowTemplateFromDomModule,setAllowTemplateFromDomModule,stylesFromModules,stylesFromModule,stylesFromTemplate,stylesFromModuleImports,cssFromModules,cssFromModule,cssFromTemplate,cssFromModuleImports,templatize,modelForElement,TemplateInstanceBase,html as html$1,version as version$1,PolymerElement,Polymer$1,html as html$2,Base,invalidate,invalidateTemplate,isValid,templateIsValid,isValidating,templateIsValidating,startValidating,startValidatingTemplate,elementsAreInvalid,ApplyShim as $applyShimDefault,VAR_ASSIGN,MIXIN_MATCH,VAR_CONSUMED,ANIMATION_MATCH,MEDIA_MATCH,IS_VAR,BRACKETED,HOST_PREFIX,HOST_SUFFIX,updateNativeProperties,getComputedStyleValue,detectMixin,StyleNode,parse,stringify,removeCustomPropAssignment,types,CustomStyleProvider,CustomStyleInterface as $customStyleInterfaceDefault,CustomStyleInterfaceInterface,documentWait as $documentWaitDefault,nativeShadow,cssBuild,nativeCssVariables,toCssText,rulesForStyle,isKeyframesSelector,forEachRule,applyCss,createScopeStyle,applyStylePlaceHolder,applyStyle,isTargetedBuild,findMatchingParen,processVariableAndFallback,setElementClassRaw,wrap,getIsExtends,gatherStyleText,splitSelectorList,getCssBuild,elementHasBuiltCss,getBuildComment,isOptimalCssBuild,templateMap as $templateMapDefault,scopingAttribute,processUnscopedStyle,isUnscopedStyle,deepcopy as $deepcopyDefault,plurals as $pluralsDefault};
