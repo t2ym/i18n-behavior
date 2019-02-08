@@ -7,7 +7,7 @@
 
 Instant and Modular I18N engine for [`lit-html`](https://lit-html.polymer-project.org/) and [Polymer](https://polymer-library.polymer-project.org/)
 
-ES6 Class syntax API is provided by [`i18n-element`](https://github.com/t2ym/i18n-element)
+`html`\`\` tagged template literal API is provided by [`i18n-element`](https://github.com/t2ym/i18n-element)
 
 ## Compatible Versions
 
@@ -29,7 +29,7 @@ ES6 Class syntax API is provided by [`i18n-element`](https://github.com/t2ym/i18
 
 ## Conceptual Workflow
 
-- `demo/gulpfile.js` provides support for extracting UI strings from JavaScript sources as well as Polymer HTML templates in html files
+- `demo/gulpfile.js` provides support for extracting UI strings from `html` tagged template literals in JavaScript sources as well as Polymer HTML templates in HTML Imports
 
 <img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/PolymerI18nFlow.gif" width="768px">
 
