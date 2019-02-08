@@ -27,8 +27,6 @@ ES6 Class syntax API is provided by [`i18n-element`](https://github.com/t2ym/i18
 
 - Polyfilled by `@webcomponents/webcomponentsjs/webcomponents-{bundle|loader}.js`
 
-[API Docs](https://t2ym.github.io/i18n-behavior/), [Demo](https://t2ym.github.io/i18n-behavior/demo/preprocess/)
-
 ## Conceptual Workflow
 
 - `demo/gulpfile.js` provides support for extracting UI strings from JavaScript sources as well as Polymer HTML templates in html files
@@ -74,6 +72,8 @@ ES6 Class syntax API is provided by [`i18n-element`](https://github.com/t2ym/i18
 
 ## Usage in Polymer legacy syntax
 
+- [API Docs](https://t2ym.github.io/i18n-behavior/)
+- [Demo](https://t2ym.github.io/i18n-behavior/demo/preprocess/)
 - ES6 class syntax support is provided by [`i18n-element`](https://github.com/t2ym/i18n-element)
 
 ### Run-time Automatic I18N
