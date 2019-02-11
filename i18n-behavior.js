@@ -2574,11 +2574,11 @@ BehaviorsStore.I18nBehavior.push({
               m.appendChild(info._template);
               m.register(info.is);
             }
-            this._templateLocalizable = BehaviorsStore._I18nBehavior._constructDefaultBundle(This.__template = info._template, info.is);
+            this._templateLocalizable = this.prototype._constructDefaultBundle(This.__template = info._template, info.is);
           }
           else {
             if (template) {
-              this._templateLocalizable = BehaviorsStore._I18nBehavior._constructDefaultBundle(This.__template = template, info.is);
+              this._templateLocalizable = this.prototype._constructDefaultBundle(This.__template = template, info.is);
             }
           }
         }
@@ -2621,7 +2621,11 @@ Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       if (domModule && domModule.id) {
         var template = domModule.querySelector('template');
         if (template) {
-          BehaviorsStore._I18nBehavior._constructDefaultBundle(template, domModule.id);
+          var _class = customElements.get(domModule.id);
+          var classPrototype = _class ? _class.prototype : Object.create(BehaviorsStore._I18nBehavior);
+          if (typeof classPrototype._constructDefaultBundle === 'function') {
+            classPrototype._constructDefaultBundle(template, domModule.id);
+          }
           domModule.removeAttribute('legacy');
         }
       }
