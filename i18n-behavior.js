@@ -773,9 +773,10 @@ let I18nBehavior = {
    */
   _fetchBundle: function (lang) {
     //console.log('_fetchBundle lang = ' + lang);
+    var id = this.is === 'i18n-dom-bind' || this.constructor.is === 'i18n-dom-bind' ? this.id : this.is;
     if (!lang || lang.length === 0) {
       // handle empty cases
-      if (defaultLang && defaultLang.length > 0) {
+      if (defaultLang && defaultLang.length > 0 && bundles[defaultLang] && bundles[defaultLang][id]) {
         lang = defaultLang; // app default language
       }
       else if (this.templateDefaultLang && this.templateDefaultLang.length > 0) {
@@ -788,7 +789,6 @@ let I18nBehavior = {
 
     // set up an empty bundle if inexistent
     bundles[lang] = bundles[lang] || {};
-    var id = this.is === 'i18n-dom-bind' || this.constructor.is === 'i18n-dom-bind' ? this.id : this.is;
 
     if (bundles[lang][id]) {
       // bundle is available; no need to fetch
