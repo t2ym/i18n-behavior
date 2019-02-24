@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [3.0.0] 2019-2-24
 ### Added
 - Support Polymer 3.x in ES modules with the help of [`i18n-element`](https://www.npmjs.com/package/i18n-element)
 - Support `lit-html` with the help of [`i18n-element`](https://www.npmjs.com/package/i18n-element)
