@@ -91,6 +91,6 @@
     "@polymer/iron-localstorage": "^3.0.0",
     "@polymer/polymer": "^3.0.0",
     "deepcopy": "github:t2ym/deepcopy.js#0.6.3-esm.1",
-    "i18n-format": "^3.0.1"
+    "i18n-format": "^4.0.0-pre"
   }
 }
