@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+### Added
+
+### Changed
+- Depend on `i18n-format@4.0.0-pre.*`
+
+### Removed
+- Safari 9 support
+
 ## [3.0.0] 2019-2-24
 ### Added
 - Support Polymer 3.x in ES modules with the help of [`i18n-element`](https://www.npmjs.com/package/i18n-element)
