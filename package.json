@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/t2ym/i18n-behavior#readme",
   "name": "i18n-behavior",
-  "version": "4.0.0-pre.2",
+  "version": "4.0.0-pre.3",
   "main": "i18n-behavior.js",
   "directories": {
     "test": "test"
