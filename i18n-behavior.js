@@ -5,7 +5,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 import '@polymer/iron-ajax/iron-ajax.js';
 import 'i18n-format/i18n-format.js';
 import './i18n-preference.js';
-import './i18n-attr-repo.js';
+import { attributesRepository } from './i18n-attr-repo.js';
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
 import { MutableDataBehavior } from '@polymer/polymer/lib/legacy/mutable-data-behavior.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
@@ -41,8 +41,6 @@ var localesPath = html.hasAttribute('locales-path') ? html.getAttribute('locales
 
 // Support ShadowDOM V1
 var paramAttribute = 'slot';
-
-var attributesRepository = document.createElement('i18n-attr-repo');
 
 // set up userPreference
 var userPreference = document.querySelector('i18n-preference');

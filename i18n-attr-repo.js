@@ -2,11 +2,12 @@
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-import { Polymer as Polymer$0 } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
-const $_documentContainer = document.createElement('template');
+import 'wc-putty/polyfill.js';
 
-$_documentContainer.innerHTML = `<template id="i18n-attr-repo">
+window.BehaviorsStore = window.BehaviorsStore || {};
+
+const template = document.createElement('template');
+template.innerHTML = `<template id="i18n-attr-repo">
     <template id="standard">
       <!-- Standard HTML5 -->
       <input placeholder="" value="type=button|submit">
@@ -28,20 +29,8 @@ $_documentContainer.innerHTML = `<template id="i18n-attr-repo">
 </template>`;
 
 // shared data
-var sharedData = {};
+const sharedData = {};
 
-// imperative synchronous registration of the template for Polymer 2.x
-var template = $_documentContainer.content.querySelector('template#i18n-attr-repo');
-var domModule = document.createElement('dom-module');
-domModule.appendChild(template);
-domModule.register('i18n-attr-repo');
-window.BehaviorsStore = window.BehaviorsStore || {};
-// Polymer function for iron-component-page documentation
-var Polymer = function (proto) {
-  BehaviorsStore._I18nAttrRepo = proto;
-  BehaviorsStore._I18nAttrRepo._created();
-  return Polymer$0(proto);
-};
 /*
 `<i18n-attr-repo>` maintains a list of attributes targeted for UI localization.  
 It judges whether a specific attribute of an element requires localization or not. 
@@ -223,42 +212,42 @@ Handle and judge JSON object attributes.
 
 @group I18nBehavior
 @element i18n-attr-repo
-@hero hero.svg
 */
-Polymer({
-  importMeta: import.meta,
-  is: 'i18n-attr-repo',
+export class I18nAttrRepo extends HTMLElement {
+  static get importMeta() {
+    return import.meta;
+  }
 
-  created: function () {
+  static get is() {
+    return 'i18n-attr-repo';
+  }
+
+  constructor() {
+    super();
     this.data = sharedData;
 
-    var customAttributes = this.querySelector('template#custom');
+    let customAttributes = this.querySelector('template#custom');
     // traverse custom attributes repository
     if (customAttributes && !this.hasAttribute('processed')) {
-      this._traverseTemplateTree(customAttributes._content || customAttributes.content);
+      this._traverseTemplateTree(customAttributes.content);
       this.setAttribute('processed', '');
     }
 
     this._created();
-  },
+  }
 
-  _created: function () {
+  _created() {
     this.data = sharedData;
 
     if (this.data.__ready__) {
       return; // traverse standard attributes only once
     }
     this.data.__ready__ = true;
-    var standardTemplate;
-    if (!this.$) {
-      var t = DomModule.import(this.is, 'template');
-      standardTemplate = (t._content || t.content).querySelector('template#standard');
-    }
-    else {
-      standardTemplate = this.$.standard;
-    }
-    this._traverseTemplateTree(standardTemplate._content || standardTemplate.content);
-  },
+
+    // standard attributes
+    const standardTemplate = template.content.querySelector('template#i18n-attr-repo').content.querySelector('template#standard');
+    this._traverseTemplateTree(standardTemplate.content);
+  }
 
   /**
    * Judge if a specific attribute of an element requires localization.
@@ -267,8 +256,8 @@ Polymer({
    * @param {string} attr Target attribute name.
    * @return {string or boolean} true - property, '$' - attribute, false - not targeted, 'type-name' - type name
    */
-  isLocalizableAttribute: function (element, attr) {
-    var tagName = element.tagName.toLowerCase();
+  isLocalizableAttribute(element, attr) {
+    let tagName = element.tagName.toLowerCase();
     if (!this.data) {
       this._created();
       this.data = sharedData;
@@ -285,7 +274,7 @@ Polymer({
     else {
       return false;
     }
-  },
+  }
 
   /**
    * Get the type name or '$' for a specific attribute of an element from the attributes repository
@@ -294,9 +283,9 @@ Polymer({
    * @param {object} value this.data[tagName][attr]
    * @return {string or boolean} true - property, '$' - attribute, false - not targeted, 'type-name' - type name
    */
-  _getType: function (element, value) {
-    var selector;
-    var result;
+  _getType(element, value) {
+    let selector;
+    let result;
     if (typeof value === 'object') {
       for (selector in value) {
         if (selector) {
@@ -321,7 +310,7 @@ Polymer({
     else {
       return value;
     }
-  },
+  }
 
   /**
    * Get the type name or '$' for a specific attribute of an element from the attributes repository
@@ -336,9 +325,9 @@ Polymer({
    * @param {string} selector Matching condition for target attribute.
    * @return {boolean} true - matching, false - not matching
    */
-  _matchAttribute: function (element, selector) {
-    var value;
-    var match;
+  _matchAttribute(element, selector) {
+    let value;
+    let match;
     // default ''
     if (selector === '') {
       return true;
@@ -372,7 +361,7 @@ Polymer({
     }
     // no matching
     return false;
-  },
+  }
 
   /**
    * Comparator for attribute selectors
@@ -381,11 +370,11 @@ Polymer({
    * @param {string} s2 selector 2
    * @return {number} comparison result as -1, 0, or 1
    */
-  _compareSelectors: function (s1, s2) {
-    var name1 = s1.replace(/^!/, '').replace(/=.*$/, '').toLowerCase();
-    var name2 = s2.replace(/^!/, '').replace(/=.*$/, '').toLowerCase();
+  _compareSelectors(s1, s2) {
+    let name1 = s1.replace(/^!/, '').replace(/=.*$/, '').toLowerCase();
+    let name2 = s2.replace(/^!/, '').replace(/=.*$/, '').toLowerCase();
     return name1.localeCompare(name2);
-  },
+  }
 
   /**
    * Add a new localizable attribute of an element to the repository.
@@ -400,12 +389,12 @@ Polymer({
    * @param {string} attr Target attribute name.
    * @param {?*} value Selector value
    */
-  setLocalizableAttribute: function (element, attr, value) {
+  setLocalizableAttribute(element, attr, value) {
     this.data[element] = this.data[element] || {};
-    var cursor = this.data[element];
-    var prev = attr;
-    var type = true;
-    var selectors = [];
+    let cursor = this.data[element];
+    let prev = attr;
+    let type = true;
+    let selectors = [];
 
     if (typeof value === 'string' && value) {
       selectors = value.split(',');
@@ -437,7 +426,7 @@ Polymer({
       prev = '';
     }
     cursor[prev] = type;
-  },
+  }
 
   /**
    * Pick up localizable attributes description for a custom element 
@@ -454,7 +443,7 @@ Polymer({
    * @param {string} element Target element name.
    * @param {HTMLTemplateElement} template Template of the element.
    */
-  registerLocalizableAttributes: function (element, template) {
+  registerLocalizableAttributes(element, template) {
     if (!this.data) {
       this._created();
       this.data = sharedData;
@@ -463,8 +452,8 @@ Polymer({
       element = template.getAttribute('id');
     }
     if (element) {
-      var attrs = (template.getAttribute('text-attr') || '').split(' ');
-      var textAttr = false;
+      let attrs = (template.getAttribute('text-attr') || '').split(' ');
+      let textAttr = false;
       attrs.forEach(function (attr) {
         if (attr) {
           this.setLocalizableAttribute(element, attr, true);
@@ -488,7 +477,7 @@ Polymer({
         }
       }.bind(this));
     }
-  },
+  }
 
   /**
    * Traverse the template of `i18n-attr-repo` in the ready() callback
@@ -497,7 +486,7 @@ Polymer({
    *
    * @param {HTMLElement} node The target HTML node for traversing.
    */
-  _traverseTemplateTree: function (node) {
+  _traverseTemplateTree(node) {
     var name;
     if (node.nodeType === node.ELEMENT_NODE) {
       name = node.nodeName.toLowerCase();
@@ -512,4 +501,6 @@ Polymer({
       }
     }
   }
-});
+}
+customElements.define(I18nAttrRepo.is, I18nAttrRepo);
+export const attributesRepository = BehaviorsStore._I18nAttrRepo = document.createElement(I18nAttrRepo.is);
