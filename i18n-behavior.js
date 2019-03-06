@@ -4,18 +4,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import '@polymer/iron-ajax/iron-ajax.js';
 import 'i18n-format/i18n-format.js';
-import './i18n-preference.js';
+import { html, defaultLang } from './i18n-preference.js';
 import { attributesRepository } from './i18n-attr-repo.js';
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
 import { MutableDataBehavior } from '@polymer/polymer/lib/legacy/mutable-data-behavior.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
 
-// html tag of the document
-var html = document.querySelector('html');
 // app global bundle storage
 var bundles = { '': {} }; // with an empty default bundle
-// app global default language
-var defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
 // shared fetching instances for bundles
 var bundleFetchingInstances = {};
 

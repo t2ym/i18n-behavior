@@ -1,6 +1,6 @@
 /**
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
-Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+Copyright (c) 2019, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 /**
 The singleton element `<i18n-preference>` maintains user preference for `i18n-behavior`.
@@ -23,214 +23,179 @@ The stored value is synchronized with that of `<html lang>` attribute on changes
 
 @group I18nBehavior
 @element i18n-preference
-@hero hero.svg
 */
-
-import '@polymer/iron-localstorage/iron-localstorage.js';
-import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<template id="i18n-preference">
-  <iron-localstorage id="storage" name="i18n-behavior-preference" on-iron-localstorage-load-empty="_onLoadEmptyStorage" on-iron-localstorage-load="_onLoadStorage" on-value-changed="_onStorageValueChange">
-  </iron-localstorage>
-</template><div id="dom-module-placeholder"></div>`;
+import { polyfill } from 'wc-putty/polyfill.js';
 
 // html element of this document
-var html = document.querySelector('html');
+export const html = document.querySelector('html');
 // app global default language
-var defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
+export const defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
 
-// imperative synchronous registration of the template for Polymer 2.x
-var template = $_documentContainer.content.querySelector('template#i18n-preference');
-var domModule = document.createElement('dom-module');
+export class I18nPreference extends polyfill(HTMLElement) {
+  static get importMeta() {
+    return import.meta;
+  }
 
-domModule.appendChild(template);
-domModule.register('i18n-preference');
+  static get is() {
+    return 'i18n-preference';
+  }
 
-Polymer({
-  importMeta: import.meta,
-  is: 'i18n-preference',
+  static get observedAttributes() {
+    return [ 'persist' ];
+  }
 
-  properties: {
+  constructor() {
+    super();
+    /**
+     * Key of localStorage
+     */
+    this._storageKey = 'i18n-behavior-preference';
     /**
      * Persistence of preference 
      */
-    persist: {
-      type: Boolean,
-      value: false,
-      reflectToAttribute: true,
-      notify: true,
-      observer: '_onPersistChange'
-    }
-  },
+    this.persist = false;
+  }
 
-  /**
-   * Ready callback to initialize this.lang
-   */
-  ready: function () {
-    if (this.persist) {
-      // delay this.lang update
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+    case 'persist':
+      this.persist = this.hasAttribute(name);
+      //console.log(`attributeChangedCallback name="${name}" oldValue="${oldValue}" newValue="${newValue}" this.persist=${this.persist}`);
+      break;
+    /* istanbul ignore next */
+    default:
+      /* istanbul ignore next */
+      break;
+    }
+  }
+
+  get persist() {
+    return this._persist;
+  }
+  set persist(value) {
+    this._persist = value;
+    this._update();
+  }
+
+  get value() {
+    return JSON.parse(window.localStorage.getItem(this._storageKey));
+  }
+  set value(_value) {
+    //console.log('save', _value, 'this.value', this.value);
+    if (_value === undefined || _value === null) {
+      window.localStorage.removeItem(this._storageKey);
     }
     else {
-      //this.$.storage.value = undefined;
+      window.localStorage.setItem(this._storageKey, JSON.stringify(_value));
     }
-    this.isReady = true;
-  },
+  }
 
   /**
-   * Attached callback to initialize html.lang and its observation
+   * Connected callback to initialize html.lang and its observation
    */
-  attached: function () {
+  connectedCallback() {
+    this._update();
     this._observe();
-    if (this.persist) {
-      // delay html.lang update
-    }
-    else {
-      if (!html.hasAttribute('preferred')) {
-        html.setAttribute('lang', navigator.language || navigator.browserLanguage);
-      }
-    }
-  },
+  }
 
   /**
-   * Detached callback to diconnect html.lang observation
+   * Disconnected callback to disconnect html.lang observation
    */
-  detached: function () {
+  disconnectedCallback() {
     this._disconnect();
-  },
+  }
 
-  /**
-   * Initialize an empty localstorage
-   */
-  _onLoadEmptyStorage: function () {
-    if (this.isReady) {
-      if (this.persist) {
+  _update() {
+    //console.log(`_update persist=${this.persist} <html lang=${html.getAttribute('lang')}> <html preferred=${html.hasAttribute('preferred')}> value="${this.value}"(type: ${typeof this.value})`);
+    if (this.persist) {
+      if (this.value === null) {
         if (this.isInitialized) {
           // store html.lang value
-          this.$.storage.value = html.getAttribute('lang');
+          if (this.value !== html.getAttribute('lang')) {
+            this.value = html.getAttribute('lang');
+          }
         }
         else {
           if (html.hasAttribute('preferred')) {
-            this.$.storage.value = html.getAttribute('lang');
+            if (this.value !== html.getAttribute('lang')) {
+              this.value = html.getAttribute('lang');
+            }
           }
           else {
-            this.$.storage.value = navigator.language || navigator.browserLanguage;
-            if (html.getAttribute('lang') !== this.$.storage.value) {
-              html.setAttribute('lang', this.$.storage.value);
+            let value = navigator.language;
+            if (this.value !== value) {
+              this.value = value;
+            }
+            if (html.getAttribute('lang') !== value) {
+              html.setAttribute('lang', value);
             }
           }
           this.isInitialized = true;
         }
       }
       else {
-        // leave the empty storage as it is
-      }
-    }
-  },
-
-  /**
-   * Handle the loaded storage value
-   */
-  _onLoadStorage: function () {
-    if (this.isReady) {
-      if (this.persist) {
         // preferred attribute in html to put higher priority
         // in the default html language than navigator.language
         if (html.hasAttribute('preferred')) {
-          if (this.$.storage.value !== defaultLang) {
+          if (this.value !== defaultLang) {
             // overwrite the storage by the app default language
-            this.$.storage.value = defaultLang;
+            this.value = defaultLang;
           }
         }
         else {
           // load the value from the storage
-          html.setAttribute('lang', this.$.storage.value);
-        }
-      }
-      else {
-        // empty the storage
-        this.$.storage.value = undefined;
-      }
-    }
-  },
-
-  /**
-   * Handle persist changes
-   *
-   * @param {Boolean} value new this.persist value
-   */
-  _onPersistChange: function (value) {
-    if (this.isReady) {
-      if (value) {
-        if (this.$.storage.value !== html.getAttribute('lang')) {
-          // save to the storage
-          this.$.storage.value = html.getAttribute('lang');
-        }
-      }
-      else {
-        // empty the storage
-        this.$.storage.value = undefined;
-      }
-    }
-  },
-
-  /**
-   * Handle storage value changes
-   *
-   * @param {Event} e value-changed event on the storage
-   */
-  _onStorageValueChange: function (e) {
-    var value = e.detail.value;
-    if (this.isReady) {
-      if (this.persist) {
-        if (value) {
-          if (value !== html.getAttribute('lang')) {
-            // save to the lang
-            html.setAttribute('lang', value);
-          }
-        }
-        else {
-          // update the storage
-          this.$.storage.value = html.getAttribute('lang');
-        }
-      }
-      else {
-        if (value) {
-          // empty the storage
-          this.$.storage.value = undefined;
+          html.setAttribute('lang', this.value);
         }
       }
     }
-  },
+    else {
+      if (this.value !== null) {
+        this.value = null;
+      }
+      // set html lang with navigator.language
+      if (!html.hasAttribute('preferred')) {
+        html.setAttribute('lang', navigator.language);
+      }
+    }
+  }
 
   /**
-   * Handle value changes on localstorage
+   * Handle attribute value changes on html
    *
    * @param {MutationRecord[]} mutations Array of MutationRecords for html.lang
    *
    * Note: 
    *   - Bound to this element
    */
-  _htmlLangMutationObserverCallback: function (mutations) {
+  _htmlLangMutationObserverCallback(mutations) {
     mutations.forEach(function(mutation) {
       switch (mutation.type) {
       case 'attributes':
         if (mutation.attributeName === 'lang') {
-          if (this.$.storage.value !== mutation.target.getAttribute('lang')) {
-            this.$.storage.value = mutation.target.getAttribute('lang');
+          if (this.persist) {
+            if (this.value !== mutation.target.getAttribute('lang')) {
+              this.value = mutation.target.getAttribute('lang');
+            }
+          }
+          else {
+            if (this.value !== null) {
+              this.value = null;
+            }
           }
         }
         break;
+      /* istanbul ignore next: mutation.type is always attributes */
       default:
+        /* istanbul ignore next: mutation.type is always attributes */
         break;
       }
     }.bind(this));
-  },
+  }
 
   /**
    * Set up html.lang mutation observer
    */
-  _observe: function () {
+  _observe() {
     // observe html lang mutations
     if (!this._htmlLangMutationObserver) {
       this._htmlLangMutationObserverCallbackBindThis = 
@@ -239,14 +204,15 @@ Polymer({
         new MutationObserver(this._htmlLangMutationObserverCallbackBindThis);
     }
     this._htmlLangMutationObserver.observe(html, { attributes: true });
-  },
+  }
 
   /**
    * Disconnect html.lang mutation observer
    */
-  _disconnect: function () {
+  _disconnect() {
     if (this._htmlLangMutationObserver) {
       this._htmlLangMutationObserver.disconnect();
     }
   }
-});
+}
+customElements.define(I18nPreference.is, I18nPreference);
