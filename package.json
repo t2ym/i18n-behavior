@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/t2ym/i18n-behavior#readme",
   "name": "i18n-behavior",
-  "version": "4.0.0-pre.5",
+  "version": "4.0.0-pre.6",
   "main": "i18n-behavior.js",
   "directories": {
     "test": "test"
@@ -88,7 +88,6 @@
   },
   "dependencies": {
     "@polymer/iron-ajax": "^3.0.0",
-    "@polymer/iron-localstorage": "^3.0.0",
     "@polymer/polymer": "^3.0.0",
     "deepcopy": "github:t2ym/deepcopy.js#0.6.3-esm.1",
     "i18n-format": "^4.0.0-pre",
