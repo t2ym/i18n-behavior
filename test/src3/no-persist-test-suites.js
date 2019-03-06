@@ -35,7 +35,7 @@ suite('I18nElement with ' +
       text: { model: {} },
       model: {},
       localDOM: [
-        (function F(){}).name && !navigator.userAgent.match(/Version[/].* Safari[/]/) && !navigator.userAgent.match(/Edge[/]/) ? { select: 'span#oldLang', 'lang.raw': navigatorLanguage } : { select: 'span#oldLang' }
+        { select: 'span#oldLang', 'lang.raw': navigatorLanguage }
       ],
       lightDOM: undefined
     })
@@ -48,17 +48,105 @@ suite('I18nElement with ' +
       var p = document.querySelector('i18n-preference');
       p.persist = true;
       assert.equal(p.persist, true, 'persist is true');
-      done();
+      setTimeout(() => {
+        assert.equal(localStorage.getItem('i18n-behavior-preference'), JSON.stringify(navigatorLanguage), 'localStorage is set as ' + navigatorLanguage);
+        done();
+      }, 100);
+    });
+
+    test('change html lang', function (done) {
+      var p = document.querySelector('i18n-preference');
+      var html = document.querySelector('html');
+      html.setAttribute('lang', lang3);
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        assert.equal(localStorage.getItem('i18n-behavior-preference'), JSON.stringify(lang3), 'localStorage is set as ' + lang3);
+        done();
+      }, 100);
+    });
+
+    test('persist false', function (done) {
+      var p = document.querySelector('i18n-preference');
+      p.persist = false;
+      localStorage.setItem('i18n-behavior-preference', JSON.stringify(lang4));
+      var html = document.querySelector('html');
+      html.setAttribute('lang', lang2);
+      assert.equal(p.persist, false, 'persist is false');
+      setTimeout(() => {
+        assert.equal(localStorage.getItem('i18n-behavior-preference'), null, 'localStorage is set as null');
+        done();
+      }, 100);
     });
   });
 
-  suite('detech preference', function () {
-    test('detach', function (done) {
-      var p = document.querySelector('i18n-preference');
+  suite('disconnect preference', function () {
+    var p;
+    test('disconnect', function (done) {
+      p = document.querySelector('i18n-preference');
       p.parentNode.removeChild(p);
-      assert.equal(p.persist, true, 'persist is true');
-      done();
+      setTimeout(() => {
+        assert.equal(p.persist, false, 'persist is false');
+        done();
+      }, 100);
     });
+
+    test('reconnect', function (done) {
+      var html = document.querySelector('html');
+      html.setAttribute('lang', lang2);
+      html.setAttribute('preferred', '');
+      localStorage.setItem('i18n-behavior-preference', JSON.stringify(lang4));
+      p.persist = true;
+      document.body.appendChild(p);
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        done();
+      }, 100);
+    });
+
+    test('disconnect again', function (done) {
+      p = document.querySelector('i18n-preference');
+      p.parentNode.removeChild(p);
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        done();
+      }, 100);
+    });
+
+    test('reconnect again', function (done) {
+      var html = document.querySelector('html');
+      html.setAttribute('lang', lang3);
+      localStorage.removeItem('i18n-behavior-preference');
+      document.body.appendChild(p);
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        done();
+      }, 100);
+    });
+
+    test('disconnect and discard', function (done) {
+      p = document.querySelector('i18n-preference');
+      p.parentNode.removeChild(p);
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        done();
+      }, 100);
+    });
+
+    test('connect a new instance', function (done) {
+      var html = document.querySelector('html');
+      html.setAttribute('lang', lang1);
+      localStorage.removeItem('i18n-behavior-preference');
+      p = document.createElement('i18n-preference');
+      p.persist = true;
+      document.body.appendChild(p);
+      setTimeout(() => {
+        assert.isOk(p.constructor.importMeta, 'importMeta');
+        assert.equal(p.persist, true, 'persist is true');
+        assert.equal(p.value, lang1, 'localStorage is set as ' + lang1);
+        done();
+      }, 100);
+    });
+
   });
 
 });
