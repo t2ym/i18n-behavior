@@ -80,6 +80,7 @@ suite('I18nElement with ' +
   });
 
   suite('disconnect preference', function () {
+    var defaultLang = BehaviorsStore.I18nControllerBehavior.properties.defaultLang.value;
     var p;
     test('disconnect', function (done) {
       p = document.querySelector('i18n-preference');
@@ -92,15 +93,38 @@ suite('I18nElement with ' +
 
     test('reconnect', function (done) {
       var html = document.querySelector('html');
-      html.setAttribute('lang', lang2);
+      html.setAttribute('lang', defaultLang);
       html.setAttribute('preferred', '');
       localStorage.setItem('i18n-behavior-preference', JSON.stringify(lang4));
       p.persist = true;
       document.body.appendChild(p);
       setTimeout(() => {
         assert.equal(p.persist, true, 'persist is true');
+        assert.equal(p.value, defaultLang, 'value is ' + defaultLang);
+        assert.equal(html.lang, defaultLang, 'html.lang is ' + defaultLang);
         done();
       }, 100);
+    });
+
+    test('change localStorage (preferred)', function (done) {
+      var html = document.querySelector('html');
+      var changeLocalStorageUrl = new URL(`change-local-storage.html?key=i18n-behavior-preference&value=${lang5}&origin=${encodeURIComponent(location.href)}`, location.href);
+      var iframe = document.createElement('iframe');
+      iframe.src = changeLocalStorageUrl.href;
+      iframe.onload = () => {
+        window.addEventListener('message', function onMessage(event) {
+          window.removeEventListener('message', onMessage);
+          assert.equal(event.data, 'setItem', 'postMessage data is setItem');
+          setTimeout(() => {
+            assert.equal(p.persist, true, 'persist is true');
+            assert.equal(p.value, defaultLang, 'value is ' + defaultLang);
+            assert.equal(html.lang, defaultLang, 'html.lang is ' + defaultLang);
+            iframe.parentNode.removeChild(iframe);
+            done();
+          }, 100);
+        });
+      }
+      document.body.appendChild(iframe);
     });
 
     test('disconnect again', function (done) {
@@ -119,6 +143,8 @@ suite('I18nElement with ' +
       document.body.appendChild(p);
       setTimeout(() => {
         assert.equal(p.persist, true, 'persist is true');
+        assert.equal(p.value, lang3, 'value is ' + lang3);
+        assert.equal(html.lang, lang3, 'html.lang is ' + lang3);
         done();
       }, 100);
     });
@@ -143,6 +169,98 @@ suite('I18nElement with ' +
         assert.isOk(p.constructor.importMeta, 'importMeta');
         assert.equal(p.persist, true, 'persist is true');
         assert.equal(p.value, lang1, 'localStorage is set as ' + lang1);
+        done();
+      }, 100);
+    });
+
+    test('disconnect and discard', function (done) {
+      p = document.querySelector('i18n-preference');
+      p.parentNode.removeChild(p);
+      localStorage.removeItem('i18n-behavior-preference');
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        done();
+      }, 100);
+    });
+
+    test('connect another new instance', function (done) {
+      var html = document.querySelector('html');
+      html.setAttribute('lang', lang5);
+      html.removeAttribute('preferred');
+      localStorage.removeItem('i18n-behavior-preference');
+      p = document.createElement('i18n-preference');
+      p.persist = true;
+      document.body.appendChild(p);
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        assert.equal(p.value, navigatorLanguage, 'localStorage is set as ' + navigatorLanguage);
+        assert.equal(html.lang, navigatorLanguage, 'html.lang is set as ' + navigatorLanguage);
+        done();
+      }, 100);
+    });
+
+    test('change html lang', function (done) {
+      var html = document.querySelector('html');
+      html.setAttribute('lang', lang5);
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        assert.equal(p.value, lang5, 'localStorage is set as ' + lang5);
+        assert.equal(html.lang, lang5, 'html.lang is set as ' + lang5);
+        done();
+      }, 100);
+    });
+
+    test('change localStorage', function (done) {
+      var html = document.querySelector('html');
+      var changeLocalStorageUrl = new URL(`change-local-storage.html?key=i18n-behavior-preference&value=${lang6}&origin=${encodeURIComponent(location.href)}`, location.href);
+      var iframe = document.createElement('iframe');
+      iframe.src = changeLocalStorageUrl.href;
+      iframe.onload = () => {
+        window.addEventListener('message', function onMessage(event) {
+          window.removeEventListener('message', onMessage);
+          assert.equal(event.data, 'setItem', 'postMessage data is setItem');
+          setTimeout(() => {
+            assert.equal(p.persist, true, 'persist is true');
+            assert.equal(p.value, lang6, 'value is ' + lang6);
+            assert.equal(html.lang, lang6, 'html.lang is ' + lang6);
+            iframe.parentNode.removeChild(iframe);
+            done();
+          }, 100);
+        });
+      }
+      document.body.appendChild(iframe);
+    });
+
+    test('disconnect and discard', function (done) {
+      p = document.querySelector('i18n-preference');
+      p.parentNode.removeChild(p);
+      localStorage.removeItem('i18n-behavior-preference');
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        done();
+      }, 100);
+    });
+
+    test('connect yet another new instance', function (done) {
+      var html = document.querySelector('html');
+      html.setAttribute('lang', lang5);
+      html.setAttribute('preferred', '');
+      p = document.createElement('i18n-preference');
+      p.persist = true;
+      document.body.appendChild(p);
+      setTimeout(() => {
+        assert.equal(p.persist, true, 'persist is true');
+        assert.equal(p.value, defaultLang, 'localStorage is set as ' + defaultLang);
+        assert.equal(html.lang, defaultLang, 'html.lang is set as ' + defaultLang);
+        done();
+      }, 100);
+    });
+
+    test('disconnect and discard', function (done) {
+      p = document.querySelector('i18n-preference');
+      p.parentNode.removeChild(p);
+      localStorage.removeItem('i18n-behavior-preference');
+      setTimeout(() => {
         done();
       }, 100);
     });

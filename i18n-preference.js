@@ -53,7 +53,7 @@ export class I18nPreference extends polyfill(HTMLElement) {
     /**
      * Persistence of preference 
      */
-    this.persist = false;
+    this.persist = this.hasAttribute('persist');
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -82,6 +82,7 @@ export class I18nPreference extends polyfill(HTMLElement) {
   }
   set value(_value) {
     //console.log('save', _value, 'this.value', this.value);
+    this._lastSavedValue = _value;
     if (_value === undefined || _value === null) {
       window.localStorage.removeItem(this._storageKey);
     }
@@ -141,6 +142,11 @@ export class I18nPreference extends polyfill(HTMLElement) {
             // overwrite the storage by the app default language
             this.value = defaultLang;
           }
+          if (html.getAttribute('lang') !== defaultLang) {
+            // reset to the defaultLang if preferred
+            // Note: defaultLang does not change from the initial value at the loading
+            html.setAttribute('lang', defaultLang);
+          }
         }
         else {
           // load the value from the storage
@@ -193,6 +199,17 @@ export class I18nPreference extends polyfill(HTMLElement) {
   }
 
   /**
+   * "storage" event handler
+   */
+  _onStorageEvent(event) {
+    //console.log(`_onStorageEvent: key="${event.key}" oldValue="${event.oldValue}"(type:${typeof event.oldValue}) newValue="${event.newValue}"(type:${typeof event.newValue}) url="${event.url}" storageArea="${JSON.stringify(event.storageArea)}"`);
+    // Note: IE11 dispatches unnecessary storage events even from the same window with obsolete event.newValue
+    if (event.key === this._storageKey && event.newValue === JSON.stringify(this.value) && event.newValue !== JSON.stringify(this._lastSavedValue)) {
+      this._update();
+    }
+  }
+
+  /**
    * Set up html.lang mutation observer
    */
   _observe() {
@@ -204,6 +221,11 @@ export class I18nPreference extends polyfill(HTMLElement) {
         new MutationObserver(this._htmlLangMutationObserverCallbackBindThis);
     }
     this._htmlLangMutationObserver.observe(html, { attributes: true });
+    // set up StorageEvent handler
+    if (!this._onStorageEventBindThis) {
+      this._onStorageEventBindThis = this._onStorageEvent.bind(this);
+    }
+    window.addEventListener('storage', this._onStorageEventBindThis);
   }
 
   /**
@@ -212,6 +234,11 @@ export class I18nPreference extends polyfill(HTMLElement) {
   _disconnect() {
     if (this._htmlLangMutationObserver) {
       this._htmlLangMutationObserver.disconnect();
+    }
+    // tear down StorageEvent handler, using _onStorageEventBindThis as a status indicator
+    if (this._onStorageEventBindThis) {
+      window.removeEventListener('storage', this._onStorageEventBindThis);
+      this._onStorageEventBindThis = null;
     }
   }
 }
