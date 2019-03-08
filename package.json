@@ -87,7 +87,6 @@
     "type-detect": "1.0.0"
   },
   "dependencies": {
-    "@polymer/iron-ajax": "^3.0.0",
     "@polymer/polymer": "^3.0.0",
     "deepcopy": "github:t2ym/deepcopy.js#0.6.3-esm.1",
     "i18n-format": "^4.0.0-pre",

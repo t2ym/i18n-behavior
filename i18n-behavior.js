@@ -2,13 +2,23 @@
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-import '@polymer/iron-ajax/iron-ajax.js';
 import 'i18n-format/i18n-format.js';
 import { html, defaultLang } from './i18n-preference.js';
 import { attributesRepository } from './i18n-attr-repo.js';
+import '@polymer/polymer/polymer-legacy.js';
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
 import { MutableDataBehavior } from '@polymer/polymer/lib/legacy/mutable-data-behavior.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
+
+const isXhrNativeJsonResponseType = (() => {
+  try {
+    new XMLHttpRequest().responseType = 'json';
+    return true;
+  }
+  catch (e) {
+    return false;
+  }
+})();
 
 // app global bundle storage
 var bundles = { '': {} }; // with an empty default bundle
@@ -849,23 +859,23 @@ let I18nBehavior = {
       this._fetchStatus.fetchingInstance = this;
       if (!this._fetchStatus.ajax) {
         // set up ajax client
-        this._fetchStatus.ajax = document.createElement('iron-ajax');
-        this._fetchStatus.ajax.handleAs = 'json';
+        this._fetchStatus.ajax = new XMLHttpRequest();
+        this._fetchStatus.ajax[ isXhrNativeJsonResponseType ? 'responseType' : '_responseType' ] = 'json';
         this._fetchStatus._handleResponseBindFetchingInstance = this._handleResponse.bind(this);
         this._fetchStatus._handleErrorBindFetchingInstance = this._handleError.bind(this);
-        this._fetchStatus.ajax.addEventListener('response', this._fetchStatus._handleResponseBindFetchingInstance);
+        this._fetchStatus.ajax.addEventListener('load', this._fetchStatus._handleResponseBindFetchingInstance);
         this._fetchStatus.ajax.addEventListener('error', this._fetchStatus._handleErrorBindFetchingInstance);
       }
       else {
         if (this._fetchStatus._handleResponseBindFetchingInstance) {
-          this._fetchStatus.ajax.removeEventListener('response', this._fetchStatus._handleResponseBindFetchingInstance);
+          this._fetchStatus.ajax.removeEventListener('load', this._fetchStatus._handleResponseBindFetchingInstance);
         }
         if (this._fetchStatus._handleErrorBindFetchingInstance) {
           this._fetchStatus.ajax.removeEventListener('error', this._fetchStatus._handleErrorBindFetchingInstance);
         }
         this._fetchStatus._handleResponseBindFetchingInstance = this._handleResponse.bind(this);
         this._fetchStatus._handleErrorBindFetchingInstance = this._handleError.bind(this);
-        this._fetchStatus.ajax.addEventListener('response', this._fetchStatus._handleResponseBindFetchingInstance);
+        this._fetchStatus.ajax.addEventListener('load', this._fetchStatus._handleResponseBindFetchingInstance);
         this._fetchStatus.ajax.addEventListener('error', this._fetchStatus._handleErrorBindFetchingInstance);
       }
       // TODO: app global bundles have to be handled
@@ -898,27 +908,59 @@ let I18nBehavior = {
           this._handleError({ detail: { error: 'skip fetching for I18nController' }});
         }
         else {
-          this._fetchStatus.ajax.generateRequest();
+          this._fetchStatus.ajax.open('GET', this._fetchStatus.ajax.url);
+          this._fetchStatus.ajax.setRequestHeader('Accept', 'application/json');
+          this._fetchStatus.ajax.send();
         }
       }
       catch (e) {
-        // TODO: extract error message from the exception e
-        this._handleError({ detail: { error: 'ajax request failed: ' + e }});
+        if (this._fetchStatus.ajax.readyState !== 0 /* UNSENT */ && this._fetchStatus.ajax.readyState !== 4 /* DONE */) {
+          this._fetchStatus.ajax.onabort = function onAbort(event) {
+            this._fetchStatus.ajax.onabort = null;
+            this._handleError({ detail: { error: 'ajax request failed: ' + e }});
+          }.bind(this);
+          this._fetchStatus.ajax.abort();
+        }
+        else {
+          // TODO: extract error message from the exception e
+          this._handleError({ detail: { error: 'ajax request failed: ' + e }});
+        }
       }
     }
   },
 
   /**
-   * Handle Ajax success response for a bundle.
+   * Handles Ajax load event for a bundle
    *
-   * @param {Object} event `iron-ajax` success event.
+   * @param {Object} event XMLHttpRequest `load` event.
    */
   _handleResponse: function (event) {
     //console.log('_handleResponse ajaxLang = ' + this._fetchStatus.ajaxLang);
+    let response;
+    if (this._fetchStatus.ajax.status >= 200 && this._fetchStatus.ajax.status < 300) {
+      if (isXhrNativeJsonResponseType) {
+        response = this._fetchStatus.ajax.response;
+      }
+      else {
+        try {
+          response = JSON.parse(this._fetchStatus.ajax.responseText);
+        }
+        catch (e) {
+          response = null;
+        }
+      }
+    }
+    else {
+      // Typically HTTP 404
+      event.detail = event.detail || {};
+      event.detail.error = this._fetchStatus.ajax.status + ' ' + this._fetchStatus.ajax.statusText + ' for ' + this._fetchStatus.ajax.url;
+      this._handleError(event); // Forwarding to _handleError()
+      return;
+    }
     if (this._fetchStatus.ajax.url.indexOf('/' + localesPath + '/bundle.') >= 0) {
       bundles[this._fetchStatus.ajaxLang] = bundles[this._fetchStatus.ajaxLang] || {};
       this._deepMap(bundles[this._fetchStatus.ajaxLang],
-                    event.detail.response,
+                    response,
                     function (text) { return text; });
       bundles[this._fetchStatus.ajaxLang].bundle = true;
       bundleFetchingInstances[this._fetchStatus.ajaxLang] = null;
@@ -936,7 +978,7 @@ let I18nBehavior = {
       }
     }
     else {
-      this._fetchStatus.lastResponse = event.detail.response;
+      this._fetchStatus.lastResponse = response;
     }
     if (this._fetchStatus.lastResponse) {
       var nextFallbackLanguage = this._fetchStatus.fallbackLanguageList.shift();
@@ -953,17 +995,20 @@ let I18nBehavior = {
       }
     }
     else {
+      event.detail = event.detail || {};
       event.detail.error = 'empty response for ' + this._fetchStatus.ajax.url;
       this._handleError(event);
     }
   },
 
   /**
-   * Handle Ajax error response for a bundle.
+   * Handles Ajax error event or forwarded load event for a bundle.
    *
-   * @param {Object} event `iron-ajax` error event.
+   * @param {Object} event `error` event or forwarded `load` event
    */
   _handleError: function (event) {
+    event.detail = event.detail || {};
+    event.detail.error = event.detail.error || this._fetchStatus.ajax.statusText;
     var nextFallbackLanguage;
     this._fetchStatus.fetchingInstance = null;
     if (this._fetchStatus.ajax.url.indexOf('/' + localesPath + '/bundle.') >= 0) {
