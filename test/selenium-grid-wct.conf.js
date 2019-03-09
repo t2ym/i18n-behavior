@@ -64,6 +64,7 @@ module.exports = {
       "dir": process.env.COVERAGE_DIR || "test/coverage-report",
       "reporters": ["text-summary", "lcov"],
       "include": [
+        "**/i18n-controller.js",
         "**/i18n-behavior.js",
         "**/i18n-attr-repo.js",
         "**/i18n-preference.js"
