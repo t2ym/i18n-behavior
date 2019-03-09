@@ -4,8 +4,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import 'wc-putty/polyfill.js';
 
-window.BehaviorsStore = window.BehaviorsStore || {};
-
 const template = document.createElement('template');
 template.innerHTML = `<template id="i18n-attr-repo">
     <template id="standard">
@@ -503,4 +501,4 @@ export class I18nAttrRepo extends HTMLElement {
   }
 }
 customElements.define(I18nAttrRepo.is, I18nAttrRepo);
-export const attributesRepository = BehaviorsStore._I18nAttrRepo = document.createElement(I18nAttrRepo.is);
+export const attributesRepository = document.createElement(I18nAttrRepo.is);
