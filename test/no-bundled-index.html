@@ -40,7 +40,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           //'minify2-min'
         ]
       ).forEach(function (phase) {
-        (nativeShadow ? [ '', /*'?xhr=fake&suppress=true', '?dom=shadow&xhr=fake&suppress=true' */ ] : [ '?xhr=fake&suppress=true' ]).forEach(function (dom) {
+        (nativeShadow ? [ '?suppress=true', /*'?xhr=fake&suppress=true', '?dom=shadow&xhr=fake&suppress=true' */ ] : [ '?suppress=true' ]).forEach(function (dom) {
           (nativeES6 ? 
             [
               //'mixin',
