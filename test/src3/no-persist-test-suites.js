@@ -166,7 +166,6 @@ suite('I18nElement with ' +
       p.persist = true;
       document.body.appendChild(p);
       setTimeout(() => {
-        assert.isOk(p.constructor.importMeta, 'importMeta');
         assert.equal(p.persist, true, 'persist is true');
         assert.equal(p.value, lang1, 'localStorage is set as ' + lang1);
         done();
