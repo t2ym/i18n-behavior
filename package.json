@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/t2ym/i18n-behavior#readme",
   "name": "i18n-behavior",
-  "version": "4.0.0-pre.12",
-  "main": "i18n-controller.js",
+  "version": "4.0.0-pre.13",
+  "main": "i18n-behavior.js",
   "directories": {
     "test": "test"
   },
@@ -86,6 +86,9 @@
     "samsam": "1.1.3",
     "supports-color": "3.1.2",
     "type-detect": "1.0.0"
+  },
+  "peerDependencies": {
+    "@polymer/polymer": "^3.1.0"
   },
   "dependencies": {
     "deepcopy": "github:t2ym/deepcopy.js#0.6.3-esm.1",

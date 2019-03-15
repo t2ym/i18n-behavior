@@ -6,8 +6,8 @@
 - `i18n-controller-core.js` - Excluding preprocessor methods for preprocessed sources
 
 ### Changed
-- Main module as `i18n-controller.js`
 - Depend on `i18n-format@4.0.0-pre.*`
+- Peer Dependency on `@polymer/polymer` in package.json
 
 ### Removed
 - Explicit dependency on `@polymer/polymer` in package.json
