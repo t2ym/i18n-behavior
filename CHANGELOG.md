@@ -10,6 +10,7 @@
 - Depend on `i18n-format@4.0.0-pre.*`
 
 ### Removed
+- Explicit dependency on `@polymer/polymer` in package.json
 - Safari 9 support
 
 ## [3.0.0] 2019-2-24
