@@ -212,10 +212,6 @@ Handle and judge JSON object attributes.
 @element i18n-attr-repo
 */
 export class I18nAttrRepo extends HTMLElement {
-  static get importMeta() {
-    return import.meta;
-  }
-
   static get is() {
     return 'i18n-attr-repo';
   }

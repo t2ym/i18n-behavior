@@ -32,10 +32,6 @@ export const html = document.querySelector('html');
 export const defaultLang = html.hasAttribute('lang') ? html.getAttribute('lang') : '';
 
 export class I18nPreference extends polyfill(HTMLElement) {
-  static get importMeta() {
-    return import.meta;
-  }
-
   static get is() {
     return 'i18n-preference';
   }
