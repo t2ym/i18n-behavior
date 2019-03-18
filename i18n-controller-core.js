@@ -27,6 +27,19 @@ const bundleFetchingInstances = {};
 // cached enumerated fallback languages
 const enumeratedFallbackLanguageCache = new Map();
 
+// cached formatter functions for this.i18nFormat()
+const i18nFormatterCache = new Map();
+
+const isTemplateLiteralSupported = (() => {
+  try {
+    new Function('return ``;')();
+    return true;
+  }
+  catch (e) {
+    return false;
+  }
+})();
+
 // path for start URL
 const startUrl = (function () {
   let path = window.location.pathname;
@@ -334,7 +347,7 @@ export const I18nControllerCoreMixin = {
     //console.log('_getBundle called for ' + this.is + ' with lang = ' + lang);
 
     var resolved;
-    var id = this.is === 'i18n-dom-bind' || this.constructor.is === 'i18n-dom-bind' ? this.id : this.is;
+    var id = this.constructor.is === 'i18n-dom-bind' ? this.id : this.is;
 
     if (lang && lang.length > 0) {
       var fallbackLanguageList = this._enumerateFallbackLanguages(lang);
@@ -1105,17 +1118,48 @@ export const I18nControllerCoreMixin = {
    *   </template>
    * ```
    *
-   * Note: Compound bindings in attributes are automatically converted to {{i18nFormat()}} in preprocessing.
+   * Notes:
+   *  - Compound bindings in attributes are automatically converted to {{i18nFormat()}} in preprocessing.
+   *  - Cached i18n formatter functions are constructed as follows
+   * ```
+   *   // formatter function for "format string with params {1} and {2}."
+   *   function anonymous (a) { return `format string with params ${a[1]} and ${a[2]}.`; }
+   *   function anonymous (a) { return 'format string with params ' + a[1] + ' and ' + a[2] + '.'; } // for IE 11
+   * ```
+   *  - Backslashes, backquotes, and dollars in format strings are escaped
    *
    * @param {*} arguments List of arguments.
    * @return {string} Formatted string
    */
   i18nFormat: function () {
+    let formatted = '';
     if (arguments.length > 0) {
-      var formatted = arguments[0] || '';
-      for (var n = 1; n < arguments.length; n++) {
-        formatted = formatted.replace('{' + n + '}', arguments[n]);
+      let formatter = i18nFormatterCache.get(arguments[0]);
+      if (!formatter) {
+        let template = arguments[0] || '';
+        if (isTemplateLiteralSupported) {
+          template = template.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/[$]/g, '\\$'); // escape special characters for template literals
+          for (let n = 1; n < arguments.length; n++) {
+            template = template.replace('{' + n + '}', '${a[' + n + ']}'); // replace parameters with corresponding values of arguments
+          }
+          formatter = new Function('a', 'return `' + template + '`;'); // convert to a formetter function with a template literal
+        }
+        else {
+          // IE 11 without native template literal support
+          let strings = template.split(/{[0-9]{1,}}/).map(s => '\'' + s.replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/\n/g, '\\n').replace(/\t/g, '\\t') + '\'');
+          let params = (template.match(/{[0-9]{1,}}/g) || []).map(p => p.replace(/^{([0-9]{1,})}$/, 'a[$1]'));
+          let merged = [];
+          let i;
+          for (i = 0; i < params.length; i++) {
+            merged.push(strings[i]);
+            merged.push(params[i]);
+          }
+          merged.push(strings[i]);
+          formatter = new Function('a', 'return ' + merged.join(' + ') + ';'); // convert to a formatter function with string concatenation
+        }
+        i18nFormatterCache.set(arguments[0], formatter);
       }
+      formatted = formatter(arguments);
     }
     return formatted;
   }
