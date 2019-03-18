@@ -24,6 +24,9 @@ export const bundles = { '': {} }; // with an empty default bundle
 // shared fetching instances for bundles
 const bundleFetchingInstances = {};
 
+// cached enumerated fallback languages
+const enumeratedFallbackLanguageCache = new Map();
+
 // path for start URL
 const startUrl = (function () {
   let path = window.location.pathname;
@@ -411,7 +414,11 @@ export const I18nControllerCoreMixin = {
    * @return {Array} List of fallback locales including the target locale at the index 0.
    */
   _enumerateFallbackLanguages: function (lang) {
-    var result = [];
+    var result = enumeratedFallbackLanguageCache.get(lang);
+    if (result) {
+      return [...result];
+    }
+    result = [];
     var parts;
     var match;
     var isExtLangCode = 0;
@@ -522,6 +529,7 @@ export const I18nControllerCoreMixin = {
         parts.pop();
       }
     }
+    enumeratedFallbackLanguageCache.set(lang, [...result]);
     return result;
   },
 
