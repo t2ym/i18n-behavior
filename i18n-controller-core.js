@@ -1136,30 +1136,41 @@ export const I18nControllerCoreMixin = {
     if (arguments.length > 0) {
       let formatter = i18nFormatterCache.get(arguments[0]);
       if (!formatter) {
-        let template = arguments[0] || '';
-        if (isTemplateLiteralSupported) {
-          template = template.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/[$]/g, '\\$'); // escape special characters for template literals
-          for (let n = 1; n < arguments.length; n++) {
-            template = template.replace('{' + n + '}', '${a[' + n + ']}'); // replace parameters with corresponding values of arguments
-          }
-          formatter = new Function('a', 'return `' + template + '`;'); // convert to a formetter function with a template literal
+        // interpreter for the first rendering
+        formatted = arguments[0] || '';
+        for (var n = 1; n < arguments.length; n++) {
+          formatted = formatted.replace('{' + n + '}', arguments[n]);
         }
-        else {
-          // IE 11 without native template literal support
-          let strings = template.split(/{[0-9]{1,}}/).map(s => '\'' + s.replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/\n/g, '\\n').replace(/\t/g, '\\t') + '\'');
-          let params = (template.match(/{[0-9]{1,}}/g) || []).map(p => p.replace(/^{([0-9]{1,})}$/, 'a[$1]'));
-          let merged = [];
-          let i;
-          for (i = 0; i < params.length; i++) {
-            merged.push(strings[i]);
-            merged.push(params[i]);
-          }
-          merged.push(strings[i]);
-          formatter = new Function('a', 'return ' + merged.join(' + ') + ';'); // convert to a formatter function with string concatenation
-        }
-        i18nFormatterCache.set(arguments[0], formatter);
+        i18nFormatterCache.set(arguments[0], 1);
       }
-      formatted = formatter(arguments);
+      else {
+        if (formatter === 1) {
+          // compiler for the second rendering
+          let template = arguments[0] || '';
+          if (isTemplateLiteralSupported) {
+            template = template.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/[$]/g, '\\$'); // escape special characters for template literals
+            for (let n = 1; n < arguments.length; n++) {
+              template = template.replace('{' + n + '}', '${a[' + n + ']}'); // replace parameters with corresponding values of arguments
+            }
+            formatter = new Function('a', 'return `' + template + '`;'); // convert to a formetter function with a template literal
+          }
+          else {
+            // IE 11 without native template literal support
+            let strings = template.split(/{[0-9]{1,}}/).map(s => '\'' + s.replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/\n/g, '\\n').replace(/\t/g, '\\t') + '\'');
+            let params = (template.match(/{[0-9]{1,}}/g) || []).map(p => p.replace(/^{([0-9]{1,})}$/, 'a[$1]'));
+            let merged = [];
+            let i;
+            for (i = 0; i < params.length; i++) {
+              merged.push(strings[i]);
+              merged.push(params[i]);
+            }
+            merged.push(strings[i]);
+            formatter = new Function('a', 'return ' + merged.join(' + ') + ';'); // convert to a formatter function with string concatenation
+          }
+          i18nFormatterCache.set(arguments[0], formatter);
+        }
+        formatted = formatter(arguments);
+      }
     }
     return formatted;
   }
