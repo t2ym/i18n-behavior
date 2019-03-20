@@ -1,6 +1,6 @@
 /**
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
-Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+Copyright (c) 2019, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import 'wc-putty/polyfill.js';
 
@@ -230,6 +230,9 @@ export class I18nAttrRepo extends HTMLElement {
     this._created();
   }
 
+  /**
+   * Sets up repository by the standard template
+   */
   _created() {
     this.data = sharedData;
 
@@ -244,7 +247,7 @@ export class I18nAttrRepo extends HTMLElement {
   }
 
   /**
-   * Judge if a specific attribute of an element requires localization.
+   * Judges if a specific attribute of an element requires localization.
    *
    * @param {HTMLElement} element Target element.
    * @param {string} attr Target attribute name.
@@ -271,7 +274,7 @@ export class I18nAttrRepo extends HTMLElement {
   }
 
   /**
-   * Get the type name or '$' for a specific attribute of an element from the attributes repository
+   * Gets the type name or '$' for a specific attribute of an element from the attributes repository
    *
    * @param {HTMLElement} element Target element.
    * @param {object} value this.data[tagName][attr]
@@ -307,7 +310,7 @@ export class I18nAttrRepo extends HTMLElement {
   }
 
   /**
-   * Get the type name or '$' for a specific attribute of an element from the attributes repository
+   * Gets the type name or '$' for a specific attribute of an element from the attributes repository
    *
    * Format for selectors:
    *  - `attr=value` - Value of `attr` matches Regex `^value$`
@@ -371,7 +374,7 @@ export class I18nAttrRepo extends HTMLElement {
   }
 
   /**
-   * Add a new localizable attribute of an element to the repository.
+   * Adds a new localizable attribute of an element to the repository.
    *
    * Format for selector values for defining I18N-target attributes:
    *   - `attr1=value1,attr2=value2,boolean-attr,!boolean-attr` - Attribute value matching condition for property
@@ -423,7 +426,7 @@ export class I18nAttrRepo extends HTMLElement {
   }
 
   /**
-   * Pick up localizable attributes description for a custom element 
+   * Picks up localizable attributes description for a custom element 
    * from `text-attr` attribute and register them to the repository.
    * The `text-attr` attribute is used in the template of a custom
    * element to declare localizable attributes of its own element.
@@ -474,7 +477,7 @@ export class I18nAttrRepo extends HTMLElement {
   }
 
   /**
-   * Traverse the template of `i18n-attr-repo` in the ready() callback
+   * Traverses the template of `i18n-attr-repo` in the ready() callback
    * and construct the localizable attributes repository object. The method calls itself
    * recursively for traversal.
    *

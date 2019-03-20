@@ -52,6 +52,11 @@ export class I18nPreference extends polyfill(HTMLElement) {
     this.persist = this.hasAttribute('persist');
   }
 
+  /**
+   * attributeChangedCallback for custom elements
+   *
+   * Upates this.persist property on every persist attribute change
+   */
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
     case 'persist':
@@ -65,6 +70,11 @@ export class I18nPreference extends polyfill(HTMLElement) {
     }
   }
 
+  /**
+   * persist property for persistence of preference to localStorage
+   *
+   * Note: this._update() is called on every change
+   */
   get persist() {
     return this._persist;
   }
@@ -73,6 +83,11 @@ export class I18nPreference extends polyfill(HTMLElement) {
     this._update();
   }
 
+  /**
+   * value property for reading/storing language preference in localStorage
+   *
+   * Note: If the value is set as `undefined` or `null`, the language preference in localStorage is removed
+   */
   get value() {
     return JSON.parse(window.localStorage.getItem(this._storageKey));
   }
@@ -102,6 +117,11 @@ export class I18nPreference extends polyfill(HTMLElement) {
     this._disconnect();
   }
 
+  /**
+   * Updates the status based on `<html lang>`, `localStorage`, and `navigator.language`
+   * 
+   * Note: Persistence is controlled by `persist` property
+   */
   _update() {
     //console.log(`_update persist=${this.persist} <html lang=${html.getAttribute('lang')}> <html preferred=${html.hasAttribute('preferred')}> value="${this.value}"(type: ${typeof this.value})`);
     if (this.persist) {
@@ -162,7 +182,7 @@ export class I18nPreference extends polyfill(HTMLElement) {
   }
 
   /**
-   * Handle attribute value changes on html
+   * Handles attribute value changes on html
    *
    * @param {MutationRecord[]} mutations Array of MutationRecords for html.lang
    *
@@ -206,7 +226,7 @@ export class I18nPreference extends polyfill(HTMLElement) {
   }
 
   /**
-   * Set up html.lang mutation observer
+   * Sets up html.lang mutation observer
    */
   _observe() {
     // observe html lang mutations
@@ -225,7 +245,7 @@ export class I18nPreference extends polyfill(HTMLElement) {
   }
 
   /**
-   * Disconnect html.lang mutation observer
+   * Disconnects html.lang mutation observer
    */
   _disconnect() {
     if (this._htmlLangMutationObserver) {
