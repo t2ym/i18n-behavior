@@ -1156,8 +1156,8 @@ export const I18nControllerCoreMixin = {
           }
           else {
             // IE 11 without native template literal support
-            let strings = template.split(/{[0-9]{1,}}/).map(s => '\'' + s.replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/\n/g, '\\n').replace(/\t/g, '\\t') + '\'');
-            let params = (template.match(/{[0-9]{1,}}/g) || []).map(p => p.replace(/^{([0-9]{1,})}$/, 'a[$1]'));
+            let strings = template.split(/{[1-9][0-9]*}/).map(s => '\'' + s.replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/\n/g, '\\n').replace(/\t/g, '\\t') + '\'');
+            let params = (template.match(/{[1-9][0-9]*}/g) || []).map(p => p.replace(/^{([1-9][0-9]*)}$/, 'a[$1]'));
             let merged = [];
             let i;
             for (i = 0; i < params.length; i++) {
