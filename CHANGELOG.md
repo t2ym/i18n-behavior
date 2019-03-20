@@ -1,12 +1,13 @@
 # Changelog
 
-## [Unreleased]
+## [4.0.0] 2019-3-20
 ### Added
 - `i18n-controller.js` - Polymer-independent I18N methods
 - `i18n-controller-core.js` - Excluding preprocessor methods for preprocessed sources
+- Depending on `wc-putty@^0.1.0`
 
 ### Changed
-- Depend on `i18n-format@4.0.0-pre.*`
+- Depending on `i18n-format@^4.0.0`
 - Peer Dependency on `@polymer/polymer` in package.json
 
 ### Removed

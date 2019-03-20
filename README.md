@@ -11,9 +11,13 @@ Instant and Modular I18N engine for [`lit-html`](https://lit-html.polymer-projec
 
 ## Compatible Versions
 
+- Polymer library (`@polymer/polymer` NPM package) is configured as a **peer** dependency since 4.0.0
+- Polymer elements using `I18nBehavior` must depend on `@polymer/polymer` NPM package themselves
+
 | i18n-behavior  | i18n-element   | Polymer | lit-html |
 |:---------------|:---------------|:--------|:---------|
-| 3.x            | 3.x            | 3.x     | 1.x      |
+| 4.x            | 4.x            | 3.x (optional) | 1.x      |
+| 3.x            | 3.x            | 3.x (mandatory) | 1.x      |
 | 2.x            | 2.x            | 1.x-2.x | -        |
 | 1.x            | -              | 1.x     | -        |
 
@@ -21,7 +25,7 @@ Instant and Modular I18N engine for [`lit-html`](https://lit-html.polymer-projec
 
 ## Browser Compatibility
 
-| Browser   | Chrome  | Firefox  | Edge 13+  | IE 11  | Safari 9+ | Chrome Android  | Mobile Safari  | Opera  |
+| Browser   | Chrome  | Firefox  | Edge 13+  | IE 11  | Safari 10+ | Chrome Android  | Mobile Safari  | Opera  |
 |:----------|:-------:|:--------:|:---------:|:------:|:---------:|:---------------:|:--------------:|:------:|
 | Supported | ✔       | ✔        | ✔         | ✔      | ✔         | ✔               | ✔              | ✔      |
 
@@ -39,7 +43,7 @@ Instant and Modular I18N engine for [`lit-html`](https://lit-html.polymer-projec
     npm install i18n-behavior
 ```
 
-## Import
+## Import for Polymer elements
 
 ```js
     import { I18nBehavior } from 'i18n-behavior/i18n-behavior.js'

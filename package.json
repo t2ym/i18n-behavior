@@ -1,5 +1,5 @@
 {
-  "description": "Instant and Modular I18N framework for lit-html and Polymer",
+  "description": "Instant and Modular I18N engine for lit-html and Polymer",
   "keywords": [
     "polymer",
     "polymer3",
@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/t2ym/i18n-behavior#readme",
   "name": "i18n-behavior",
-  "version": "4.0.0-pre.19",
+  "version": "4.0.0",
   "main": "i18n-behavior.js",
   "directories": {
     "test": "test"
@@ -92,7 +92,7 @@
   },
   "dependencies": {
     "deepcopy": "github:t2ym/deepcopy.js#0.6.3-esm.1",
-    "i18n-format": "^4.0.0-pre",
+    "i18n-format": "^4.0.0",
     "wc-putty": "^0.1.0"
   }
 }
