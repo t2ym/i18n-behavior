@@ -561,6 +561,18 @@ export const I18nControllerCoreMixin = {
     var id = (this.is || this.getAttribute('is')) === 'i18n-dom-bind' ? this.id : this.is;
     lang = lang || ''; // undefined and null are treated as default ''
     oldLang = oldLang || '';
+    if (!this._fetchStatus) {
+      this.constructor.prototype._fetchStatus = deepcopy({ // per custom element
+        fetchingInstance: null,
+        ajax: null,
+        ajaxLang: null,
+        lastLang: null,
+        fallbackLanguageList: null,
+        targetLang: null,
+        lastResponse: {},
+        rawResponses: {}
+      });
+    }
     if (lang !== oldLang &&
         bundles[oldLang] && bundles[oldLang][id]) {
       this._fetchStatus.lastLang = oldLang;
