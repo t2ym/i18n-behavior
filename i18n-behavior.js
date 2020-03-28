@@ -505,6 +505,26 @@ let I18nBehavior = Object.assign({
 export const _I18nBehavior = BehaviorsStore._I18nBehavior = I18nBehavior;
 BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
 BehaviorsStore.I18nBehavior.push({
+  beforeRegister: function () {
+    let info = this.constructor.generatedFrom;
+    let This = this;
+    if (!this.constructor._templateLocalizable) {
+      let template = DomModule.import(info.is, 'template');
+      if (info._template) {
+        if (!template) {
+          let m = document.createElement('dom-module');
+          m.appendChild(info._template);
+          m.register(info.is);
+        }
+        this.constructor._templateLocalizable = this._constructDefaultBundle(This.__template = info._template, info.is);
+      }
+      else {
+        if (template) {
+          this.constructor._templateLocalizable = this._constructDefaultBundle(This.__template = template, info.is);
+        }
+      }
+    }
+  },
   get _template() { 
     if (this.__template) {
       return this.__template;
