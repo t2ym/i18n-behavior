@@ -20,6 +20,6 @@ addons:
       - google-chrome-stable
   sauce_connect: true
 script:
-  - gulp patch-wct-browser-legacy # cp -vf test/browser.js node_modules/wct-browser-legacy/browser.js
+  - cp -vf test/browser.js node_modules/wct-browser-legacy/browser.js
   - wct --npm --module-resolution=node --skip-plugin=sauce test/no-bundled-index.html
   - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js || echo success; fi
