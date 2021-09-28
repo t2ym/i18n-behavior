@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.0.0] 2021-9-28
+### Added
+
+### Changed
+- Use `i18n-format@5.0.0` with `lit-html@2.0.0`
+
+### Removed
+
 ## [4.0.0] 2019-3-20
 ### Added
 - `i18n-controller.js` - Polymer-independent I18N methods

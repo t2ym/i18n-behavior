@@ -16,6 +16,7 @@ Instant and Modular I18N engine for [`lit-html`](https://lit-html.polymer-projec
 
 | i18n-behavior  | i18n-element   | Polymer | lit-html |
 |:---------------|:---------------|:--------|:---------|
+| 5.x            | 5.x            | 3.x (optional) | 2.x      |
 | 4.x            | 4.x            | 3.x (optional) | 1.x      |
 | 3.x            | 3.x            | 3.x (mandatory) | 1.x      |
 | 2.x            | 2.x            | 1.x-2.x | -        |
@@ -24,6 +25,8 @@ Instant and Modular I18N engine for [`lit-html`](https://lit-html.polymer-projec
 - [Changelog](https://github.com/t2ym/i18n-behavior/blob/master/CHANGELOG.md)
 
 ## Browser Compatibility
+
+TODO: To be updated
 
 | Browser   | Chrome  | Firefox  | Edge 13+  | IE 11  | Safari 10+ | Chrome Android  | Mobile Safari  | Opera  |
 |:----------|:-------:|:--------:|:---------:|:------:|:---------:|:---------------:|:--------------:|:------:|
