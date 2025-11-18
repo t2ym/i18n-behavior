@@ -46,7 +46,7 @@
     "babel-plugin-transform-es2015-classes": "^6.14.0",
     "babel-preset-es2015": "^6.16.0",
     "content-type": "^1.0.2",
-    "coveralls": "^2.11.8",
+    "coveralls": "^3.1.1",
     "del": "^2.2.0",
     "escodegen": "github:t2ym/escodegen#es2018",
     "espree": "github:t2ym/espree#es2018",
